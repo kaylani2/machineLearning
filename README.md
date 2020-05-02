@@ -2,6 +2,9 @@
 
 ## Files:
 
+### download_datasets.py
+  Baixa e prepara os diretórios para os seguintes datasets: CICIDS e NSL-KDD.
+
 ### visualizar_iris.py
   Faz o plot em 3d e o pair plot do dataset iris.
 
