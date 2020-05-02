@@ -12,3 +12,6 @@ src/tmp
 *.index
 checkpoint
 *001
+*.arff
+cicids/*
+nslkdd/*
