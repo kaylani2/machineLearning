@@ -1,0 +1,14 @@
+*.swp
+*.png
+*.zip
+*.pkl
+hello_keras.py
+*.dot
+*.gv
+*.gv.pdf
+EEL891/
+src/tmp
+*.meta
+*.index
+checkpoint
+*001
