@@ -11,7 +11,7 @@ from scipy.stats import pearsonr
 #------------------------------------------------------------------------------
     
 import pandas as pd
-dataframe = pd.read_excel('../../data/D02_Boston.xlsx')
+dataframe = pd.read_excel('../../../data/D02_Boston.xlsx')
 
 #------------------------------------------------------------------------------
 #  Verificar os nomes das colunas disponíveis
