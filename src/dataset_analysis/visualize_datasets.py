@@ -11,44 +11,56 @@ import sys
 ## Hard to not go over 80 columns
 CICIDS_DIRECTORY = '../../datasets/cicids/MachineLearningCVE/'
 CICIDS_MONDAY_FILENAME = 'Monday-WorkingHours.pcap_ISCX.csv'
+CICIDS_WEDNESDAY_FILENAME = 'Wednesday-workingHours.pcap_ISCX.csv'
 CICIDS_MONDAY = CICIDS_DIRECTORY + CICIDS_MONDAY_FILENAME
+CICIDS_WEDNESDAY = CICIDS_DIRECTORY + CICIDS_WEDNESDAY_FILENAME
 
 
 ###############################################################################
-## Carregar o dataset
+## Load dataset
 ###############################################################################
-df = pd.read_csv (CICIDS_MONDAY)
+df = pd.read_csv (CICIDS_WEDNESDAY)
 #trainFrame = pd.read_csv (TRAIN_FILE)#, header = None)
 #testFrame = pd.read_csv (TEST_FILE)#, header = None)
 #df = pd.concat ([trainFrame, testFrame], ignore_index = True)
 
 ###############################################################################
-## Exibir informacoes genericas (independe do dataset) sobre o dataset
+## Display generic (dataset independent) information
 ###############################################################################
-print ('Tipo preliminar do dataframe:', type (df), '\n')
-print ('Formato do dataframe (linhas, colunas):', df.shape, '\n')
-print ('Primeiras 5 linhas do dataframe:\n', df [:5], '\n')
-print ('Atributos do dataframe:\n', df.keys (), '\n')
+print ('Dataframe shape (lines, collumns):', df.shape, '\n')
+print ('First 5 entries:\n', df [:5], '\n')
+print ('Dataframe attributes:\n', df.keys (), '\n')
+## Note the pesky spaces before ALMOST all attributes
+## This is annoying and could be removed, but will try to operate on the
+## dataset "as is"
 df.info (verbose = False) # Make it true to find individual atribute types
-print (df.describe ()) # Brief statistical description on numeric atributes
+print (df.describe ()) # Brief statistical description on NUMERIC atributes
+## Reminder: pearson only considers numerical atributes (ignores catgorical)
+#correlationMatrix =  df.corr (method = 'pearson')
+#print ('Pearson:', correlationMatrix)
 
-## Lembrando que pearson so considera atributos numericos e ignora categoricos
-correlationMatrix =  df.corr (method = 'pearson')
-print ('Pearson:', correlationMatrix)
-sys.exit ()
+## You may want to plot the correlation matrix, but it gets hard to read
+## when you have too many attributes. It's probably better to get the values
+## you want with a set threshold directly from the matrix.
+#import matplotlib.pyplot as plt
+#import seaborn as sns
+#plt.figure (figsize = (12,10))
+#cor = df.corr ()
+#sns.heatmap (cor, annot = True, cmap = plt.cm.Reds)
+#plt.show ()
 
-
-#print ('Tipos de ataque:', df ['class'].unique ())
-#print ('Quantidade de ataques:', len (df ['class'].unique ()))
-#print ('Graus de severidade de ataques:', df ['severity'].unique ())
-#input ('Dataset analisado.')
-## Ate aqui trabalhavamos com um dataframe pandas
+###############################################################################
+## Display specific (dataset dependent) information, we're using CICIDS
+###############################################################################
+## Remember the pesky spaces?
+print ('Label types:', df [' Label'].unique ())
 
 ###############################################################################
 ## Converter dataframe para arrays numpy (usualmente a ultima coluna eh o alvo)
 ###############################################################################
 X = df.iloc [:, :-1].values
 y = df.iloc [:, -1].values
+sys.exit ()
 
 ###############################################################################
 ## Tratar atributos categóricos
