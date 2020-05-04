@@ -55,6 +55,10 @@ print ('NaN columns:', nanColumns)
 ###############################################################################
 ## Remember the pesky spaces?
 print ('Label types:', df [' Label'].unique ())
+print ('Label distribution:\n', df [' Label'].value_counts ())
+## Note that we may want to group the attacks together when handling the
+## target as a categorical attribute, since there are so few samples of some
+## of them.
 
 
 ###############################################################################
