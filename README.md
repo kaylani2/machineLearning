@@ -1,5 +1,12 @@
 # machineLearning
 
+This repository is used to teach and provide examples for basic and intermediate concepts regarding Machine Learning and Deep Learning.
+
+## Note on file structure:
+
+![Overview (IT MAY CHANGE)](images/ml_repo_file_system.png?raw=true "Overview")
+
+
 ## Files:
 
 ### download_datasets.py
