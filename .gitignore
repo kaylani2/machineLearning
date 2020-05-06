@@ -1,5 +1,4 @@
 *.swp
-*.png
 *.zip
 *.pkl
 hello_keras.py
