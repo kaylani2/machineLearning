@@ -18,7 +18,7 @@ This repository is used to teach and provide examples for basic and intermediate
 ## Files:
 
 ### download_datasets.py
-  Download the following datasets: CICIDS e NSL-KDD.
+  Download the following datasets (csv file only): CICIDS e NSL-KDD.
 
 ### check_version.py
   Self-explanatory.
