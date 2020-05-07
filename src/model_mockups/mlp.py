@@ -10,6 +10,8 @@ import pandas as pd
 import numpy as np
 import sys
 
+# Reproducibility
+RANDOM_STATE = 0
 ## Hard to not go over 80 columns
 CICIDS_DIRECTORY = '../../datasets/cicids/MachineLearningCVE/'
 CICIDS_MONDAY_FILENAME = 'Monday-WorkingHours.pcap_ISCX.csv'
@@ -109,8 +111,8 @@ y = df.iloc [:, -1].values
 ## Split dataset into train and test sets
 ###############################################################################
 from sklearn.model_selection import train_test_split
-X_train, X_test, y_train, y_test = train_test_split (X, y, test_size = 1/3,
-                                                     random_state = 0)
+X_train, X_test, y_train, y_test = train_test_split (X, y, test_size = 1/5,
+                                                     random_state = RANDOM_STATE)
 print ('X_train shape:', X_train.shape)
 print ('y_train shape:', y_train.shape)
 print ('X_test shape:', X_test.shape)
@@ -149,7 +151,7 @@ history = model.fit (X_train, y_train,
                      batch_size = BATCH_SIZE,
                      epochs = NUMBER_OF_EPOCHS,
                      verbose = 1,
-                     validation_data = (X_test, y_test))
+                     validation_split = 1/10)
 
 ###############################################################################
 ## Analyze results
@@ -159,16 +161,16 @@ print ('Test loss:', scoreArray [0])
 print ('Test accuracy:', scoreArray [1])
 
 import matplotlib.pyplot as plt
-plt.plot (history.history['accuracy'])
-plt.plot (history.history['val_accuracy'])
+plt.plot (history.history ['accuracy'])
+plt.plot (history.history ['val_accuracy'])
 plt.title ('Model accuracy')
 plt.ylabel ('Accuracy')
 plt.xlabel ('Epoch')
 plt.legend (['Train', 'Test'], loc = 'upper left')
 plt.show ()
 
-plt.plot (history.history['loss'])
-plt.plot (history.history['val_loss'])
+plt.plot (history.history ['loss'])
+plt.plot (history.history ['val_loss'])
 plt.title ('Model loss')
 plt.ylabel ('Loss')
 plt.xlabel ('Epoch')
