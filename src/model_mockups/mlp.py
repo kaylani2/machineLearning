@@ -10,8 +10,8 @@ import pandas as pd
 import numpy as np
 import sys
 
-# Reproducibility
-RANDOM_STATE = 0
+# Random state for eproducibility
+STATE = 0
 ## Hard to not go over 80 columns
 CICIDS_DIRECTORY = '../../datasets/cicids/MachineLearningCVE/'
 CICIDS_MONDAY_FILENAME = 'Monday-WorkingHours.pcap_ISCX.csv'
@@ -112,7 +112,7 @@ y = df.iloc [:, -1].values
 ###############################################################################
 from sklearn.model_selection import train_test_split
 X_train, X_test, y_train, y_test = train_test_split (X, y, test_size = 1/5,
-                                                     random_state = RANDOM_STATE)
+                                                     random_state = STATE)
 print ('X_train shape:', X_train.shape)
 print ('y_train shape:', y_train.shape)
 print ('X_test shape:', X_test.shape)
