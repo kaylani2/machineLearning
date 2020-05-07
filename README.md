@@ -12,7 +12,7 @@ This repository is used to teach and provide examples for basic and intermediate
 ### plot_functions:
   A few code snippets for plotting useful stuff, like commonly used activation functions.
 
-### simple_examples:
+### model_mockups:
   Actual learning models applied to famous datasets used in computer networks (usually).
 
 ## Files:
