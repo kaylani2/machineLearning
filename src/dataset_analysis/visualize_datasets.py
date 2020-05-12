@@ -8,6 +8,10 @@
 import pandas as pd
 import numpy as np
 import sys
+import matplotlib.pyplot as plt
+
+# Random state for eproducibility
+STATE = 0
 
 ## Hard to not go over 80 columns
 CICIDS_DIRECTORY = '../../datasets/cicids/MachineLearningCVE/'
@@ -21,6 +25,10 @@ CICIDS_WEDNESDAY = CICIDS_DIRECTORY + CICIDS_WEDNESDAY_FILENAME
 ## Load dataset
 ###############################################################################
 df = pd.read_csv (CICIDS_WEDNESDAY)
+
+## Fraction dataframe for quicker testing (copying code is hard)
+df = df.sample (frac = 0.1, replace = True, random_state = STATE)
+print ('Using fractured dataframe.')
 
 ###############################################################################
 ## Display generic (dataset independent) information
@@ -45,10 +53,18 @@ print ('NaN columns:', nanColumns)
 ## you want with a set threshold directly from the matrix.
 #import matplotlib.pyplot as plt
 #import seaborn as sns
-#plt.figure (figsize = (12,10))
+#plt.figure (figsize = (12, 10))
 #cor = df.corr ()
 #sns.heatmap (cor, annot = True, cmap = plt.cm.Reds)
 #plt.show ()
+
+## Optional: plot dispersion graphs
+## This may be hard to read for some distributions
+#columnNames = df.columns
+#for column in columnNames:
+#  df.plot.scatter (x = column, y = ' Label')
+#  plt.show ()
+
 
 ###############################################################################
 ## Display specific (dataset dependent) information, we're using CICIDS
@@ -59,6 +75,7 @@ print ('Label distribution:\n', df [' Label'].value_counts ())
 ## Note that we may want to group the attacks together when handling the
 ## target as a categorical attribute, since there are so few samples of some
 ## of them.
+
 
 
 ###############################################################################
