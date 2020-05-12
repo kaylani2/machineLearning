@@ -15,4 +15,4 @@ checkpoint
 cicids/
 nslkdd/
 *.csv
-
+diamonds.py
