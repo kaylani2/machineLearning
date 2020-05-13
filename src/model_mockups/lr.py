@@ -3,7 +3,6 @@
 # kaylani AT gta DOT ufrj DOT br
 
 ## Load dataset, describe, hadle categorical attributes
-## Use MLP for classification
 ## CICIDS used as an example
 
 import pandas as pd
