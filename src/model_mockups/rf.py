@@ -134,11 +134,11 @@ print ( ' Estimators  Max Depth  MSE-OUT   RMSE-OUT   Acc. IN    Acc. OUT')
 print ( ' ----        -------    -------   --------   --------   --------')
 for ne in range (10, 70, 10):
   for md in range (2, 10):
-    regressor = RandomForestClassifier (n_estimators = ne, random_state = 0,
+    classifier = RandomForestClassifier (n_estimators = ne, random_state = 0,
                                         max_depth = md)
-    regressor.fit (X_train, y_train)
-    y_train_pred = regressor.predict (X_train)
-    y_test_pred  = regressor.predict (X_test)
+    classifier.fit (X_train, y_train)
+    y_train_pred = classifier.predict (X_train)
+    y_test_pred  = classifier.predict (X_test)
     acc_in  = r2_score (y_train, y_train_pred)
     acc_out = r2_score (y_test, y_test_pred)
     y_pred_train = y_train_pred
