@@ -14,5 +14,6 @@ checkpoint
 *.arff
 cicids/
 nslkdd/
+unsw-nb15/
 *.csv
 diamonds.py
