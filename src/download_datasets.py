@@ -1,5 +1,5 @@
-## TODO: Compare hashes
-## TODO: Fix unsw-nb15 formatting
+## @TODO: Compare hashes
+## @TODO: Fix unsw-nb15 formatting
 
 import os
 import sys
