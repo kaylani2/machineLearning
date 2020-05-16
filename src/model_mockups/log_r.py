@@ -125,8 +125,8 @@ from sklearn.metrics import confusion_matrix, accuracy_score, precision_score, r
 ###############################################################################
 ## Fit the model
 ###############################################################################
-## Important: This mockup is just for showing the effect of the regularization
-## strenght in performance and should not be used for hyperparameter tuning.
+## Important: This mockup is just for showing the effect of hyperparameter
+## selection in performance and should not be used for hyperparameter tuning.
 ## To do that (tuning) just create another subset for validation and use the
 ## test set ONLY for publication.
 print ( '    C     Acc. IN    Acc. OUT')

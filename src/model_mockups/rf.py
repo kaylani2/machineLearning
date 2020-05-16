@@ -125,8 +125,8 @@ from sklearn.metrics import explained_variance_score, r2_score
 from sklearn.metrics import confusion_matrix, accuracy_score, f1_score
 from sklearn.metrics import  precision_score, recall_score, mean_squared_error
 import math
-## Important: This mockup is just for showing the effect of the regularization
-## strenght in performance and should not be used for hyperparameter tuning.
+## Important: This mockup is just for showing the effect of hyperparameter
+## selection in performance and should not be used for hyperparameter tuning.
 ## To do that (tuning) just create another subset for validation and use the
 ## test set ONLY for publication.
 

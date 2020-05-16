@@ -122,8 +122,8 @@ print ('y_test shape:', y_test.shape)
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.metrics import accuracy_score
 
-## Important: This mockup is just for showing the effect of the regularization
-## strenght in performance and should not be used for hyperparameter tuning.
+## Important: This mockup is just for showing the effect of hyperparameter
+## selection in performance and should not be used for hyperparameter tuning.
 ## To do that (tuning) just create another subset for validation and use the
 ## test set ONLY for publication.
 for md in range (2, 25):
