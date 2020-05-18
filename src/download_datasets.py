@@ -1,8 +1,8 @@
 ## @TODO: Compare hashes
-## @TODO: Fix unsw-nb15 formatting
 
 import os
 import sys
+import wget
 
 CICIDS = {
   'url' : '205.174.165.80/CICDataset/CIC-IDS-2017/Dataset/MachineLearningCSV.zip',
@@ -19,14 +19,14 @@ UNSW_NB15 = {
   'dir' : 'datasets/unsw-nb15'
 }
 
-DATASETS = [CICIDS, NSLKDD, UNSW-NB15]
+DATASETS = [CICIDS, NSLKDD, UNSW_NB15]
 
 os.chdir ('../') #root
 os.system ('mkdir datasets')
 for dataset in DATASETS:
   os.system ('mkdir ' + dataset ['dir'])
   os.chdir (dataset ['dir'])
-  os.system ('wget ' + dataset ['url'])
+  wget.download (dataset ['url'], './')
   os.system ('unzip *')
   os.chdir ('../') #datasets
 
