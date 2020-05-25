@@ -4,14 +4,14 @@ import wget
 import hashlib
 
 CICIDS = {
-  'url'  : '205.174.165.80/CICDataset/CIC-IDS-2017/Dataset/MachineLearningCSV.zip',
+  'url'  : 'http://205.174.165.80/CICDataset/CIC-IDS-2017/Dataset/MachineLearningCSV.zip',
   'dir'  : 'datasets/cicids',
   'name' : 'MachineLearningCSV.zip',
   'hash' : 'c3f26274b36c837ccf28ffd2dbf4582941c30b3ee70a635c6e5b2f87c4727928'
 }
 
 NSLKDD = {
-  'url'  : '205.174.165.80/CICDataset/NSL-KDD/Dataset/NSL-KDD.zip',
+  'url'  : 'http://205.174.165.80/CICDataset/NSL-KDD/Dataset/NSL-KDD.zip',
   'dir'  : 'datasets/nslkdd',
   'name' : 'NSL-KDD.zip',
   'hash' : 'b28a4ac1ab5b3f659d251d628f297630f9f0ac61403c4abf18776439553addb0'

@@ -18,7 +18,10 @@ This repository is used to teach and provide examples for basic and intermediate
 ## Files:
 
 ### download_datasets.py
-  Download the following datasets (csv file only): CICIDS e NSL-KDD.
+  Download the following datasets (csv file only): CICIDS, NSL-KDD and UNSW-NB15.
+
+## Warning:
+  When downloading UNSW-NB15, "-1 / unknown" could be printed on terminal. This is **not** an error. Wait until the program stop running.
 
 ### check_version.py
   Self-explanatory.
