@@ -5,12 +5,12 @@ import sys
 import wget
 
 CICIDS = {
-  'url' : '205.174.165.80/CICDataset/CIC-IDS-2017/Dataset/MachineLearningCSV.zip',
+  'url' : 'http://205.174.165.80/CICDataset/CIC-IDS-2017/Dataset/MachineLearningCSV.zip',
   'dir' : 'datasets/cicids'
 }
 
 NSLKDD = {
-  'url' : '205.174.165.80/CICDataset/NSL-KDD/Dataset/NSL-KDD.zip',
+  'url' : 'http://205.174.165.80/CICDataset/NSL-KDD/Dataset/NSL-KDD.zip',
   'dir' : 'datasets/nslkdd'
 }
 
@@ -19,7 +19,7 @@ UNSW_NB15 = {
   'dir' : 'datasets/unsw-nb15'
 }
 
-DATASETS = [CICIDS, NSLKDD, UNSW_NB15]
+DATASETS = [CICIDS]#, NSLKDD, UNSW_NB15]
 
 os.chdir ('../') #root
 os.system ('mkdir datasets')
