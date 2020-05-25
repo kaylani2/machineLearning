@@ -19,7 +19,7 @@ UNSW_NB15 = {
   'dir' : 'datasets/unsw-nb15'
 }
 
-DATASETS = [CICIDS]#, NSLKDD, UNSW_NB15]
+DATASETS = [CICIDS, NSLKDD, UNSW_NB15]
 
 os.chdir ('../') #root
 os.system ('mkdir datasets')
