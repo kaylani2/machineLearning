@@ -128,6 +128,7 @@ NUMBER_OF_EPOCHS = 5
 LEARNING_RATE = 0.001
 numberOfClasses = len (df [' Label'].unique ())
 model = Sequential ()
+## @TODO: fix input_shape to get number of attributes
 model.add (Dense (units = 512, activation = 'relu', input_shape= (78, )))
 model.add (Dense (256, activation = 'relu'))
 model.add (Dense (128, activation = 'relu'))
