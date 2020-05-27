@@ -6,6 +6,9 @@ This repository is used to teach and provide examples for basic and intermediate
 
 ![Overview (IT MAY CHANGE)](images/ml_repo_file_system.png?raw=true "Overview")
 
+### dataset_analysis:
+  Contains a few examples of common operations performed on almost every project, such as: data loading, statistical analysis, simple data pre-processing, visualization, scaling, feature selection, etc.
+
 ### simple_examples:
   Contains a few implementations of learning models that are classically used for didactic purposes, like neural networks on the MNIST dataset.
 
@@ -18,10 +21,10 @@ This repository is used to teach and provide examples for basic and intermediate
 ## Files:
 
 ### download_datasets.py
-  Download the following datasets (csv file only): CICIDS, NSL-KDD and UNSW-NB15.
+  Download the following datasets (.csv files only): CICIDS, NSL-KDD and UNSW-NB15.
 
 ## Warning:
-  When downloading UNSW-NB15, "-1 / unknown" could be printed on terminal. This is **not** an error. Wait until the program stop running.
+  When downloading UNSW-NB15, "-1 / unknown" could be printed on terminal. This is **not** an error, it is a result of wget not being able to estimate the remaining time for large files. Wait until the program stop running.
 
 ### check_version.py
   Self-explanatory.
