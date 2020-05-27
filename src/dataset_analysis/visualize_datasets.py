@@ -12,14 +12,12 @@ import matplotlib.pyplot as plt
 
 # Random state for eproducibility
 STATE = 0
-
 ## Hard to not go over 80 columns
 CICIDS_DIRECTORY = '../../datasets/cicids/MachineLearningCVE/'
 CICIDS_MONDAY_FILENAME = 'Monday-WorkingHours.pcap_ISCX.csv'
 CICIDS_WEDNESDAY_FILENAME = 'Wednesday-workingHours.pcap_ISCX.csv'
 CICIDS_MONDAY = CICIDS_DIRECTORY + CICIDS_MONDAY_FILENAME
 CICIDS_WEDNESDAY = CICIDS_DIRECTORY + CICIDS_WEDNESDAY_FILENAME
-
 
 ###############################################################################
 ## Load dataset
@@ -46,6 +44,9 @@ nanColumns = [i for i in df.columns if df [i].isnull ().any ()]
 print ('NaN columns:', nanColumns)
 
 ## Reminder: pearson only considers numerical atributes (ignores catgorical)
+## You'll probably want to scale the data before applying PCA, since the
+## algorithm would be skewed by the features with higher variance originated
+## from the units used.
 #correlationMatrix =  df.corr (method = 'pearson')
 #print ('Pearson:', correlationMatrix)
 ## You may want to plot the correlation matrix, but it gets hard to read
@@ -65,7 +66,6 @@ print ('NaN columns:', nanColumns)
 #  df.plot.scatter (x = column, y = ' Label')
 #  plt.show ()
 
-
 ###############################################################################
 ## Display specific (dataset dependent) information, we're using CICIDS
 ###############################################################################
@@ -75,8 +75,6 @@ print ('Label distribution:\n', df [' Label'].value_counts ())
 ## Note that we may want to group the attacks together when handling the
 ## target as a categorical attribute, since there are so few samples of some
 ## of them.
-
-
 
 ###############################################################################
 ## Perform some form of basic preprocessing
@@ -97,6 +95,30 @@ df.replace (np.nan, 0, inplace = True)
 print ('Dataframe contains NaN values:', df.isnull ().values.any ())
 nanColumns = [i for i in df.columns if df [i].isnull ().any ()]
 print ('NaN columns:', nanColumns)
+
+###############################################################################
+## Apply scaling (this could also be done after converting to numpy arrays)
+###############################################################################
+print ('Description BEFORE scaling:')
+print (df.describe ()) # Before scaling
+from sklearn.preprocessing import MinMaxScaler
+mmScaler = MinMaxScaler ()
+## Standard feature range: (0, 1)
+df [df.columns [:-1]] = mmScaler.fit_transform (df [df.columns [:-1]])
+## You may also use set of columns instead of the entire dataframe:
+#df [[' Flow Duration']] = mmScaler.fit_transform (df [[' Flow Duration']])
+print ('Description AFTER scaling:')
+print (df.describe ()) # After scaling
+
+## Alternatively, this could be done using a standard scaler (zero mean)
+#from sklearn.preprocessing import StandardScaler
+#sScaler = StandardScaler ()
+#df [df.columns] = sScaler.fit_transform (df [df.columns])
+#print ('Description AFTER scaling:')
+#print (df.describe ()) # After scaling
+
+## There are other, more robust scalers, specially resistant to outliers.
+## Docs: https://scikit-learn.org/
 
 ###############################################################################
 ## Encode categorical attributes (this may be done before finding pearson)

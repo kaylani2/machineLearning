@@ -45,6 +45,9 @@ nanColumns = [i for i in df.columns if df [i].isnull ().any ()]
 print ('NaN columns:', nanColumns)
 
 ## Reminder: pearson only considers numerical atributes (ignores catgorical)
+## You'll probably want to scale the data before applying PCA, since the
+## algorithm would be skewed by the features with higher variance originated
+## from the units used.
 #correlationMatrix =  df.corr (method = 'pearson')
 #print ('Pearson:', correlationMatrix)
 ## You may want to plot the correlation matrix, but it gets hard to read
