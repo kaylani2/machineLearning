@@ -43,6 +43,8 @@ print ('Dataframe contains NaN values:', df.isnull ().values.any ())
 nanColumns = [i for i in df.columns if df [i].isnull ().any ()]
 print ('NaN columns:', nanColumns)
 
+## NOTE: Pearson doesn't really make sense for a classification problem...
+## This is just an example to illustrate code usage
 ## Reminder: pearson only considers numerical atributes (ignores categorical)
 ## You'll probably want to scale the data before applying PCA, since the
 ## algorithm would be skewed by the features with higher variance originated
@@ -106,7 +108,7 @@ mmScaler = MinMaxScaler ()
 ## Standard feature range: (0, 1)
 df [df.columns [:-1]] = mmScaler.fit_transform (df [df.columns [:-1]])
 ## You may also use set of columns instead of the entire dataframe:
-#df [[' Flow Duration']] = mmScaler.fit_transform (df [[' Flow Duration']])
+#df [ [' Flow Duration']] = mmScaler.fit_transform (df [ [' Flow Duration']])
 print ('Description AFTER scaling:')
 print (df.describe ()) # After scaling
 
@@ -119,6 +121,26 @@ print (df.describe ()) # After scaling
 
 ## There are other, more robust scalers, specially resistant to outliers.
 ## Docs: https://scikit-learn.org/
+
+###############################################################################
+## Feature selection (don't apply them all...)
+## Keep in mind that our target here is a categorical feature...
+## This is usually done after transforming the data to a numpy array
+## NOTE: You should do this after splitting the data between train and test
+## This is just an example to illustrate code usage
+###############################################################################
+### Remove low variance features
+#from sklearn.feature_selection import VarianceThreshold
+#temporaryDf = df [df.columns [:-1]] ## No label
+#pd.set_option ('display.max_rows', None)
+#print (temporaryDf.var ()) # Compute each variance
+#pd.set_option ('display.max_rows', 15)
+#selector = VarianceThreshold (threshold = (.100))
+### Note: As of May 27th, 2020, VarianceThreshold throws an undocumented
+### ValueError exception when none of the features meet the threshold value...
+#selector.fit (temporaryDf)
+#temporaryDf  = temporaryDf.loc [:, selector.get_support ()]
+#print (temporaryDf.describe ()) # After removing
 
 ###############################################################################
 ## Encode categorical attributes (this may be done before finding pearson)
@@ -144,10 +166,31 @@ y = df.iloc [:, -1].values
 ###############################################################################
 from sklearn.model_selection import train_test_split
 X_train, X_test, y_train, y_test = train_test_split (X, y, test_size = 1/3,
-                                                     random_state = 0)
+                                                     random_state = STATE)
 print ('X_train shape:', X_train.shape)
 print ('y_train shape:', y_train.shape)
 print ('X_test shape:', X_test.shape)
 print ('y_test shape:', y_test.shape)
+
+###############################################################################
+## Feature selection after transforming to numpy arrays
+## Keep in mind that our target here is a categorical feature...
+###############################################################################
+from sklearn.ensemble import ExtraTreesClassifier
+from sklearn.feature_selection import SelectFromModel
+print ('Performing feature selection.')
+print ('X_train shape before:', X_train.shape)
+print ('X_test shape before:', X_test.shape)
+classifier = ExtraTreesClassifier (n_estimators = 50, random_state = STATE)
+classifier = classifier.fit (X_train, y_train)
+print ('Feature, importance')
+for feature in zip (df [:-1], classifier.feature_importances_):
+  print (feature)
+model = SelectFromModel (classifier, prefit = True)
+X_train = model.transform (X_train)
+X_test = model.transform (X_test)
+print ('X_train shape after:', X_train.shape)
+print ('X_test shape after:', X_test.shape)
+
 
 sys.exit ()
