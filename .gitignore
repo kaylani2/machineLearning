@@ -17,3 +17,4 @@ nslkdd/
 unsw-nb15/
 *.csv
 diamonds.py
+logs/
