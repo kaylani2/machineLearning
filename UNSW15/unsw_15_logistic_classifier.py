@@ -65,22 +65,7 @@ df.columns = columns_label
 
 nanColumns = [i for i in df.columns if df [i].isnull ().any ()]
 
-# # # Reminder: pearson only considers numerical atributes (ignores catgorical)
-# # correlationMatrix =  df.corr (method = 'pearson')
-# # print ('Pearson:', correlationMatrix)
-# # # You may want to plot the correlation matrix, but it gets hard to read
-# # # when you have too many attributes. It's probably better to get the values
-# # # you want with a set threshold directly from the matrix.
-# # import matplotlib.pyplot as plt
-# # import seaborn as sns
-# # plt.figure (figsize = (12, 10))
-# # cor = df.corr ()
-# # sns.heatmap (cor, annot = True, cmap = plt.cm.Reds)
-# # plt.show ()
 
-# ###############################################################################
-# ## Display specific (dataset dependent) information, we're using UNSW_15
-# ###############################################################################
 
 
 
@@ -126,6 +111,19 @@ else:
 ###############################################################################
 X = df.iloc [:, :-1]
 y = df.iloc [:, -1]
+
+
+# Reminder: pearson only considers numerical atributes (ignores catgorical)
+correlationMatrix =  df.corr (method = 'pearson')
+# You may want to plot the correlation matrix, but it gets hard to read
+# when you have too many attributes. It's probably better to get the values
+# you want with a set threshold directly from the matrix.
+import matplotlib.pyplot as plt
+import seaborn as sns
+plt.figure (figsize = (12, 10))
+cor = df.corr ()
+sns.heatmap (cor, annot = True, cmap = plt.cm.Reds)
+plt.show ()
 
 
 
@@ -202,6 +200,8 @@ from sklearn.discriminant_analysis import QuadraticDiscriminantAnalysis
 # 10 processes:
 svm_pipeline = make_pipeline(processor_nlin,
                                SVC())
+knn_pipeline = make_pipeline(processor_nlin,
+                               KNeighborsClassifier())
 
 ###############################################################################
 ## Split dataset into train and test sets
@@ -210,65 +210,45 @@ from sklearn.model_selection import train_test_split
 X_train, X_test, y_train, y_test = train_test_split (X, y, test_size = 1/5,
                                                      random_state = STATE)
 
+
+###############################################################################
+## Training the model
+###############################################################################
+
 svm_pipeline.fit(X_train, y_train)
 print(svm_pipeline.score(X_test, y_test))
 
+knn_pipeline.fit(X_train, y_train)
+print(knn_pipeline.score(X_test, y_test))
 
 
+names = ["Nearest Neighbors", 
+         "Linear SVM", 
+          "RBF SVM", "Gaussian Process",
+         "Decision Tree", "Random Forest", "Neural Net", "AdaBoost",
+         "Naive Bayes", "QDA"]
+
+classifiers = [
+    KNeighborsClassifier(),
+    SVC(kernel="linear", C=0.025),
+    SVC(gamma=2, C=1),
+    GaussianProcessClassifier(1.0 * RBF(1.0)),
+    DecisionTreeClassifier(max_depth=5),
+    RandomForestClassifier(max_depth=5, n_estimators=10, max_features=1),
+    MLPClassifier(alpha=1, max_iter=1000),
+    AdaBoostClassifier(),
+    GaussianNB(),
+    QuadraticDiscriminantAnalysis()]
+
+# iterate over classifiers
+for name, clf in zip(names, classifiers):
+    clf_pipeline = make_pipeline(processor_nlin,
+                        clf)
+    clf_pipeline.fit(X_train, y_train)
+    score = clf_pipeline.score(X_test, y_test)
+    print('Score of ', name, ':' , score, )
 
 
-
-
-
-
-# ###############################################################################
-# ## Split dataset into train and test sets
-# ###############################################################################
-# from sklearn.model_selection import train_test_split
-# X_train, X_test, y_train, y_test = train_test_split (X, y, test_size = 1/5,
-#                                                      random_state = STATE)
-# print ('X_train shape:', X_train.shape)
-# print ('y_train shape:', y_train.shape)
-# print ('X_test shape:', X_test.shape)
-# print ('y_test shape:', y_test.shape)
-
-# ###############################################################################
-# ## Create learning model (LogisticR), fit model, analyze results
-# ###############################################################################
-# from sklearn.linear_model import LogisticRegression
-# from sklearn.metrics import confusion_matrix, accuracy_score, precision_score, recall_score, f1_score
-# from sklearn.preprocessing import LabelEncoder
-
-# ###############################################################################
-# ## LabelEncoder will substitute  a categorical data for a countable one
-# ###############################################################################
-
-# label_encoderX = LabelEncoder()
-
-
-# for value in range(0, (X_train[0].shape)[0]):
-#   if type(X_train[0, value]) == type('This is a string'):
-#     X_train[:, value] = label_encoderX.fit_transform(X_train[:, value])
-
-
-# for value in range(0, (X_test[0].shape)[0]):
-#   if type(X_test[0, value]) == type('This is a string'):
-#     X_test[:, value] = label_encoderX.fit_transform(X_test[:, value])
-
-
-
-# # Solução do bug aqui embaixo:
-# # Pro bug aparecer é só comentar o primeiro for
-
-# for linha in range(0, 56000):
-#   for coluna in range(0, 47):
-#     if (X_train[linha, coluna] == '-'):
-#       X_train[linha, coluna] = 0
-
-# for linha in range(0, 56000):
-#   for coluna in range(0, 47):
-#     if (X_train[linha, coluna] == '-'):
-#       print(linha, coluna)
 
 # ###############################################################################
 # ## Fit the model
