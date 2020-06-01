@@ -17,6 +17,9 @@ sklearn = "*"
 keras = "*"
 wget = "*"
 tensorflow = "*"
+seaborn = "*"
+jupyter = "*"
+jupyter-notebooks = "*"
 
 [requires]
 python_version = "3.6"
