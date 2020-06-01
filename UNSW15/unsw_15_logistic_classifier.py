@@ -8,6 +8,18 @@ import sys
 
 # Random state for reproducibility
 STATE = 0
+np.random.seed(10)
+# List of available attacks
+ATTACKS = ['Exploits',
+          'Generic',
+          ' Fuzzers',
+          'DoS',
+          'Analysis',
+          'Worms',
+          'Reconnaissance',
+          'Backdoors',
+          'Shellcode']
+
 
 UNSW_NB15_DIRECTORY = r'../datasets/unsw-nb15/UNSW-NB15 - CSV Files/'
 UNSW_NB15_FIRST = 'UNSW-NB15_1.csv'
@@ -23,7 +35,6 @@ df = pd.read_csv (UNSW_NB15_DIRECTORY + UNSW_NB15_FIRST)
 
 ## Fraction dataframe for quicker testing (copying code is hard)
 df = df.sample (frac = 0.1, replace = True, random_state = 0)
-print ('Using fractured dataframe.')
 
 
 ###############################################################################
@@ -50,59 +61,28 @@ columns_label = np.array([ 'srcip','sport','dstip',
                           'Label'])
 
 ## Add the columns label to our dataset
-
 df.columns = columns_label
 
-
-###############################################################################
-## Display generic (dataset independent) information
-###############################################################################
-print ('Dataframe shape (lines, collumns):', df.shape, '\n')
-print ('First 5 entries:\n', df [:5], '\n')
-print ('Dataframe attributes:\n', df.keys (), '\n')
-## Note the pesky spaces before ALMOST all attributes
-## This is annoying and could be removed, but we'll try to operate on the
-## dataset "as is"
-df.info (verbose = False) # Make it true to find individual atribute types
-print (df.describe ()) # Brief statistical description on NUMERICAL atributes
-print ('Dataframe contains NaN values:', df.isnull ().values.any ())
 nanColumns = [i for i in df.columns if df [i].isnull ().any ()]
-print ('NaN columns:', nanColumns)
 
-# # Reminder: pearson only considers numerical atributes (ignores catgorical)
-# correlationMatrix =  df.corr (method = 'pearson')
-# print ('Pearson:', correlationMatrix)
-# # You may want to plot the correlation matrix, but it gets hard to read
-# # when you have too many attributes. It's probably better to get the values
-# # you want with a set threshold directly from the matrix.
-# import matplotlib.pyplot as plt
-# import seaborn as sns
-# plt.figure (figsize = (12, 10))
-# cor = df.corr ()
-# sns.heatmap (cor, annot = True, cmap = plt.cm.Reds)
-# plt.show ()
-
-###############################################################################
-## Display specific (dataset dependent) information, we're using UNSW_15
-###############################################################################
-
-print ('Attack label types:', df ['attack_cat'].unique ())
-print ('Attack label distribution:\n', df ['attack_cat'].value_counts ())
-## Note that we may want to group the attacks together when handling the
-## target as a categorical attribute, since there are so few samples of some
-## of them.
-
+# # # Reminder: pearson only considers numerical atributes (ignores catgorical)
+# # correlationMatrix =  df.corr (method = 'pearson')
+# # print ('Pearson:', correlationMatrix)
+# # # You may want to plot the correlation matrix, but it gets hard to read
+# # # when you have too many attributes. It's probably better to get the values
+# # # you want with a set threshold directly from the matrix.
+# # import matplotlib.pyplot as plt
+# # import seaborn as sns
+# # plt.figure (figsize = (12, 10))
+# # cor = df.corr ()
+# # sns.heatmap (cor, annot = True, cmap = plt.cm.Reds)
+# # plt.show ()
 
 # ###############################################################################
-# ## Perform some form of basic preprocessing
+# ## Display specific (dataset dependent) information, we're using UNSW_15
 # ###############################################################################
-# ## For basic feature selection the correlation matrix can help identify
-# ## highly correlated features (which are bad/cursed). In order to find
-# ## which features have the highest predictive power, it's necessary
-# ## to convert the target to a numeric value. After that it's possible to use
-# ## a simple filter approach or a wrapper method (backward elimination, forward
-# ## selection...) to select features.
-# ## You may also choose to convert the dataframe to a numpy array and continue.
+
+
 
 ## Remove NaN and inf values
 df.replace ('Infinity', np.nan, inplace = True) ## Or other text values
@@ -110,43 +90,118 @@ df.replace (np.inf, np.nan, inplace = True) ## Remove infinity
 df.replace (np.nan, 0, inplace = True)
 
 
-## Remove error values from the dataset
+## Remove error values, especific from the dataset
 df.replace ('0xc0a8', 0, inplace = True)
 df.replace ('0x20205321', 0, inplace = True)
 
 
+# ###############################################################################
+# ## Encode categorical attributes (this may be done before finding pearson)
+# ###############################################################################
+
+for attack in ATTACKS:
+  df['attack_cat'] = df ['attack_cat'].replace(attack, 1) 
+
+# In this case we drop the last column. 'attack_cat' will be our target
+df.drop(['Label'], axis=1)
 
 
-# df.replace ('-', 0, inplace = True)
-# df.replace ('dns', 0, inplace = True)
-## We can also use scikit-learn to use other strategies for substitution
-print ('Dataframe contains NaN values:', df.isnull ().values.any ())
-nanColumns = [i for i in df.columns if df [i].isnull ().any ()]
-print ('NaN columns:', nanColumns)
+# Proposition: Having the same amount of attacks and not-attacks rows
+if (df.attack_cat.value_counts()[1] < df.attack_cat.value_counts()[0]):
+  remove_n =  df.attack_cat.value_counts()[0] - df.attack_cat.value_counts()[1]  # Number of rows to be removed   
+  print(remove_n)
+  df_to_be_dropped = df[df.attack_cat == 0]
+  drop_indices = np.random.choice(df_to_be_dropped.index, remove_n, replace=False)
+  df = df.drop(drop_indices)
+else: 
+  remove_n =  df.attack_cat.value_counts()[1] - df.attack_cat.value_counts()[0]  # Number of rows to be removed   
+  print(remove_n)
+  df_to_be_dropped = df[df.attack_cat == 1]
+  drop_indices = np.random.choice(df_to_be_dropped.index, remove_n, replace=False)
+  df = df.drop(drop_indices)
+
 
 ###############################################################################
-## Encode categorical attributes (this may be done before finding pearson)
+## Slicing the data (usually the last column is the target)
 ###############################################################################
-print ('Label types before conversion:', df ['attack_cat'].unique ())
-df ['attack_cat'] = df ['attack_cat'].replace ('Exploits', 1)
-df ['attack_cat'] = df ['attack_cat'].replace ('Generic', 1)
-df ['attack_cat'] = df ['attack_cat'].replace (' Fuzzers', 1)
-df ['attack_cat'] = df ['attack_cat'].replace ('DoS', 1)
-df ['attack_cat'] = df ['attack_cat'].replace ('Analysis', 1)
-df ['attack_cat'] = df ['attack_cat'].replace ('Worms', 1)
-df ['attack_cat'] = df ['attack_cat'].replace ('Reconnaissance', 1)
-df ['attack_cat'] = df ['attack_cat'].replace ('Backdoors', 1)
-df ['attack_cat'] = df ['attack_cat'].replace ('Shellcode', 1)
-print ('Label types after conversion:', df ['attack_cat'].unique ())
-df.info (verbose = False)
+X = df.iloc [:, :-1]
+y = df.iloc [:, -1]
 
-# 0xc0a8 <= o que caralhos é isso?
 
-# ###############################################################################
-# ## Convert dataframe to a numpy array (usually the last column is the target)
-# ###############################################################################
-X = df.iloc [:, :-1].values
-y = df.iloc [:, -1].values
+
+from sklearn.compose import make_column_transformer
+from sklearn.impute import SimpleImputer
+from sklearn.pipeline import make_pipeline
+from sklearn.preprocessing import OneHotEncoder
+from sklearn.preprocessing import OrdinalEncoder
+from sklearn.preprocessing import StandardScaler
+
+
+
+cat_cols = X.columns[X.dtypes == 'O'] # Returns array with the columns that has Object types elements
+num_cols = X.columns[(X.dtypes == 'float64') | (X.dtypes == 'int64')] # Returns array with the columns that has float types elements
+
+# Following, the Categories on each column are saved on an array. On each index is saved
+# the Categories on each column.
+
+categories = [
+    X[column].unique() for column in X[cat_cols]]
+
+
+for cat in categories:
+    cat[cat == None] = 'missing'  # noqa
+
+# Transforming categorical data into an array of integers
+cat_proc_nlin = make_pipeline(
+    SimpleImputer(missing_values=None, strategy='constant',
+                  fill_value='missing'),
+    OrdinalEncoder(categories=categories)
+    )
+
+num_proc_nlin = make_pipeline(SimpleImputer(strategy='mean'))
+
+cat_proc_lin = make_pipeline(
+    SimpleImputer(missing_values=None,
+                  strategy='constant',
+                  fill_value='missing'),
+    OneHotEncoder(categories=categories)
+)
+
+num_proc_lin = make_pipeline(
+    SimpleImputer(strategy='mean'),
+    StandardScaler()
+)
+
+# transformation to use for non-linear estimators
+processor_nlin = make_column_transformer(
+    (cat_proc_nlin, cat_cols),
+    (num_proc_nlin, num_cols),
+    remainder='passthrough')
+
+# transformation to use for linear estimators
+processor_lin = make_column_transformer(
+    (cat_proc_lin, cat_cols),
+    (num_proc_lin, num_cols),
+    remainder='passthrough')
+
+
+import matplotlib.pyplot as plt
+from matplotlib.colors import ListedColormap
+from sklearn.model_selection import train_test_split
+from sklearn.neural_network import MLPClassifier
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.svm import SVC
+from sklearn.gaussian_process import GaussianProcessClassifier
+from sklearn.gaussian_process.kernels import RBF
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.ensemble import RandomForestClassifier, AdaBoostClassifier
+from sklearn.naive_bayes import GaussianNB
+from sklearn.discriminant_analysis import QuadraticDiscriminantAnalysis
+
+
+# 10 processes:
+svm_pipeline = make_pipeline(processor_nlin,
+                               SVC())
 
 ###############################################################################
 ## Split dataset into train and test sets
@@ -154,73 +209,91 @@ y = df.iloc [:, -1].values
 from sklearn.model_selection import train_test_split
 X_train, X_test, y_train, y_test = train_test_split (X, y, test_size = 1/5,
                                                      random_state = STATE)
-print ('X_train shape:', X_train.shape)
-print ('y_train shape:', y_train.shape)
-print ('X_test shape:', X_test.shape)
-print ('y_test shape:', y_test.shape)
 
-###############################################################################
-## Create learning model (LogisticR), fit model, analyze results
-###############################################################################
-from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import confusion_matrix, accuracy_score, precision_score, recall_score, f1_score
-from sklearn.preprocessing import LabelEncoder
-
-###############################################################################
-## LabelEncoder will substitute  a categorical data for a countable one
-###############################################################################
-
-label_encoderX = LabelEncoder()
-
-
-for value in range(0, (X_train[0].shape)[0]):
-  if type(X_train[0, value]) == type('This is a string'):
-    X_train[:, value] = label_encoderX.fit_transform(X_train[:, value])
-
-
-for value in range(0, (X_test[0].shape)[0]):
-  if type(X_test[0, value]) == type('This is a string'):
-    X_test[:, value] = label_encoderX.fit_transform(X_test[:, value])
+svm_pipeline.fit(X_train, y_train)
+print(svm_pipeline.score(X_test, y_test))
 
 
 
-# Solução do bug aqui embaixo:
-# Pro bug aparecer é só comentar o primeiro for
 
-for linha in range(0, 56000):
-  for coluna in range(0, 47):
-    if (X_train[linha, coluna] == '-'):
-      X_train[linha, coluna] = 0
 
-for linha in range(0, 56000):
-  for coluna in range(0, 47):
-    if (X_train[linha, coluna] == '-'):
-      print(linha, coluna)
 
-###############################################################################
-## Fit the model
-###############################################################################
-## Important: This mockup is just for showing the effect of hyperparameter
-## selection in performance and should not be used for hyperparameter tuning.
-## To do that (tuning) just create another subset for validation and use the
-## test set ONLY for publication.
-print ( '    C     Acc. IN    Acc. OUT')
-print ( ' ----     -------    --------')
-for k in range (-6, 10):
-  ## C: Inverse of regularization strength; must be a positive float. Like in
-  ## support vector machines, smaller values specify stronger regularization.
-  c = 10**k
-  lr = LogisticRegression (C = c, penalty = 'l2', solver = 'liblinear',
-                          multi_class = 'auto', max_iter = 50,
-                          random_state = STATE)
 
-  lr = lr.fit (X_train, y_train)
-  y_train_pred = lr.predict (X_train)
-  y_test_pred = lr.predict (X_test)
-  acc_in  = accuracy_score (y_train, y_train_pred)
-  acc_out = accuracy_score (y_test, y_test_pred)
 
-  print (str ( '   %2f' % c) + '  ' + str ( '%10.4f' % acc_in) + '  ' +
-         str ( '%10.4f' % acc_out))
 
-sys.exit ()
+# ###############################################################################
+# ## Split dataset into train and test sets
+# ###############################################################################
+# from sklearn.model_selection import train_test_split
+# X_train, X_test, y_train, y_test = train_test_split (X, y, test_size = 1/5,
+#                                                      random_state = STATE)
+# print ('X_train shape:', X_train.shape)
+# print ('y_train shape:', y_train.shape)
+# print ('X_test shape:', X_test.shape)
+# print ('y_test shape:', y_test.shape)
+
+# ###############################################################################
+# ## Create learning model (LogisticR), fit model, analyze results
+# ###############################################################################
+# from sklearn.linear_model import LogisticRegression
+# from sklearn.metrics import confusion_matrix, accuracy_score, precision_score, recall_score, f1_score
+# from sklearn.preprocessing import LabelEncoder
+
+# ###############################################################################
+# ## LabelEncoder will substitute  a categorical data for a countable one
+# ###############################################################################
+
+# label_encoderX = LabelEncoder()
+
+
+# for value in range(0, (X_train[0].shape)[0]):
+#   if type(X_train[0, value]) == type('This is a string'):
+#     X_train[:, value] = label_encoderX.fit_transform(X_train[:, value])
+
+
+# for value in range(0, (X_test[0].shape)[0]):
+#   if type(X_test[0, value]) == type('This is a string'):
+#     X_test[:, value] = label_encoderX.fit_transform(X_test[:, value])
+
+
+
+# # Solução do bug aqui embaixo:
+# # Pro bug aparecer é só comentar o primeiro for
+
+# for linha in range(0, 56000):
+#   for coluna in range(0, 47):
+#     if (X_train[linha, coluna] == '-'):
+#       X_train[linha, coluna] = 0
+
+# for linha in range(0, 56000):
+#   for coluna in range(0, 47):
+#     if (X_train[linha, coluna] == '-'):
+#       print(linha, coluna)
+
+# ###############################################################################
+# ## Fit the model
+# ###############################################################################
+# ## Important: This mockup is just for showing the effect of hyperparameter
+# ## selection in performance and should not be used for hyperparameter tuning.
+# ## To do that (tuning) just create another subset for validation and use the
+# ## test set ONLY for publication.
+# print ( '    C     Acc. IN    Acc. OUT')
+# print ( ' ----     -------    --------')
+# for k in range (-6, 10):
+#   ## C: Inverse of regularization strength; must be a positive float. Like in
+#   ## support vector machines, smaller values specify stronger regularization.
+#   c = 10**k
+#   lr = LogisticRegression (C = c, penalty = 'l2', solver = 'liblinear',
+#                           multi_class = 'auto', max_iter = 50,
+#                           random_state = STATE)
+
+#   lr = lr.fit (X_train, y_train)
+#   y_train_pred = lr.predict (X_train)
+#   y_test_pred = lr.predict (X_test)
+#   acc_in  = accuracy_score (y_train, y_train_pred)
+#   acc_out = accuracy_score (y_test, y_test_pred)
+
+#   print (str ( '   %2f' % c) + '  ' + str ( '%10.4f' % acc_in) + '  ' +
+#          str ( '%10.4f' % acc_out))
+
+# sys.exit ()
