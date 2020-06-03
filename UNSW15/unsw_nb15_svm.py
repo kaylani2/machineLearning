@@ -92,7 +92,7 @@ df.drop(['Label'], axis=1)
 
 
 
-# # Proposition: Having the same amount of attacks and not-attacks rows
+# Proposition: Having the same amount of attacks and not-attacks rows
 # if (df.attack_cat.value_counts()[1] < df.attack_cat.value_counts()[0]):
 #   remove_n =  df.attack_cat.value_counts()[0] - df.attack_cat.value_counts()[1]  # Number of rows to be removed   
 #   print(remove_n)
@@ -111,7 +111,7 @@ df.drop(['Label'], axis=1)
 ###############################################################################
 ## Slicing the data (usually the last column is the target)
 ###############################################################################
-X = df.iloc [:, :-1]
+X = df.iloc [:, :15]
 y = df.iloc [:, -1]
 
 
@@ -187,17 +187,25 @@ from sklearn.model_selection import train_test_split
 X_train, X_test, y_train, y_test = train_test_split (X, y, test_size = 1/5,
                                                      random_state = STATE)
 
+# Foer time measure
+import time
+start_time = time.time()
+
 
 # Training the model
 model = svc.fit(X_train, y_train)
-
+print("--- %s seconds ---" % (time.time() - start_time))
 
 from sklearn.metrics import precision_score
 
+
 # Getting the metrics for the model
 y_pred = model.predict(X_test)
+print('Predicted values:', y_pred[0:100])
+print('Real values: ', y_test[0:100])
+
 print('Precision Score: ', precision_score(y_test, y_pred))
-print('Average: ', model.score(X_test, y_test))
+print('Accuracy: ', model.score(X_test, y_test))
 
 # # Ploting 
 # from matplotlib import pyplot as plt
