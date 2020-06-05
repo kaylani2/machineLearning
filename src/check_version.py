@@ -1,3 +1,4 @@
+## @TODO: streamline virtual environment, lock compatible versions
 ## Versoes atuais (07/11/2019)
 # Python version: 3.6.7 (default, Oct 22 2018, 11:32:17)
 # [GCC 8.2.0]
