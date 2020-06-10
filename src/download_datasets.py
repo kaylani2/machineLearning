@@ -1,6 +1,7 @@
 import os
 import sys
 import wget
+import ssl
 import hashlib
 
 CICIDS = {
@@ -24,7 +25,16 @@ UNSW_NB15 = {
   'hash' : '4263563348ee50d3bfe327aa4dd360367f7c4b2f37e487838a579123cc068a83'
 }
 
-DATASETS = [CICIDS, NSLKDD, UNSW_NB15]
+CTU_13 = { ### K: 1.9GB, contains .pcap files and botnets .exe
+  'url'  : 'https://mcfp.felk.cvut.cz/publicDatasets/CTU-13-Dataset/CTU-13-Dataset.tar.bz2',
+  'dir'  : 'datasets/ctu-13',
+  'name' : 'CTU-13-Dataset.tar.bz2',
+  'hash' : '1f8daeca146131a368b432b2d8625de5e4429bce833f3e4cf4bea8312344ab7f'
+}
+
+
+
+DATASETS = [CICIDS, NSLKDD, UNSW_NB15, CTU_13]
 
 
 os.chdir ('../') #root
@@ -32,8 +42,13 @@ os.system ('mkdir datasets')
 for dataset in DATASETS:
   os.system ('mkdir ' + dataset ['dir'])
   os.chdir (dataset ['dir'])
+  ssl._create_default_https_context = ssl._create_unverified_context
   wget.download (dataset ['url'], './')
-  os.system ('unzip *')
+  if (dataset ['name'].find ('.zip') != -1):
+    os.system ('unzip ' + dataset ['name'])
+  elif (dataset ['name'].find ('.tar.bz2') != -1):
+    pass
+    #os.system ('tar xjf ' + dataset ['name'] +  ' -v')
 
   ## Compare hashes
   BLOCK_SIZE = 65536
@@ -44,7 +59,7 @@ for dataset in DATASETS:
       fileHash.update (fileBlock)
       fileBlock = f.read (BLOCK_SIZE)
   if (fileHash.hexdigest () != dataset ['hash']):
-    print ('File downloaded does no match!')
+    print ('File downloaded does not match!')
 
   os.chdir ('../../') #root
 
