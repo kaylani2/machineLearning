@@ -1,15 +1,33 @@
+#!/usr/bin/env python
+# coding: utf-8
+
+# In[30]:
+
+
 # Author: Ernesto Rodríguez
 # github.com/ernestorodg
+
+###############################################################################
+## Analyse UNSW-NB15 dataset for intrusion detection using SVM
+###############################################################################
+
+
+# In[31]:
 
 
 import pandas as pd
 import numpy as np
 import sys
 
+###############################################################################
+## Define constants 
+###############################################################################
+
+
 # Random state for reproducibility
 STATE = 0
 np.random.seed(10)
-# List of available attacks
+# List of available attacks on the dataset
 ATTACKS = ['Exploits',
           'Generic',
           ' Fuzzers',
@@ -20,28 +38,28 @@ ATTACKS = ['Exploits',
           'Backdoors',
           'Shellcode']
 
-
+# Especific to the repository 
 UNSW_NB15_DIRECTORY = r'../datasets/unsw-nb15/UNSW-NB15 - CSV Files/'
 UNSW_NB15_FIRST = 'UNSW-NB15_1.csv'
-UNSW_NB15_SECOND = 'UNSW-NB15_2.csv'
-UNSW_NB15_THIRD = 'UNSW-NB15_3.csv'
-UNSW_NB15_FOURTH = 'UNSW-NB15_4.csv'
-UNSW_NB15_FEATURES = 'NUSW-NB15_features.csv'
+
+# Only UNSW_NB15_FIRST is being used on this model
+
+# UNSW_NB15_SECOND = 'UNSW-NB15_2.csv'
+# UNSW_NB15_THIRD = 'UNSW-NB15_3.csv'
+# UNSW_NB15_FOURTH = 'UNSW-NB15_4.csv'
+
+
+# In[32]:
+
 
 ###############################################################################
 ## Load dataset
 ###############################################################################
 df = pd.read_csv (UNSW_NB15_DIRECTORY + UNSW_NB15_FIRST)
 
-## Fraction dataframe for quicker testing (copying code is hard)
+# Fraction dataframe for quicker testing (copying code is hard)
 df = df.sample (frac = 0.1, replace = True, random_state = 0)
 
-
-###############################################################################
-## On UNSW-NB15 Dataset, we have to put manually the Dataframe attributes
-###############################################################################
-
-## All the labels where collected manually from "NUSW-NB15_features". Trea
 columns_label = np.array([ 'srcip','sport','dstip',
                           'dsport','proto','state',
                           'dur','sbytes','dbytes',
@@ -63,36 +81,27 @@ columns_label = np.array([ 'srcip','sport','dstip',
 ## Add the columns label to our dataset
 df.columns = columns_label
 
+## Counting number of null data
 nanColumns = [i for i in df.columns if df [i].isnull ().any ()]
-
-
-
-
 
 ## Remove NaN and inf values
 df.replace ('Infinity', np.nan, inplace = True) ## Or other text values
 df.replace (np.inf, np.nan, inplace = True) ## Remove infinity
 df.replace (np.nan, 0, inplace = True)
 
-
 ## Remove error values, especific from the dataset
 df.replace ('0xc0a8', 0, inplace = True)
 df.replace ('0x20205321', 0, inplace = True)
 
-
-# ###############################################################################
-# ## Encode categorical attributes (this may be done before finding pearson)
-# ###############################################################################
-
+## For binary comparison: Attack or not Attack
 for attack in ATTACKS:
-  df['attack_cat'] = df ['attack_cat'].replace(attack, 1) 
+    df['attack_cat'] = df ['attack_cat'].replace(attack, 1) 
 
 # In this case we drop the last column. 'attack_cat' will be our target
 df.drop(['Label'], axis=1)
 
 
-
-# Proposition: Having the same amount of attacks and not-attacks rows
+# Propose: Having the same amount of attacks and not-attacks rows
 # if (df.attack_cat.value_counts()[1] < df.attack_cat.value_counts()[0]):
 #   remove_n =  df.attack_cat.value_counts()[0] - df.attack_cat.value_counts()[1]  # Number of rows to be removed   
 #   print(remove_n)
@@ -108,11 +117,28 @@ df.drop(['Label'], axis=1)
 
 
 
+
+# In[33]:
+
+
 ###############################################################################
-## Slicing the data (usually the last column is the target)
+## Slice the dataframe (usually the last column is the target)
 ###############################################################################
-X = df.iloc [:, :15]
+
+X = pd.DataFrame(df.iloc [:, 0:8])
+
+# Selecting other columns
+# X = pd.concat([X, df.iloc[:, 2]], axis=1)
+
 y = df.iloc [:, -1]
+print('Number of not-attacks: ', y.value_counts()[0])
+print('Number of attacks: ', y.value_counts()[1])
+
+# See Output, only available on jupyter-notebooks
+# X
+
+
+# In[34]:
 
 
 from sklearn.compose import make_column_transformer
@@ -125,7 +151,7 @@ from sklearn.svm import SVC
 
 
 ####################################################################
-# Categorical data treatment
+# Treat categorical data 
 ####################################################################
 
 cat_cols = X.columns[X.dtypes == 'O'] # Returns array with the columns that has Object types elements
@@ -150,83 +176,219 @@ categorical_encoder = OrdinalEncoder(categories = categories)
 
 X[cat_cols] = categorical_encoder.fit_transform(X[cat_cols])
 
+# Scaling new numerical values
+
+numerical_imputer = SimpleImputer(strategy = "mean")
+X[cat_cols] = numerical_imputer.fit_transform(X[cat_cols])
+
+numerical_scaler = StandardScaler()
+X[cat_cols] = numerical_scaler.fit_transform(X[cat_cols])
 
 
-# ####################################################################
-# # Numerical data treatment
-# ####################################################################
-
-# num_cols = X.columns[(X.dtypes == 'float64') | (X.dtypes == 'int64')] # Returns array with the columns that has float types elements
-
-# # Scaling numerical values
-
-# numerical_imputer = SimpleImputer(strategy = "mean")
-# X[num_cols] = numerical_imputer.fit_transform(X[num_cols])
-
-# numerical_scaler = StandardScaler()
-# X[num_cols] = numerical_scaler.fit_transform(X[num_cols])
+# In[35]:
 
 
-# ######################################################################
+####################################################################
+# Treat numerical data 
+####################################################################
 
-# Assigning the model to be used
-svc = SVC(kernel="rbf", random_state=0, gamma=1, C=1)
+num_cols = X.columns[(X.dtypes == 'float64') | (X.dtypes == 'int64')] # Returns array with the columns that has float types elements
 
-# Transforming the data to numpy arrays
+# Scaling numerical values
+
+numerical_imputer = SimpleImputer(strategy = "mean")
+X[num_cols] = numerical_imputer.fit_transform(X[num_cols])
+
+numerical_scaler = StandardScaler()
+X[num_cols] = numerical_scaler.fit_transform(X[num_cols])
+
+
+# In[36]:
+
+
+# Transform the data to numpy arrays
 X = X.values
 y = y.values
 
 
-
+# In[37]:
 
 
 ###############################################################################
-## Split dataset into train and test sets
+## Split dataset into train and test sets if not using cross validation
 ###############################################################################
 from sklearn.model_selection import train_test_split
+
 X_train, X_test, y_train, y_test = train_test_split (X, y, test_size = 1/5,
                                                      random_state = STATE)
 
-# Foer time measure
+
+# In[38]:
+
+
+####################################################################
+# Find best parameters and plot graphs 
+####################################################################
+
+# from sklearn.model_selection import validation_curve
+# from matplotlib import pyplot as plt
+# import time
+
+# # Measure time of training
+# start_time = time.time()
+
+# # For C param
+# param_range = np.linspace(0.1, 1000, 10)
+
+# # For gamma param
+# # param_range = np.logspace(-6, -1, 5)
+
+# train_scores, test_scores = validation_curve(
+#     SVC(), X, y, param_name="C", param_range=param_range,
+#     scoring="precision", n_jobs=1)
+
+# print("--- %s seconds ---" % (time.time() - start_time))
+
+# train_scores_mean = np.mean(train_scores, axis=1)
+# train_scores_std = np.std(train_scores, axis=1)
+# test_scores_mean = np.mean(test_scores, axis=1)
+# test_scores_std = np.std(test_scores, axis=1)
+
+# plt.title("Validation Curve with SVM")
+# plt.xlabel(r"$\gamma$")
+# plt.ylabel("Score")
+# plt.ylim(0.0, 1.1)
+# lw = 2
+# plt.semilogx(param_range, train_scores_mean, label="Training score",
+#              color="darkorange", lw=lw)
+# plt.fill_between(param_range, train_scores_mean - train_scores_std,
+#                  train_scores_mean + train_scores_std, alpha=0.2,
+#                  color="darkorange", lw=lw)
+# plt.semilogx(param_range, test_scores_mean, label="Cross-validation score",
+#              color="navy", lw=lw)
+# plt.fill_between(param_range, test_scores_mean - test_scores_std,
+#                  test_scores_mean + test_scores_std, alpha=0.2,
+#                  color="navy", lw=lw)
+# plt.legend(loc="best")
+# plt.show()
+
+# Best gamma found for 0.1 x Dataset: 10^(-3)
+
+
+# In[39]:
+
+
+###############################################################################
+## Train the model using learning curve, using cross-validation
+###############################################################################
+
 import time
+from sklearn.model_selection import learning_curve
+
+# Measure time of training
 start_time = time.time()
 
+# Training the model with cross validation approach
+train_sizes, train_scores, valid_scores = learning_curve(
+                                            SVC(kernel="rbf", random_state=0, gamma=1, C=1), 
+                                            X_train, 
+                                            y_train, 
+                                            cv=5,
+                                            scoring='f1')
+print("--- %s seconds ---" % (time.time() - start_time))
+
+
+
+# In[40]:
+
+
+###############################################################################
+## Plotting learning curve
+###############################################################################
+from matplotlib import pyplot as plt
+
+train_scores_mean = np.mean(train_scores, axis=1)
+train_scores_std = np.std(train_scores, axis=1)
+valid_scores_mean = np.mean(valid_scores, axis=1)
+valid_scores_std = np.std(valid_scores, axis=1)
+
+plt.title("Learning curve with SVM")
+plt.xlabel("Size of training")
+plt.ylabel("Score")
+plt.ylim(0.0, 1.1)
+lw = 2
+plt.plot(train_sizes, train_scores_mean, label="Training score",
+             color="darkorange", lw=lw)
+
+plt.plot(train_sizes, valid_scores_mean, label="Cross-validation score",
+             color="navy", lw=lw)
+
+plt.legend(loc="best")
+plt.show()
+
+
+# In[41]:
+
+
+###############################################################################
+## Training the model without cross-validation (simpler than the training above)
+###############################################################################
+
+# Assign the model to be used
+svc = SVC(kernel="rbf", random_state=0, gamma=1, C=1)
+
+# Measure time of this training
+start_time = time.time()
 
 # Training the model
 model = svc.fit(X_train, y_train)
 print("--- %s seconds ---" % (time.time() - start_time))
 
+
+# In[42]:
+
+
+###############################################################################
+## Obtain metrics from the trained model without cross-validation
+###############################################################################
+
 from sklearn.metrics import precision_score
+from sklearn.metrics import recall_score
+from sklearn.metrics import multilabel_confusion_matrix
 
 
-# Getting the metrics for the model
+# Predicting from the test slice
 y_pred = model.predict(X_test)
-print('Predicted values:', y_pred[0:100])
-print('Real values: ', y_test[0:100])
 
+# Precision == TP / (TP + FP)
 print('Precision Score: ', precision_score(y_test, y_pred))
-print('Accuracy: ', model.score(X_test, y_test))
 
-# # Ploting 
-# from matplotlib import pyplot as plt
+# Recall == TP / (TP + FN)
+print('Recall Score: ', recall_score(y_test, y_pred))
 
-# # Plot data points and color using their class
-# color = ["green" if c == 0 else "red" for c in y]
-# # plt.scatter(X[:,0], X[:,1], c = color)
-# # plt.plot(X[:,0], X[:,1], linestyle='None')
-# # plt.axis("off"), plt.show();
+# Accuracy 
+print('Accuracy: \n', model.score(X_test, y_test))
 
-
-# fig = plt.figure()
-# ax = fig.add_subplot(111, projection='3d')
-# ax.scatter(X[:,0], X[:,2], X[:,4], c = color)
-# ax.set_xlabel('X Label')
-# ax.set_ylabel('Y Label')
-# ax.set_zlabel('Z Label')
+# Multilabel Confusion Matrix: 
+# [tn fp]
+# [fn tp]
+print(multilabel_confusion_matrix(y_test, y_pred, labels=[0, 1]))
 
 
-# plt.show() 
+# In[43]:
 
+
+###############################################################################
+## Plotting confusion matrix
+###############################################################################
+from sklearn.metrics import plot_confusion_matrix
+
+
+plot_confusion_matrix(model, X_test, y_test)  # doctest: +SKIP
+plt.show()  # doctest: +SKIP
+
+
+# In[ ]:
 
 
 
