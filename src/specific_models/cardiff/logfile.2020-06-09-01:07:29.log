@@ -1,0 +1,336 @@
+Dataframe shape (lines, collumns): (220785, 136) 
+
+First 5 entries:
+    packet_id     num     len  ...  class_device_type  class_is_malicious  \
+0  1230361.0    98.0    98.0  ...      b'AmazonEcho'                b'0'   
+1  1131523.0    66.0    66.0  ...      b'AmazonEcho'                b'0'   
+2    63682.0  1294.0  1294.0  ...      b'AmazonEcho'                b'0'   
+3    64788.0    95.0    95.0  ...      b'AmazonEcho'                b'0'   
+4    78512.0    60.0    60.0  ...      b'AmazonEcho'                b'0'   
+
+   class_attack_type  
+0             b'N/A'  
+1             b'N/A'  
+2             b'N/A'  
+3             b'N/A'  
+4             b'N/A'  
+
+[5 rows x 136 columns] 
+
+Dataframe attributes:
+ Index(['packet_id', 'num', 'len', 'caplen', 'timestamp', 'frame.encap_type',
+       'frame.offset_shift', 'frame.time_epoch', 'frame.time_delta',
+       'frame.time_delta_displayed',
+       ...
+       'bootp.hw.len', 'bootp.hops', 'bootp.secs', 'bootp.flags.bc',
+       'bootp.flags.reserved', 'bootp.dhcp', 'packet_type',
+       'class_device_type', 'class_is_malicious', 'class_attack_type'],
+      dtype='object', length=136) 
+
+Decode byte strings into ordinary strings:
+Dataframe shape (lines, collumns): (220785, 136) 
+
+First 5 entries:
+    packet_id     num     len  ...  class_device_type  class_is_malicious  \
+0  1230361.0    98.0    98.0  ...         AmazonEcho                   0   
+1  1131523.0    66.0    66.0  ...         AmazonEcho                   0   
+2    63682.0  1294.0  1294.0  ...         AmazonEcho                   0   
+3    64788.0    95.0    95.0  ...         AmazonEcho                   0   
+4    78512.0    60.0    60.0  ...         AmazonEcho                   0   
+
+   class_attack_type  
+0                N/A  
+1                N/A  
+2                N/A  
+3                N/A  
+4                N/A  
+
+[5 rows x 136 columns] 
+
+Dataframe attributes:
+ Index(['packet_id', 'num', 'len', 'caplen', 'timestamp', 'frame.encap_type',
+       'frame.offset_shift', 'frame.time_epoch', 'frame.time_delta',
+       'frame.time_delta_displayed',
+       ...
+       'bootp.hw.len', 'bootp.hops', 'bootp.secs', 'bootp.flags.bc',
+       'bootp.flags.reserved', 'bootp.dhcp', 'packet_type',
+       'class_device_type', 'class_is_malicious', 'class_attack_type'],
+      dtype='object', length=136) 
+
+<class 'pandas.core.frame.DataFrame'>
+RangeIndex: 220785 entries, 0 to 220784
+Columns: 136 entries, packet_id to class_attack_type
+dtypes: float64(112), object(24)
+memory usage: 229.1+ MB
+          packet_id            num            len  ...  bootp.flags.bc  \
+count  2.207850e+05  220785.000000  220785.000000  ...      848.000000   
+mean   5.031916e+05     128.466495     128.466495  ...        0.017689   
+std    6.032492e+05     252.785858     252.785858  ...        0.131895   
+min    2.000000e+00      42.000000      42.000000  ...        0.000000   
+25%    4.039900e+04      58.000000      58.000000  ...        0.000000   
+50%    1.877640e+05      60.000000      60.000000  ...        0.000000   
+75%    1.182823e+06      98.000000      98.000000  ...        0.000000   
+max    1.638944e+06    1514.000000    1514.000000  ...        1.000000   
+
+       bootp.flags.reserved  bootp.dhcp  
+count                 848.0       848.0  
+mean                    0.0         1.0  
+std                     0.0         0.0  
+min                     0.0         1.0  
+25%                     0.0         1.0  
+50%                     0.0         1.0  
+75%                     0.0         1.0  
+max                     0.0         1.0  
+
+[8 rows x 112 columns]
+Dataframe contains NaN values: True
+Number of NaN columns: 94
+NaN columns: ['ip.hdr_len', 'ip.dsfield.dscp', 'ip.dsfield.ecn', 'ip.src', 'ip.dst', 'ip.len', 'ip.flags', 'ip.frag_offset', 'ip.ttl', 'ip.proto', 'ip.checksum.status', 'tcp.srcport', 'tcp.dstport', 'tcp.stream', 'tcp.len', 'tcp.seq', 'tcp.nxtseq', 'tcp.ack', 'tcp.hdr_len', 'tcp.window_size_value', 'tcp.window_size', 'tcp.window_size_scalefactor', 'tcp.checksum.status', 'tcp.urgent_pointer', 'tcp.options.nop', 'tcp.options.timestamp.tsval', 'tcp.options.timestamp.tsecr', 'tcp.options.mss_val', 'tcp.options.sack_perm', 'tcp.analysis.bytes_in_flight', 'tcp.analysis.push_bytes_sent', 'tcp.time_relative', 'tcp.time_delta', 'tcp.payload', 'icmp.type', 'icmp.code', 'icmp.ident', 'icmp.checksum.status', 'icmp.seq', 'icmp.seq_le', 'icmp.resp_in', 'icmp.resp_to', 'data.len', 'ssl.record.content_type', 'ssl.record.version', 'ssl.record.length', 'arp.hw.type', 'arp.proto.type', 'arp.hw.size', 'arp.proto.size', 'arp.opcode', 'http.response.code', 'http.content_length', 'http.response', 'http.response_number', 'http.request', 'http.request_number', 'classicstun.type', 'classicstun.length', 'udp.srcport', 'udp.dstport', 'udp.length', 'udp.checksum.status', 'udp.stream', 'dns.flags.rcode', 'dns.count.queries', 'dns.count.answers', 'dns.count.auth_rr', 'dns.qry.name.len', 'dns.count.labels', 'dns.resp.type', 'dns.resp.class', 'dns.resp.ttl', 'dns.resp.len', 'igmp.version', 'igmp.type', 'igmp.max_resp', 'igmp.checksum.status', 'ntp.flags.li', 'ntp.flags.vn', 'ntp.flags.mode', 'ntp.stratum', 'ntp.ppoll', 'ntp.rootdelay', 'ntp.rootdispersion', 'ntp.precision', 'bootp.type', 'bootp.hw.type', 'bootp.hw.len', 'bootp.hops', 'bootp.secs', 'bootp.flags.bc', 'bootp.flags.reserved', 'bootp.dhcp']
+Label types: ['N/A' 'DoS' 'iot-toolkit' 'MITM' 'Scanning']
+Label distribution:
+ N/A            110390
+Scanning        51479
+DoS             41236
+MITM             9085
+iot-toolkit      8595
+Name: class_attack_type, dtype: int64
+Remove NaN and inf values:
+Column | NaN values
+packet_id                            0
+num                                  0
+len                                  0
+caplen                               0
+timestamp                            0
+frame.encap_type                     0
+frame.offset_shift                   0
+frame.time_epoch                     0
+frame.time_delta                     0
+frame.time_delta_displayed           0
+frame.time_relative                  0
+frame.number                         0
+frame.len                            0
+frame.cap_len                        0
+frame.marked                         0
+frame.ignored                        0
+eth.lg                               0
+eth.ig                               0
+ip.version                           0
+ip.hdr_len                        7597
+ip.dsfield.dscp                   7597
+ip.dsfield.ecn                    7597
+ip.src                          220785
+ip.dst                          220785
+ip.len                            7597
+ip.flags                          7597
+ip.flags.rb                          0
+ip.flags.df                          0
+ip.flags.mf                          0
+ip.frag_offset                    7597
+ip.ttl                            7597
+ip.proto                          7597
+ip.checksum.status                7597
+tcp.srcport                      78568
+tcp.dstport                      78568
+tcp.stream                       90950
+tcp.len                          90962
+tcp.seq                          78571
+tcp.nxtseq                      175345
+tcp.ack                          90950
+tcp.hdr_len                      90950
+tcp.flags.res                        0
+tcp.flags.ns                         0
+tcp.flags.cwr                        0
+tcp.flags.ecn                        0
+tcp.flags.urg                        0
+tcp.flags.ack                        0
+tcp.flags.push                       0
+tcp.flags.reset                      0
+tcp.flags.syn                        0
+tcp.flags.fin                        0
+tcp.window_size_value            90950
+tcp.window_size                  90950
+tcp.window_size_scalefactor     143979
+tcp.checksum.status              90950
+tcp.urgent_pointer               90950
+tcp.options.nop                 176475
+tcp.options.timestamp.tsval     176694
+tcp.options.timestamp.tsecr     176694
+tcp.options.mss_val             169325
+tcp.options.sack_perm           219077
+tcp.analysis.bytes_in_flight    175347
+tcp.analysis.push_bytes_sent    175347
+tcp.time_relative               220785
+tcp.time_delta                  220785
+tcp.payload                     176943
+icmp.type                       185406
+icmp.code                       185406
+icmp.ident                      197833
+icmp.checksum.status            185406
+icmp.seq                        197833
+icmp.seq_le                     197833
+icmp.resp_in                    220785
+icmp.resp_to                    209718
+data.len                        146819
+ssl.record.content_type         202310
+ssl.record.version              202310
+ssl.record.length               202310
+arp.hw.type                     213188
+arp.proto.type                  213188
+arp.hw.size                     213188
+arp.proto.size                  213188
+arp.opcode                      213188
+http.response.code              220653
+http.content_length             220651
+http.response                   220653
+http.response_number            220653
+http.request                    220614
+http.request_number             220614
+classicstun.type                215134
+classicstun.length              215134
+udp.srcport                     193105
+udp.dstport                     193105
+udp.length                      193105
+udp.checksum.status             193106
+udp.stream                      193106
+dns.flags.response                   0
+dns.flags.opcode                     0
+dns.flags.truncated                  0
+dns.flags.recdesired                 0
+dns.flags.z                          0
+dns.flags.checkdisable               0
+dns.flags.rcode                 219215
+dns.count.queries               217732
+dns.count.answers               217732
+dns.count.auth_rr               217732
+dns.qry.name.len                217848
+dns.count.labels                217848
+dns.resp.type                   219165
+dns.resp.class                  219165
+dns.resp.ttl                    219165
+dns.resp.len                    219165
+igmp.version                    220262
+igmp.type                       220262
+igmp.max_resp                   220262
+igmp.checksum.status            220262
+ntp.flags.li                    219694
+ntp.flags.vn                    219694
+ntp.flags.mode                  219694
+ntp.stratum                     219694
+ntp.ppoll                       219694
+ntp.rootdelay                   219694
+ntp.rootdispersion              219694
+ntp.precision                   219694
+bootp.type                      219936
+bootp.hw.type                   219937
+bootp.hw.len                    219936
+bootp.hops                      219936
+bootp.secs                      219936
+bootp.flags.bc                  219937
+bootp.flags.reserved            219937
+bootp.dhcp                      219937
+packet_type                          0
+class_device_type                    0
+class_is_malicious                   0
+class_attack_type                    0
+dtype: int64
+Dataframe contains NaN values: True
+NaN columns: ['ip.hdr_len', 'ip.dsfield.dscp', 'ip.dsfield.ecn', 'ip.len', 'ip.flags', 'ip.frag_offset', 'ip.ttl', 'ip.proto', 'ip.checksum.status', 'tcp.srcport', 'tcp.dstport', 'tcp.stream', 'tcp.len', 'tcp.seq', 'tcp.ack', 'tcp.hdr_len', 'tcp.window_size_value', 'tcp.window_size', 'tcp.window_size_scalefactor', 'tcp.checksum.status', 'tcp.urgent_pointer', 'data.len']
+Description after removing NaN and inf
+          packet_id            num            len  ...  tcp.checksum.status  \
+count  2.207850e+05  220785.000000  220785.000000  ...             129835.0   
+mean   5.031916e+05     128.466495     128.466495  ...                  2.0   
+std    6.032492e+05     252.785858     252.785858  ...                  0.0   
+min    2.000000e+00      42.000000      42.000000  ...                  2.0   
+25%    4.039900e+04      58.000000      58.000000  ...                  2.0   
+50%    1.877640e+05      60.000000      60.000000  ...                  2.0   
+75%    1.182823e+06      98.000000      98.000000  ...                  2.0   
+max    1.638944e+06    1514.000000    1514.000000  ...                  2.0   
+
+       tcp.urgent_pointer      data.len  
+count            129835.0  73966.000000  
+mean                  0.0    145.248533  
+std                   0.0    360.610687  
+min                   0.0      4.000000  
+25%                   0.0     16.000000  
+50%                   0.0     42.000000  
+75%                   0.0     69.000000  
+max                   0.0   1480.000000  
+
+[8 rows x 40 columns]
+Column | NaN values
+packet_id                           0
+num                                 0
+len                                 0
+caplen                              0
+timestamp                           0
+frame.encap_type                    0
+frame.offset_shift                  0
+frame.time_epoch                    0
+frame.time_delta                    0
+frame.time_delta_displayed          0
+frame.time_relative                 0
+frame.number                        0
+frame.len                           0
+frame.cap_len                       0
+frame.marked                        0
+frame.ignored                       0
+eth.lg                              0
+eth.ig                              0
+ip.version                          0
+ip.hdr_len                       7597
+ip.dsfield.dscp                  7597
+ip.dsfield.ecn                   7597
+ip.len                           7597
+ip.flags                         7597
+ip.flags.rb                         0
+ip.flags.df                         0
+ip.flags.mf                         0
+ip.frag_offset                   7597
+ip.ttl                           7597
+ip.proto                         7597
+ip.checksum.status               7597
+tcp.srcport                     78568
+tcp.dstport                     78568
+tcp.stream                      90950
+tcp.len                         90962
+tcp.seq                         78571
+tcp.ack                         90950
+tcp.hdr_len                     90950
+tcp.flags.res                       0
+tcp.flags.ns                        0
+tcp.flags.cwr                       0
+tcp.flags.ecn                       0
+tcp.flags.urg                       0
+tcp.flags.ack                       0
+tcp.flags.push                      0
+tcp.flags.reset                     0
+tcp.flags.syn                       0
+tcp.flags.fin                       0
+tcp.window_size_value           90950
+tcp.window_size                 90950
+tcp.window_size_scalefactor    143979
+tcp.checksum.status             90950
+tcp.urgent_pointer              90950
+data.len                       146819
+dns.flags.response                  0
+dns.flags.opcode                    0
+dns.flags.truncated                 0
+dns.flags.recdesired                0
+dns.flags.z                         0
+dns.flags.checkdisable              0
+packet_type                         0
+class_device_type                   0
+class_is_malicious                  0
+class_attack_type                   0
+dtype: int64
+Label types before conversion: ['N/A' 'DoS' 'iot-toolkit' 'MITM' 'Scanning']
+Label types after conversion: [0 1 2 3 4]
+<class 'pandas.core.frame.DataFrame'>
+RangeIndex: 220785 entries, 0 to 220784
+Columns: 64 entries, packet_id to class_attack_type
+dtypes: float64(40), int64(1), object(23)
+memory usage: 107.8+ MB
+X_train shape: (147190, 61)
+y_train shape: (147190,)
+X_test shape: (73595, 61)
+y_test shape: (73595,)
