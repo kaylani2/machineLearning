@@ -14,40 +14,36 @@ STATE = 0
 ## Hard to not go over 80 columns
 IOT_DIRECTORY = '../../../datasets/cardiff/IoT-Arff-Datasets/'
 IOT_ATTACK_TYPE_FILENAME = 'AttackTypeClassification.arff'
-IOT = IOT_DIRECTORY + IOT_ATTACK_TYPE_FILENAME
+FILE_NAME = IOT_DIRECTORY + IOT_ATTACK_TYPE_FILENAME
 
 pd.set_option ('display.max_rows', None)
-pd.set_option ('display.max_columns', 6)
-data = arff.loadarff (IOT)
+pd.set_option ('display.max_columns', 5)
+data = arff.loadarff (FILE_NAME)
 df = pd.DataFrame (data [0])
 print ('Dataframe shape (lines, collumns):', df.shape, '\n')
 print ('First 5 entries:\n', df [:5], '\n')
-print ('Dataframe attributes:\n', df.keys (), '\n')
 
 ### Decode byte strings into ordinary strings:
-print ('Decode byte strings into ordinary strings:')
+print ('Decoding byte strings into ordinary strings.')
 strings = df.select_dtypes ([np.object])
 strings = strings.stack ().str.decode ('utf-8').unstack ()
 for column in strings:
   df [column] = strings [column]
-
-## Fraction dataframe for quicker testing (copying code is hard)
-#df = df.sample (frac = 0.1, replace = True, random_state = STATE)
-#print ('Using fractured dataframe.')
+print ('Done.\n')
 
 ###############################################################################
 ## Display generic (dataset independent) information
 ###############################################################################
 print ('Dataframe shape (lines, collumns):', df.shape, '\n')
 print ('First 5 entries:\n', df [:5], '\n')
-print ('Dataframe attributes:\n', df.keys (), '\n')
+#print ('Dataframe attributes:\n', df.keys (), '\n')
 df.info (verbose = False) # Make it true to find individual atribute types
-print (df.describe ()) # Brief statistical description on NUMERICAL atributes
+#print (df.describe ()) # Brief statistical description on NUMERICAL atributes
 
 print ('Dataframe contains NaN values:', df.isnull ().values.any ())
 nanColumns = [i for i in df.columns if df [i].isnull ().any ()]
 print ('Number of NaN columns:', len (nanColumns))
-print ('NaN columns:', nanColumns)
+#print ('NaN columns:', nanColumns, '\n')
 
 ###############################################################################
 ## Display specific (dataset dependent) information
@@ -58,26 +54,28 @@ print ('Label distribution:\n', df ['class_attack_type'].value_counts ())
 ###############################################################################
 ## Perform some form of basic preprocessing
 ###############################################################################
-## Remove NaN and inf values
+df.replace (['NaN', 'NaT'], np.nan, inplace = True)
+df.replace ('Infinity', np.nan, inplace = True) ## Maybe other text values
+## Remove NaN values
 print ('Remove NaN and inf values:')
 print ('Column | NaN values')
 print (df.isnull ().sum ())
-### K: 70k samples seems to be a fine cutting point for this dataset
-### K: nao ta removendo umas colunas com > 70k samples com NaN
-df = df.dropna (axis = 'columns', thresh = 70000)
-
-
-#df.replace ('Infinity', np.nan, inplace = True) ## Or other text values
-#df.replace (np.inf, np.nan, inplace = True) ## Remove infinity
-#df.replace (np.nan, 0, inplace = True)
-
+### K: 150k samples seems to be a fine cutting point for this dataset
+df = df.dropna (axis = 'columns', thresh = 150000)
 print ('Dataframe contains NaN values:', df.isnull ().values.any ())
-nanColumns = [i for i in df.columns if df [i].isnull ().any ()]
-print ('NaN columns:', nanColumns)
-print ('Description after removing NaN and inf')
-print (df.describe ())
 print ('Column | NaN values')
 print (df.isnull ().sum ())
+### K: This leaves us with the following attributes to encode:
+### Attribute            NaN values
+#   ip.hdr_len           7597
+#   ip.dsfield.dscp      7597
+#   ip.dsfield.ecn       7597
+#   ip.len               7597
+#   ip.flags             7597
+#   ip.frag_offset       7597
+#   ip.ttl               7597
+#   ip.proto             7597
+#   ip.checksum.status   7597
 
 ###############################################################################
 ## Encode Label
@@ -94,6 +92,7 @@ df.info (verbose = False)
 ###############################################################################
 ## Convert dataframe to a numpy array
 ###############################################################################
+print ('Converting dataframe to numpy array.')
 X = df.iloc [:, :-3].values
 y = df.iloc [:, -1].values
 
@@ -112,6 +111,7 @@ print ('y_test shape:', y_test.shape)
 ###############################################################################
 ## Create learning model (MLP)
 ###############################################################################
+print ('Creating learning model.')
 from keras.models import Sequential
 from keras.layers import Dense, Dropout
 BATCH_SIZE = 128
@@ -129,7 +129,6 @@ model.summary ()
 
 
 
-from sklearn.preprocessing import LabelEncoder, OneHotEncoder
 sys.exit ()
 
 
@@ -204,3 +203,4 @@ print ('X_test shape after:', X_test.shape)
 
 
 sys.exit ()
+from sklearn.preprocessing import LabelEncoder, OneHotEncoder
