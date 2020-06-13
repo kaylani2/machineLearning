@@ -63,7 +63,7 @@ print (df.isnull ().sum ())
 ### K: 150k samples seems to be a fine cutting point for this dataset
 df = df.dropna (axis = 'columns', thresh = 150000)
 print ('Dataframe contains NaN values:', df.isnull ().values.any ())
-print ('Column | NaN values')
+print ('Column | NaN values (after dropping columns)')
 print (df.isnull ().sum ())
 ### K: This leaves us with the following attributes to encode:
 ### Attribute            NaN values
@@ -71,11 +71,17 @@ print (df.isnull ().sum ())
 #   ip.dsfield.dscp      7597
 #   ip.dsfield.ecn       7597
 #   ip.len               7597
-#   ip.flags             7597
+#   ip.flags             7597 # {0, 1}
 #   ip.frag_offset       7597
 #   ip.ttl               7597
 #   ip.proto             7597
 #   ip.checksum.status   7597
+### K: Options: Remove these samples or handle them later.
+### K: Removing them for now.
+df = df.dropna (axis = 'rows', thresh = df.shape [1])
+print ('Column | NaN values (after dropping rows)')
+print (df.isnull ().sum ())
+print ('Dataframe contains NaN values:', df.isnull ().values.any ())
 
 ###############################################################################
 ## Encode Label
@@ -87,14 +93,60 @@ df ['class_attack_type'] = df ['class_attack_type'].replace ('iot-toolkit', 2)
 df ['class_attack_type'] = df ['class_attack_type'].replace ('MITM', 3)
 df ['class_attack_type'] = df ['class_attack_type'].replace ('Scanning', 4)
 print ('Label types after conversion:', df ['class_attack_type'].unique ())
+
+###############################################################################
+## Last look before working with numpy arrays
+###############################################################################
+### K: We're looking for:
+### - How many categorical attributes are there and their names
+### - Brief statistical description before applying normalization
 df.info (verbose = False)
+### K: dtypes: float64 (27), int64 (1), object (23)
+#print (df.columns.to_series ().groupby (df.dtypes).groups, '\n\n')
+print (df.describe (), '\n\n') # Statistical description
+print ('Objects:', list (df.select_dtypes (['object']).columns), '\n')
+
+### K: Objects: [
+# 'ip.version', {4, 6}
+# 'ip.flags.rb', {0, 1}
+# 'ip.flags.df', {0, 1}
+# 'ip.flags.mf', {0, 1}
+# 'tcp.flags.res', {0, 1}
+# 'tcp.flags.ns', {0, 1}
+# 'tcp.flags.cwr', {0, 1}
+# 'tcp.flags.ecn', {0, 1}
+# 'tcp.flags.urg', {0, 1}
+# 'tcp.flags.ack', {0, 1}
+# 'tcp.flags.push', {0, 1}
+# 'tcp.flags.reset', {0, 1}
+# 'tcp.flags.syn', {0, 1}
+# 'tcp.flags.fin', {0, 1}
+# 'dns.flags.response', {0, 1}
+# 'dns.flags.opcode', {0, 1}
+# 'dns.flags.truncated', {0, 1}
+# 'dns.flags.recdesired', {0, 1}
+# 'dns.flags.z', {0, 1}
+# 'dns.flags.checkdisable', {0, 1}
+# 'packet_type', {in, out}
+# LABELS:
+# 'class_device_type', {AmazonEcho,BelkinCam,Hive,SmartThings,Lifx,TPLinkCam,TPLinkPlug,AP,Firewall,unknown}
+# 'class_is_malicious' {0, 1}
+#]
+### K: Look into each attribute to define the best encoding strategy.
+### K: NOTE: packet_type and class_device_type are labels for different
+### applications, not attributes. They must not be used to aid classification.
 
 ###############################################################################
 ## Convert dataframe to a numpy array
 ###############################################################################
-print ('Converting dataframe to numpy array.')
+print ('\nConverting dataframe to numpy array.')
 X = df.iloc [:, :-3].values
 y = df.iloc [:, -1].values
+
+###############################################################################
+## Handle categorical attributes
+###############################################################################
+### K: Using a single strategy for now...
 
 ###############################################################################
 ## Split dataset into train and test sets
@@ -106,6 +158,11 @@ print ('X_train shape:', X_train.shape)
 print ('y_train shape:', y_train.shape)
 print ('X_test shape:', X_test.shape)
 print ('y_test shape:', y_test.shape)
+
+###############################################################################
+## Apply normalization
+###############################################################################
+
 
 
 ###############################################################################
