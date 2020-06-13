@@ -25,7 +25,7 @@ print ('First 5 entries:\n', df [:5], '\n')
 
 ### Decode byte strings into ordinary strings:
 print ('Decoding byte strings into ordinary strings.')
-strings = df.select_dtypes ([np.object])
+strings = df.select_dtypes ( [np.object])
 strings = strings.stack ().str.decode ('utf-8').unstack ()
 for column in strings:
   df [column] = strings [column]
@@ -55,6 +55,7 @@ print ('Label distribution:\n', df ['class_attack_type'].value_counts ())
 ## Perform some form of basic preprocessing
 ###############################################################################
 df.replace (['NaN', 'NaT'], np.nan, inplace = True)
+df.replace ('?', np.nan, inplace = True)
 df.replace ('Infinity', np.nan, inplace = True) ## Maybe other text values
 ## Remove NaN values
 print ('Remove NaN and inf values:')
@@ -83,6 +84,23 @@ print ('Column | NaN values (after dropping rows)')
 print (df.isnull ().sum ())
 print ('Dataframe contains NaN values:', df.isnull ().values.any ())
 
+### K: We probably want to remove attributes that have only one sampled value.
+print ('Column | # of different values')
+print (type (df.nunique ()))
+nUniques = df.nunique ()
+#print (df.unique ())
+for column, nUnique in zip (df.columns, nUniques):
+  #print (column, nUnique)
+  if (nUnique <= 3):
+    print (column, df [column].unique ())
+  else:
+    print ('x')
+
+  if (nUnique == 1): # Only one value: DROP.
+    df.drop (axis = 'columns', columns = column, inplace = True)
+
+print ('\n\n', df.nunique ())
+
 ###############################################################################
 ## Encode Label
 ###############################################################################
@@ -104,8 +122,7 @@ df.info (verbose = False)
 ### K: dtypes: float64 (27), int64 (1), object (23)
 #print (df.columns.to_series ().groupby (df.dtypes).groups, '\n\n')
 print (df.describe (), '\n\n') # Statistical description
-print ('Objects:', list (df.select_dtypes (['object']).columns), '\n')
-
+print ('Objects:', list (df.select_dtypes ( ['object']).columns), '\n')
 ### K: Objects: [
 # 'ip.version', {4, 6}
 # 'ip.flags.rb', {0, 1}
@@ -135,6 +152,8 @@ print ('Objects:', list (df.select_dtypes (['object']).columns), '\n')
 ### K: Look into each attribute to define the best encoding strategy.
 ### K: NOTE: packet_type and class_device_type are labels for different
 ### applications, not attributes. They must not be used to aid classification.
+print (df.nunique ())
+
 
 ###############################################################################
 ## Convert dataframe to a numpy array
