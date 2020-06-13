@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[83]:
+# In[28]:
 
 
 # Author: Ernesto Rodríguez
@@ -12,7 +12,7 @@
 ###############################################################################
 
 
-# In[84]:
+# In[29]:
 
 
 import pandas as pd
@@ -58,7 +58,7 @@ MC_I_THIRD = r'MC_I3.csv'
 MC_L = r'MC_L.csv'
 
 
-# In[109]:
+# In[30]:
 
 
 ###############################################################################
@@ -66,7 +66,14 @@ MC_L = r'MC_L.csv'
 ###############################################################################
 df = pd.read_csv (DATASET_DIRECTORY + MC + NETFLOW_DIRECTORY + MC_I_FIRST)
 
+# Add legitimate rows from MC_L
+legitimate_frame = pd.read_csv (DATASET_DIRECTORY + MC + NETFLOW_DIRECTORY + MC_L)
 
+for index in range (0, df.shape[0] // legitimate_frame.shape[0]):
+    df = pd.concat([df, legitimate_frame])
+
+
+# Sample the dataset if necessary
 df = df.sample (frac = 0.1, replace = True, random_state = 0)
 
 # We can see that this dataset has a temporal description.
@@ -83,7 +90,8 @@ df = df.drop(df.columns[14:], axis=1)
 df = df.drop(['ts', 'te'], axis=1)
 
 # Trying another drops to see relation between features and results
-df = df.drop(['sa', 'sp', 'da', 'dp', 'fwd', 'stos'], axis=1)
+df = df.drop(['fwd', 'stos'], axis=1)
+# 'sp', 'dp', 'sa',  'da',  
 
 # Counting number of null data
 nanColumns = [i for i in df.columns if df [i].isnull ().any ()]
@@ -94,10 +102,24 @@ df.replace (np.inf, np.nan, inplace = True) ## Remove infinity
 df.replace (np.nan, 0, inplace = True)
 
 
-# df
+# if (df.Label.value_counts()[1] < df.Label.value_counts()[0]):
+#     remove_n =  df.Label.value_counts()[0] - df.Label.value_counts()[1]  # Number of rows to be removed   
+#     print(remove_n)
+#     df_to_be_dropped = df[df.Label == 0]
+#     drop_indices = np.random.choice(df_to_be_dropped.index, remove_n, replace=False)
+#     df = df.drop(drop_indices)
+# else: 
+#     remove_n =  df.Label.value_counts()[1] - df.Label.value_counts()[0]  # Number of rows to be removed   
+#     print(remove_n)
+#     df_to_be_dropped = df[df.Label == 1]
+#     drop_indices = np.random.choice(df_to_be_dropped.index, remove_n, replace=False)
+#     df = df.drop(drop_indices)
 
 
-# In[110]:
+df
+
+
+# In[31]:
 
 
 ###############################################################################
@@ -117,7 +139,7 @@ print('Number of attacks: ', y.value_counts()[1])
 # X
 
 
-# In[111]:
+# In[32]:
 
 
 ###############################################################################
@@ -134,7 +156,7 @@ X_test = pd.DataFrame(X_test)
 # X_train
 
 
-# In[112]:
+# In[33]:
 
 
 from sklearn.compose import make_column_transformer
@@ -180,7 +202,7 @@ numerical_scaler = StandardScaler()
 X_train[cat_cols] = numerical_scaler.fit_transform(X_train[cat_cols])
 
 
-# In[113]:
+# In[34]:
 
 
 ####################################################################
@@ -200,7 +222,7 @@ X_train[num_cols] = numerical_scaler.fit_transform(X_train[num_cols])
 # X_train
 
 
-# In[114]:
+# In[35]:
 
 
 ####################################################################
@@ -237,7 +259,7 @@ numerical_scaler = StandardScaler()
 X_test[cat_cols] = numerical_scaler.fit_transform(X_test[cat_cols])
 
 
-# In[115]:
+# In[36]:
 
 
 ####################################################################
@@ -257,7 +279,7 @@ X_test[num_cols] = numerical_scaler.fit_transform(X_test[num_cols])
 # X_test
 
 
-# In[117]:
+# In[37]:
 
 
 ###############################################################################
@@ -280,7 +302,13 @@ train_sizes, train_scores, valid_scores = learning_curve(
 print("--- %s seconds ---" % (time.time() - start_time))
 
 
-# In[118]:
+# In[38]:
+
+
+valid_scores
+
+
+# In[39]:
 
 
 ###############################################################################
@@ -293,6 +321,8 @@ train_scores_std = np.std(train_scores, axis=1)
 valid_scores_mean = np.mean(valid_scores, axis=1)
 valid_scores_std = np.std(valid_scores, axis=1)
 
+# plt.figure()
+# plt.subplot(131)
 plt.title("Learning curve with SVM")
 plt.xlabel("Size of training")
 plt.ylabel("Score")
@@ -305,10 +335,11 @@ plt.plot(train_sizes, valid_scores_mean, label="Cross-validation score",
              color="navy", lw=lw)
 
 plt.legend(loc="best")
+plt.savefig("learning_curve.png", format="png")
 plt.show()
 
 
-# In[119]:
+# In[40]:
 
 
 ###############################################################################
@@ -316,7 +347,7 @@ plt.show()
 ###############################################################################
 
 # Assign the model to be used
-svc = SVC(kernel="rbf", random_state=0, gamma=1, C=1)
+svc = SVC(kernel="rbf", random_state=STATE, gamma=1, C=1)
 
 # Measure time of this training
 start_time = time.time()
@@ -326,7 +357,7 @@ model = svc.fit(X_train, y_train)
 print("--- %s seconds ---" % (time.time() - start_time))
 
 
-# In[120]:
+# In[41]:
 
 
 ###############################################################################
@@ -356,7 +387,7 @@ print('Accuracy: \n', model.score(X_test, y_test))
 print(multilabel_confusion_matrix(y_test, y_pred, labels=[0, 1]))
 
 
-# In[108]:
+# In[42]:
 
 
 ###############################################################################
@@ -364,9 +395,10 @@ print(multilabel_confusion_matrix(y_test, y_pred, labels=[0, 1]))
 ###############################################################################
 from sklearn.metrics import plot_confusion_matrix
 
-
 plot_confusion_matrix(model, X_test, y_test)  # doctest: +SKIP
+plt.savefig("confusion_matrix.png", format="png")
 plt.show()  # doctest: +SKIP
+# td  sp  dp  pr  flg  ipkt ibyt
 
 
 # In[ ]:
