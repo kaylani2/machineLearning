@@ -20,5 +20,6 @@ datasets/nslkdd/
 datasets/bezerra/
 datasets/cardiff/
 datasets/unsw-nb15/
+ctu-13/
 diamonds.py
 logs/

@@ -45,16 +45,18 @@ nanColumns = [i for i in df.columns if df [i].isnull ().any ()]
 print ('Number of NaN columns:', len (nanColumns))
 #print ('NaN columns:', nanColumns, '\n')
 
+
 ###############################################################################
 ## Display specific (dataset dependent) information
 ###############################################################################
 print ('Label types:', df ['class_attack_type'].unique ())
 print ('Label distribution:\n', df ['class_attack_type'].value_counts ())
 
+
 ###############################################################################
 ## Perform some form of basic preprocessing
 ###############################################################################
-df.replace (['NaN', 'NaT'], np.nan, inplace = True)
+df.replace ( ['NaN', 'NaT'], np.nan, inplace = True)
 df.replace ('?', np.nan, inplace = True)
 df.replace ('Infinity', np.nan, inplace = True) ## Maybe other text values
 ## Remove NaN values
@@ -101,6 +103,7 @@ for column, nUnique in zip (df.columns, nUniques):
 
 print ('\n\n', df.nunique ())
 
+
 ###############################################################################
 ## Encode Label
 ###############################################################################
@@ -111,6 +114,7 @@ df ['class_attack_type'] = df ['class_attack_type'].replace ('iot-toolkit', 2)
 df ['class_attack_type'] = df ['class_attack_type'].replace ('MITM', 3)
 df ['class_attack_type'] = df ['class_attack_type'].replace ('Scanning', 4)
 print ('Label types after conversion:', df ['class_attack_type'].unique ())
+
 
 ###############################################################################
 ## Last look before working with numpy arrays
@@ -124,26 +128,8 @@ df.info (verbose = False)
 print (df.describe (), '\n\n') # Statistical description
 print ('Objects:', list (df.select_dtypes ( ['object']).columns), '\n')
 ### K: Objects: [
-# 'ip.version', {4, 6}
-# 'ip.flags.rb', {0, 1}
 # 'ip.flags.df', {0, 1}
 # 'ip.flags.mf', {0, 1}
-# 'tcp.flags.res', {0, 1}
-# 'tcp.flags.ns', {0, 1}
-# 'tcp.flags.cwr', {0, 1}
-# 'tcp.flags.ecn', {0, 1}
-# 'tcp.flags.urg', {0, 1}
-# 'tcp.flags.ack', {0, 1}
-# 'tcp.flags.push', {0, 1}
-# 'tcp.flags.reset', {0, 1}
-# 'tcp.flags.syn', {0, 1}
-# 'tcp.flags.fin', {0, 1}
-# 'dns.flags.response', {0, 1}
-# 'dns.flags.opcode', {0, 1}
-# 'dns.flags.truncated', {0, 1}
-# 'dns.flags.recdesired', {0, 1}
-# 'dns.flags.z', {0, 1}
-# 'dns.flags.checkdisable', {0, 1}
 # 'packet_type', {in, out}
 # LABELS:
 # 'class_device_type', {AmazonEcho,BelkinCam,Hive,SmartThings,Lifx,TPLinkCam,TPLinkPlug,AP,Firewall,unknown}
@@ -152,8 +138,15 @@ print ('Objects:', list (df.select_dtypes ( ['object']).columns), '\n')
 ### K: Look into each attribute to define the best encoding strategy.
 ### K: NOTE: packet_type and class_device_type are labels for different
 ### applications, not attributes. They must not be used to aid classification.
+df.drop (axis = 'columns', columns = 'class_device_type', inplace = True)
+df.drop (axis = 'columns', columns = 'class_is_malicious', inplace = True)
+### K: NOTE: ip.flags.df and ip.flags.mf only have numerical values, but have
+### been loaded as objects because (probably) of missing values, so we can
+### just convert them instead of treating them as categorical.
+df ['ip.flags.df'] = pd.to_numeric (df ['ip.flags.df'])
+df ['ip.flags.mf'] = pd.to_numeric (df ['ip.flags.mf'])
 print (df.nunique ())
-
+print ('Objects:', list (df.select_dtypes (['object']).columns), '\n')
 
 ###############################################################################
 ## Convert dataframe to a numpy array
@@ -166,6 +159,23 @@ y = df.iloc [:, -1].values
 ## Handle categorical attributes
 ###############################################################################
 ### K: Using a single strategy for now...
+
+
+
+from sklearn.preprocessing import LabelEncoder, OneHotEncoder
+
+# codifica os países da coluna 0 em rótulos numéricos 0, 1, 2, etc.
+
+labelencoder_X = LabelEncoder()
+X[:, 0] = labelencoder_X.fit_transform(X[:, 0])
+
+# Transforma a coluna 0 em um conjunto de colunas con conteúdo binário
+# (uma coluna para cada valor distinto)
+
+onehotencoder = OneHotEncoder(categorical_features = [0])
+X = onehotencoder.fit_transform(X);
+X = X.toarray();
+
 
 ###############################################################################
 ## Split dataset into train and test sets
@@ -181,6 +191,45 @@ print ('y_test shape:', y_test.shape)
 ###############################################################################
 ## Apply normalization
 ###############################################################################
+from sklearn.preprocessing import LabelEncoder, OneHotEncoder
+onehotencoder = OneHotEncoder (categorical_features = [0])
+sys.exit ()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -279,4 +328,3 @@ print ('X_test shape after:', X_test.shape)
 
 
 sys.exit ()
-from sklearn.preprocessing import LabelEncoder, OneHotEncoder
