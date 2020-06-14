@@ -1,6 +1,6 @@
 import pandas as pd
 
-dataset = '../datasets/cicids/MachineLearningCVE/Friday-WorkingHours-Afternoon-DDos.pcap_ISCX.csv'
+dataset = '../../../datasets/cicids/MachineLearningCVE/Friday-WorkingHours-Afternoon-DDos.pcap_ISCX.csv'
 
 dataframe = pd.read_csv (dataset, sep = '\s*,\s*', engine = 'python')
 print ('Shape of dataframe:', dataframe.shape)

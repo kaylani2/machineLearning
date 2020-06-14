@@ -9,7 +9,7 @@
 #------------------------------------------------------------------------------
 
 import pandas as pd
-dataset = pd.read_csv('../data/D04_Salario_vs_AnosExperiencia.csv')
+dataset = pd.read_csv('../../../datasets/D04_Salario_vs_AnosExperiencia.csv')
 
 #------------------------------------------------------------------------------
 #  Criar os arrays numericos correspondentes aos atributos e ao alvo
