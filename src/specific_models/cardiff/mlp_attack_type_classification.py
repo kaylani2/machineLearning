@@ -9,19 +9,30 @@ import matplotlib.pyplot as plt
 from scipy.io import arff
 
 
+###############################################################################
+## Define constants
+###############################################################################
 # Random state for reproducibility
 STATE = 0
+np.random.seed (STATE)
 ## Hard to not go over 80 columns
 IOT_DIRECTORY = '../../../datasets/cardiff/IoT-Arff-Datasets/'
 IOT_ATTACK_TYPE_FILENAME = 'AttackTypeClassification.arff'
 FILE_NAME = IOT_DIRECTORY + IOT_ATTACK_TYPE_FILENAME
 
+###############################################################################
+## Load dataset
+###############################################################################
 pd.set_option ('display.max_rows', None)
 pd.set_option ('display.max_columns', 5)
 data = arff.loadarff (FILE_NAME)
 df = pd.DataFrame (data [0])
 print ('Dataframe shape (lines, collumns):', df.shape, '\n')
 print ('First 5 entries:\n', df [:5], '\n')
+
+## Fraction dataframe for quicker testing (copying code is hard)
+#df = df.sample (frac = 0.1, replace = True, random_state = STATE)
+#print ('Using fractured dataframe.')
 
 ### Decode byte strings into ordinary strings:
 print ('Decoding byte strings into ordinary strings.')
@@ -60,10 +71,10 @@ df.replace ( ['NaN', 'NaT'], np.nan, inplace = True)
 df.replace ('?', np.nan, inplace = True)
 df.replace ('Infinity', np.nan, inplace = True) ## Maybe other text values
 ## Remove NaN values
-print ('Remove NaN and inf values:')
 print ('Column | NaN values')
 print (df.isnull ().sum ())
 ### K: 150k samples seems to be a fine cutting point for this dataset
+print ('Removing attributes with more than half NaN and inf values.')
 df = df.dropna (axis = 'columns', thresh = 150000)
 print ('Dataframe contains NaN values:', df.isnull ().values.any ())
 print ('Column | NaN values (after dropping columns)')
@@ -81,22 +92,22 @@ print (df.isnull ().sum ())
 #   ip.checksum.status   7597
 ### K: Options: Remove these samples or handle them later.
 ### K: Removing them for now.
+print ('Removing samples with NaN values (not a lot of these).')
 df = df.dropna (axis = 'rows', thresh = df.shape [1])
 print ('Column | NaN values (after dropping rows)')
 print (df.isnull ().sum ())
 print ('Dataframe contains NaN values:', df.isnull ().values.any ())
 
 ### K: We probably want to remove attributes that have only one sampled value.
+print ('Removing attributes that have only one sampled value.')
 print ('Column | # of different values')
 print (type (df.nunique ()))
 nUniques = df.nunique ()
-#print (df.unique ())
 for column, nUnique in zip (df.columns, nUniques):
-  #print (column, nUnique)
-  if (nUnique <= 3):
+  if (nUnique <= 7):
     print (column, df [column].unique ())
   else:
-    print ('x')
+    print (column, nUnique)
 
   if (nUnique == 1): # Only one value: DROP.
     df.drop (axis = 'columns', columns = column, inplace = True)
@@ -107,6 +118,7 @@ print ('\n\n', df.nunique ())
 ###############################################################################
 ## Encode Label
 ###############################################################################
+print ('Enconding label.')
 print ('Label types before conversion:', df ['class_attack_type'].unique ())
 df ['class_attack_type'] = df ['class_attack_type'].replace ('N/A', 0)
 df ['class_attack_type'] = df ['class_attack_type'].replace ('DoS', 1)
@@ -132,49 +144,65 @@ print ('Objects:', list (df.select_dtypes ( ['object']).columns), '\n')
 # 'ip.flags.mf', {0, 1}
 # 'packet_type', {in, out}
 # LABELS:
-# 'class_device_type', {AmazonEcho,BelkinCam,Hive,SmartThings,Lifx,TPLinkCam,TPLinkPlug,AP,Firewall,unknown}
+# 'class_device_type', {AmazonEcho, BelkinCam, Hive, SmartThings,
+#                       Lifx, TPLinkCam, TPLinkPlug, AP, Firewall, unknown}
 # 'class_is_malicious' {0, 1}
 #]
 ### K: Look into each attribute to define the best encoding strategy.
 ### K: NOTE: packet_type and class_device_type are labels for different
 ### applications, not attributes. They must not be used to aid classification.
+print ('Dropping class_device_type and class_is_malicious.')
+print ('These are labels for other scenarios.')
 df.drop (axis = 'columns', columns = 'class_device_type', inplace = True)
 df.drop (axis = 'columns', columns = 'class_is_malicious', inplace = True)
 ### K: NOTE: ip.flags.df and ip.flags.mf only have numerical values, but have
 ### been loaded as objects because (probably) of missing values, so we can
 ### just convert them instead of treating them as categorical.
+print ('ip.flags.df and ip.flags.mf have been incorrectly read as objects.')
+print ('Converting them to numeric.')
 df ['ip.flags.df'] = pd.to_numeric (df ['ip.flags.df'])
 df ['ip.flags.mf'] = pd.to_numeric (df ['ip.flags.mf'])
 print (df.nunique ())
-print ('Objects:', list (df.select_dtypes (['object']).columns), '\n')
-
-###############################################################################
-## Convert dataframe to a numpy array
-###############################################################################
-print ('\nConverting dataframe to numpy array.')
-X = df.iloc [:, :-3].values
-y = df.iloc [:, -1].values
+print ('Objects:', list (df.select_dtypes ( ['object']).columns), '\n')
 
 ###############################################################################
 ## Handle categorical attributes
 ###############################################################################
 ### K: Using a single strategy for now...
+print ('\nHandling categorical attributes (label).')
+from sklearn.preprocessing import LabelEncoder
+myLabelEncoder = LabelEncoder ()
+df ['packet_type'] = myLabelEncoder.fit_transform (df ['packet_type'])
+
+### TODO: onehotencoder ta dando nan na saida, ajeitar isso ai
+#from sklearn.preprocessing import OneHotEncoder
+#enc = OneHotEncoder (handle_unknown = 'error')
+#enc_df = pd.DataFrame (enc.fit_transform (df [ ['packet_type']]).toarray ())
+#df = df.join (enc_df)
+#df.drop (axis = 'columns', columns = 'packet_type', inplace = True)
+#
+#### K: NOTE: This transformed the dataframe in a way that the last column is
+#### no longer the target. We have to fix that:
+#cols_at_end = ['class_attack_type']
+#df = df [ [c for c in df if c not in cols_at_end]
+#        + [c for c in cols_at_end if c in df]]
+
+### K: One last look.
+nUniques = df.nunique ()
+for column, nUnique in zip (df.columns, nUniques):
+  if (nUnique <= 7):
+    print (column, df [column].unique ())
+  else:
+    print (column, nUnique)
 
 
 
-from sklearn.preprocessing import LabelEncoder, OneHotEncoder
-
-# codifica os países da coluna 0 em rótulos numéricos 0, 1, 2, etc.
-
-labelencoder_X = LabelEncoder()
-X[:, 0] = labelencoder_X.fit_transform(X[:, 0])
-
-# Transforma a coluna 0 em um conjunto de colunas con conteúdo binário
-# (uma coluna para cada valor distinto)
-
-onehotencoder = OneHotEncoder(categorical_features = [0])
-X = onehotencoder.fit_transform(X);
-X = X.toarray();
+###############################################################################
+## Convert dataframe to a numpy array
+###############################################################################
+print ('\nConverting dataframe to numpy array.')
+X = df.iloc [:, :-1].values
+y = df.iloc [:, -1].values
 
 
 ###############################################################################
@@ -191,46 +219,18 @@ print ('y_test shape:', y_test.shape)
 ###############################################################################
 ## Apply normalization
 ###############################################################################
-from sklearn.preprocessing import LabelEncoder, OneHotEncoder
-onehotencoder = OneHotEncoder (categorical_features = [0])
-sys.exit ()
+print ('TODO: normalization')
+print ('Applying normalization (standard)')
+from sklearn.preprocessing import StandardScaler
+scaler = StandardScaler ()
+scaler.fit (X_train)
+print ('Mean before scalling:', scaler.mean_)
+X_train = scaler.transform (X_train)
+scaler.fit (X_train)
+print ('Mean after scalling:', scaler.mean_)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+scaler.fit (X_test)
+X_test = scaler.transform (X_test)
 
 
 ###############################################################################
@@ -239,52 +239,72 @@ sys.exit ()
 print ('Creating learning model.')
 from keras.models import Sequential
 from keras.layers import Dense, Dropout
-BATCH_SIZE = 128
-NUMBER_OF_EPOCHS = 5
+BATCH_SIZE = 64
+NUMBER_OF_EPOCHS = 12
 LEARNING_RATE = 0.001
 numberOfClasses = len (df ['class_attack_type'].unique ())
 model = Sequential ()
-model.add (Dense (units = 512, activation = 'relu',
+#model.add (Dense (units = 512, activation = 'relu',
+model.add (Dense (units = 15, activation = 'relu',
                   input_shape = (X_train.shape [1], )))
-model.add (Dense (256, activation = 'relu'))
-model.add (Dense (128, activation = 'relu'))
+#model.add (Dense (256, activation = 'relu'))
+#model.add (Dense (128, activation = 'relu'))
+model.add (Dense (20, activation = 'relu'))
 model.add (Dense (numberOfClasses, activation = 'softmax'))
 print ('Model summary:')
 model.summary ()
 
+###############################################################################
+## Compile the network
+###############################################################################
+print ('Compiling the network.')
+#for LEARNING_RATE in ( [0.000001, 0.00001, 0.0001, 0.001, 0.01, 0.1]):
+#for LEARNING_RATE in ( [ 0.00001, 0.001 ]):
+print ('lr:', LEARNING_RATE)
+from keras.optimizers import RMSprop
+from keras.optimizers import Adam
+model.compile (loss = 'sparse_categorical_crossentropy',
+               optimizer = Adam (lr = LEARNING_RATE),
+               metrics = ['accuracy'])
+
+###############################################################################
+## Fit the network
+###############################################################################
+print ('Fitting the network.')
+history = model.fit (X_train, y_train,
+                     batch_size = BATCH_SIZE,
+                     epochs = NUMBER_OF_EPOCHS,
+                     verbose = 1,
+                     validation_split = 1/10)
+
+###############################################################################
+## Analyze results
+###############################################################################
+### K: NOTE: Only look at test results when publishing...
+#scoreArray = model.evaluate (X_test, y_test, verbose = 0)
+#print ('Test loss:', scoreArray [0])
+#print ('Test accuracy:', scoreArray [1])
+
+import matplotlib.pyplot as plt
+plt.plot (history.history ['accuracy'])
+plt.plot (history.history ['val_accuracy'])
+plt.title ('Model accuracy')
+plt.ylabel ('Accuracy')
+plt.xlabel ('Epoch')
+plt.legend (['Train', 'Validation'], loc = 'upper left')
+plt.show ()
+
+plt.plot (history.history ['loss'])
+plt.plot (history.history ['val_loss'])
+plt.title ('Model loss')
+plt.ylabel ('Loss')
+plt.xlabel ('Epoch')
+plt.legend (['Train', 'Validation'], loc = 'upper left')
+plt.show ()
+
 
 
 sys.exit ()
-
-
-
-
-
-
-
-###############################################################################
-## Apply scaling (this could also be done after converting to numpy arrays)
-###############################################################################
-print ('Description BEFORE scaling:')
-print (df.describe ()) # Before scaling
-from sklearn.preprocessing import MinMaxScaler
-mmScaler = MinMaxScaler ()
-## Standard feature range: (0, 1)
-df [df.columns [:-1]] = mmScaler.fit_transform (df [df.columns [:-1]])
-## You may also use set of columns instead of the entire dataframe:
-#df [ [' Flow Duration']] = mmScaler.fit_transform (df [ [' Flow Duration']])
-print ('Description AFTER scaling:')
-print (df.describe ()) # After scaling
-
-## Alternatively, this could be done using a standard scaler (zero mean)
-#from sklearn.preprocessing import StandardScaler
-#sScaler = StandardScaler ()
-#df [df.columns] = sScaler.fit_transform (df [df.columns])
-#print ('Description AFTER scaling:')
-#print (df.describe ()) # After scaling
-
-## There are other, more robust scalers, specially resistant to outliers.
-## Docs: https://scikit-learn.org/
 
 ###############################################################################
 ## Feature selection (don't apply them all...)
