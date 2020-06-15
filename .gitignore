@@ -1,4 +1,3 @@
-*.logs
 logfile*
 *.swp
 *.csv
@@ -20,7 +19,7 @@ datasets/nslkdd/
 datasets/bezerra/
 datasets/cardiff/
 datasets/unsw-nb15/
-ctu-13/
+datasets/ctu-13/
 diamonds.py
 logs/
 src/plot_functions/*.png

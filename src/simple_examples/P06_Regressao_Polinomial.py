@@ -10,7 +10,7 @@
 
 import pandas as pd
 
-dataframe = pd.read_csv('../data/D06_Salario_vs_Nivel.csv')
+dataframe = pd.read_csv('../../../datasets/D06_Salario_vs_Nivel.csv')
 
 print('')
 print('dataframe =')
