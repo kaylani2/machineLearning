@@ -254,6 +254,11 @@ model.add (Dense (numberOfClasses, activation = 'softmax'))
 print ('Model summary:')
 model.summary ()
 
+#import keras
+import keras.utils
+from keras.utils import to_categorical
+y_train = keras.utils.to_categorical (y_train, numberOfClasses)
+y_test = keras.utils.to_categorical (y_test, numberOfClasses)
 ###############################################################################
 ## Compile the network
 ###############################################################################
@@ -263,9 +268,15 @@ print ('Compiling the network.')
 print ('lr:', LEARNING_RATE)
 from keras.optimizers import RMSprop
 from keras.optimizers import Adam
-model.compile (loss = 'sparse_categorical_crossentropy',
+from keras import metrics
+model.compile (loss = 'categorical_crossentropy',
                optimizer = Adam (lr = LEARNING_RATE),
-               metrics = ['accuracy'])
+               metrics = ['accuracy'
+               #metrics = [#metrics.Accuracy (),
+                          #metrics.CategoricalAccuracy (),
+                          #metrics.Recall (),
+                          #metrics.Precision ()
+               ])
 
 ###############################################################################
 ## Fit the network
@@ -280,7 +291,17 @@ history = model.fit (X_train, y_train,
 ###############################################################################
 ## Analyze results
 ###############################################################################
+from sklearn.metrics import confusion_matrix, classification_report
 ### K: NOTE: Only look at test results when publishing...
+# model.predict outputs one hot encoding, our test is label encoded....
+y_pred = model.predict (X_test)
+print ('y_pred shape:', y_pred.shape)
+print ('y_test shape:', y_test.shape)
+print (y_pred [:50])
+y_pred = y_pred.round ()
+print (y_pred [:50])
+#print (confusion_matrix (y_test, y_pred))
+print (classification_report (y_test, y_pred, digits = 3))
 #scoreArray = model.evaluate (X_test, y_test, verbose = 0)
 #print ('Test loss:', scoreArray [0])
 #print ('Test accuracy:', scoreArray [1])
@@ -302,49 +323,6 @@ plt.xlabel ('Epoch')
 plt.legend (['Train', 'Validation'], loc = 'upper left')
 plt.show ()
 
-
-
-sys.exit ()
-
-###############################################################################
-## Feature selection (don't apply them all...)
-## Keep in mind that our target here is a categorical feature...
-## This is usually done after transforming the data to a numpy array
-## NOTE: You should do this after splitting the data between train and test
-## This is just an example to illustrate code usage
-###############################################################################
-### Remove low variance features
-from sklearn.feature_selection import VarianceThreshold
-temporaryDf = df [df.columns [:-1]] ## No label
-pd.set_option ('display.max_rows', None)
-print (temporaryDf.var ()) # Compute each variance
-pd.set_option ('display.max_rows', 15)
-selector = VarianceThreshold (threshold = (3))
-## Note: As of May 27th, 2020, VarianceThreshold throws an undocumented
-## ValueError exception when none of the features meet the threshold value...
-selector.fit (temporaryDf)
-temporaryDf  = temporaryDf.loc [:, selector.get_support ()]
-print (temporaryDf.describe ()) # After removing
-
-###############################################################################
-## Feature selection after transforming to numpy arrays
-## Keep in mind that our target here is a categorical feature...
-###############################################################################
-from sklearn.ensemble import ExtraTreesClassifier
-from sklearn.feature_selection import SelectFromModel
-print ('Performing feature selection.')
-print ('X_train shape before:', X_train.shape)
-print ('X_test shape before:', X_test.shape)
-classifier = ExtraTreesClassifier (n_estimators = 50, random_state = STATE)
-classifier = classifier.fit (X_train, y_train)
-print ('Feature, importance')
-for feature in zip (df [:-1], classifier.feature_importances_):
-  print (feature)
-model = SelectFromModel (classifier, prefit = True)
-X_train = model.transform (X_train)
-X_test = model.transform (X_test)
-print ('X_train shape after:', X_train.shape)
-print ('X_test shape after:', X_test.shape)
 
 
 sys.exit ()
