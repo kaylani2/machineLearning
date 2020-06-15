@@ -1,4 +1,4 @@
-logfiles*
+logfile*
 *.swp
 *.csv
 *.zip
@@ -22,3 +22,4 @@ datasets/unsw-nb15/
 datasets/ctu-13/
 diamonds.py
 logs/
+src/plot_functions/*.png
