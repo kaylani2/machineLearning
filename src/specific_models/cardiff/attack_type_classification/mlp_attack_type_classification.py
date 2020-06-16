@@ -16,7 +16,7 @@ from scipy.io import arff
 STATE = 0
 np.random.seed (STATE)
 ## Hard to not go over 80 columns
-IOT_DIRECTORY = '../../../datasets/cardiff/IoT-Arff-Datasets/'
+IOT_DIRECTORY = '../../../../datasets/cardiff/IoT-Arff-Datasets/'
 IOT_ATTACK_TYPE_FILENAME = 'AttackTypeClassification.arff'
 FILE_NAME = IOT_DIRECTORY + IOT_ATTACK_TYPE_FILENAME
 
