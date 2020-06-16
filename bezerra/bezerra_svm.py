@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[28]:
+# In[18]:
 
 
 # Author: Ernesto Rodríguez
@@ -12,7 +12,7 @@
 ###############################################################################
 
 
-# In[29]:
+# In[19]:
 
 
 import pandas as pd
@@ -58,7 +58,7 @@ MC_I_THIRD = r'MC_I3.csv'
 MC_L = r'MC_L.csv'
 
 
-# In[30]:
+# In[20]:
 
 
 ###############################################################################
@@ -119,7 +119,7 @@ df.replace (np.nan, 0, inplace = True)
 df
 
 
-# In[31]:
+# In[21]:
 
 
 ###############################################################################
@@ -139,7 +139,7 @@ print('Number of attacks: ', y.value_counts()[1])
 # X
 
 
-# In[32]:
+# In[22]:
 
 
 ###############################################################################
@@ -156,7 +156,7 @@ X_test = pd.DataFrame(X_test)
 # X_train
 
 
-# In[33]:
+# In[23]:
 
 
 from sklearn.compose import make_column_transformer
@@ -202,7 +202,7 @@ numerical_scaler = StandardScaler()
 X_train[cat_cols] = numerical_scaler.fit_transform(X_train[cat_cols])
 
 
-# In[34]:
+# In[24]:
 
 
 ####################################################################
@@ -222,7 +222,7 @@ X_train[num_cols] = numerical_scaler.fit_transform(X_train[num_cols])
 # X_train
 
 
-# In[35]:
+# In[25]:
 
 
 ####################################################################
@@ -259,7 +259,7 @@ numerical_scaler = StandardScaler()
 X_test[cat_cols] = numerical_scaler.fit_transform(X_test[cat_cols])
 
 
-# In[36]:
+# In[26]:
 
 
 ####################################################################
@@ -279,75 +279,76 @@ X_test[num_cols] = numerical_scaler.fit_transform(X_test[num_cols])
 # X_test
 
 
-# In[37]:
+# In[27]:
 
 
 ###############################################################################
 ## Train the model using learning curve, using cross-validation
 ###############################################################################
 
-import time
-from sklearn.model_selection import learning_curve
+# import time
+# from sklearn.model_selection import learning_curve
 
-# Measure time of training
-start_time = time.time()
+# # Measure time of training
+# start_time = time.time()
 
-# Training the model with cross validation approach
-train_sizes, train_scores, valid_scores = learning_curve(
-                                            SVC(kernel="rbf", random_state=0, gamma=1, C=1), 
-                                            X_train, 
-                                            y_train, 
-                                            cv=5,
-                                            scoring='f1')
-print("--- %s seconds ---" % (time.time() - start_time))
-
-
-# In[38]:
+# # Training the model with cross validation approach
+# train_sizes, train_scores, valid_scores = learning_curve(
+#                                             SVC(kernel="rbf", random_state=0, gamma=1, C=1), 
+#                                             X_train, 
+#                                             y_train, 
+#                                             cv=5,
+#                                             scoring='f1')
+# print("--- %s seconds ---" % (time.time() - start_time))
 
 
-valid_scores
+# In[ ]:
 
 
-# In[39]:
 
 
-###############################################################################
-## Plotting learning curve
-###############################################################################
-from matplotlib import pyplot as plt
 
-train_scores_mean = np.mean(train_scores, axis=1)
-train_scores_std = np.std(train_scores, axis=1)
-valid_scores_mean = np.mean(valid_scores, axis=1)
-valid_scores_std = np.std(valid_scores, axis=1)
-
-# plt.figure()
-# plt.subplot(131)
-plt.title("Learning curve with SVM")
-plt.xlabel("Size of training")
-plt.ylabel("Score")
-plt.ylim(0.0, 1.1)
-lw = 2
-plt.plot(train_sizes, train_scores_mean, label="Training score",
-             color="darkorange", lw=lw)
-
-plt.plot(train_sizes, valid_scores_mean, label="Cross-validation score",
-             color="navy", lw=lw)
-
-plt.legend(loc="best")
-plt.savefig("learning_curve.png", format="png")
-plt.show()
+# In[28]:
 
 
-# In[40]:
+# {###############################################################################
+# ## Plotting learning curve
+# ###############################################################################
+# from matplotlib import pyplot as plt
+
+# train_scores_mean = np.mean(train_scores, axis=1)
+# train_scores_std = np.std(train_scores, axis=1)
+# valid_scores_mean = np.mean(valid_scores, axis=1)
+# valid_scores_std = np.std(valid_scores, axis=1)
+
+# # plt.figure()
+# # plt.subplot(131)
+# plt.title("Learning curve with SVM")
+# plt.xlabel("Size of training")
+# plt.ylabel("Score")
+# plt.ylim(0.0, 1.1)
+# lw = 2
+# plt.plot(train_sizes, train_scores_mean, label="Training score",
+#              color="darkorange", lw=lw)
+
+# plt.plot(train_sizes, valid_scores_mean, label="Cross-validation score",
+#              color="navy", lw=lw)
+
+# plt.legend(loc="best")
+# plt.savefig("learning_curve.png", format="png")
+# plt.show()}
+
+
+# In[73]:
 
 
 ###############################################################################
 ## Training the model without cross-validation (simpler than the training above)
 ###############################################################################
 
+import time
 # Assign the model to be used
-svc = SVC(kernel="rbf", random_state=STATE, gamma=1, C=1)
+svc = SVC(kernel="rbf", random_state=STATE, gamma=1, C=25)
 
 # Measure time of this training
 start_time = time.time()
@@ -357,7 +358,7 @@ model = svc.fit(X_train, y_train)
 print("--- %s seconds ---" % (time.time() - start_time))
 
 
-# In[41]:
+# In[74]:
 
 
 ###############################################################################
@@ -366,8 +367,10 @@ print("--- %s seconds ---" % (time.time() - start_time))
 
 from sklearn.metrics import precision_score
 from sklearn.metrics import recall_score
+from sklearn.metrics import accuracy_score
 from sklearn.metrics import multilabel_confusion_matrix
-
+from sklearn.metrics import f1_score
+from sklearn.metrics import confusion_matrix
 
 # Predicting from the test slice
 y_pred = model.predict(X_test)
@@ -379,7 +382,12 @@ print('Precision Score: ', precision_score(y_test, y_pred))
 print('Recall Score: ', recall_score(y_test, y_pred))
 
 # Accuracy 
-print('Accuracy: \n', model.score(X_test, y_test))
+train_score = model.score(X_test, y_test)
+print('Accuracy: ', train_score)
+
+# f1 
+f_one_score = f1_score(y_test, y_pred)
+print('F1 Score: ', f_one_score)
 
 # Multilabel Confusion Matrix: 
 # [tn fp]
@@ -387,18 +395,98 @@ print('Accuracy: \n', model.score(X_test, y_test))
 print(multilabel_confusion_matrix(y_test, y_pred, labels=[0, 1]))
 
 
-# In[42]:
+# In[75]:
 
 
 ###############################################################################
 ## Plotting confusion matrix
 ###############################################################################
 from sklearn.metrics import plot_confusion_matrix
+from matplotlib import pyplot as plt
 
 plot_confusion_matrix(model, X_test, y_test)  # doctest: +SKIP
 plt.savefig("confusion_matrix.png", format="png")
 plt.show()  # doctest: +SKIP
 # td  sp  dp  pr  flg  ipkt ibyt
+
+
+# In[50]:
+
+
+###############################################################################
+## Validation on the train set
+###############################################################################
+from sklearn.model_selection import cross_val_score
+
+valid_scores = cross_val_score(svc, X_train, y_train, cv=5, scoring='f1')
+
+
+# In[51]:
+
+
+print("Validation accuracy: %0.3f (+/- %0.3f)" % (valid_scores.mean(), valid_scores.std() * 2))
+
+
+# In[59]:
+
+
+# ###############################################################################
+# ## Plotting validation and training curves
+# ###############################################################################
+
+# valid_scores_mean = np.mean(valid_scores)
+# plt.title("Comparing scores")
+# plt.xlabel("Type of score")
+# plt.ylabel("Score")
+# plt.ylim(0.0, 1.1)
+
+# plt.bar(['Validation', 'Train'], [valid_scores_mean, f_one_score])
+
+# plt.legend(loc="best")
+# plt.savefig("learning_curve.png", format="png")
+# plt.show()
+
+
+# In[41]:
+
+
+valid_scores
+
+
+# In[79]:
+
+
+###############################################################################
+## Making a Grid Search, with validation
+###############################################################################
+
+from sklearn.model_selection import GridSearchCV
+
+grid_values = {'C' : [0.001,.009,0.01,.09,1,5,10,25,50]}
+kernel = {'kernel' : ['linear', 'poly', 'rbf', 'sigmoid']}
+grid_svc_acc = GridSearchCV(svc, param_grid = [grid_values, kernel] ,scoring = 'f1')
+grid_svc_acc.fit(X_train, y_train)
+
+
+# svc.get_params().keys()
+
+#Predict values based on new parameters
+y_pred_acc = grid_svc_acc.predict(X_test)
+
+# New Model Evaluation metrics 
+print('Accuracy Score : ' + str(accuracy_score(y_test,y_pred_acc)))
+print('Precision Score : ' + str(precision_score(y_test,y_pred_acc)))
+print('Recall Score : ' + str(recall_score(y_test,y_pred_acc)))
+print('F1 Score : ' + str(f1_score(y_test,y_pred_acc)))
+
+#Logistic Regression (Grid Search) Confusion matrix
+confusion_matrix(y_test,y_pred_acc)
+
+
+# In[ ]:
+
+
+pd.DataFrame(grid_svc_acc.cv_results_)
 
 
 # In[ ]:
