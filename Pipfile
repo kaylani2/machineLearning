@@ -8,7 +8,7 @@ verify_ssl = true
 [packages]
 pandas = "*"
 matplotlib = "*"
-numpy = "*"
+numpy = "==1.16.4"
 mglearn = "*"
 tflearn = "*"
 scipy = "*"
