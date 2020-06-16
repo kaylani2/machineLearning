@@ -30,10 +30,6 @@ df = pd.DataFrame (data [0])
 print ('Dataframe shape (lines, collumns):', df.shape, '\n')
 print ('First 5 entries:\n', df [:5], '\n')
 
-## Fraction dataframe for quicker testing (copying code is hard)
-#df = df.sample (frac = 0.1, replace = True, random_state = STATE)
-#print ('Using fractured dataframe.')
-
 ### Decode byte strings into ordinary strings:
 print ('Decoding byte strings into ordinary strings.')
 strings = df.select_dtypes ( [np.object])
@@ -47,7 +43,6 @@ print ('Done.\n')
 ###############################################################################
 print ('Dataframe shape (lines, collumns):', df.shape, '\n')
 print ('First 5 entries:\n', df [:5], '\n')
-#print ('Dataframe attributes:\n', df.keys (), '\n')
 df.info (verbose = False) # Make it true to find individual atribute types
 #print (df.describe ()) # Brief statistical description on NUMERICAL atributes
 
@@ -65,11 +60,12 @@ print ('Label distribution:\n', df ['class_attack_type'].value_counts ())
 
 
 ###############################################################################
-## Perform some form of basic preprocessing
+## Data pre-processing
 ###############################################################################
-df.replace ( ['NaN', 'NaT'], np.nan, inplace = True)
+df.replace (['NaN', 'NaT'], np.nan, inplace = True)
 df.replace ('?', np.nan, inplace = True)
-df.replace ('Infinity', np.nan, inplace = True) ## Maybe other text values
+df.replace ('Infinity', np.nan, inplace = True)
+
 ## Remove NaN values
 print ('Column | NaN values')
 print (df.isnull ().sum ())
@@ -85,7 +81,7 @@ print (df.isnull ().sum ())
 #   ip.dsfield.dscp      7597
 #   ip.dsfield.ecn       7597
 #   ip.len               7597
-#   ip.flags             7597 # {0, 1}
+#   ip.flags             7597
 #   ip.frag_offset       7597
 #   ip.ttl               7597
 #   ip.proto             7597
@@ -99,9 +95,7 @@ print (df.isnull ().sum ())
 print ('Dataframe contains NaN values:', df.isnull ().values.any ())
 
 ### K: We probably want to remove attributes that have only one sampled value.
-print ('Removing attributes that have only one sampled value.')
 print ('Column | # of different values')
-print (type (df.nunique ()))
 nUniques = df.nunique ()
 for column, nUnique in zip (df.columns, nUniques):
   if (nUnique <= 7):
@@ -109,16 +103,50 @@ for column, nUnique in zip (df.columns, nUniques):
   else:
     print (column, nUnique)
 
+print ('Removing attributes that have only one sampled value.')
+for column, nUnique in zip (df.columns, nUniques):
   if (nUnique == 1): # Only one value: DROP.
     df.drop (axis = 'columns', columns = column, inplace = True)
 
+print ('Column | # of different values')
 print ('\n\n', df.nunique ())
+
+
+df.info (verbose = False)
+### K: dtypes: float64 (27), int64 (1), object (5)
+#print (df.columns.to_series ().groupby (df.dtypes).groups, '\n\n')
+print ('Objects:', list (df.select_dtypes ( ['object']).columns), '\n')
+### K: Objects: [
+# 'ip.flags.df', {0, 1}
+# 'ip.flags.mf', {0, 1}
+# 'packet_type', {in, out}
+# LABELS:
+# 'class_device_type', 
+# 'class_is_malicious'
+#]
+
+### K: Look into each attribute to define the best encoding strategy.
+### K: NOTE: packet_type and class_device_type are labels for different
+### applications, not attributes. They must not be used to aid classification.
+print ('Dropping class_device_type and class_is_malicious.')
+print ('These are labels for other scenarios.')
+df.drop (axis = 'columns', columns = 'class_device_type', inplace = True)
+df.drop (axis = 'columns', columns = 'class_is_malicious', inplace = True)
+
+### K: NOTE: ip.flags.df and ip.flags.mf only have numerical values, but have
+### been loaded as objects because (probably) of missing values, so we can
+### just convert them instead of treating them as categorical.
+print ('ip.flags.df and ip.flags.mf have been incorrectly read as objects.')
+print ('Converting them to numeric.')
+df ['ip.flags.df'] = pd.to_numeric (df ['ip.flags.df'])
+df ['ip.flags.mf'] = pd.to_numeric (df ['ip.flags.mf'])
+print ('Objects:', list (df.select_dtypes ( ['object']).columns), '\n')
 
 
 ###############################################################################
 ## Encode Label
 ###############################################################################
-print ('Enconding label.')
+print ('Encoding label.')
 print ('Label types before conversion:', df ['class_attack_type'].unique ())
 df ['class_attack_type'] = df ['class_attack_type'].replace ('N/A', 0)
 df ['class_attack_type'] = df ['class_attack_type'].replace ('DoS', 1)
@@ -129,52 +157,14 @@ print ('Label types after conversion:', df ['class_attack_type'].unique ())
 
 
 ###############################################################################
-## Last look before working with numpy arrays
-###############################################################################
-### K: We're looking for:
-### - How many categorical attributes are there and their names
-### - Brief statistical description before applying normalization
-df.info (verbose = False)
-### K: dtypes: float64 (27), int64 (1), object (23)
-#print (df.columns.to_series ().groupby (df.dtypes).groups, '\n\n')
-print (df.describe (), '\n\n') # Statistical description
-print ('Objects:', list (df.select_dtypes ( ['object']).columns), '\n')
-### K: Objects: [
-# 'ip.flags.df', {0, 1}
-# 'ip.flags.mf', {0, 1}
-# 'packet_type', {in, out}
-# LABELS:
-# 'class_device_type', {AmazonEcho, BelkinCam, Hive, SmartThings,
-#                       Lifx, TPLinkCam, TPLinkPlug, AP, Firewall, unknown}
-# 'class_is_malicious' {0, 1}
-#]
-### K: Look into each attribute to define the best encoding strategy.
-### K: NOTE: packet_type and class_device_type are labels for different
-### applications, not attributes. They must not be used to aid classification.
-print ('Dropping class_device_type and class_is_malicious.')
-print ('These are labels for other scenarios.')
-df.drop (axis = 'columns', columns = 'class_device_type', inplace = True)
-df.drop (axis = 'columns', columns = 'class_is_malicious', inplace = True)
-### K: NOTE: ip.flags.df and ip.flags.mf only have numerical values, but have
-### been loaded as objects because (probably) of missing values, so we can
-### just convert them instead of treating them as categorical.
-print ('ip.flags.df and ip.flags.mf have been incorrectly read as objects.')
-print ('Converting them to numeric.')
-df ['ip.flags.df'] = pd.to_numeric (df ['ip.flags.df'])
-df ['ip.flags.mf'] = pd.to_numeric (df ['ip.flags.mf'])
-print (df.nunique ())
-print ('Objects:', list (df.select_dtypes ( ['object']).columns), '\n')
-
-###############################################################################
 ## Handle categorical attributes
 ###############################################################################
-### K: Using a single strategy for now...
-print ('\nHandling categorical attributes (label).')
+print ('\nHandling categorical attributes (label encoding).')
 from sklearn.preprocessing import LabelEncoder
 myLabelEncoder = LabelEncoder ()
 df ['packet_type'] = myLabelEncoder.fit_transform (df ['packet_type'])
 
-### TODO: onehotencoder ta dando nan na saida, ajeitar isso ai
+### onehotencoder ta dando nan na saida, ajeitar isso ai
 #from sklearn.preprocessing import OneHotEncoder
 #enc = OneHotEncoder (handle_unknown = 'error')
 #enc_df = pd.DataFrame (enc.fit_transform (df [ ['packet_type']]).toarray ())
@@ -186,15 +176,6 @@ df ['packet_type'] = myLabelEncoder.fit_transform (df ['packet_type'])
 #cols_at_end = ['class_attack_type']
 #df = df [ [c for c in df if c not in cols_at_end]
 #        + [c for c in cols_at_end if c in df]]
-
-### K: One last look.
-nUniques = df.nunique ()
-for column, nUnique in zip (df.columns, nUniques):
-  if (nUnique <= 7):
-    print (column, df [column].unique ())
-  else:
-    print (column, nUnique)
-
 
 
 ###############################################################################
@@ -216,21 +197,28 @@ print ('y_train shape:', y_train.shape)
 print ('X_test shape:', X_test.shape)
 print ('y_test shape:', y_test.shape)
 
+
 ###############################################################################
 ## Apply normalization
 ###############################################################################
-print ('TODO: normalization')
 print ('Applying normalization (standard)')
 from sklearn.preprocessing import StandardScaler
 scaler = StandardScaler ()
 scaler.fit (X_train)
-print ('Mean before scalling:', scaler.mean_)
+#print ('Mean before scalling:', scaler.mean_)
 X_train = scaler.transform (X_train)
 scaler.fit (X_train)
-print ('Mean after scalling:', scaler.mean_)
+#print ('Mean after scalling:', scaler.mean_)
 
 scaler.fit (X_test)
 X_test = scaler.transform (X_test)
+
+### K: One hot encode the output.
+import keras.utils
+from keras.utils import to_categorical
+numberOfClasses = len (df ['class_attack_type'].unique ())
+y_train = keras.utils.to_categorical (y_train, numberOfClasses)
+y_test = keras.utils.to_categorical (y_test, numberOfClasses)
 
 
 ###############################################################################
@@ -242,41 +230,28 @@ from keras.layers import Dense, Dropout
 BATCH_SIZE = 64
 NUMBER_OF_EPOCHS = 12
 LEARNING_RATE = 0.001
-numberOfClasses = len (df ['class_attack_type'].unique ())
 model = Sequential ()
-#model.add (Dense (units = 512, activation = 'relu',
 model.add (Dense (units = 15, activation = 'relu',
                   input_shape = (X_train.shape [1], )))
-#model.add (Dense (256, activation = 'relu'))
-#model.add (Dense (128, activation = 'relu'))
 model.add (Dense (20, activation = 'relu'))
 model.add (Dense (numberOfClasses, activation = 'softmax'))
 print ('Model summary:')
 model.summary ()
 
-#import keras
-import keras.utils
-from keras.utils import to_categorical
-y_train = keras.utils.to_categorical (y_train, numberOfClasses)
-y_test = keras.utils.to_categorical (y_test, numberOfClasses)
+
 ###############################################################################
 ## Compile the network
 ###############################################################################
 print ('Compiling the network.')
-#for LEARNING_RATE in ( [0.000001, 0.00001, 0.0001, 0.001, 0.01, 0.1]):
-#for LEARNING_RATE in ( [ 0.00001, 0.001 ]):
-print ('lr:', LEARNING_RATE)
 from keras.optimizers import RMSprop
 from keras.optimizers import Adam
 from keras import metrics
 model.compile (loss = 'categorical_crossentropy',
                optimizer = Adam (lr = LEARNING_RATE),
-               metrics = ['accuracy'
-               #metrics = [#metrics.Accuracy (),
-                          #metrics.CategoricalAccuracy (),
-                          #metrics.Recall (),
-                          #metrics.Precision ()
+               metrics = ['accuracy',
+                          metrics.CategoricalAccuracy (),
                ])
+
 
 ###############################################################################
 ## Fit the network
@@ -288,25 +263,36 @@ history = model.fit (X_train, y_train,
                      verbose = 1,
                      validation_split = 1/10)
 
+
+sys.exit ()
 ###############################################################################
 ## Analyze results
 ###############################################################################
 from sklearn.metrics import confusion_matrix, classification_report
 ### K: NOTE: Only look at test results when publishing...
-# model.predict outputs one hot encoding, our test is label encoded....
-y_pred = model.predict (X_test)
-print ('y_pred shape:', y_pred.shape)
-print ('y_test shape:', y_test.shape)
-print (y_pred [:50])
-y_pred = y_pred.round ()
-print (y_pred [:50])
+# model.predict outputs one hot encoding
+#y_pred = model.predict (X_test)
+#print ('y_pred shape:', y_pred.shape)
+#print ('y_test shape:', y_test.shape)
+#print (y_pred [:50])
+#y_pred = y_pred.round ()
+#print (y_pred [:50])
 #print (confusion_matrix (y_test, y_pred))
-print (classification_report (y_test, y_pred, digits = 3))
-#scoreArray = model.evaluate (X_test, y_test, verbose = 0)
+#print (classification_report (y_test, y_pred, digits = 3))
+#scoreArray = model.evaluate (X_test, y_test, verbose = True)
 #print ('Test loss:', scoreArray [0])
 #print ('Test accuracy:', scoreArray [1])
 
 import matplotlib.pyplot as plt
+
+plt.plot (history.history ['categorical_accuracy'])
+plt.plot (history.history ['val_categorical_accuracy'])
+plt.title ('Model accuracy')
+plt.ylabel ('Categorical Accuracy')
+plt.xlabel ('Epoch')
+plt.legend (['Train', 'Validation'], loc = 'upper left')
+plt.show ()
+
 plt.plot (history.history ['accuracy'])
 plt.plot (history.history ['val_accuracy'])
 plt.title ('Model accuracy')
@@ -322,7 +308,5 @@ plt.ylabel ('Loss')
 plt.xlabel ('Epoch')
 plt.legend (['Train', 'Validation'], loc = 'upper left')
 plt.show ()
-
-
 
 sys.exit ()
