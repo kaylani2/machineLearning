@@ -329,13 +329,15 @@ print ('Over:', Counter (y_over))
 print ('Under:', Counter (y_under))
 
 
-for myX, myY, model in zip ([X_train, X_over, X_under],
-                            [y_train, y_over, y_under],
-                            ['Real', 'Over', 'Under']):
+for myX, myY, sampling in zip ([X_train, X_over, X_under],
+                               [y_train, y_over, y_under],
+                               ['Real', 'Over', 'Under']):
   ###############################################################################
   ## Create learning model (Naive Bayes)
   ###############################################################################
   print ('Creating learning model.')
+  print ('Sampling:', sampling)
+  print ('X shape:', myX.shape)
   from sklearn.naive_bayes import GaussianNB
   model = GaussianNB ()
   model.fit (myX, myY)

@@ -73,19 +73,34 @@ df.replace ('?', np.nan, inplace = True)
 df.replace ('Infinity', np.nan, inplace = True)
 
 ###############################################################################
+### Remove columns with only one value
+print ('\n\nColumn | # of different values')
+print (df.nunique ())
+print ('Removing attributes that have only one sampled value.')
+nUniques = df.nunique ()
+for column, nUnique in zip (df.columns, nUniques):
+  if (nUnique == 1): # Only one value: DROP.
+    df.drop (axis = 'columns', columns = column, inplace = True)
+
+print ('\n\nColumn | # of different values')
+print (df.nunique ())
+
+###############################################################################
 ### Remove NaN columns (with a lot of NaN values)
-print ('Column | NaN values')
+print ('\n\nColumn | NaN values')
 print (df.isnull ().sum ())
 ### K: 150k samples seems to be a fine cutting point for this dataset
 print ('Removing attributes with more than half NaN and inf values.')
 df = df.dropna (axis = 'columns', thresh = 150000)
 print ('Dataframe contains NaN values:', df.isnull ().values.any ())
-print ('Column | NaN values (after dropping columns)')
+print ('\n\nColumn | NaN values (after dropping columns)')
 print (df.isnull ().sum ())
 
 ### K: NOTE: Not a good idea to drop these samples since it reduces
 ### K: the number of available MITM samples by a lot.
 ### K: So this is not a good strategy...
+#print ('Label distribution before dropping rows:')
+#print (df ['class_attack_type'].value_counts ())
 ### K: This leaves us with the following attributes to encode:
 ### Attribute            NaN values
 #   ip.hdr_len           7597
@@ -93,14 +108,14 @@ print (df.isnull ().sum ())
 #   ip.dsfield.ecn       7597
 #   ip.len               7597
 #   ip.flags             7597
+#   ip.flags.df          7597
+#   ip.flags.mf          7597
 #   ip.frag_offset       7597
 #   ip.ttl               7597
 #   ip.proto             7597
 #   ip.checksum.status   7597
 ### K: Options: Remove these samples or handle them later.
 ### K: Removing them for now.
-#print ('Label distribution before dropping rows:')
-#print (df ['class_attack_type'].value_counts ())
 #print ('Removing samples with NaN values (not a lot of these).')
 #df = df.dropna (axis = 'rows', thresh = df.shape [1])
 #print ('Label distribution after dropping rows:')
@@ -111,24 +126,32 @@ print (df.isnull ().sum ())
 
 ###############################################################################
 ### Input missing values
-columsWithMissingValues = ['ip.hdr_len', 'ip.dsfield.dscp', 'ip.dsfield.ecn',
-                           'ip.len', 'ip.flags', 'ip.frag_offset', 'ip.ttl',
-                           'ip.proto', 'ip.checksum.status']
+### K: Look into each attribute to define the best inputing strategy.
+### K: NOTE: This must be done after splitting to dataset to avoid data leakge.
+columsWithMissingValues = ['ip.hdr_len', 'ip.dsfield.dscp', 'ip.len',
+                           'ip.flags', 'ip.flags.df', 'ip.flags.mf',
+                           'ip.frag_offset', 'ip.ttl', 'ip.proto']
+### K: Examine values.
 nUniques = df.nunique ()
 for column, nUnique in zip (df.columns, nUniques):
-  if (column in columsWithMissingValues ):
+  if (column in columsWithMissingValues):
     print (column, df [column].unique ())
+    print (column, ' unique values:', nUnique)
 
+# ip.hdr_len [20. 24. nan]                          most frequent?
+# ip.dsfield.dscp [ 0.  4. 48. 32.  6. 46.  5. nan] most frequent?
+# ip.len  unique values: 512                        median?
+# ip.flags [40.  0. 21. 20.  1. nan]                most frequent?
+# ip.flags.df ['1' '0' nan]                         most frequent?
+# ip.flags.mf ['0' '1' nan]                         most frequent?
+# ip.frag_offset  unique values: 190                median?
+# ip.ttl  unique values: 61                         mean? (round afterwards)
+# ip.proto [ 1.  6. 17.  2. nan]                    most frequent?
+### K: Now we use these strategies after splitting the dataset.
+imputingStrategies = ['most_frequent', 'most_frequent', 'median',
+                      'most_frequent', 'most_frequent', 'most_frequent',
+                      'median', 'mean', 'most_frequent']
 
-###############################################################################
-### Remove columns with only one value
-print ('Removing attributes that have only one sampled value.')
-for column, nUnique in zip (df.columns, nUniques):
-  if (nUnique == 1): # Only one value: DROP.
-    df.drop (axis = 'columns', columns = column, inplace = True)
-
-print ('Column | # of different values')
-print ('\n\n', df.nunique ())
 
 ###############################################################################
 ### Handle categorical values
@@ -143,7 +166,7 @@ print ('Objects:', list (df.select_dtypes ( ['object']).columns), '\n')
 # 'packet_type', {in, out}
 # LABELS:
 # 'class_device_type',
-# 'class_is_malicious'
+# 'class_is_malicious' {0, 1}
 #]
 
 ### K: NOTE: ip.flags.df and ip.flags.mf only have numerical values, but have
@@ -155,6 +178,7 @@ print ('Converting them to numeric.')
 df ['ip.flags.df'] = pd.to_numeric (df ['ip.flags.df'])
 df ['ip.flags.mf'] = pd.to_numeric (df ['ip.flags.mf'])
 
+### K: 'packet_type': {in, out} -> {0, 1}
 from sklearn.preprocessing import LabelEncoder
 myLabelEncoder = LabelEncoder ()
 df ['packet_type'] = myLabelEncoder.fit_transform (df ['packet_type'])
@@ -199,29 +223,70 @@ print ('Label types after conversion:', df ['class_attack_type'].unique ())
 
 
 ###############################################################################
-## Convert dataframe to a numpy array
-###############################################################################
-print ('\nConverting dataframe to numpy array.')
-X = df.iloc [:, :-1].values
-y = df.iloc [:, -1].values
-
-
-###############################################################################
 ## Split dataset into train and test sets
 ###############################################################################
 from sklearn.model_selection import train_test_split
-X_train, X_test, y_train, y_test = train_test_split (X, y, test_size = 4/10,
-                                                     random_state = STATE)
+TEST_SIZE = 4/10
+print ('\nSplitting dataset (test/train):', TEST_SIZE)
+X_train_df, X_test_df, y_train_df, y_test_df = train_test_split (
+                                               df.iloc [:, :-1],
+                                               df.iloc [:, -1],
+                                               test_size = TEST_SIZE,
+                                               random_state = STATE)
+print ('X_train_df shape:', X_train_df.shape)
+print ('y_train_df shape:', y_train_df.shape)
+print ('X_test_df shape:', X_test_df.shape)
+print ('y_test_df shape:', y_test_df.shape)
+
+
+###############################################################################
+## Imput missing data
+###############################################################################
+### K: NOTE: Only use derived information from the train set to avoid leakage.
+# ip.hdr_len [20. 24. nan] ## mean or most frequent?
+# ip.dsfield.dscp [ 0.  4. 48. 32.  6. 46.  5. nan] most frequent?
+# ip.len  unique values: 512 ## median?
+# ip.flags [40.  0. 21. 20.  1. nan] most frequent?
+# ip.frag_offset  unique values: 190 ## median?
+# ip.ttl  unique values: 61 ## integer mean?
+# ip.proto [ 1.  6. 17.  2. nan] ## most frequent?
+
+#print ('\n\nColumn | NaN values (before imputing)')
+#print ('\nTrain:')
+#print (X_train_df.isnull ().sum ())
+#print ('\nTest:')
+#print (X_test_df.isnull ().sum ())
+
+from sklearn.impute import SimpleImputer
+for myColumn, myStrategy in zip (columsWithMissingValues, imputingStrategies):
+  myImputer = SimpleImputer (missing_values = np.nan, strategy = myStrategy)
+  myImputer.fit (X_train_df [myColumn].values.reshape (-1, 1))
+  X_train_df [myColumn] = myImputer.transform (X_train_df [myColumn].values.reshape (-1, 1))
+  X_test_df [myColumn] = myImputer.transform (X_test_df [myColumn].values.reshape (-1, 1))
+
+# Round ip.ttl
+X_train_df ['ip.ttl'] = X_train_df ['ip.ttl'].round (decimals = 0)
+X_test_df ['ip.ttl'] = X_test_df ['ip.ttl'].round (decimals = 0)
+
+#print ('\n\nColumn | NaN values (before imputing)')
+#print ('\nTrain:')
+#print (X_train_df.isnull ().sum ())
+#print ('\nTest:')
+#print (X_test_df.isnull ().sum ())
+
+###############################################################################
+## Convert dataframe to a numpy array
+###############################################################################
+print ('\nConverting dataframe to numpy array.')
+X_train = X_train_df.values
+X_test = X_test_df.values
+y_train = y_train_df.values
+y_test = y_test_df.values
 print ('X_train shape:', X_train.shape)
 print ('y_train shape:', y_train.shape)
 print ('X_test shape:', X_test.shape)
 print ('y_test shape:', y_test.shape)
 
-
-###############################################################################
-## Handle imbalanced data (like the original author)
-###############################################################################
-sys.exit ()
 
 ###############################################################################
 ## Apply normalization
@@ -238,6 +303,36 @@ scaler.fit (X_train)
 scaler.fit (X_test)
 X_test = scaler.transform (X_test)
 
+#### K: One hot encode the output.
+#import keras.utils
+#from keras.utils import to_categorical
+#numberOfClasses = len (df ['class_attack_type'].unique ())
+#y_train = keras.utils.to_categorical (y_train, numberOfClasses)
+#y_test = keras.utils.to_categorical (y_test, numberOfClasses)
+
+
+###############################################################################
+## Handle imbalanced data
+###############################################################################
+from collections import Counter
+from imblearn.over_sampling import RandomOverSampler
+from imblearn.under_sampling import RandomUnderSampler
+print ('\nHandling imbalanced label distribution.')
+print ('Real:', Counter (y_train))
+myOversampler = RandomOverSampler (sampling_strategy = 'not majority',
+                                   random_state = STATE)
+X_over, y_over = myOversampler.fit_resample (X_train, y_train)
+myUndersampler = RandomUnderSampler (sampling_strategy = 'not minority',
+                                     random_state = STATE)
+X_under, y_under = myUndersampler.fit_resample (X_train, y_train)
+print ('Over:', Counter (y_over))
+print ('Under:', Counter (y_under))
+
+
+
+###############################################################################
+## Create learning model (MLP)
+###############################################################################
 ### K: One hot encode the output.
 import keras.utils
 from keras.utils import to_categorical
@@ -246,9 +341,6 @@ y_train = keras.utils.to_categorical (y_train, numberOfClasses)
 y_test = keras.utils.to_categorical (y_test, numberOfClasses)
 
 
-###############################################################################
-## Create learning model (MLP)
-###############################################################################
 print ('Creating learning model.')
 from keras.models import Sequential
 from keras.layers import Dense, Dropout
