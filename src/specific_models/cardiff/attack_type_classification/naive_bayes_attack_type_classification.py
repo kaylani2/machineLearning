@@ -282,17 +282,11 @@ X_train = X_train_df.values
 X_test = X_test_df.values
 y_train = y_train_df.values
 y_test = y_test_df.values
-print ('X_train_df shape:', X_train_df.shape)
-print ('y_train_df shape:', y_train_df.shape)
-print ('X_test_df shape:', X_test_df.shape)
-print ('y_test_df shape:', y_test_df.shape)
+print ('X_train shape:', X_train.shape)
+print ('y_train shape:', y_train.shape)
+print ('X_test shape:', X_test.shape)
+print ('y_test shape:', y_test.shape)
 
-
-###############################################################################
-## Handle imbalanced data (like the original author)
-###############################################################################
-print ('\nHandling imbalanced label distribution.')
-print ('Label distribution:\n', df ['class_attack_type'].value_counts ())
 
 ###############################################################################
 ## Apply normalization
@@ -318,38 +312,59 @@ X_test = scaler.transform (X_test)
 
 
 ###############################################################################
-## Create learning model (Naive Bayes)
+## Handle imbalanced data
 ###############################################################################
-print ('Creating learning model.')
-from sklearn.naive_bayes import GaussianNB, CategoricalNB
-model = GaussianNB ()
-model.fit (X_train, y_train)
+from collections import Counter
+from imblearn.over_sampling import RandomOverSampler
+from imblearn.under_sampling import RandomUnderSampler
+print ('\nHandling imbalanced label distribution.')
+print ('Real:', Counter (y_train))
+myOversampler = RandomOverSampler (sampling_strategy = 'not majority',
+                                   random_state = STATE)
+X_over, y_over = myOversampler.fit_resample (X_train, y_train)
+myUndersampler = RandomUnderSampler (sampling_strategy = 'not minority',
+                                     random_state = STATE)
+X_under, y_under = myUndersampler.fit_resample (X_train, y_train)
+print ('Over:', Counter (y_over))
+print ('Under:', Counter (y_under))
 
 
-###############################################################################
-## Analyze results
-###############################################################################
-### K: NOTE: Only look at test results when publishing...
-from sklearn.metrics import confusion_matrix, precision_score, recall_score
-from sklearn.metrics import f1_score, classification_report, accuracy_score
-from sklearn.metrics import cohen_kappa_score
-y_pred = model.predict (X_test)
+for myX, myY, model in zip ([X_train, X_over, X_under],
+                            [y_train, y_over, y_under],
+                            ['Real', 'Over', 'Under']):
+  ###############################################################################
+  ## Create learning model (Naive Bayes)
+  ###############################################################################
+  print ('Creating learning model.')
+  from sklearn.naive_bayes import GaussianNB
+  model = GaussianNB ()
+  model.fit (myX, myY)
 
-print ('Confusion matrix:')
-print (confusion_matrix (y_test, y_pred,
+
+  ###############################################################################
+  ## Analyze results
+  ###############################################################################
+  ### K: NOTE: Only look at test results when publishing...
+  from sklearn.metrics import confusion_matrix, precision_score, recall_score
+  from sklearn.metrics import f1_score, classification_report, accuracy_score
+  from sklearn.metrics import cohen_kappa_score
+  y_pred = model.predict (X_test)
+
+  print ('Confusion matrix:')
+  print (confusion_matrix (y_test, y_pred,
+                           labels = df ['class_attack_type'].unique ()))
+
+  print ('Classification report:')
+  print (classification_report (y_test, y_pred,
+                                labels = df ['class_attack_type'].unique (),
+                                digits = 3))
+
+  print ('\n\n')
+  print ('Accuracy:', accuracy_score (y_test, y_pred))
+  print ('Precision:', precision_score (y_test, y_pred, average = 'macro'))
+  print ('Recall:', recall_score (y_test, y_pred, average = 'macro'))
+  print ('F1:', f1_score (y_test, y_pred, average = 'macro'))
+  print ('Cohen Kappa:', cohen_kappa_score (y_test, y_pred,
                          labels = df ['class_attack_type'].unique ()))
-
-print ('Classification report:')
-print (classification_report (y_test, y_pred,
-                              labels = df ['class_attack_type'].unique (),
-                              digits = 3))
-
-print ('\n\n')
-print ('Accuracy:', accuracy_score (y_test, y_pred))
-print ('Precision:', precision_score (y_test, y_pred, average = 'macro'))
-print ('Recall:', recall_score (y_test, y_pred, average = 'macro'))
-print ('F1:', f1_score (y_test, y_pred, average = 'macro'))
-print ('Cohen Kappa:', cohen_kappa_score (y_test, y_pred,
-                       labels = df ['class_attack_type'].unique ()))
 
 sys.exit ()
