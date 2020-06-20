@@ -16,68 +16,38 @@ from scipy.io import arff
 STATE = 0
 np.random.seed (STATE)
 ## Hard to not go over 80 columns
-IOT_DIRECTORY = '../../../datasets/cardiff/IoT-Arff-Datasets/'
-IOT_ATTACK_TYPE_FILENAME = 'AttackTypeClassification.arff' #79MB
-IOT_DEVICE_TYPE_FILENAME = 'DeviceTypeClassification.arff' #736MB
-IOT_IS_MALICIOUS_FILENAME = 'IsMaliciousClassification.arff' #79MB
-#FILE_NAME = IOT_DIRECTORY + IOT_ATTACK_TYPE_FILENAME
-FILE_NAME = IOT_DIRECTORY + IOT_DEVICE_TYPE_FILENAME
+IOT_DIRECTORY = '../../../../datasets/cardiff/IoT-Arff-Datasets/'
+IOT_ATTACK_TYPE_FILENAME = 'AttackTypeClassification.arff'
+FILE_NAME = IOT_DIRECTORY + IOT_ATTACK_TYPE_FILENAME
 
 ###############################################################################
 ## Load dataset
 ###############################################################################
+pd.set_option ('display.max_rows', None)
 pd.set_option ('display.max_columns', 5)
 data = arff.loadarff (FILE_NAME)
 df = pd.DataFrame (data [0])
-#print ('Dataframe shape (lines, collumns):', df.shape, '\n')
-#print ('First 5 entries:\n', df [:5], '\n')
+print ('Dataframe shape (lines, collumns):', df.shape, '\n')
+print ('First 5 entries:\n', df [:5], '\n')
+
+## Fraction dataframe for quicker testing (copying code is hard)
+#df = df.sample (frac = 0.1, replace = True, random_state = STATE)
+#print ('Using fractured dataframe.')
 
 ### Decode byte strings into ordinary strings:
-#print ('Decoding byte strings into ordinary strings.')
+print ('Decoding byte strings into ordinary strings.')
 strings = df.select_dtypes ( [np.object])
 strings = strings.stack ().str.decode ('utf-8').unstack ()
 for column in strings:
   df [column] = strings [column]
 print ('Done.\n')
 
-bestAttr1 = ['ip.flags.df', 'ip.flags', 'tcp.stream', 'tcp.flags.syn',
-             'tcp.flags.ack', 'tcp.flags.push', 'icmp.code', 'ip.flags.mf',
-             'ip.ttl', 'tcp.dstport']
-
-pd.set_option ('display.max_rows', None)
-
-print (df.isnull ().sum ())
-
-nUniques = df.nunique ()
-for column, nUnique in zip (df.columns, nUniques):
-  if (nUnique <= 7):
-    print (column, df [column].unique ())
-  else:
-    print (column, nUnique)
-
-for attr in bestAttr1:
-  if (len (df [attr].unique ()) < 5):
-    print ('value counts:\n', attr, df [attr].value_counts ())
-  else:
-    print ('unique:', attr, df [attr].unique ())
-  print ('\n\n')
-
-print (bestAttr1)
-sys.exit ()
-
-
-
-
-
-
-
-
-
 ###############################################################################
 ## Display generic (dataset independent) information
 ###############################################################################
 print ('Dataframe shape (lines, collumns):', df.shape, '\n')
 print ('First 5 entries:\n', df [:5], '\n')
+#print ('Dataframe attributes:\n', df.keys (), '\n')
 df.info (verbose = False) # Make it true to find individual atribute types
 #print (df.describe ()) # Brief statistical description on NUMERICAL atributes
 
@@ -130,6 +100,7 @@ print (df.isnull ().sum ())
 print ('Dataframe contains NaN values:', df.isnull ().values.any ())
 
 ### K: We probably want to remove attributes that have only one sampled value.
+print ('Removing attributes that have only one sampled value.')
 print ('Column | # of different values')
 nUniques = df.nunique ()
 for column, nUnique in zip (df.columns, nUniques):
@@ -138,13 +109,8 @@ for column, nUnique in zip (df.columns, nUniques):
   else:
     print (column, nUnique)
 
-print ('Removing attributes that have only one sampled value.')
-for column, nUnique in zip (df.columns, nUniques):
   if (nUnique == 1): # Only one value: DROP.
     df.drop (axis = 'columns', columns = column, inplace = True)
-
-print ('Column | # of different values')
-print ('\n\n', df.nunique ())
 
 
 df.info (verbose = False)
@@ -156,8 +122,9 @@ print ('Objects:', list (df.select_dtypes ( ['object']).columns), '\n')
 # 'ip.flags.mf', {0, 1}
 # 'packet_type', {in, out}
 # LABELS:
-# 'class_device_type', 
-# 'class_is_malicious'
+# 'class_device_type', {AmazonEcho, BelkinCam, Hive, SmartThings,
+#                       Lifx, TPLinkCam, TPLinkPlug, AP, Firewall, unknown}
+# 'class_is_malicious' {0, 1}
 #]
 
 ### K: Look into each attribute to define the best encoding strategy.
@@ -178,16 +145,17 @@ df ['ip.flags.mf'] = pd.to_numeric (df ['ip.flags.mf'])
 print ('Objects:', list (df.select_dtypes ( ['object']).columns), '\n')
 
 
+
 ###############################################################################
 ## Encode Label
 ###############################################################################
-print ('Encoding label.')
+print ('Enconding label.')
 print ('Label types before conversion:', df ['class_attack_type'].unique ())
-df ['class_attack_type'] = df ['class_attack_type'].replace ('N/A', 0)
-df ['class_attack_type'] = df ['class_attack_type'].replace ('DoS', 1)
-df ['class_attack_type'] = df ['class_attack_type'].replace ('iot-toolkit', 2)
-df ['class_attack_type'] = df ['class_attack_type'].replace ('MITM', 3)
-df ['class_attack_type'] = df ['class_attack_type'].replace ('Scanning', 4)
+#df ['class_attack_type'] = df ['class_attack_type'].replace ('N/A', 0)
+#df ['class_attack_type'] = df ['class_attack_type'].replace ('DoS', 1)
+#df ['class_attack_type'] = df ['class_attack_type'].replace ('iot-toolkit', 2)
+#df ['class_attack_type'] = df ['class_attack_type'].replace ('MITM', 3)
+#df ['class_attack_type'] = df ['class_attack_type'].replace ('Scanning', 4)
 print ('Label types after conversion:', df ['class_attack_type'].unique ())
 
 
@@ -199,7 +167,7 @@ from sklearn.preprocessing import LabelEncoder
 myLabelEncoder = LabelEncoder ()
 df ['packet_type'] = myLabelEncoder.fit_transform (df ['packet_type'])
 
-### onehotencoder ta dando nan na saida, ajeitar isso ai
+### TODO: onehotencoder ta dando nan na saida, ajeitar isso ai
 #from sklearn.preprocessing import OneHotEncoder
 #enc = OneHotEncoder (handle_unknown = 'error')
 #enc_df = pd.DataFrame (enc.fit_transform (df [ ['packet_type']]).toarray ())
@@ -212,6 +180,8 @@ df ['packet_type'] = myLabelEncoder.fit_transform (df ['packet_type'])
 #df = df [ [c for c in df if c not in cols_at_end]
 #        + [c for c in cols_at_end if c in df]]
 
+print ('Label types:', df ['class_attack_type'].unique ())
+print ('Label distribution:\n', df ['class_attack_type'].value_counts ())
 
 ###############################################################################
 ## Convert dataframe to a numpy array
@@ -248,75 +218,60 @@ scaler.fit (X_train)
 scaler.fit (X_test)
 X_test = scaler.transform (X_test)
 
-### K: One hot encode the output.
-import keras.utils
-from keras.utils import to_categorical
-numberOfClasses = len (df ['class_attack_type'].unique ())
-y_train = keras.utils.to_categorical (y_train, numberOfClasses)
-y_test = keras.utils.to_categorical (y_test, numberOfClasses)
+#### K: One hot encode the output.
+#import keras.utils
+#from keras.utils import to_categorical
+#numberOfClasses = len (df ['class_attack_type'].unique ())
+#y_train = keras.utils.to_categorical (y_train, numberOfClasses)
+#y_test = keras.utils.to_categorical (y_test, numberOfClasses)
 
 
 ###############################################################################
-## Create learning model (MLP)
+## Create learning model (Naive Bayes)
 ###############################################################################
 print ('Creating learning model.')
-from keras.models import Sequential
-from keras.layers import Dense, Dropout
-BATCH_SIZE = 64
-NUMBER_OF_EPOCHS = 12
-LEARNING_RATE = 0.001
-model = Sequential ()
-model.add (Dense (units = 15, activation = 'relu',
-                  input_shape = (X_train.shape [1], )))
-model.add (Dense (20, activation = 'relu'))
-model.add (Dense (numberOfClasses, activation = 'softmax'))
-print ('Model summary:')
-model.summary ()
+# training a Naive Bayes classifier
+from sklearn.naive_bayes import GaussianNB, CategoricalNB
+from sklearn.metrics import confusion_matrix, precision_score, recall_score
+from sklearn.metrics import f1_score, classification_report, multilabel_confusion_matrix
+gnb = GaussianNB ()
+gnb.fit (X_train, y_train)
+gnb_predictions = gnb.predict (X_test)
 
+# accuracy on X_test
+accuracy = gnb.score (X_test, y_test)
+print ('acc:', accuracy)
 
-###############################################################################
-## Compile the network
-###############################################################################
-print ('Compiling the network.')
-from keras.optimizers import RMSprop
-from keras.optimizers import Adam
-from keras import metrics
-model.compile (loss = 'categorical_crossentropy',
-               optimizer = Adam (lr = LEARNING_RATE),
-               metrics = ['accuracy',
-                          metrics.CategoricalAccuracy (),
-               ])
-
-
-###############################################################################
-## Fit the network
-###############################################################################
-print ('Fitting the network.')
-history = model.fit (X_train, y_train,
-                     batch_size = BATCH_SIZE,
-                     epochs = NUMBER_OF_EPOCHS,
-                     verbose = 1,
-                     validation_split = 1/10)
-
+# creating a confusion matrix
+print (confusion_matrix (y_test, gnb_predictions) )
+print ('\n\n')
+#print (multilabel_confusion_matrix (y_test, gnb_predictions) )
+print ('\n\n')
+print (classification_report (y_test, gnb_predictions, target_names = df ['class_attack_type'].unique (), digits = 3))
+print ('\n\n')
+print ('precision score', precision_score (y_test, gnb_predictions, average = 'macro') )
+print ('recall score', recall_score (y_test, gnb_predictions, average = 'macro') )
+print ('f1 score', f1_score (y_test, gnb_predictions, average = 'macro') )
 
 sys.exit ()
+
 ###############################################################################
 ## Analyze results
 ###############################################################################
 from sklearn.metrics import confusion_matrix, classification_report
 ### K: NOTE: Only look at test results when publishing...
-# model.predict outputs one hot encoding
-#y_pred = model.predict (X_test)
+# model.predict outputs one hot encoding, our test is label encoded....
+y_pred = model.predict (X_test)
 #print ('y_pred shape:', y_pred.shape)
 #print ('y_test shape:', y_test.shape)
 #print (y_pred [:50])
-#y_pred = y_pred.round ()
+y_pred = y_pred.round ()
 #print (y_pred [:50])
 #print (confusion_matrix (y_test, y_pred))
-#print (classification_report (y_test, y_pred, digits = 3))
-#scoreArray = model.evaluate (X_test, y_test, verbose = True)
-#print ('Test loss:', scoreArray [0])
-#print ('Test accuracy:', scoreArray [1])
+print (classification_report (y_test, y_pred, digits = 3))
+scoreArray = model.evaluate (X_test, y_test, verbose = True)
+print ('Test loss:', scoreArray [0])
+print ('Test accuracy:', scoreArray [1])
 
 import matplotlib.pyplot as plt
 
@@ -343,5 +298,7 @@ plt.ylabel ('Loss')
 plt.xlabel ('Epoch')
 plt.legend (['Train', 'Validation'], loc = 'upper left')
 plt.show ()
+
+
 
 sys.exit ()
