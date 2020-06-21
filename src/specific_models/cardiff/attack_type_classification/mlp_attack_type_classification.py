@@ -227,14 +227,25 @@ print ('Label types after conversion:', df ['class_attack_type'].unique ())
 ###############################################################################
 from sklearn.model_selection import train_test_split
 TEST_SIZE = 4/10
+VALIDATION_SIZE = 1/10
 print ('\nSplitting dataset (test/train):', TEST_SIZE)
 X_train_df, X_test_df, y_train_df, y_test_df = train_test_split (
                                                df.iloc [:, :-1],
                                                df.iloc [:, -1],
                                                test_size = TEST_SIZE,
                                                random_state = STATE)
+
+print ('\nSplitting dataset (validation/train):', VALIDATION_SIZE)
+X_train_df, X_val_df, y_train_df, y_val_df = train_test_split (
+                                             X_train_df,
+                                             y_train_df,
+                                             test_size = VALIDATION_SIZE,
+                                             random_state = STATE)
+
 print ('X_train_df shape:', X_train_df.shape)
 print ('y_train_df shape:', y_train_df.shape)
+print ('X_val_df shape:', X_val_df.shape)
+print ('y_val_df shape:', y_val_df.shape)
 print ('X_test_df shape:', X_test_df.shape)
 print ('y_test_df shape:', y_test_df.shape)
 
@@ -262,15 +273,19 @@ for myColumn, myStrategy in zip (columsWithMissingValues, imputingStrategies):
   myImputer = SimpleImputer (missing_values = np.nan, strategy = myStrategy)
   myImputer.fit (X_train_df [myColumn].values.reshape (-1, 1))
   X_train_df [myColumn] = myImputer.transform (X_train_df [myColumn].values.reshape (-1, 1))
+  X_val_df [myColumn] = myImputer.transform (X_val_df [myColumn].values.reshape (-1, 1))
   X_test_df [myColumn] = myImputer.transform (X_test_df [myColumn].values.reshape (-1, 1))
 
 # Round ip.ttl
 X_train_df ['ip.ttl'] = X_train_df ['ip.ttl'].round (decimals = 0)
+X_val_df ['ip.ttl'] = X_val_df ['ip.ttl'].round (decimals = 0)
 X_test_df ['ip.ttl'] = X_test_df ['ip.ttl'].round (decimals = 0)
 
 #print ('\n\nColumn | NaN values (before imputing)')
 #print ('\nTrain:')
 #print (X_train_df.isnull ().sum ())
+#print ('\nVal:')
+#print (X_val_df.isnull ().sum ())
 #print ('\nTest:')
 #print (X_test_df.isnull ().sum ())
 
@@ -279,11 +294,15 @@ X_test_df ['ip.ttl'] = X_test_df ['ip.ttl'].round (decimals = 0)
 ###############################################################################
 print ('\nConverting dataframe to numpy array.')
 X_train = X_train_df.values
-X_test = X_test_df.values
 y_train = y_train_df.values
+X_val = X_val_df.values
+y_val = y_val_df.values
+X_test = X_test_df.values
 y_test = y_test_df.values
 print ('X_train shape:', X_train.shape)
 print ('y_train shape:', y_train.shape)
+print ('X_val shape:', X_val.shape)
+print ('y_val shape:', y_val.shape)
 print ('X_test shape:', X_test.shape)
 print ('y_test shape:', y_test.shape)
 
@@ -302,6 +321,8 @@ scaler.fit (X_train)
 
 scaler.fit (X_test)
 X_test = scaler.transform (X_test)
+scaler.fit (X_val)
+X_val = scaler.transform (X_val)
 
 #### K: One hot encode the output.
 #import keras.utils
@@ -338,6 +359,7 @@ import keras.utils
 from keras.utils import to_categorical
 numberOfClasses = len (df ['class_attack_type'].unique ())
 y_train = keras.utils.to_categorical (y_train, numberOfClasses)
+y_val = keras.utils.to_categorical (y_val, numberOfClasses)
 y_test = keras.utils.to_categorical (y_test, numberOfClasses)
 
 
@@ -345,7 +367,7 @@ print ('Creating learning model.')
 from keras.models import Sequential
 from keras.layers import Dense, Dropout
 BATCH_SIZE = 64
-NUMBER_OF_EPOCHS = 12
+NUMBER_OF_EPOCHS = 4
 LEARNING_RATE = 0.001
 model = Sequential ()
 model.add (Dense (units = 15, activation = 'relu',
@@ -377,28 +399,45 @@ print ('Fitting the network.')
 history = model.fit (X_train, y_train,
                      batch_size = BATCH_SIZE,
                      epochs = NUMBER_OF_EPOCHS,
-                     verbose = 1,
-                     validation_split = 1/10)
+                     verbose = 2, # 1 = progress bar, not useful for logging
+                     validation_data = (X_val, y_val)
+                    )
 
 
-sys.exit ()
 ###############################################################################
 ## Analyze results
 ###############################################################################
 from sklearn.metrics import confusion_matrix, classification_report
+from sklearn.metrics import confusion_matrix, precision_score, recall_score
+from sklearn.metrics import f1_score, classification_report, accuracy_score
+from sklearn.metrics import cohen_kappa_score
 ### K: NOTE: Only look at test results when publishing...
 # model.predict outputs one hot encoding
-#y_pred = model.predict (X_test)
+y_pred = model.predict (X_test)
 #print ('y_pred shape:', y_pred.shape)
 #print ('y_test shape:', y_test.shape)
 #print (y_pred [:50])
-#y_pred = y_pred.round ()
+y_pred = y_pred.round ()
 #print (y_pred [:50])
+#print (y_test [:50])
 #print (confusion_matrix (y_test, y_pred))
 #print (classification_report (y_test, y_pred, digits = 3))
 #scoreArray = model.evaluate (X_test, y_test, verbose = True)
 #print ('Test loss:', scoreArray [0])
 #print ('Test accuracy:', scoreArray [1])
+print ('Confusion matrix:')
+print (confusion_matrix (y_test.argmax (axis = 1), y_pred.argmax (axis = 1),
+                         labels = df ['class_attack_type'].unique ()))
+print ('\n\n')
+print ('Accuracy:', accuracy_score (y_test, y_pred))
+print ('Precision:', precision_score (y_test, y_pred, average = 'macro'))
+print ('Recall:', recall_score (y_test, y_pred, average = 'macro'))
+print ('F1:', f1_score (y_test, y_pred, average = 'macro'))
+print ('Cohen Kappa:', cohen_kappa_score (y_test.argmax (axis = 1),
+                                          y_pred.argmax (axis = 1),
+                       labels = df ['class_attack_type'].unique ()))
+
+
 
 import matplotlib.pyplot as plt
 
