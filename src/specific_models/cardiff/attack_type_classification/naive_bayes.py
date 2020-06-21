@@ -343,20 +343,18 @@ balancedUnderSampler = RandomUnderSampler (sampling_strategy = sampleDictUnder,
                                          random_state = STATE)
 X_bal, y_bal = myOversampler.fit_resample (X_bal, y_bal)
 
-
-
 print ('Real:', Counter (y_train))
 print ('Over:', Counter (y_over))
 print ('Under:', Counter (y_under))
 print ('Balanced', Counter (y_bal))
 
 
+###############################################################################
+## Create learning model (Naive Bayes)
+###############################################################################
 for myX, myY, sampling in zip ([X_train, X_over, X_under, X_bal],
                                [y_train, y_over, y_under, y_bal],
                                ['Real', 'Over', 'Under', 'Balanced']):
-  ###############################################################################
-  ## Create learning model (Naive Bayes)
-  ###############################################################################
   print ('Creating learning model.')
   print ('Sampling:', sampling)
   print ('X shape:', myX.shape)

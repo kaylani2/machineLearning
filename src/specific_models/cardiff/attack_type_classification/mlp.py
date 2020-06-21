@@ -321,20 +321,53 @@ X_val = scaler.transform (X_val)
 ###############################################################################
 ## Handle imbalanced data
 ###############################################################################
+### K: 10,000 samples per attack
 from collections import Counter
 from imblearn.over_sampling import RandomOverSampler
 from imblearn.under_sampling import RandomUnderSampler
 print ('\nHandling imbalanced label distribution.')
-print ('Real:', Counter (y_train))
+n = dict (Counter (y_train))
+print (n)
+print (type (n))
+print (n ['N/A'])
+
+### Only oversample
 myOversampler = RandomOverSampler (sampling_strategy = 'not majority',
                                    random_state = STATE)
 X_over, y_over = myOversampler.fit_resample (X_train, y_train)
+
+### Only undersample
 myUndersampler = RandomUnderSampler (sampling_strategy = 'not minority',
                                      random_state = STATE)
 X_under, y_under = myUndersampler.fit_resample (X_train, y_train)
+
+### Balanced
+MAX_SAMPLES = int (1e4)
+labels = dict (Counter (y_train))
+sampleDictOver = {'N/A': max (labels ['N/A'], MAX_SAMPLES),
+                  'Scanning': max (labels ['Scanning'], MAX_SAMPLES),
+                  'DoS': max (labels ['DoS'], MAX_SAMPLES),
+                  'MITM': max (labels [ 'MITM'], MAX_SAMPLES),
+                  'iot-toolkit': max (labels [ 'iot-toolkit'], MAX_SAMPLES)
+                 }
+sampleDictUnder = {'N/A': min (labels ['N/A'], MAX_SAMPLES),
+                   'Scanning': min (labels ['Scanning'], MAX_SAMPLES),
+                   'DoS': min (labels ['DoS'], MAX_SAMPLES),
+                   'MITM': min (labels [ 'MITM'], MAX_SAMPLES),
+                   'iot-toolkit': min (labels [ 'iot-toolkit'], MAX_SAMPLES)
+                  }
+balancedOverSampler = RandomOverSampler (sampling_strategy = sampleDictOver,
+                                         random_state = STATE)
+X_bal, y_bal = balancedOverSampler.fit_resample (X_train, y_train)
+
+balancedUnderSampler = RandomUnderSampler (sampling_strategy = sampleDictUnder,
+                                         random_state = STATE)
+X_bal, y_bal = myOversampler.fit_resample (X_bal, y_bal)
+
+print ('Real:', Counter (y_train))
 print ('Over:', Counter (y_over))
 print ('Under:', Counter (y_under))
-
+print ('Balanced', Counter (y_bal))
 
 
 ###############################################################################
