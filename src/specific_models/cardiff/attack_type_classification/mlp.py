@@ -185,20 +185,6 @@ df ['packet_type'] = myLabelEncoder.fit_transform (df ['packet_type'])
 
 print ('Objects:', list (df.select_dtypes ( ['object']).columns), '\n')
 
-### onehotencoder ta dando nan na saida, ajeitar isso ai
-#from sklearn.preprocessing import OneHotEncoder
-#enc = OneHotEncoder (handle_unknown = 'error')
-#enc_df = pd.DataFrame (enc.fit_transform (df [ ['packet_type']]).toarray ())
-#df = df.join (enc_df)
-#df.drop (axis = 'columns', columns = 'packet_type', inplace = True)
-#
-#### K: NOTE: This transformed the dataframe in a way that the last column is
-#### no longer the target. We have to fix that:
-#cols_at_end = ['class_attack_type']
-#df = df [ [c for c in df if c not in cols_at_end]
-#        + [c for c in cols_at_end if c in df]]
-
-
 ###############################################################################
 ### Drop unused targets
 ### K: NOTE: class_is_malicious and class_device_type are labels for different
