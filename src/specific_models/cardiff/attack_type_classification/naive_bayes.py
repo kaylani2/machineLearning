@@ -337,7 +337,7 @@ X_bal, y_bal = balancedOverSampler.fit_resample (X_train, y_train)
 
 balancedUnderSampler = RandomUnderSampler (sampling_strategy = sampleDictUnder,
                                          random_state = STATE)
-X_bal, y_bal = myOversampler.fit_resample (X_bal, y_bal)
+X_bal, y_bal = balancedUnderSampler.fit_resample (X_bal, y_bal)
 
 print ('Real:', Counter (y_train))
 print ('Over:', Counter (y_over))
