@@ -200,11 +200,11 @@ df.drop (axis = 'columns', columns = 'class_is_malicious', inplace = True)
 ###############################################################################
 print ('Encoding label.')
 print ('Label types before conversion:', df ['class_attack_type'].unique ())
-df ['class_attack_type'] = df ['class_attack_type'].replace ('N/A', 0)
-df ['class_attack_type'] = df ['class_attack_type'].replace ('DoS', 1)
-df ['class_attack_type'] = df ['class_attack_type'].replace ('iot-toolkit', 2)
-df ['class_attack_type'] = df ['class_attack_type'].replace ('MITM', 3)
-df ['class_attack_type'] = df ['class_attack_type'].replace ('Scanning', 4)
+#df ['class_attack_type'] = df ['class_attack_type'].replace ('N/A', 0)
+#df ['class_attack_type'] = df ['class_attack_type'].replace ('DoS', 1)
+#df ['class_attack_type'] = df ['class_attack_type'].replace ('iot-toolkit', 2)
+#df ['class_attack_type'] = df ['class_attack_type'].replace ('MITM', 3)
+#df ['class_attack_type'] = df ['class_attack_type'].replace ('Scanning', 4)
 print ('Label types after conversion:', df ['class_attack_type'].unique ())
 
 
@@ -343,14 +343,14 @@ labels = dict (Counter (y_train))
 sampleDictOver = {'N/A': max (labels ['N/A'], MAX_SAMPLES),
                   'Scanning': max (labels ['Scanning'], MAX_SAMPLES),
                   'DoS': max (labels ['DoS'], MAX_SAMPLES),
-                  'MITM': max (labels [ 'MITM'], MAX_SAMPLES),
-                  'iot-toolkit': max (labels [ 'iot-toolkit'], MAX_SAMPLES)
+                  'MITM': max (labels ['MITM'], MAX_SAMPLES),
+                  'iot-toolkit': max (labels ['iot-toolkit'], MAX_SAMPLES)
                  }
 sampleDictUnder = {'N/A': min (labels ['N/A'], MAX_SAMPLES),
                    'Scanning': min (labels ['Scanning'], MAX_SAMPLES),
                    'DoS': min (labels ['DoS'], MAX_SAMPLES),
-                   'MITM': min (labels [ 'MITM'], MAX_SAMPLES),
-                   'iot-toolkit': min (labels [ 'iot-toolkit'], MAX_SAMPLES)
+                   'MITM': min (labels ['MITM'], MAX_SAMPLES),
+                   'iot-toolkit': min (labels ['iot-toolkit'], MAX_SAMPLES)
                   }
 balancedOverSampler = RandomOverSampler (sampling_strategy = sampleDictOver,
                                          random_state = STATE)
@@ -369,10 +369,34 @@ print ('Balanced', Counter (y_bal))
 ###############################################################################
 ## Create learning model (Decision Tree)
 ###############################################################################
+from sklearn.model_selection import PredefinedSplit
+from sklearn.model_selection import GridSearchCV
 from sklearn.tree import DecisionTreeClassifier
-model = DecisionTreeClassifier (max_features = 10, max_depth = 3)
-model.fit (X_train, y_train)
+### -1 indices -> train
+### 0  indices -> validation
+test_fold = np.repeat ([-1, 0], [X_train.shape [0], X_val.shape [0]])
+myPreSplit = PredefinedSplit (test_fold)
+#myPreSplit.get_n_splits ()
+#myPreSplit.split ()
+#for train_index, test_index in myPreSplit.split ():
+#    print ("TRAIN:", train_index, "TEST:", test_index)
 
+
+criterion = {'criterion' : ['gini', 'entropy']}
+splitter = {'splitter' : ['best', 'random']}
+max_depth = {'max_depth' : [1, 10, 100, 1000, 10000, 100000, 1000000, None]}
+min_samples_split = {'min_samples_split' : [2, 3, 4]}
+clf = DecisionTreeClassifier ()
+model = GridSearchCV (estimator = clf,
+                      param_grid = [criterion, splitter, max_depth,
+                                    min_samples_split],
+                      scoring = 'f1_weighted',
+                      cv = myPreSplit)
+
+model.fit (np.concatenate ((X_train, X_val), axis = 0),
+           np.concatenate ((y_train, y_val), axis = 0))
+
+print (model.best_params_)
 
 
 ###############################################################################
@@ -388,7 +412,6 @@ y_pred = model.predict (X_test)
 #print ('y_pred shape:', y_pred.shape)
 #print ('y_test shape:', y_test.shape)
 #print (y_pred [:50])
-y_pred = y_pred.round ()
 #print (y_pred [:50])
 #print (y_test [:50])
 #print (confusion_matrix (y_test, y_pred))
@@ -397,43 +420,15 @@ y_pred = y_pred.round ()
 #print ('Test loss:', scoreArray [0])
 #print ('Test accuracy:', scoreArray [1])
 print ('Confusion matrix:')
-print (confusion_matrix (y_test.argmax (axis = 1), y_pred.argmax (axis = 1),
+print (confusion_matrix (y_test, y_pred,
                          labels = df ['class_attack_type'].unique ()))
 print ('\n\n')
 print ('Accuracy:', accuracy_score (y_test, y_pred))
 print ('Precision:', precision_score (y_test, y_pred, average = 'macro'))
 print ('Recall:', recall_score (y_test, y_pred, average = 'macro'))
 print ('F1:', f1_score (y_test, y_pred, average = 'macro'))
-print ('Cohen Kappa:', cohen_kappa_score (y_test.argmax (axis = 1),
-                                          y_pred.argmax (axis = 1),
+print ('Cohen Kappa:', cohen_kappa_score (y_test,
+                                          y_pred,
                        labels = df ['class_attack_type'].unique ()))
-
-
-
-import matplotlib.pyplot as plt
-
-plt.plot (history.history ['categorical_accuracy'])
-plt.plot (history.history ['val_categorical_accuracy'])
-plt.title ('Model accuracy')
-plt.ylabel ('Categorical Accuracy')
-plt.xlabel ('Epoch')
-plt.legend (['Train', 'Validation'], loc = 'upper left')
-plt.show ()
-
-plt.plot (history.history ['accuracy'])
-plt.plot (history.history ['val_accuracy'])
-plt.title ('Model accuracy')
-plt.ylabel ('Accuracy')
-plt.xlabel ('Epoch')
-plt.legend (['Train', 'Validation'], loc = 'upper left')
-plt.show ()
-
-plt.plot (history.history ['loss'])
-plt.plot (history.history ['val_loss'])
-plt.title ('Model loss')
-plt.ylabel ('Loss')
-plt.xlabel ('Epoch')
-plt.legend (['Train', 'Validation'], loc = 'upper left')
-plt.show ()
 
 sys.exit ()
