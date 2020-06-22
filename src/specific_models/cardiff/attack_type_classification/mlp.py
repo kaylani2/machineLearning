@@ -300,14 +300,8 @@ print ('Applying normalization (standard)')
 from sklearn.preprocessing import StandardScaler
 scaler = StandardScaler ()
 scaler.fit (X_train)
-#print ('Mean before scalling:', scaler.mean_)
 X_train = scaler.transform (X_train)
-scaler.fit (X_train)
-#print ('Mean after scalling:', scaler.mean_)
-
-scaler.fit (X_test)
 X_test = scaler.transform (X_test)
-scaler.fit (X_val)
 X_val = scaler.transform (X_val)
 
 #### K: One hot encode the output.
@@ -326,10 +320,6 @@ from collections import Counter
 from imblearn.over_sampling import RandomOverSampler
 from imblearn.under_sampling import RandomUnderSampler
 print ('\nHandling imbalanced label distribution.')
-n = dict (Counter (y_train))
-print (n)
-print (type (n))
-print (n ['N/A'])
 
 ### Only oversample
 myOversampler = RandomOverSampler (sampling_strategy = 'not majority',
