@@ -346,28 +346,28 @@ sampleDictOver = {'N/A': max (labels ['N/A'], MAX_SAMPLES),
                   'MITM': max (labels ['MITM'], MAX_SAMPLES),
                   'iot-toolkit': max (labels ['iot-toolkit'], MAX_SAMPLES)
                  }
+balancedOverSampler = RandomOverSampler (sampling_strategy = sampleDictOver,
+                                         random_state = STATE)
+X_bal, y_bal = balancedOverSampler.fit_resample (X_train, y_train)
+labels = dict (Counter (y_bal))
 sampleDictUnder = {'N/A': min (labels ['N/A'], MAX_SAMPLES),
                    'Scanning': min (labels ['Scanning'], MAX_SAMPLES),
                    'DoS': min (labels ['DoS'], MAX_SAMPLES),
                    'MITM': min (labels ['MITM'], MAX_SAMPLES),
                    'iot-toolkit': min (labels ['iot-toolkit'], MAX_SAMPLES)
                   }
-balancedOverSampler = RandomOverSampler (sampling_strategy = sampleDictOver,
-                                         random_state = STATE)
-X_bal, y_bal = balancedOverSampler.fit_resample (X_train, y_train)
-
 balancedUnderSampler = RandomUnderSampler (sampling_strategy = sampleDictUnder,
-                                         random_state = STATE)
-X_bal, y_bal = myOversampler.fit_resample (X_bal, y_bal)
+                                           random_state = STATE)
+X_bal, y_bal = balancedUnderSampler.fit_resample (X_bal, y_bal)
 
 print ('Real:', Counter (y_train))
 print ('Over:', Counter (y_over))
 print ('Under:', Counter (y_under))
-print ('Balanced', Counter (y_bal))
+print ('Balanced:', Counter (y_bal))
 
 
 ###############################################################################
-## Create learning model (Decision Tree)
+## Create learning model (Decision Tree) and tune hyperparameters
 ###############################################################################
 from sklearn.model_selection import PredefinedSplit
 from sklearn.model_selection import GridSearchCV
@@ -382,16 +382,16 @@ myPreSplit = PredefinedSplit (test_fold)
 #    print ("TRAIN:", train_index, "TEST:", test_index)
 
 
-criterion = {'criterion' : ['gini', 'entropy']}
-splitter = {'splitter' : ['best', 'random']}
-max_depth = {'max_depth' : [1, 10, 100, 1000, 10000, 100000, 1000000, None]}
-min_samples_split = {'min_samples_split' : [2, 3, 4]}
+parameters = {'criterion' : ['gini', 'entropy'],
+              'splitter' : ['best', 'random'],
+              'max_depth' : [1, 10, 100, 1000, 10000, 100000, 1000000, None],
+              'min_samples_split' : [2, 3, 4]}
 clf = DecisionTreeClassifier ()
 model = GridSearchCV (estimator = clf,
-                      param_grid = [criterion, splitter, max_depth,
-                                    min_samples_split],
+                      param_grid = parameters,
                       scoring = 'f1_weighted',
-                      cv = myPreSplit)
+                      cv = myPreSplit,
+                      verbose = 1)
 
 model.fit (np.concatenate ((X_train, X_val), axis = 0),
            np.concatenate ((y_train, y_val), axis = 0))

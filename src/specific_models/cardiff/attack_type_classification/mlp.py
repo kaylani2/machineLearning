@@ -337,27 +337,27 @@ labels = dict (Counter (y_train))
 sampleDictOver = {'N/A': max (labels ['N/A'], MAX_SAMPLES),
                   'Scanning': max (labels ['Scanning'], MAX_SAMPLES),
                   'DoS': max (labels ['DoS'], MAX_SAMPLES),
-                  'MITM': max (labels [ 'MITM'], MAX_SAMPLES),
-                  'iot-toolkit': max (labels [ 'iot-toolkit'], MAX_SAMPLES)
+                  'MITM': max (labels ['MITM'], MAX_SAMPLES),
+                  'iot-toolkit': max (labels ['iot-toolkit'], MAX_SAMPLES)
                  }
-sampleDictUnder = {'N/A': min (labels ['N/A'], MAX_SAMPLES),
-                   'Scanning': min (labels ['Scanning'], MAX_SAMPLES),
-                   'DoS': min (labels ['DoS'], MAX_SAMPLES),
-                   'MITM': min (labels [ 'MITM'], MAX_SAMPLES),
-                   'iot-toolkit': min (labels [ 'iot-toolkit'], MAX_SAMPLES)
-                  }
 balancedOverSampler = RandomOverSampler (sampling_strategy = sampleDictOver,
                                          random_state = STATE)
 X_bal, y_bal = balancedOverSampler.fit_resample (X_train, y_train)
-
+labels = dict (Counter (y_bal))
+sampleDictUnder = {'N/A': min (labels ['N/A'], MAX_SAMPLES),
+                   'Scanning': min (labels ['Scanning'], MAX_SAMPLES),
+                   'DoS': min (labels ['DoS'], MAX_SAMPLES),
+                   'MITM': min (labels ['MITM'], MAX_SAMPLES),
+                   'iot-toolkit': min (labels ['iot-toolkit'], MAX_SAMPLES)
+                  }
 balancedUnderSampler = RandomUnderSampler (sampling_strategy = sampleDictUnder,
-                                         random_state = STATE)
-X_bal, y_bal = myOversampler.fit_resample (X_bal, y_bal)
+                                           random_state = STATE)
+X_bal, y_bal = balancedUnderSampler.fit_resample (X_bal, y_bal)
 
 print ('Real:', Counter (y_train))
 print ('Over:', Counter (y_over))
 print ('Under:', Counter (y_under))
-print ('Balanced', Counter (y_bal))
+print ('Balanced:', Counter (y_bal))
 
 
 ###############################################################################
