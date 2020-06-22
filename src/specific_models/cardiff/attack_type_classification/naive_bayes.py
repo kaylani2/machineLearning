@@ -305,10 +305,6 @@ from collections import Counter
 from imblearn.over_sampling import RandomOverSampler
 from imblearn.under_sampling import RandomUnderSampler
 print ('\nHandling imbalanced label distribution.')
-n = dict (Counter (y_train))
-print (n)
-print (type (n))
-print (n ['N/A'])
 
 ### Only oversample
 myOversampler = RandomOverSampler (sampling_strategy = 'not majority',
