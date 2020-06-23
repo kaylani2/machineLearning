@@ -363,41 +363,27 @@ from sklearn.tree import DecisionTreeClassifier
 ### 0  indices -> validation
 test_fold = np.repeat ([-1, 0], [X_train.shape [0], X_val.shape [0]])
 myPreSplit = PredefinedSplit (test_fold)
-#myPreSplit.get_n_splits ()
-#myPreSplit.split ()
-#for train_index, test_index in myPreSplit.split ():
-#    print ("TRAIN:", train_index, "TEST:", test_index)
+myPreSplit.get_n_splits ()
+myPreSplit.split ()
+for train_index, test_index in myPreSplit.split ():
+    print ("TRAIN:", train_index, "TEST:", test_index)
 
 
-#parameters = {'criterion' : ['gini', 'entropy'],
-#              'splitter' : ['best', 'random'],
-#              'max_depth' : [1, 10, 100, 1000, 10000, 100000, 1000000, None],
-#              'min_samples_split' : [2, 3, 4]}
-#clf = DecisionTreeClassifier ()
-#model = GridSearchCV (estimator = clf,
-#                      param_grid = parameters,
-#                      scoring = 'f1_weighted',
-#                      cv = myPreSplit,
-#                      verbose = 1)
-#
-#model.fit (np.concatenate ( (X_train, X_val), axis = 0),
-#           np.concatenate ( (y_train, y_val), axis = 0))
-#
-#print (model.best_params_)
+parameters = {'criterion' : ['gini', 'entropy'],
+              'splitter' : ['best', 'random'],
+              'max_depth' : [1, 10, 100, 1000, 10000, 100000, 1000000, None],
+              'min_samples_split' : [2, 3, 4]}
+clf = DecisionTreeClassifier ()
+model = GridSearchCV (estimator = clf,
+                      param_grid = parameters,
+                      scoring = 'f1_weighted',
+                      cv = myPreSplit,
+                      verbose = 1)
 
-model = DecisionTreeClassifier (max_features = 3)
-model.fit (X_train, y_train)
+model.fit (np.concatenate ( (X_train, X_val), axis = 0),
+           np.concatenate ( (y_train, y_val), axis = 0))
 
-
-import graphviz 
-dot_data = tree.export_graphviz (model, out_file=None) 
-graph = graphviz.Source (dot_data) 
-
-print (model.n_features_)
-print (model.n_classes_)
-print (model.max_features_)
-print (model.classes_)
-print (model.feature_importances_)
+print (model.best_params_)
 
 
 ###############################################################################
