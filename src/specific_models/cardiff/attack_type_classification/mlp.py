@@ -296,20 +296,13 @@ print ('y_test shape:', y_test.shape)
 ###############################################################################
 ## Apply normalization
 ###############################################################################
-print ('Applying normalization (standard)')
+print ('Applying normalization (standard).')
 from sklearn.preprocessing import StandardScaler
 scaler = StandardScaler ()
 scaler.fit (X_train)
 X_train = scaler.transform (X_train)
 X_test = scaler.transform (X_test)
 X_val = scaler.transform (X_val)
-
-#### K: One hot encode the output.
-#import keras.utils
-#from keras.utils import to_categorical
-#numberOfClasses = len (df ['class_attack_type'].unique ())
-#y_train = keras.utils.to_categorical (y_train, numberOfClasses)
-#y_test = keras.utils.to_categorical (y_test, numberOfClasses)
 
 
 ###############################################################################

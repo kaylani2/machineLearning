@@ -281,20 +281,8 @@ print ('Applying normalization (standard)')
 from sklearn.preprocessing import StandardScaler
 scaler = StandardScaler ()
 scaler.fit (X_train)
-#print ('Mean before scalling:', scaler.mean_)
 X_train = scaler.transform (X_train)
-scaler.fit (X_train)
-#print ('Mean after scalling:', scaler.mean_)
-
-scaler.fit (X_test)
 X_test = scaler.transform (X_test)
-
-#### K: One hot encode the output.
-#import keras.utils
-#from keras.utils import to_categorical
-#numberOfClasses = len (df ['class_attack_type'].unique ())
-#y_train = keras.utils.to_categorical (y_train, numberOfClasses)
-#y_test = keras.utils.to_categorical (y_test, numberOfClasses)
 
 
 ###############################################################################
