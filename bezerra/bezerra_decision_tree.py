@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[17]:
+# In[1]:
 
 
 # Author: Ernesto Rodríguez
@@ -12,7 +12,7 @@
 ###############################################################################
 
 
-# In[18]:
+# In[2]:
 
 
 import pandas as pd
@@ -73,7 +73,7 @@ SC_I_THIRD = r'SC_I3.csv'
 SC_L = r'SC_L.csv'
 
 
-# In[19]:
+# In[3]:
 
 
 ###############################################################################
@@ -126,7 +126,7 @@ dataframes_list = [df_mc_I_first,
 prev_df = pd.concat(dataframes_list)
 
 
-# In[20]:
+# In[4]:
 
 
 ###############################################################################
@@ -177,7 +177,7 @@ df.replace (np.nan, 0, inplace = True)
 #     df = df.drop(drop_indices)
 
 
-# In[21]:
+# In[74]:
 
 
 ###############################################################################
@@ -197,16 +197,33 @@ print('Number of attacks: ', y.value_counts()[1])
 # X
 
 
-# In[22]:
+# In[75]:
+
+
+# ###############################################################################
+# ## Create artificial non-attacks samples using Random Oversampling
+# ###############################################################################
+
+# from imblearn.over_sampling import RandomOverSampler # doctest: +NORMALIZE_WHITESPACE
+
+# ros = RandomOverSampler(random_state=42)
+
+# X, y = ros.fit_resample(X, y)
+
+# print('Number of non-attacks: ', y.value_counts()[0])
+# print('Number of attacks: ', y.value_counts()[1])
+
+
+# In[76]:
 
 
 ###############################################################################
-## Create artificial non-attacks samples using Random Oversampling
+## Create artificial non-attacks samples using Random undersampling
 ###############################################################################
 
-from imblearn.over_sampling import RandomOverSampler # doctest: +NORMALIZE_WHITESPACE
+from imblearn.under_sampling import RandomUnderSampler # doctest: +NORMALIZE_WHITESPACE
 
-ros = RandomOverSampler(random_state=42)
+ros = RandomUnderSampler(random_state=42)
 
 X, y = ros.fit_resample(X, y)
 
@@ -214,30 +231,36 @@ print('Number of non-attacks: ', y.value_counts()[0])
 print('Number of attacks: ', y.value_counts()[1])
 
 
-# In[23]:
+# In[77]:
 
 
 ###############################################################################
 ## Split dataset into train and test sets if not using cross validation
 ###############################################################################
 from sklearn.model_selection import train_test_split
+TEST_SIZE = 1/5
+VALIDATION_SIZE = 1/5
 
-X_train, X_test, y_train, y_test = train_test_split (X, y, test_size = 1/5,
+
+X_train, X_test, y_train, y_test = train_test_split (X, y, test_size = TEST_SIZE,
                                                      random_state = STATE)
+
+
+print ('\nSplitting dataset (validation/train):', 1/5)
+X_train_val, X_val, y_train_val, y_val = train_test_split (
+                                             X_train,
+                                             y_train,
+                                             test_size = VALIDATION_SIZE,
+                                             random_state = STATE)
+
 
 X_train = pd.DataFrame(X_train)
 X_test = pd.DataFrame(X_test)
-
-X_train.shape
-
-
-# In[24]:
+X_train_val = pd.DataFrame(X_train_val)
+X_val = pd.DataFrame(X_val)
 
 
-X_test.shape
-
-
-# In[25]:
+# In[78]:
 
 
 ####################################################################
@@ -267,8 +290,11 @@ categorical_encoder = OrdinalEncoder(categories = categories)
 categorical_encoder.fit(X_train[cat_cols])
 X_train[cat_cols] = categorical_encoder.transform(X_train[cat_cols])
 
+categorical_encoder.fit(X_train_val[cat_cols])
+X_train_val[cat_cols] = categorical_encoder.transform(X_train_val[cat_cols])
 
-# In[26]:
+
+# In[79]:
 
 
 ####################################################################
@@ -299,50 +325,38 @@ categorical_encoder.fit(X_test[cat_cols])
 X_test[cat_cols] = categorical_encoder.transform(X_test[cat_cols])
 
 
-# In[27]:
+# In[80]:
 
 
-X_test
+####################################################################
+# Treat categorical data on val set
+####################################################################
+from sklearn.impute import SimpleImputer
+from sklearn.preprocessing import OrdinalEncoder
 
 
-# In[13]:
+cat_cols = X_val.columns[X_val.dtypes == 'O'] # Returns array with the columns that has Object types elements
+
+categories = [
+    X_val[column].unique() for column in X_val[cat_cols]]
+
+for cat in categories:
+    cat[cat == None] = 'missing'  # noqa
+
+# Replacing missing values
+categorical_imputer = SimpleImputer(missing_values=None, 
+                                    strategy='constant', 
+                                    fill_value='missing')
+
+X_val[cat_cols] = categorical_imputer.fit_transform(X_val[cat_cols])
+
+# Encoding the categorical data
+categorical_encoder = OrdinalEncoder(categories = categories)
+categorical_encoder.fit(X_val[cat_cols])
+X_val[cat_cols] = categorical_encoder.transform(X_val[cat_cols])
 
 
-# ####################################################################
-# # Treat categorical data on train set
-# ####################################################################
-
-# cat_cols = X_train.columns[X_train.dtypes == 'O'] # Returns array with the columns that has Object types elements
-
-
-# categories = [
-#     X_train[column].unique() for column in X_train[cat_cols]]
-
-# for cat in categories:
-#     cat[cat == None] = 'missing'  # noqa
-
-# # Replacing missing values
-# categorical_imputer = SimpleImputer(missing_values=None, 
-#                                     strategy='constant', 
-#                                     fill_value='missing')
-
-# X_train[cat_cols] = categorical_imputer.fit_transform(X_train[cat_cols])
-
-# # Encoding the categorical data
-# categorical_encoder = OrdinalEncoder(categories = categories)
-
-# X_train[cat_cols] = categorical_encoder.fit_transform(X_train[cat_cols])
-
-# # Scaling new numerical values
-
-# numerical_imputer = SimpleImputer(strategy = "mean")
-# X_train[cat_cols] = numerical_imputer.fit_transform(X_train[cat_cols])
-
-# numerical_scaler = StandardScaler()
-# X_train[cat_cols] = numerical_scaler.fit_transform(X_train[cat_cols])
-
-
-# In[14]:
+# In[81]:
 
 
 ####################################################################
@@ -359,42 +373,14 @@ numerical_scaler = StandardScaler()
 numerical_scaler.fit(X_train)
 X_train = numerical_scaler.transform(X_train)
 
-numerical_scaler.fit(X_train)
 X_test = numerical_scaler.transform(X_test)
+
+X_val = numerical_scaler.transform(X_val)
 
 # X_train
 
 
-# In[28]:
-
-
-X_test
-
-
-# In[29]:
-
-
-# ###############################################################################
-# ## Apply normalization
-# ###############################################################################
-
-# print ('Applying normalization (standard)')
-# from sklearn.preprocessing import StandardScaler
-
-# scaler = StandardScaler ()
-# scaler.fit (X_train)
-
-# #print ('Mean before scalling:', scaler.mean_)
-# X_train = scaler.transform (X_train)
-# scaler.fit (X_train)
-# #print ('Mean after scalling:', scaler.mean_)
-
-# scaler.fit (X_test)
-# X_test = scaler.transform (X_test)
-X_train.shape
-
-
-# In[30]:
+# In[82]:
 
 
 ###############################################################################
@@ -404,7 +390,6 @@ X_train.shape
 # scikit-learn uses an optimised version of the CART algorithm;
 # however, scikit-learn implementation does not support categorical variables for now
 
-
 from sklearn import tree
 import time
 
@@ -412,88 +397,107 @@ import time
 clf = tree.DecisionTreeClassifier()
 
 
-# In[31]:
-
-
-X_test.shape
-
-
-# In[32]:
-
-
-# ###############################################################################
-# ## Making a Grid Search, with validation
-# ###############################################################################
-
-# from sklearn.model_selection import GridSearchCV
-
-
-# criterion = {'criterion' : ['gini', 'entropy']}
-# splitter = {'splitter' : ['best', 'random']}
-# max_depth = {'max_depth' : [1, 10, 100, 1000, 10000, 100000, 1000000, None]}
-# min_samples_split = {'min_samples_split' : [2, 3, 4]}
-
-# grid_tree = GridSearchCV(clf, param_grid = [criterion, splitter, max_depth, min_samples_split] ,scoring = 'f1')
-# grid_tree.fit(X_train, y_train)
-
-
-# #Predict values based on new parameters
-# y_pred = grid_tree.predict(X_test)
-
-
-# In[33]:
-
-
-# ###############################################################################
-# ## Obtain metrics from the model above
-# ###############################################################################
-
-# from sklearn.metrics import precision_score
-# from sklearn.metrics import recall_score
-# from sklearn.metrics import accuracy_score
-# from sklearn.metrics import multilabel_confusion_matrix
-# from sklearn.metrics import f1_score
-# from sklearn.metrics import confusion_matrix
-
-# # New Model Evaluation metrics 
-# print('Accuracy Score : ' + str(accuracy_score(y_test,y_pred)))
-# print('Precision Score : ' + str(precision_score(y_test,y_pred)))
-# print('Recall Score : ' + str(recall_score(y_test,y_pred)))
-# print('F1 Score : ' + str(f1_score(y_test,y_pred)))
-
-# #Logistic Regression (Grid Search) Confusion matrix
-# confusion_matrix(y_test,y_pred)
-
-
-# In[34]:
-
-
-X_test
-
-
-# In[35]:
+# In[83]:
 
 
 ###############################################################################
-## Train the model with adjusted parameters
+## Create learning model (Decision Tree) and tune hyperparameters
+###############################################################################
+from sklearn.model_selection import PredefinedSplit
+from sklearn.model_selection import GridSearchCV
+from sklearn.tree import DecisionTreeClassifier
+
+### -1 indices -> train
+### 0  indices -> validation
+test_fold = np.repeat ([-1, 0], [X_train_val.shape [0], X_val.shape [0]])
+myPreSplit = PredefinedSplit (test_fold)
+#myPreSplit.get_n_splits ()
+#myPreSplit.split ()
+#for train_index, test_index in myPreSplit.split ():
+#    print ("TRAIN:", train_index, "TEST:", test_index)
+
+
+parameters = {'criterion' : ['gini', 'entropy'],
+              'splitter' : ['best', 'random'],
+              'max_depth' : [1, 10, 100, 1000, 10000, 100000, 1000000, None],
+              'min_samples_split' : [2, 3, 4]}
+clf = DecisionTreeClassifier ()
+model = GridSearchCV (estimator = clf,
+                      param_grid = parameters,
+                      scoring = 'f1_weighted',
+                      cv = myPreSplit,
+                      verbose = 1)
+
+model.fit (np.concatenate ((X_train_val, X_val), axis = 0),
+           np.concatenate ((y_train_val, y_val), axis = 0))
+
+print (model.best_params_)
+
+
+# In[85]:
+
+
+# ###############################################################################
+# ## Obtain metrics from the validation model 
+# ###############################################################################
+
+from sklearn.metrics import precision_score
+from sklearn.metrics import recall_score
+from sklearn.metrics import accuracy_score
+from sklearn.metrics import multilabel_confusion_matrix
+from sklearn.metrics import f1_score
+from sklearn.metrics import confusion_matrix
+
+y_pred = model.predict(X_test)
+
+# New Model Evaluation metrics 
+print('Accuracy Score : ' + str(accuracy_score(y_test,y_pred)))
+print('Precision Score : ' + str(precision_score(y_test,y_pred)))
+print('Recall Score : ' + str(recall_score(y_test,y_pred)))
+print('F1 Score : ' + str(f1_score(y_test,y_pred)))
+
+#Logistic Regression (Grid Search) Confusion matrix
+confusion_matrix(y_test,y_pred)
+
+
+# In[86]:
+
+
+###############################################################################
+## Plotting confusion matrix
+###############################################################################
+from sklearn.metrics import plot_confusion_matrix
+from matplotlib import pyplot as plt
+
+plot_confusion_matrix(model, X_test, y_test)  # doctest: +SKIP
+plt.savefig("decision_tree_confusion_matrix_with_tuning.png", format="png")
+plt.show()  # doctest: +SKIP
+# td  sp  dp  pr  flg  ipkt ibyt
+
+
+# In[87]:
+
+
+###############################################################################
+## Train the model with other parameters
 ###############################################################################
 
 # Measure time of this training
 start_time = time.time()
 
 # Assign the model to be used with adjusted parameters
-clf = tree.DecisionTreeClassifier(criterion='entropy')
+clf = tree.DecisionTreeClassifier(max_depth = 1000000)
 
 # Training the model
 model = clf.fit(X_train, y_train)
 print("--- %s seconds ---" % (time.time() - start_time))
 
 
-# In[36]:
+# In[88]:
 
 
 ###############################################################################
-## Obtain metrics from the trained model without cross-validation
+## Obtain metrics from the above model 
 ###############################################################################
 from sklearn.metrics import precision_score
 from sklearn.metrics import recall_score
@@ -526,17 +530,15 @@ print('F1 Score: ', f_one_score)
 print(multilabel_confusion_matrix(y_test, y_pred, labels=[0, 1]))
 
 
-# In[37]:
+# In[89]:
 
 
 ###############################################################################
 ## Plotting confusion matrix
 ###############################################################################
-from sklearn.metrics import plot_confusion_matrix
-from matplotlib import pyplot as plt
 
 plot_confusion_matrix(model, X_test, y_test)  # doctest: +SKIP
-plt.savefig("decision_tree_confusion_matrix.png", format="png")
+plt.savefig("decision_tree_confusion_matrix_without_tuning.png", format="png")
 plt.show()  # doctest: +SKIP
 # td  sp  dp  pr  flg  ipkt ibyt
 
