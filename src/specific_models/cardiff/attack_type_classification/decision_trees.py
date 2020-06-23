@@ -369,21 +369,35 @@ myPreSplit = PredefinedSplit (test_fold)
 #    print ("TRAIN:", train_index, "TEST:", test_index)
 
 
-parameters = {'criterion' : ['gini', 'entropy'],
-              'splitter' : ['best', 'random'],
-              'max_depth' : [1, 10, 100, 1000, 10000, 100000, 1000000, None],
-              'min_samples_split' : [2, 3, 4]}
-clf = DecisionTreeClassifier ()
-model = GridSearchCV (estimator = clf,
-                      param_grid = parameters,
-                      scoring = 'f1_weighted',
-                      cv = myPreSplit,
-                      verbose = 1)
+#parameters = {'criterion' : ['gini', 'entropy'],
+#              'splitter' : ['best', 'random'],
+#              'max_depth' : [1, 10, 100, 1000, 10000, 100000, 1000000, None],
+#              'min_samples_split' : [2, 3, 4]}
+#clf = DecisionTreeClassifier ()
+#model = GridSearchCV (estimator = clf,
+#                      param_grid = parameters,
+#                      scoring = 'f1_weighted',
+#                      cv = myPreSplit,
+#                      verbose = 1)
+#
+#model.fit (np.concatenate ( (X_train, X_val), axis = 0),
+#           np.concatenate ( (y_train, y_val), axis = 0))
+#
+#print (model.best_params_)
 
-model.fit (np.concatenate ((X_train, X_val), axis = 0),
-           np.concatenate ((y_train, y_val), axis = 0))
+model = DecisionTreeClassifier (max_features = 3)
+model.fit (X_train, y_train)
 
-print (model.best_params_)
+
+import graphviz 
+dot_data = tree.export_graphviz (model, out_file=None) 
+graph = graphviz.Source (dot_data) 
+
+print (model.n_features_)
+print (model.n_classes_)
+print (model.max_features_)
+print (model.classes_)
+print (model.feature_importances_)
 
 
 ###############################################################################
