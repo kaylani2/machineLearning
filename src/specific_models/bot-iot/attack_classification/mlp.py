@@ -38,6 +38,7 @@ featureDf = pd.read_csv (FEATURES)
 featureColumns = featureDf.columns.to_list ()
 featureColumns = [f.strip () for f in featureColumns]
 
+print ('Reading', FILE_NAME.format (str (1)))
 df = pd.read_csv (FILE_NAME.format ('1'), #names = featureColumns,
                   index_col = 'pkSeqID', dtype = {'pkSeqID' : np.int32},
                   na_values = NAN_VALUES, low_memory = False)
@@ -356,12 +357,17 @@ bestModel.compile (loss = 'categorical_crossentropy',
 ###############################################################################
 ## Fit the network
 ###############################################################################
+import time
 print ('\nFitting the network.')
+startTime = time.time ()
 history = bestModel.fit (X_train, y_train,
                          batch_size = BATCH_SIZE,
                          epochs = NUMBER_OF_EPOCHS,
                          verbose = 2, #1 = progress bar, not useful for logging
-                         validation_data = (X_val, y_val))
+                         workers = 0,
+                         use_multiprocessing = True,
+                         )#validation_data = (X_val, y_val))
+print (str (time.time () - startTime), 'to train model.')
 
 
 ###############################################################################
@@ -385,7 +391,6 @@ print ('Cohen Kappa:', cohen_kappa_score (y_val.argmax (axis = 1),
                                           y_pred.argmax (axis = 1),
                                           labels = df [TARGET].unique ()))
 
-sys.exit ()
 ### K: NOTE: Only look at test results when publishing...
 print ('\nPerformance on TEST set:')
 y_pred = bestModel.predict (X_test)
@@ -400,3 +405,4 @@ print ('F1:', f1_score (y_test, y_pred, average = 'macro'))
 print ('Cohen Kappa:', cohen_kappa_score (y_test.argmax (axis = 1),
                                           y_pred.argmax (axis = 1),
                                           labels = df [TARGET].unique ()))
+sys.exit ()

@@ -26,7 +26,7 @@ BOT_IOT_FILE_5_PERCENT_SCHEMA = 'UNSW_2018_IoT_Botnet_Full5pc_{}.csv' # 1 - 4
 FIVE_PERCENT_FILES = 4
 BOT_IOT_FILE_FULL_SCHEMA = 'UNSW_2018_IoT_Botnet_Dataset_{}.csv' # 1 - 74
 FULL_FILES = 74
-FILE_NAME = BOT_IOT_DIRECTORY + BOT_IOT_FILE_FULL_SCHEMA
+FILE_NAME = BOT_IOT_DIRECTORY + BOT_IOT_FILE_5_PERCENT_SCHEMA#FULL_SCHEMA
 FEATURES = BOT_IOT_DIRECTORY + BOT_IOT_FEATURE_NAMES
 NAN_VALUES = ['?', '.']
 TARGET = 'category'
@@ -38,14 +38,16 @@ featureDf = pd.read_csv (FEATURES)
 featureColumns = featureDf.columns.to_list ()
 featureColumns = [f.strip () for f in featureColumns]
 
-df = pd.read_csv (FILE_NAME.format ('1'), names = featureColumns,
+print ('Reading', FILE_NAME.format (str (1)))
+df = pd.read_csv (FILE_NAME.format ('1'), #names = featureColumns,
                   index_col = 'pkSeqID', dtype = {'pkSeqID' : np.int32},
                   na_values = NAN_VALUES, low_memory = False)
 
-for fileNumber in range (2, 3):#FULL_FILES + 1):
+for fileNumber in range (2, FIVE_PERCENT_FILES + 1):#FULL_FILES + 1):
   print ('Reading', FILE_NAME.format (str (fileNumber)))
   aux = pd.read_csv (FILE_NAME.format (str (fileNumber)),
-                     names = featureColumns, index_col = 'pkSeqID',
+                     #names = featureColumns,
+                     index_col = 'pkSeqID',
                      dtype = {'pkSeqID' : np.int32}, na_values = NAN_VALUES,
                      low_memory = False)
   df = pd.concat ([df, aux])
@@ -260,13 +262,13 @@ print ('y_test shape:', y_test.shape)
 ## Apply normalization
 ###############################################################################
 ### K: NOTE: Only use derived information from the train set to avoid leakage.
-print ('\nApplying normalization (standard)')
-from sklearn.preprocessing import StandardScaler
-scaler = StandardScaler ()
-scaler.fit (X_train)
-X_train = scaler.transform (X_train)
-X_val = scaler.transform (X_val)
-X_test = scaler.transform (X_test)
+#print ('\nApplying normalization (standard)')
+#from sklearn.preprocessing import StandardScaler
+#scaler = StandardScaler ()
+#scaler.fit (X_train)
+#X_train = scaler.transform (X_train)
+#X_val = scaler.transform (X_val)
+#X_test = scaler.transform (X_test)
 
 
 ###############################################################################

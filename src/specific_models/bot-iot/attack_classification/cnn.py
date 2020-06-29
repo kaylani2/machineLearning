@@ -322,26 +322,48 @@ print ('Balanced:', Counter (y_bal))
 import keras.utils
 from keras.utils import to_categorical
 numberOfClasses = len (df [TARGET].unique ())
-y_train = keras.utils.to_categorical (y_train, numberOfClasses)
-y_val = keras.utils.to_categorical (y_val, numberOfClasses)
-y_test = keras.utils.to_categorical (y_test, numberOfClasses)
+#y_train = keras.utils.to_categorical (y_train, numberOfClasses)
+#y_val = keras.utils.to_categorical (y_val, numberOfClasses)
+#y_test = keras.utils.to_categorical (y_test, numberOfClasses)
+
+
 
 print ('\nCreating learning model.')
 from keras.models import Sequential
-from keras.layers import Conv1D,Dense, Dropout
+from keras.layers import Dense, Dropout, Flatten
+from keras.layers.convolutional import Conv1D
+from keras.layers.convolutional import MaxPooling1D
 BATCH_SIZE = 64
 NUMBER_OF_EPOCHS = 4
 LEARNING_RATE = 0.001
-TIME_STEPS = 1
+#TIME_STEPS = 1
 ### K: /\ Looks at each flow individually.
-#TIME_STEPS = 100
+TIME_STEPS = 100
 ### K: /\ Looks flow groups. Same size window as used by the authors.
-KERNEL_WIDTH = 5
+KERNEL_WIDTH = 3
+def split_sequences (sequences, n_steps):
+  X, y = list (), list ()
+  for i in range (len (sequences)):
+    # find the end of this pattern
+    end_ix = i + n_steps
+    # check if we are beyond the dataset
+    if end_ix > len (sequences)-1:
+      break
+    # gather input and output parts of the pattern
+    seq_x, seq_y = sequences[i:end_ix, :], sequences[end_ix, :]
+    X.append (seq_x)
+    y.append (seq_y)
+  return array (X), array (y)
+X_train, y_train = split_sequences (np.concatenate (X_train, y_train, axis = 1), TIME_STEPS)
+print ('X_train shape:', X_train.shape)
+print ('y_train shape:', y_train.shape)
 
 bestModel = Sequential ()
-bestModel.add (Conv1D (1, activation = 'relu', kernel_size = KERNEL_WIDTH,
-                   input_shape = (TIME_STEPS, X_train.shape [1])))
-bestModel.add (Conv1D (kernel_size = 3, activation = 'relu'))
+bestModel.add (Conv1D (activation = 'relu', filters = 64,
+                       kernel_size = KERNEL_WIDTH,
+                       input_shape = (TIME_STEPS, X_train.shape [1])))
+
+bestModel.add (Conv1D (filters = 64, kernel_size = 3, activation = 'relu'))
 bestModel.add (MaxPooling1D (pool_size = 2))
 bestModel.add (Flatten ())
 bestModel.add (Dense (64, activation = 'relu'))
@@ -371,7 +393,7 @@ history = bestModel.fit (X_train, y_train,
                          batch_size = BATCH_SIZE,
                          epochs = NUMBER_OF_EPOCHS,
                          verbose = 2, #1 = progress bar, not useful for logging
-                         validation_data = (X_val, y_val))
+                         )#validation_data = (X_val, y_val))
 
 
 ###############################################################################

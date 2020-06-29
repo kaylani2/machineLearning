@@ -26,7 +26,7 @@ BOT_IOT_FILE_5_PERCENT_SCHEMA = 'UNSW_2018_IoT_Botnet_Full5pc_{}.csv' # 1 - 4
 FIVE_PERCENT_FILES = 4
 BOT_IOT_FILE_FULL_SCHEMA = 'UNSW_2018_IoT_Botnet_Dataset_{}.csv' # 1 - 74
 FULL_FILES = 74
-FILE_NAME = BOT_IOT_DIRECTORY + BOT_IOT_FILE_FULL_SCHEMA
+FILE_NAME = BOT_IOT_DIRECTORY + BOT_IOT_FILE_5_PERCENT_SCHEMA#FULL_SCHEMA
 FEATURES = BOT_IOT_DIRECTORY + BOT_IOT_FEATURE_NAMES
 NAN_VALUES = ['?', '.']
 TARGET = 'category'
@@ -38,14 +38,16 @@ featureDf = pd.read_csv (FEATURES)
 featureColumns = featureDf.columns.to_list ()
 featureColumns = [f.strip () for f in featureColumns]
 
-df = pd.read_csv (FILE_NAME.format ('1'), names = featureColumns,
+print ('Reading', FILE_NAME.format (str (1)))
+df = pd.read_csv (FILE_NAME.format ('1'), #names = featureColumns,
                   index_col = 'pkSeqID', dtype = {'pkSeqID' : np.int32},
                   na_values = NAN_VALUES, low_memory = False)
 
-for fileNumber in range (2, 3):#FULL_FILES + 1):
+for fileNumber in range (2, FIVE_PERCENT_FILES + 1):#FULL_FILES + 1):
   print ('Reading', FILE_NAME.format (str (fileNumber)))
   aux = pd.read_csv (FILE_NAME.format (str (fileNumber)),
-                     names = featureColumns, index_col = 'pkSeqID',
+                     #names = featureColumns,
+                     index_col = 'pkSeqID',
                      dtype = {'pkSeqID' : np.int32}, na_values = NAN_VALUES,
                      low_memory = False)
   df = pd.concat ([df, aux])
@@ -260,13 +262,13 @@ print ('y_test shape:', y_test.shape)
 ## Apply normalization
 ###############################################################################
 ### K: NOTE: Only use derived information from the train set to avoid leakage.
-print ('\nApplying normalization (standard)')
-from sklearn.preprocessing import StandardScaler
-scaler = StandardScaler ()
-scaler.fit (X_train)
-X_train = scaler.transform (X_train)
-X_val = scaler.transform (X_val)
-X_test = scaler.transform (X_test)
+#print ('\nApplying normalization (standard)')
+#from sklearn.preprocessing import StandardScaler
+#scaler = StandardScaler ()
+#scaler.fit (X_train)
+#X_train = scaler.transform (X_train)
+#X_val = scaler.transform (X_val)
+#X_test = scaler.transform (X_test)
 
 
 ###############################################################################
@@ -319,6 +321,7 @@ print ('Balanced:', Counter (y_bal))
 from sklearn.model_selection import PredefinedSplit
 from sklearn.model_selection import GridSearchCV
 from sklearn.ensemble import RandomForestClassifier
+import time
 ### -1 indices -> train
 ### 0  indices -> validation
 test_fold = np.repeat ([-1, 0], [X_train.shape [0], X_val.shape [0]])
@@ -338,12 +341,17 @@ bestModel = GridSearchCV (estimator = clf,
                           verbose = 2,
                           n_jobs = -1)
 
-bestModel.fit (np.concatenate ((X_train, X_val), axis = 0),
-               np.concatenate ((y_train, y_val), axis = 0))
-print (bestModel.best_params_)
+#bestModel.fit (np.concatenate ((X_train, X_val), axis = 0),
+#               np.concatenate ((y_train, y_val), axis = 0))
+#print (bestModel.best_params_)
 
-#{'bootstrap': True, 'criterion': 'gini', 'max_depth': 1000,
-# 'min_samples_split': 2, 'n_estimators': 100}
+bestModel = RandomForestClassifier (bootstrap = True, criterion = 'gini',
+                                    max_depth = 1000, min_samples_split = 2,
+                                    n_estimators = 100)
+
+startTime = time.time ()
+bestModel.fit (X_train, y_train)
+print (str (time.time () - startTime), 'to train model.')
 
 
 ###############################################################################
@@ -365,7 +373,6 @@ print ('F1:', f1_score (y_val, y_pred, average = 'macro'))
 print ('Cohen Kappa:', cohen_kappa_score (y_val, y_pred,
                        labels = df [TARGET].unique ()))
 
-sys.exit ()
 ### K: NOTE: Only look at test results when publishing...
 print ('\nPerformance on TEST set:')
 y_pred = bestModel.predict (X_test)
