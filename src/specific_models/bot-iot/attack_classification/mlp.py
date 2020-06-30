@@ -7,7 +7,7 @@
 import pandas as pd
 import numpy as np
 import sys
-import matplotlib.pyplot as plt
+import time
 
 
 ###############################################################################
@@ -50,7 +50,7 @@ for fileNumber in range (2, FIVE_PERCENT_FILES + 1):#FULL_FILES + 1):
                      index_col = 'pkSeqID',
                      dtype = {'pkSeqID' : np.int32}, na_values = NAN_VALUES,
                      low_memory = False)
-  df = pd.concat ([df, aux])
+  df = pd.concat ( [df, aux])
 
 
 ###############################################################################
@@ -84,7 +84,7 @@ print (df ['subcategory'].value_counts ())
 ###############################################################################
 ## Data pre-processing
 ###############################################################################
-#df.replace (['NaN', 'NaT'], np.nan, inplace = True)
+#df.replace ( ['NaN', 'NaT'], np.nan, inplace = True)
 #df.replace ('?', np.nan, inplace = True)
 #df.replace ('Infinity', np.nan, inplace = True)
 
@@ -141,7 +141,7 @@ imputingStrategies = ['most_frequent', 'most_frequent']
 ### Handle categorical values
 ### K: Look into each attribute to define the best encoding strategy.
 df.info (verbose = False)
-### K: dtypes: float64(11), int64(8), object(9)
+### K: dtypes: float64 (11), int64 (8), object (9)
 myObjects = list (df.select_dtypes ( ['object']).columns)
 print ('\nObjects:', myObjects, '\n')
 ### K: Objects:
@@ -176,7 +176,7 @@ df ['proto'] = myLabelEncoder.fit_transform (df ['proto'])
 df ['sport'] = myLabelEncoder.fit_transform (df ['sport'].astype (str))
 df ['dport'] = myLabelEncoder.fit_transform (df ['dport'].astype (str))
 df ['state'] = myLabelEncoder.fit_transform (df ['state'])
-print ('Objects:', list (df.select_dtypes (['object']).columns), '\n')
+print ('Objects:', list (df.select_dtypes ( ['object']).columns), '\n')
 
 ###############################################################################
 ### Drop unused targets
@@ -262,13 +262,49 @@ print ('y_test shape:', y_test.shape)
 ## Apply normalization
 ###############################################################################
 ### K: NOTE: Only use derived information from the train set to avoid leakage.
-print ('\nApplying normalization (standard)')
 from sklearn.preprocessing import StandardScaler
+print ('\nApplying normalization (standard)')
+startTime = time.time ()
 scaler = StandardScaler ()
 scaler.fit (X_train)
 X_train = scaler.transform (X_train)
 X_val = scaler.transform (X_val)
 X_test = scaler.transform (X_test)
+print (str (time.time () - startTime), 'to normalize data.')
+
+
+###############################################################################
+## Perform feature selection
+###############################################################################
+# ANOVA feature selection for numeric input and categorical output
+from sklearn.feature_selection import SelectKBest
+from sklearn.feature_selection import f_classif, chi2, mutual_info_classif
+NUMBER_OF_FEATURES = 'all'
+print ('Selecting top', NUMBER_OF_FEATURES, 'features.')
+startTime = time.time ()
+fs = SelectKBest (score_func = mutual_info_classif, k = NUMBER_OF_FEATURES)
+#fs = SelectKBest (score_func = chi2, k = NUMBER_OF_FEATURES)
+#fs = SelectKBest (score_func = f_classif, k = NUMBER_OF_FEATURES)
+fs.fit (X_train, y_train)
+X_train = fs.transform (X_train)
+X_val = fs.transform (X_val)
+X_test = fs.transform (X_test)
+print (str (time.time () - startTime), 'to select features.')
+print ('X_train shape:', X_train.shape)
+print ('y_train shape:', y_train.shape)
+print ('X_val shape:', X_val.shape)
+print ('y_val shape:', y_val.shape)
+print ('X_test shape:', X_test.shape)
+print ('y_test shape:', y_test.shape)
+bestFeatures = []
+for feature in range (len (fs.scores_)):
+  bestFeatures.append ({'f': feature, 's': fs.scores_ [feature]})
+bestFeatures = sorted (bestFeatures, key = lambda k: k ['s'])
+for feature in bestFeatures:
+  print ('Feature %d: %f' % (feature ['f'], feature ['s']))
+
+#pyplot.bar ( [i for i in range (len (fs.scores_))], fs.scores_)
+#pyplot.show ()
 
 
 ###############################################################################
@@ -357,7 +393,6 @@ bestModel.compile (loss = 'categorical_crossentropy',
 ###############################################################################
 ## Fit the network
 ###############################################################################
-import time
 print ('\nFitting the network.')
 startTime = time.time ()
 history = bestModel.fit (X_train, y_train,
