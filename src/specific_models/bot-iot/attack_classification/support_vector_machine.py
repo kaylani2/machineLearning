@@ -109,6 +109,13 @@ for column in df.columns:
   print (column, '|', nUnique)
 
 ###############################################################################
+### Remove redundant columns
+### K: These columns are numerical representations of other existing columns.
+redundantColumns = ['state_number', 'proto_number', 'flgs_number']
+print ('\nRemoving redundant columns:', redundantColumns)
+df.drop (axis = 'columns', columns = redundantColumns, inplace = True)
+
+###############################################################################
 ### Remove NaN columns (with a lot of NaN values)
 print ('\nColumn | NaN values')
 print (df.isnull ().sum ())
@@ -122,6 +129,9 @@ print (df.isnull ().sum ())
 ### Input missing values
 ### K: Look into each attribute to define the best inputing strategy.
 ### K: NOTE: This must be done after splitting to dataset to avoid data leakge.
+df ['sport'].replace ('-1', np.nan, inplace = True)
+df ['dport'].replace ('-1', np.nan, inplace = True)
+### K: Negative port values are invalid.
 columsWithMissingValues = ['sport', 'dport']
 ### K: Examine values.
 for column in df.columns:
@@ -210,14 +220,22 @@ X_train_df, X_test_df, y_train_df, y_test_df = train_test_split (
                                                df.iloc [:, :-1],
                                                df.iloc [:, -1],
                                                test_size = TEST_SIZE,
-                                               random_state = STATE)
+                                               random_state = STATE,)
+                                               #shuffle = False)
 print ('\nSplitting dataset (validation/train):', VALIDATION_SIZE)
 X_train_df, X_val_df, y_train_df, y_val_df = train_test_split (
                                              X_train_df,
                                              y_train_df,
                                              test_size = VALIDATION_SIZE,
-                                             random_state = STATE)
-
+                                             random_state = STATE,)
+                                             #shuffle = False)
+X_train_df.sort_index (inplace = True)
+y_train_df.sort_index (inplace = True)
+X_val_df.sort_index (inplace = True)
+y_val_df.sort_index (inplace = True)
+X_test_df.sort_index (inplace = True)
+y_test_df.sort_index (inplace = True)
+#X_train_df.sort_values  (by = 'pkSeqID', inplace = True)
 print ('X_train_df shape:', X_train_df.shape)
 print ('y_train_df shape:', y_train_df.shape)
 print ('X_val_df shape:', X_val_df.shape)
@@ -262,13 +280,16 @@ print ('y_test shape:', y_test.shape)
 ## Apply normalization
 ###############################################################################
 ### K: NOTE: Only use derived information from the train set to avoid leakage.
-#print ('\nApplying normalization (standard)')
-#from sklearn.preprocessing import StandardScaler
-#scaler = StandardScaler ()
-#scaler.fit (X_train)
-#X_train = scaler.transform (X_train)
-#X_val = scaler.transform (X_val)
-#X_test = scaler.transform (X_test)
+from sklearn.preprocessing import StandardScaler, RobustScaler, MinMaxScaler
+print ('\nApplying normalization.')
+startTime = time.time ()
+scaler = StandardScaler ()
+#scaler = MinMaxScaler (feature_range = (0, 1))
+scaler.fit (X_train)
+X_train = scaler.transform (X_train)
+X_val = scaler.transform (X_val)
+X_test = scaler.transform (X_test)
+print (str (time.time () - startTime), 'to normalize data.')
 
 
 ###############################################################################

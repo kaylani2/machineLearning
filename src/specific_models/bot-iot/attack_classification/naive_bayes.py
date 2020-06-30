@@ -38,14 +38,16 @@ featureDf = pd.read_csv (FEATURES)
 featureColumns = featureDf.columns.to_list ()
 featureColumns = [f.strip () for f in featureColumns]
 
-df = pd.read_csv (FILE_NAME.format ('1'), names = featureColumns,
+print ('Reading', FILE_NAME.format (str (1)))
+df = pd.read_csv (FILE_NAME.format ('1'), #names = featureColumns,
                   index_col = 'pkSeqID', dtype = {'pkSeqID' : np.int32},
                   na_values = NAN_VALUES, low_memory = False)
 
-for fileNumber in range (2, 3):#FULL_FILES + 1):
+for fileNumber in range (2, FIVE_PERCENT_FILES + 1):#FULL_FILES + 1):
   print ('Reading', FILE_NAME.format (str (fileNumber)))
   aux = pd.read_csv (FILE_NAME.format (str (fileNumber)),
-                     names = featureColumns, index_col = 'pkSeqID',
+                     #names = featureColumns,
+                     index_col = 'pkSeqID',
                      dtype = {'pkSeqID' : np.int32}, na_values = NAN_VALUES,
                      low_memory = False)
   df = pd.concat ([df, aux])
@@ -107,6 +109,13 @@ for column in df.columns:
   print (column, '|', nUnique)
 
 ###############################################################################
+### Remove redundant columns
+### K: These columns are numerical representations of other existing columns.
+redundantColumns = ['state_number', 'proto_number', 'flgs_number']
+print ('\nRemoving redundant columns:', redundantColumns)
+df.drop (axis = 'columns', columns = redundantColumns, inplace = True)
+
+###############################################################################
 ### Remove NaN columns (with a lot of NaN values)
 print ('\nColumn | NaN values')
 print (df.isnull ().sum ())
@@ -120,6 +129,9 @@ print (df.isnull ().sum ())
 ### Input missing values
 ### K: Look into each attribute to define the best inputing strategy.
 ### K: NOTE: This must be done after splitting to dataset to avoid data leakge.
+df ['sport'].replace ('-1', np.nan, inplace = True)
+df ['dport'].replace ('-1', np.nan, inplace = True)
+### K: Negative port values are invalid.
 columsWithMissingValues = ['sport', 'dport']
 ### K: Examine values.
 for column in df.columns:
@@ -202,14 +214,32 @@ print ('Label types after conversion:', df [TARGET].unique ())
 ###############################################################################
 from sklearn.model_selection import train_test_split
 TEST_SIZE = 4/10
+VALIDATION_SIZE = 1/10
 print ('\nSplitting dataset (test/train):', TEST_SIZE)
 X_train_df, X_test_df, y_train_df, y_test_df = train_test_split (
                                                df.iloc [:, :-1],
                                                df.iloc [:, -1],
                                                test_size = TEST_SIZE,
-                                               random_state = STATE)
+                                               random_state = STATE,)
+                                               #shuffle = False)
+print ('\nSplitting dataset (validation/train):', VALIDATION_SIZE)
+X_train_df, X_val_df, y_train_df, y_val_df = train_test_split (
+                                             X_train_df,
+                                             y_train_df,
+                                             test_size = VALIDATION_SIZE,
+                                             random_state = STATE,)
+                                             #shuffle = False)
+X_train_df.sort_index (inplace = True)
+y_train_df.sort_index (inplace = True)
+X_val_df.sort_index (inplace = True)
+y_val_df.sort_index (inplace = True)
+X_test_df.sort_index (inplace = True)
+y_test_df.sort_index (inplace = True)
+#X_train_df.sort_values  (by = 'pkSeqID', inplace = True)
 print ('X_train_df shape:', X_train_df.shape)
 print ('y_train_df shape:', y_train_df.shape)
+print ('X_val_df shape:', X_val_df.shape)
+print ('y_val_df shape:', y_val_df.shape)
 print ('X_test_df shape:', X_test_df.shape)
 print ('y_test_df shape:', y_test_df.shape)
 
@@ -224,6 +254,7 @@ for myColumn, myStrategy in zip (columsWithMissingValues, imputingStrategies):
   myImputer = SimpleImputer (missing_values = np.nan, strategy = myStrategy)
   myImputer.fit (X_train_df [myColumn].values.reshape (-1, 1))
   X_train_df [myColumn] = myImputer.transform (X_train_df [myColumn].values.reshape (-1, 1))
+  X_val_df [myColumn] = myImputer.transform (X_val_df [myColumn].values.reshape (-1, 1))
   X_test_df [myColumn] = myImputer.transform (X_test_df [myColumn].values.reshape (-1, 1))
 
 
@@ -232,11 +263,15 @@ for myColumn, myStrategy in zip (columsWithMissingValues, imputingStrategies):
 ###############################################################################
 print ('\nConverting dataframe to numpy array.')
 X_train = X_train_df.values
-X_test = X_test_df.values
 y_train = y_train_df.values
+X_val = X_val_df.values
+y_val = y_val_df.values
+X_test = X_test_df.values
 y_test = y_test_df.values
 print ('X_train shape:', X_train.shape)
 print ('y_train shape:', y_train.shape)
+print ('X_val shape:', X_val.shape)
+print ('y_val shape:', y_val.shape)
 print ('X_test shape:', X_test.shape)
 print ('y_test shape:', y_test.shape)
 
@@ -245,12 +280,52 @@ print ('y_test shape:', y_test.shape)
 ## Apply normalization
 ###############################################################################
 ### K: Naive Bayes is performing better without normalization
-#print ('\nApplying normalization (standard)')
-#from sklearn.preprocessing import StandardScaler
-#scaler = StandardScaler ()
-#scaler.fit (X_train)
-#X_train = scaler.transform (X_train)
-#X_test = scaler.transform (X_test)
+from sklearn.preprocessing import StandardScaler, RobustScaler, MinMaxScaler
+print ('\nApplying normalization.')
+startTime = time.time ()
+scaler = StandardScaler ()
+#scaler = MinMaxScaler (feature_range = (0, 1))
+scaler.fit (X_train)
+X_train = scaler.transform (X_train)
+X_val = scaler.transform (X_val)
+X_test = scaler.transform (X_test)
+print (str (time.time () - startTime), 'to normalize data.')
+
+
+###############################################################################
+## Perform feature selection
+###############################################################################
+from sklearn.feature_selection import SelectKBest
+from sklearn.feature_selection import f_classif, chi2, mutual_info_classif
+NUMBER_OF_FEATURES = 9 #'all'
+print ('\nSelecting top', NUMBER_OF_FEATURES, 'features.')
+startTime = time.time ()
+#fs = SelectKBest (score_func = mutual_info_classif, k = NUMBER_OF_FEATURES)
+### K: ~30 minutes to FAIL fit mutual_info_classif to 5% bot-iot
+#fs = SelectKBest (score_func = chi2, k = NUMBER_OF_FEATURES) # X must be >= 0
+### K: ~4 seconds to fit chi2 to 5% bot-iot (MinMaxScaler (0, 1))
+fs = SelectKBest (score_func = f_classif, k = NUMBER_OF_FEATURES)
+### K: ~4 seconds to fit f_classif to 5% bot-iot
+fs.fit (X_train, y_train)
+X_train = fs.transform (X_train)
+X_val = fs.transform (X_val)
+X_test = fs.transform (X_test)
+print (str (time.time () - startTime), 'to select features.')
+print ('X_train shape:', X_train.shape)
+print ('y_train shape:', y_train.shape)
+print ('X_val shape:', X_val.shape)
+print ('y_val shape:', y_val.shape)
+print ('X_test shape:', X_test.shape)
+print ('y_test shape:', y_test.shape)
+bestFeatures = []
+for feature in range (len (fs.scores_)):
+  bestFeatures.append ({'f': feature, 's': fs.scores_ [feature]})
+bestFeatures = sorted (bestFeatures, key = lambda k: k ['s'])
+for feature in bestFeatures:
+  print ('Feature %d: %f' % (feature ['f'], feature ['s']))
+
+#pyplot.bar ( [i for i in range (len (fs.scores_))], fs.scores_)
+#pyplot.show ()
 
 
 ###############################################################################

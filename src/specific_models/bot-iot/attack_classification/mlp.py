@@ -59,7 +59,7 @@ for fileNumber in range (2, FIVE_PERCENT_FILES + 1):#FULL_FILES + 1):
 #print ('Dataframe shape (lines, columns):', df.shape, '\n')
 #print ('First 5 entries:\n', df [:5], '\n')
 #print ('entries:\n', df [4000000//4 - 5:4000000//4 + 5], '\n')
-df.info (verbose = False) # Make it true to find individual atribute types
+df.info (verbose = True)
 
 print ('\nDataframe contains NaN values:', df.isnull ().values.any ())
 nanColumns = [i for i in df.columns if df [i].isnull ().any ()]
@@ -109,6 +109,13 @@ for column in df.columns:
   print (column, '|', nUnique)
 
 ###############################################################################
+### Remove redundant columns
+### K: These columns are numerical representations of other existing columns.
+redundantColumns = ['state_number', 'proto_number', 'flgs_number']
+print ('\nRemoving redundant columns:', redundantColumns)
+df.drop (axis = 'columns', columns = redundantColumns, inplace = True)
+
+###############################################################################
 ### Remove NaN columns (with a lot of NaN values)
 print ('\nColumn | NaN values')
 print (df.isnull ().sum ())
@@ -122,6 +129,9 @@ print (df.isnull ().sum ())
 ### Input missing values
 ### K: Look into each attribute to define the best inputing strategy.
 ### K: NOTE: This must be done after splitting to dataset to avoid data leakge.
+df ['sport'].replace ('-1', np.nan, inplace = True)
+df ['dport'].replace ('-1', np.nan, inplace = True)
+### K: Negative port values are invalid.
 columsWithMissingValues = ['sport', 'dport']
 ### K: Examine values.
 for column in df.columns:
@@ -176,7 +186,7 @@ df ['proto'] = myLabelEncoder.fit_transform (df ['proto'])
 df ['sport'] = myLabelEncoder.fit_transform (df ['sport'].astype (str))
 df ['dport'] = myLabelEncoder.fit_transform (df ['dport'].astype (str))
 df ['state'] = myLabelEncoder.fit_transform (df ['state'])
-print ('Objects:', list (df.select_dtypes ( ['object']).columns), '\n')
+print ('Objects:', list (df.select_dtypes ( ['object']).columns))
 
 ###############################################################################
 ### Drop unused targets
@@ -210,14 +220,22 @@ X_train_df, X_test_df, y_train_df, y_test_df = train_test_split (
                                                df.iloc [:, :-1],
                                                df.iloc [:, -1],
                                                test_size = TEST_SIZE,
-                                               random_state = STATE)
+                                               random_state = STATE,)
+                                               #shuffle = False)
 print ('\nSplitting dataset (validation/train):', VALIDATION_SIZE)
 X_train_df, X_val_df, y_train_df, y_val_df = train_test_split (
                                              X_train_df,
                                              y_train_df,
                                              test_size = VALIDATION_SIZE,
-                                             random_state = STATE)
-
+                                             random_state = STATE,)
+                                             #shuffle = False)
+X_train_df.sort_index (inplace = True)
+y_train_df.sort_index (inplace = True)
+X_val_df.sort_index (inplace = True)
+y_val_df.sort_index (inplace = True)
+X_test_df.sort_index (inplace = True)
+y_test_df.sort_index (inplace = True)
+#X_train_df.sort_values  (by = 'pkSeqID', inplace = True)
 print ('X_train_df shape:', X_train_df.shape)
 print ('y_train_df shape:', y_train_df.shape)
 print ('X_val_df shape:', X_val_df.shape)
@@ -262,10 +280,11 @@ print ('y_test shape:', y_test.shape)
 ## Apply normalization
 ###############################################################################
 ### K: NOTE: Only use derived information from the train set to avoid leakage.
-from sklearn.preprocessing import StandardScaler
-print ('\nApplying normalization (standard)')
+from sklearn.preprocessing import StandardScaler, RobustScaler, MinMaxScaler
+print ('\nApplying normalization.')
 startTime = time.time ()
 scaler = StandardScaler ()
+#scaler = MinMaxScaler (feature_range = (0, 1))
 scaler.fit (X_train)
 X_train = scaler.transform (X_train)
 X_val = scaler.transform (X_val)
@@ -276,15 +295,17 @@ print (str (time.time () - startTime), 'to normalize data.')
 ###############################################################################
 ## Perform feature selection
 ###############################################################################
-# ANOVA feature selection for numeric input and categorical output
 from sklearn.feature_selection import SelectKBest
 from sklearn.feature_selection import f_classif, chi2, mutual_info_classif
-NUMBER_OF_FEATURES = 'all'
-print ('Selecting top', NUMBER_OF_FEATURES, 'features.')
+NUMBER_OF_FEATURES = 9 #'all'
+print ('\nSelecting top', NUMBER_OF_FEATURES, 'features.')
 startTime = time.time ()
-fs = SelectKBest (score_func = mutual_info_classif, k = NUMBER_OF_FEATURES)
-#fs = SelectKBest (score_func = chi2, k = NUMBER_OF_FEATURES)
-#fs = SelectKBest (score_func = f_classif, k = NUMBER_OF_FEATURES)
+#fs = SelectKBest (score_func = mutual_info_classif, k = NUMBER_OF_FEATURES)
+### K: ~30 minutes to FAIL fit mutual_info_classif to 5% bot-iot
+#fs = SelectKBest (score_func = chi2, k = NUMBER_OF_FEATURES) # X must be >= 0
+### K: ~4 seconds to fit chi2 to 5% bot-iot (MinMaxScaler (0, 1))
+fs = SelectKBest (score_func = f_classif, k = NUMBER_OF_FEATURES)
+### K: ~4 seconds to fit f_classif to 5% bot-iot
 fs.fit (X_train, y_train)
 X_train = fs.transform (X_train)
 X_val = fs.transform (X_val)
@@ -369,9 +390,9 @@ BATCH_SIZE = 64
 NUMBER_OF_EPOCHS = 4
 LEARNING_RATE = 0.001
 bestModel = Sequential ()
-bestModel.add (Dense (units = 15, activation = 'relu',
+bestModel.add (Dense (units = 64, activation = 'relu',
                   input_shape = (X_train.shape [1], )))
-bestModel.add (Dense (20, activation = 'relu'))
+bestModel.add (Dense (32, activation = 'relu'))
 bestModel.add (Dense (numberOfClasses, activation = 'softmax'))
 print ('Model summary:')
 bestModel.summary ()
@@ -401,7 +422,7 @@ history = bestModel.fit (X_train, y_train,
                          verbose = 2, #1 = progress bar, not useful for logging
                          workers = 0,
                          use_multiprocessing = True,
-                         )#validation_data = (X_val, y_val))
+                         validation_data = (X_val, y_val))
 print (str (time.time () - startTime), 'to train model.')
 
 
@@ -416,7 +437,7 @@ y_pred = bestModel.predict (X_val)
 y_pred = y_pred.round ()
 print ('\nPerformance on VALIDATION set:')
 print ('Confusion matrix:')
-print (confusion_matrix (y_val.argmax (axis = 1), y_val.argmax (axis = 1),
+print (confusion_matrix (y_val.argmax (axis = 1), y_pred.argmax (axis = 1),
                          labels = df [TARGET].unique ()))
 print ('Accuracy:', accuracy_score (y_val, y_pred))
 print ('Precision:', precision_score (y_val, y_pred, average = 'macro'))
@@ -426,6 +447,7 @@ print ('Cohen Kappa:', cohen_kappa_score (y_val.argmax (axis = 1),
                                           y_pred.argmax (axis = 1),
                                           labels = df [TARGET].unique ()))
 
+sys.exit ()
 ### K: NOTE: Only look at test results when publishing...
 print ('\nPerformance on TEST set:')
 y_pred = bestModel.predict (X_test)
@@ -440,4 +462,3 @@ print ('F1:', f1_score (y_test, y_pred, average = 'macro'))
 print ('Cohen Kappa:', cohen_kappa_score (y_test.argmax (axis = 1),
                                           y_pred.argmax (axis = 1),
                                           labels = df [TARGET].unique ()))
-sys.exit ()
