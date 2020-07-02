@@ -7,7 +7,7 @@
 import pandas as pd
 import numpy as np
 import sys
-import matplotlib.pyplot as plt
+import time
 
 
 ###############################################################################
@@ -213,8 +213,8 @@ print ('Label types after conversion:', df [TARGET].unique ())
 ## Split dataset into train, validation and test sets
 ###############################################################################
 from sklearn.model_selection import train_test_split
-TEST_SIZE = 4/10
-VALIDATION_SIZE = 1/10
+TEST_SIZE = 2/10
+VALIDATION_SIZE = 1/4
 print ('\nSplitting dataset (test/train):', TEST_SIZE)
 X_train_df, X_test_df, y_train_df, y_test_df = train_test_split (
                                                df.iloc [:, :-1],
@@ -289,7 +289,7 @@ scaler.fit (X_train)
 X_train = scaler.transform (X_train)
 X_val = scaler.transform (X_val)
 X_test = scaler.transform (X_test)
-print (str (time.time () - startTime), 'to normalize data.')
+print (str (time.time () - startTime), 's to normalize data.')
 
 
 ###############################################################################
@@ -310,7 +310,7 @@ fs.fit (X_train, y_train)
 X_train = fs.transform (X_train)
 X_val = fs.transform (X_val)
 X_test = fs.transform (X_test)
-print (str (time.time () - startTime), 'to select features.')
+print (str (time.time () - startTime), 's to select features.')
 print ('X_train shape:', X_train.shape)
 print ('y_train shape:', y_train.shape)
 print ('X_val shape:', X_val.shape)
@@ -396,15 +396,19 @@ bestModel = GridSearchCV (estimator = clf,
                           verbose = 1,
                           n_jobs = -1)
 
-#bestModel.fit (np.concatenate ((X_train, X_val), axis = 0),
-#               np.concatenate ((y_train, y_val), axis = 0))
-#print (bestModel.best_params_)
-
 startTime = time.time ()
-bestModel = DecisionTreeClassifier (criterion = 'entropy', max_depth = 100,
-                                    min_samples_split = 2, splitter = 'best')
-bestModel.fit (X_train, y_train)
-print (str (time.time () - startTime), 'to train model.')
+bestModel.fit (np.concatenate ((X_train, X_val), axis = 0),
+               np.concatenate ((y_train, y_val), axis = 0))
+print (bestModel.best_params_)
+print (str (time.time () - startTime), 's to search grid.')
+#{'criterion': 'gini', 'max_depth': 10, 'min_samples_split': 2, 'splitter': 'best'}
+
+
+#startTime = time.time ()
+#bestModel = DecisionTreeClassifier (criterion = 'gini', max_depth = None,
+#                                    min_samples_split = 5, splitter = 'random')
+#bestModel.fit (X_train, y_train)
+#print (str (time.time () - startTime), 's to train model.')
 
 
 ###############################################################################

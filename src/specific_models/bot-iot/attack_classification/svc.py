@@ -7,7 +7,7 @@
 import pandas as pd
 import numpy as np
 import sys
-import matplotlib.pyplot as plt
+import time
 
 
 ###############################################################################
@@ -38,12 +38,8 @@ featureDf = pd.read_csv (FEATURES)
 featureColumns = featureDf.columns.to_list ()
 featureColumns = [f.strip () for f in featureColumns]
 
-print ('Reading', FILE_NAME.format (str (1)))
-df = pd.read_csv (FILE_NAME.format ('1'), #names = featureColumns,
-                  index_col = 'pkSeqID', dtype = {'pkSeqID' : np.int32},
-                  na_values = NAN_VALUES, low_memory = False)
-
-for fileNumber in range (2, FIVE_PERCENT_FILES + 1):#FULL_FILES + 1):
+df = pd.DataFrame ()
+for fileNumber in range (1, FIVE_PERCENT_FILES + 1):#FULL_FILES + 1):
   print ('Reading', FILE_NAME.format (str (fileNumber)))
   aux = pd.read_csv (FILE_NAME.format (str (fileNumber)),
                      #names = featureColumns,
@@ -341,7 +337,7 @@ print ('Balanced:', Counter (y_bal))
 ###############################################################################
 from sklearn.model_selection import PredefinedSplit
 from sklearn.model_selection import GridSearchCV
-from sklearn.svm import SVC
+from sklearn.svm import SVC, LinearSVC
 ### -1 indices -> train
 ### 0  indices -> validation
 test_fold = np.repeat ([-1, 0], [X_train.shape [0], X_val.shape [0]])
@@ -349,21 +345,24 @@ myPreSplit = PredefinedSplit (test_fold)
 
 # 30 minutos na pepe nao fechou...
 parameters = {'C' : [0.001, 0.01, 0.1, 1],
-              'kernel' : ['linear', 'poly', 'rbf', 'sigmoid', 'precomputed'],
+              'kernel' : ['linear', 'poly'],#, 'rbf', 'sigmoid', 'precomputed'],
               'degree' : [1, 2, 3],
               'class_weight' : [None, 'balanced']}
 
-clf = SVC ()
-bestModel = GridSearchCV (estimator = clf,
-                          param_grid = parameters,
-                          scoring = 'f1_weighted',
-                          cv = myPreSplit,
-                          verbose = 2,
-                          n_jobs = -1)
+#clf = SVC ()
+#bestModel = GridSearchCV (estimator = clf,
+#                          param_grid = parameters,
+#                          scoring = 'f1_weighted',
+#                          cv = myPreSplit,
+#                          verbose = 10,
+#                          n_jobs = -1)
+#
+#bestModel.fit (np.concatenate ((X_train, X_val), axis = 0),
+#               np.concatenate ((y_train, y_val), axis = 0))
+#print (bestModel.best_params_)
 
-bestModel.fit (np.concatenate ((X_train, X_val), axis = 0),
-               np.concatenate ((y_train, y_val), axis = 0))
-print (bestModel.best_params_)
+bestModel = LinearSVC (C = 0.1, random_state = STATE, verbose = 2)
+bestModel.fit (X_train, y_train)
 
 
 ###############################################################################
