@@ -3,6 +3,8 @@
 # kaylani AT gta DOT ufrj DOT br
 
 ### K: Model: 1D Convolutional Neural Network
+### K: NOTE: Changes needed to adapt the dataset probably make the architecture
+### invalid. DEPRECATED CODE.
 
 import pandas as pd
 import numpy as np
