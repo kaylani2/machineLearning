@@ -2,36 +2,46 @@ import matplotlib
 import matplotlib.pyplot as plt
 import numpy as np
 
+plt.rcParams.update ({'font.size': 14})
 #DDoS              1926624
 #DoS               1650260
 #Reconnaissance      91082
 #Normal                477
 #Theft                  79
+#labels = ['DDoS', 'DoS', 'Recon.', 'Normal', 'Theft']
+#values = [1926624, 1650260, 91082, 477, 79]
 
-labels = ['DDoS', 'DoS', 'Reconnaissance', 'Normal', 'Theft']
-acc = [1926624, 1650260, 91082, 477, 79]
-acc_std = [0,0,0,0,0]
-#acc_std = [5, 9, 2, 11, 2]
-recall = [85, 94, 88, 89, 99]
+#bezerra:
 
-x = np.arange (len (labels))  # the label locations
-width = 0.30  # the width of the bars
 
+labels = ['Botnets', 'Benigno']
+values = [1716408, 7998]
+acc_std = [0, 0]
+
+#x = np.arange (len (labels))  # the label locations
+x = [0, 1, ]
+BAR_WIDTH = 0.50
 fig, ax = plt.subplots ()
 
 #plt.errorbar (x - width/2, acc, mfc = 'green', mec = 'red')
 
-rects1 = ax.bar (x , acc, width, alpha = 0.8, color = 'black',
+rects1 = ax.bar (x, values, BAR_WIDTH, alpha = 0.8, color = 'black',
                  label = '', yerr = acc_std,
                  error_kw = dict (elinewidth = 5, ecolor = 'red'))
 
 #rects2 = ax.bar (x + width/2, recall, width, label = 'recall')
 
-# Add some text for labels, title and custom x-axis tick labels, etc.
-ax.set_ylabel ('Amostras')
-ax.set_title ('Quantidade de amostras')
+
+
+plt.xticks (fontsize = 14)
+plt.yticks (fontsize = 14)
+plt.ylabel ('Quantidade de amostras', fontsize = 24)
+plt.xlabel ('Amostras', fontsize = 24)
+#ax.set_ylabel ('Amostras')
 ax.set_xticks (x)
 ax.set_xticklabels (labels)
+ax.set_ylim ([0, 2*1e6])
+#ax.set_xlim ([-0.6, 4.6])
 ax.legend ()
 
 
@@ -51,4 +61,4 @@ autolabel (rects1)
 
 fig.tight_layout ()
 plt.savefig ('bar.png')
-plt.show ()
+#plt.show ()
