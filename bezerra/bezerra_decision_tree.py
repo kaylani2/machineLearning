@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[1]:
+# In[62]:
 
 
 # Author: Ernesto Rodríguez
@@ -12,7 +12,7 @@
 ###############################################################################
 
 
-# In[2]:
+# In[63]:
 
 
 import pandas as pd
@@ -73,7 +73,7 @@ SC_I_THIRD = r'SC_I3.csv'
 SC_L = r'SC_L.csv'
 
 
-# In[3]:
+# In[64]:
 
 
 ###############################################################################
@@ -126,7 +126,7 @@ dataframes_list = [df_mc_I_first,
 prev_df = pd.concat(dataframes_list)
 
 
-# In[4]:
+# In[65]:
 
 
 ###############################################################################
@@ -138,7 +138,7 @@ prev_df = pd.concat(dataframes_list)
 df = prev_df.sample (frac = 1, replace = True, random_state = 0)
 
 # We can see that this dataset has a temporal description.
-# So it is not a good idea to randomly remove rows
+# So it is not a good idea to randomly remove rows if using RNN
 
 # In this case we drop the index column, since pandas library creates an index
 # automatically. 
@@ -151,7 +151,7 @@ df = df.drop(df.columns[14:], axis=1)
 df = df.drop(['ts', 'te'], axis=1)
 
 # Trying another drops to see relation between features and results
-df = df.drop(['fwd', 'stos'], axis=1)
+df = df.drop(['fwd', 'stos', 'sa', 'da'], axis=1)
 # 'sp', 'dp', 'sa',  'da',  
 
 # Counting number of null data
@@ -177,7 +177,7 @@ df.replace (np.nan, 0, inplace = True)
 #     df = df.drop(drop_indices)
 
 
-# In[74]:
+# In[66]:
 
 
 ###############################################################################
@@ -197,7 +197,7 @@ print('Number of attacks: ', y.value_counts()[1])
 # X
 
 
-# In[75]:
+# In[67]:
 
 
 # ###############################################################################
@@ -214,7 +214,7 @@ print('Number of attacks: ', y.value_counts()[1])
 # print('Number of attacks: ', y.value_counts()[1])
 
 
-# In[76]:
+# In[68]:
 
 
 ###############################################################################
@@ -231,7 +231,46 @@ print('Number of non-attacks: ', y.value_counts()[0])
 print('Number of attacks: ', y.value_counts()[1])
 
 
-# In[77]:
+# In[69]:
+
+
+X
+
+
+# In[70]:
+
+
+####################################################################
+# Treating categorical data before splitting the dataset into the differents sets
+####################################################################
+from sklearn.impute import SimpleImputer
+from sklearn.preprocessing import OrdinalEncoder
+from numpy import empty
+
+cat_cols = X.columns[X.dtypes == 'O'] # Returns array with the columns that has Object types elements
+
+# Check wether cat_cols is empty or not. If it is empty, do not do anything
+if list(cat_cols):
+    categories = [
+        X[column].unique() for column in X[cat_cols]]
+
+    for cat in categories:
+        cat[cat == None] = 'missing'  # noqa
+
+    # Replacing missing values
+    categorical_imputer = SimpleImputer(missing_values=None, 
+                                        strategy='constant', 
+                                        fill_value='missing')
+
+    X[cat_cols] = categorical_imputer.fit_transform(X[cat_cols])
+
+    # Encoding the categorical data
+    categorical_encoder = OrdinalEncoder(categories = categories)
+    categorical_encoder.fit(X[cat_cols])
+    X[cat_cols] = categorical_encoder.transform(X[cat_cols])
+
+
+# In[71]:
 
 
 ###############################################################################
@@ -260,103 +299,7 @@ X_train_val = pd.DataFrame(X_train_val)
 X_val = pd.DataFrame(X_val)
 
 
-# In[78]:
-
-
-####################################################################
-# Treat categorical data on train set
-####################################################################
-from sklearn.impute import SimpleImputer
-from sklearn.preprocessing import OrdinalEncoder
-
-
-cat_cols = X_train.columns[X_train.dtypes == 'O'] # Returns array with the columns that has Object types elements
-
-categories = [
-    X_train[column].unique() for column in X_train[cat_cols]]
-
-for cat in categories:
-    cat[cat == None] = 'missing'  # noqa
-
-# Replacing missing values
-categorical_imputer = SimpleImputer(missing_values=None, 
-                                    strategy='constant', 
-                                    fill_value='missing')
-
-X_train[cat_cols] = categorical_imputer.fit_transform(X_train[cat_cols])
-
-# Encoding the categorical data
-categorical_encoder = OrdinalEncoder(categories = categories)
-categorical_encoder.fit(X_train[cat_cols])
-X_train[cat_cols] = categorical_encoder.transform(X_train[cat_cols])
-
-categorical_encoder.fit(X_train_val[cat_cols])
-X_train_val[cat_cols] = categorical_encoder.transform(X_train_val[cat_cols])
-
-
-# In[79]:
-
-
-####################################################################
-# Treat categorical data on test set
-####################################################################
-from sklearn.impute import SimpleImputer
-from sklearn.preprocessing import OrdinalEncoder
-
-
-cat_cols = X_test.columns[X_test.dtypes == 'O'] # Returns array with the columns that has Object types elements
-
-categories = [
-    X_test[column].unique() for column in X_test[cat_cols]]
-
-for cat in categories:
-    cat[cat == None] = 'missing'  # noqa
-
-# Replacing missing values
-categorical_imputer = SimpleImputer(missing_values=None, 
-                                    strategy='constant', 
-                                    fill_value='missing')
-
-X_test[cat_cols] = categorical_imputer.fit_transform(X_test[cat_cols])
-
-# Encoding the categorical data
-categorical_encoder = OrdinalEncoder(categories = categories)
-categorical_encoder.fit(X_test[cat_cols])
-X_test[cat_cols] = categorical_encoder.transform(X_test[cat_cols])
-
-
-# In[80]:
-
-
-####################################################################
-# Treat categorical data on val set
-####################################################################
-from sklearn.impute import SimpleImputer
-from sklearn.preprocessing import OrdinalEncoder
-
-
-cat_cols = X_val.columns[X_val.dtypes == 'O'] # Returns array with the columns that has Object types elements
-
-categories = [
-    X_val[column].unique() for column in X_val[cat_cols]]
-
-for cat in categories:
-    cat[cat == None] = 'missing'  # noqa
-
-# Replacing missing values
-categorical_imputer = SimpleImputer(missing_values=None, 
-                                    strategy='constant', 
-                                    fill_value='missing')
-
-X_val[cat_cols] = categorical_imputer.fit_transform(X_val[cat_cols])
-
-# Encoding the categorical data
-categorical_encoder = OrdinalEncoder(categories = categories)
-categorical_encoder.fit(X_val[cat_cols])
-X_val[cat_cols] = categorical_encoder.transform(X_val[cat_cols])
-
-
-# In[81]:
+# In[72]:
 
 
 ####################################################################
@@ -380,24 +323,7 @@ X_val = numerical_scaler.transform(X_val)
 # X_train
 
 
-# In[82]:
-
-
-###############################################################################
-## Training the model without cross-validation (simpler than the training above)
-###############################################################################
-
-# scikit-learn uses an optimised version of the CART algorithm;
-# however, scikit-learn implementation does not support categorical variables for now
-
-from sklearn import tree
-import time
-
-# Assign the model to be used
-clf = tree.DecisionTreeClassifier()
-
-
-# In[83]:
+# In[73]:
 
 
 ###############################################################################
@@ -406,6 +332,13 @@ clf = tree.DecisionTreeClassifier()
 from sklearn.model_selection import PredefinedSplit
 from sklearn.model_selection import GridSearchCV
 from sklearn.tree import DecisionTreeClassifier
+from sklearn import tree
+import time
+
+
+# Defining the classifier 
+clf = tree.DecisionTreeClassifier()
+
 
 ### -1 indices -> train
 ### 0  indices -> validation
@@ -434,7 +367,7 @@ model.fit (np.concatenate ((X_train_val, X_val), axis = 0),
 print (model.best_params_)
 
 
-# In[85]:
+# In[79]:
 
 
 # ###############################################################################
@@ -447,20 +380,26 @@ from sklearn.metrics import accuracy_score
 from sklearn.metrics import multilabel_confusion_matrix
 from sklearn.metrics import f1_score
 from sklearn.metrics import confusion_matrix
+from sklearn.metrics import cohen_kappa_score
+
 
 y_pred = model.predict(X_test)
 
 # New Model Evaluation metrics 
+print('Parameters for tuned model: ')
 print('Accuracy Score : ' + str(accuracy_score(y_test,y_pred)))
 print('Precision Score : ' + str(precision_score(y_test,y_pred)))
 print('Recall Score : ' + str(recall_score(y_test,y_pred)))
 print('F1 Score : ' + str(f1_score(y_test,y_pred)))
+print('Cohen Kappa Score: ', str(cohen_kappa_score(y_test, y_pred)))
+
 
 #Logistic Regression (Grid Search) Confusion matrix
 confusion_matrix(y_test,y_pred)
+print('\n\n\n\n')
 
 
-# In[86]:
+# In[80]:
 
 
 ###############################################################################
@@ -475,7 +414,7 @@ plt.show()  # doctest: +SKIP
 # td  sp  dp  pr  flg  ipkt ibyt
 
 
-# In[87]:
+# In[81]:
 
 
 ###############################################################################
@@ -486,14 +425,14 @@ plt.show()  # doctest: +SKIP
 start_time = time.time()
 
 # Assign the model to be used with adjusted parameters
-clf = tree.DecisionTreeClassifier(max_depth = 1000000)
+clf = tree.DecisionTreeClassifier()
 
 # Training the model
 model = clf.fit(X_train, y_train)
 print("--- %s seconds ---" % (time.time() - start_time))
 
 
-# In[88]:
+# In[82]:
 
 
 ###############################################################################
@@ -523,6 +462,7 @@ print('Accuracy: ', train_score)
 # f1 
 f_one_score = f1_score(y_test, y_pred)
 print('F1 Score: ', f_one_score)
+print('Cohen Kappa Score: ', str(cohen_kappa_score(y_test, y_pred)))
 
 # Multilabel Confusion Matrix: 
 # [tn fp]
@@ -530,7 +470,7 @@ print('F1 Score: ', f_one_score)
 print(multilabel_confusion_matrix(y_test, y_pred, labels=[0, 1]))
 
 
-# In[89]:
+# In[83]:
 
 
 ###############################################################################
@@ -541,6 +481,12 @@ plot_confusion_matrix(model, X_test, y_test)  # doctest: +SKIP
 plt.savefig("decision_tree_confusion_matrix_without_tuning.png", format="png")
 plt.show()  # doctest: +SKIP
 # td  sp  dp  pr  flg  ipkt ibyt
+
+
+# In[ ]:
+
+
+
 
 
 # In[ ]:

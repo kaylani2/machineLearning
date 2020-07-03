@@ -18,7 +18,6 @@
 import pandas as pd
 import numpy as np
 import sys
-from sklearn.svm import SVC
 
 ###############################################################################
 ## Define constants 
@@ -232,14 +231,6 @@ print('Number of non-attacks: ', y.value_counts()[0])
 print('Number of attacks: ', y.value_counts()[1])
 
 
-# In[69]:
-
-
-X
-
-
-# In[70]:
-
 
 ####################################################################
 # Treating categorical data before splitting the dataset into the differents sets
@@ -324,18 +315,19 @@ X_val = numerical_scaler.transform(X_val)
 # X_train
 
 
+# In[73]:
+
 
 
 ###############################################################################
-## Create learning model and tune hyperparameters
+## Create learning model (Random Forest) and tune hyperparameters
 ###############################################################################
 from sklearn.model_selection import PredefinedSplit
 from sklearn.model_selection import GridSearchCV
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.ensemble import RandomForestClassifier
 import time
 
-
-# Defining the classifier 
-clf = SVC()
 
 
 ### -1 indices -> train
@@ -347,13 +339,15 @@ myPreSplit = PredefinedSplit (test_fold)
 #for train_index, test_index in myPreSplit.split ():
 #    print ("TRAIN:", train_index, "TEST:", test_index)
 
-# Best: {'C': 0.009, 'gamma': 1, 'kernel': 'linear'}
 
+parameters = {'n_estimators' : [100, 200], 
+              'criterion' : ['gini', 'entropy'],
+              'max_depth' : [1, 10, 100, 1000, 10000, None],
+              'min_samples_split' : [2],
+             'bootstrap' : [True, False]}
 
-parameters = {'C' : [0.001,.009,0.01,.09,1,5,10,25,50],
-              'kernel' : ['linear', 'rbf'],
-              'gamma' : [1, 0.1, 0.01]}
-clf = SVC()
+clf = RandomForestClassifier ()
+
 model = GridSearchCV (estimator = clf,
                       param_grid = parameters,
                       scoring = 'f1_weighted',
@@ -365,8 +359,10 @@ model.fit (np.concatenate ((X_train_val, X_val), axis = 0),
 
 print (model.best_params_)
 
+#{'bootstrap': True, 'criterion': 'entropy', 'max_depth': 1, 'min_samples_split': 2, 'n_estimators': 100}
 
-# In[79]:
+
+# In[15]:
 
 
 # ###############################################################################
@@ -381,24 +377,21 @@ from sklearn.metrics import f1_score
 from sklearn.metrics import confusion_matrix
 from sklearn.metrics import cohen_kappa_score
 
-
 y_pred = model.predict(X_test)
 
+print('Metrics from tuned model:')
+
 # New Model Evaluation metrics 
-print('Parameters for tuned model: ')
 print('Accuracy Score : ' + str(accuracy_score(y_test,y_pred)))
 print('Precision Score : ' + str(precision_score(y_test,y_pred)))
 print('Recall Score : ' + str(recall_score(y_test,y_pred)))
 print('F1 Score : ' + str(f1_score(y_test,y_pred)))
 print('Cohen Kappa Score: ', str(cohen_kappa_score(y_test, y_pred)))
 
-
 #Logistic Regression (Grid Search) Confusion matrix
 confusion_matrix(y_test,y_pred)
-print('\n\n\n\n')
+print('\n\n\n')
 
-
-# In[80]:
 
 
 ###############################################################################
@@ -408,12 +401,12 @@ from sklearn.metrics import plot_confusion_matrix
 from matplotlib import pyplot as plt
 
 plot_confusion_matrix(model, X_test, y_test)  # doctest: +SKIP
-plt.savefig("svm_tuned.png", format="png")
+plt.savefig("random_forest_confusion_matrix_with_tuning.png", format="png")
 plt.show()  # doctest: +SKIP
 # td  sp  dp  pr  flg  ipkt ibyt
 
 
-# In[81]:
+# In[30]:
 
 
 ###############################################################################
@@ -423,20 +416,25 @@ plt.show()  # doctest: +SKIP
 # Measure time of this training
 start_time = time.time()
 
+
+#{'bootstrap': True, 'criterion': 'entropy', 'max_depth': 1, 'min_samples_split': 2, 'n_estimators': 100}
 # Assign the model to be used with adjusted parameters
-clf = SVC()
+clf = RandomForestClassifier()
 
 # Training the model
 model = clf.fit(X_train, y_train)
 print("--- %s seconds ---" % (time.time() - start_time))
 
 
-# In[82]:
+# In[31]:
 
 
 ###############################################################################
 ## Obtain metrics from the above model 
 ###############################################################################
+
+# There is still something wrong, grid search should output a best value than this random model.
+
 from sklearn.metrics import precision_score
 from sklearn.metrics import recall_score
 from sklearn.metrics import accuracy_score
@@ -444,6 +442,8 @@ from sklearn.metrics import multilabel_confusion_matrix
 from sklearn.metrics import f1_score
 from sklearn.metrics import confusion_matrix
 
+# Just for testing and getting the time of training
+print('Metrics from above model, without tuning:')
 
 # Predicting from the test slice
 y_pred = model.predict(X_test)
@@ -453,7 +453,7 @@ print('Precision Score: ', precision_score(y_test, y_pred))
 
 # Recall == TP / (TP + FN)
 print('Recall Score: ', recall_score(y_test, y_pred))
-
+print('Cohen Kappa Score: ', cohen_kappa_score(y_test, y_pred))
 # Accuracy 
 train_score = model.score(X_test, y_test)
 print('Accuracy: ', train_score)
@@ -461,7 +461,6 @@ print('Accuracy: ', train_score)
 # f1 
 f_one_score = f1_score(y_test, y_pred)
 print('F1 Score: ', f_one_score)
-print('Cohen Kappa Score: ', str(cohen_kappa_score(y_test, y_pred)))
 
 # Multilabel Confusion Matrix: 
 # [tn fp]
@@ -469,7 +468,7 @@ print('Cohen Kappa Score: ', str(cohen_kappa_score(y_test, y_pred)))
 print(multilabel_confusion_matrix(y_test, y_pred, labels=[0, 1]))
 
 
-# In[83]:
+# In[32]:
 
 
 ###############################################################################
@@ -477,171 +476,18 @@ print(multilabel_confusion_matrix(y_test, y_pred, labels=[0, 1]))
 ###############################################################################
 
 plot_confusion_matrix(model, X_test, y_test)  # doctest: +SKIP
-plt.savefig("svm.png", format="png")
+plt.savefig("random_forest_confusion_matrix_without_tuning.png", format="png")
 plt.show()  # doctest: +SKIP
 # td  sp  dp  pr  flg  ipkt ibyt
 
 
+# In[ ]:
 
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# ###############################################################################
-# ## Training the model without cross-validation (simpler than the training above)
-# ###############################################################################
-
-# import time
-# # Assign the model to be used
-# svc = SVC(kernel="rbf", random_state=STATE, gamma=1, C=25)
-
-# # Measure time of this training
-# start_time = time.time()
-
-# # Training the model
-# model = svc.fit(X_train, y_train)
-# print("--- %s seconds ---" % (time.time() - start_time))
-
-
-# # In[74]:
-
-
-# ###############################################################################
-# ## Obtain metrics from the trained model without cross-validation
-# ###############################################################################
-
-# from sklearn.metrics import precision_score
-# from sklearn.metrics import recall_score
-# from sklearn.metrics import accuracy_score
-# from sklearn.metrics import multilabel_confusion_matrix
-# from sklearn.metrics import f1_score
-# from sklearn.metrics import confusion_matrix
-
-# # Predicting from the test slice
-# y_pred = model.predict(X_test)
-
-# # Precision == TP / (TP + FP)
-# print('Precision Score: ', precision_score(y_test, y_pred))
-
-# # Recall == TP / (TP + FN)
-# print('Recall Score: ', recall_score(y_test, y_pred))
-
-# # Accuracy 
-# train_score = model.score(X_test, y_test)
-# print('Accuracy: ', train_score)
-
-# # f1 
-# f_one_score = f1_score(y_test, y_pred)
-# print('F1 Score: ', f_one_score)
-
-# # Multilabel Confusion Matrix: 
-# # [tn fp]
-# # [fn tp]
-# print(multilabel_confusion_matrix(y_test, y_pred, labels=[0, 1]))
-
-
-# # In[75]:
-
-
-# ###############################################################################
-# ## Plotting confusion matrix
-# ###############################################################################
-# from sklearn.metrics import plot_confusion_matrix
-# from matplotlib import pyplot as plt
-
-# plot_confusion_matrix(model, X_test, y_test)  # doctest: +SKIP
-# plt.savefig("confusion_matrix.png", format="png")
-# plt.show()  # doctest: +SKIP
-# # td  sp  dp  pr  flg  ipkt ibyt
-
-
-# # In[50]:
-
-
-# ###############################################################################
-# ## Validation on the train set
-# ###############################################################################
-# from sklearn.model_selection import cross_val_score
-
-# valid_scores = cross_val_score(svc, X_train, y_train, cv=5, scoring='f1')
-
-
-# # In[51]:
-
-
-# print("Validation accuracy: %0.3f (+/- %0.3f)" % (valid_scores.mean(), valid_scores.std() * 2))
-
-
-# # In[59]:
-
-
-# # ###############################################################################
-# # ## Plotting validation and training curves
-# # ###############################################################################
-
-# # valid_scores_mean = np.mean(valid_scores)
-# # plt.title("Comparing scores")
-# # plt.xlabel("Type of score")
-# # plt.ylabel("Score")
-# # plt.ylim(0.0, 1.1)
-
-# # plt.bar(['Validation', 'Train'], [valid_scores_mean, f_one_score])
-
-# # plt.legend(loc="best")
-# # plt.savefig("learning_curve.png", format="png")
-# # plt.show()
-
-
-# # In[41]:
-
-
-# valid_scores
-
-
-# # In[79]:
-
-
-# ###############################################################################
-# ## Making a Grid Search, with validation
-# ###############################################################################
-
-# from sklearn.model_selection import GridSearchCV
-
-# grid_values = {'C' : [0.001,.009,0.01,.09,1,5,10,25,50]}
-# kernel = {'kernel' : ['linear', 'poly', 'rbf', 'sigmoid']}
-# grid_svc_acc = GridSearchCV(svc, param_grid = [grid_values, kernel] ,scoring = 'f1')
-# grid_svc_acc.fit(X_train, y_train)
-
-
-# # svc.get_params().keys()
-
-# #Predict values based on new parameters
-# y_pred_acc = grid_svc_acc.predict(X_test)
-
-# # New Model Evaluation metrics 
-# print('Accuracy Score : ' + str(accuracy_score(y_test,y_pred_acc)))
-# print('Precision Score : ' + str(precision_score(y_test,y_pred_acc)))
-# print('Recall Score : ' + str(recall_score(y_test,y_pred_acc)))
-# print('F1 Score : ' + str(f1_score(y_test,y_pred_acc)))
-
-
+# In[ ]:
 
 
 
