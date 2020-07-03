@@ -210,8 +210,8 @@ for STATE in STATES:
   ## Split dataset into train and test sets
   ###############################################################################
   from sklearn.model_selection import train_test_split
-  TEST_SIZE = 4/10
-  VALIDATION_SIZE = 1/10
+  TEST_SIZE = 2/10
+  VALIDATION_SIZE = 1/4
   print ('\nSplitting dataset (test/train):', TEST_SIZE)
   X_train_df, X_test_df, y_train_df, y_test_df = train_test_split (
                                                  df.iloc [:, :-1],
