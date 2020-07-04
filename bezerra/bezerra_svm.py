@@ -459,9 +459,10 @@ y_pred = model.predict(X_test)
 
 
 ## Giving the output
-f= open("output_svm.txt","w+")
+f= open("output_svm.txt","a")
 
-f.write('SVM Metrics:\n')
+f.write('\n\nsvm Metrics: Random State ==')
+f.write(str(STATE))
 
 # Precision == TP / (TP + FP)
 precision = precision_score(y_test, y_pred)

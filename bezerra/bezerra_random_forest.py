@@ -455,9 +455,10 @@ print('Metrics from above model, without tuning:')
 y_pred = model.predict(X_test)
 
 ## Giving the output
-f= open("output_random_forest.txt","w+")
+f= open("output_random_forest.txt","a")
 
-f.write('random_forest Metrics:\n')
+f.write('\n\n\nrandom forest  Metrics: Random State ==')
+f.write(str(STATE))
 
 # Precision == TP / (TP + FP)
 precision = precision_score(y_test, y_pred)
