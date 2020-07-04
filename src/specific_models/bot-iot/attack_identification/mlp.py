@@ -50,7 +50,6 @@ for fileNumber in range (1, FIVE_PERCENT_FILES + 1):#FULL_FILES + 1):
 
 
 ###############################################################################
-###############################################################################
 ## Display generic (dataset independent) information
 ###############################################################################
 #print ('Dataframe shape (lines, columns):', df.shape, '\n')
@@ -380,34 +379,55 @@ y_train = keras.utils.to_categorical (y_train, numberOfClasses)
 y_val = keras.utils.to_categorical (y_val, numberOfClasses)
 y_test = keras.utils.to_categorical (y_test, numberOfClasses)
 
+from sklearn.model_selection import PredefinedSplit
+  from sklearn.model_selection import GridSearchCV
+  from sklearn.tree import DecisionTreeClassifier
+  import time
+  ### -1 indices -> train
+  ### 0  indices -> validation
+  test_fold = np.repeat ([-1, 0], [X_train.shape [0], X_val.shape [0]])
+  myPreSplit = PredefinedSplit (test_fold)
+
+
+
 print ('\nCreating learning model.')
 from keras.models import Sequential
 from keras.layers import Dense, Dropout
-BATCH_SIZE = 64
-NUMBER_OF_EPOCHS = 4
-LEARNING_RATE = 0.001
-bestModel = Sequential ()
-bestModel.add (Dense (units = 64, activation = 'relu',
-                  input_shape = (X_train.shape [1], )))
-bestModel.add (Dense (32, activation = 'relu'))
-bestModel.add (Dense (numberOfClasses, activation = 'softmax'))
-print ('Model summary:')
-bestModel.summary ()
-
-
-###############################################################################
-## Compile the network
-###############################################################################
-print ('\nCompiling the network.')
 from keras.optimizers import RMSprop
 from keras.optimizers import Adam
 from keras import metrics
-bestModel.compile (loss = 'categorical_crossentropy',
-               optimizer = Adam (lr = LEARNING_RATE),
-               metrics = ['accuracy',
-                          metrics.CategoricalAccuracy ()])
+BATCH_SIZE = 64
+NUMBER_OF_EPOCHS = 4
+LEARNING_RATE = 0.001
+
+def createModel ():
+  model = Sequential ()
+  model.add (Dense (units = 64, activation = 'relu',
+                    input_shape = (X_train.shape [1], )))
+  model.add (Dense (32, activation = 'relu'))
+  model.add (Dense (numberOfClasses, activation = 'softmax'))
+  model.compile (loss = 'categorical_crossentropy',
+                 optimizer = Adam (lr = LEARNING_RATE),
+                 metrics = ['accuracy', metrics.CategoricalAccuracy ()])
+  return model
+
+model = KerasClassifier (build_fn = create_model, verbose = 0)
+batch_size = [10, 20, 40, 60, 80, 100]
+epochs = [3, 5, 10]
+param_grid = dict (batch_size = batch_size, epochs = epochs)
+grid = GridSearchCV (estimator = model, param_grid = param_grid,
+                     scoring = 'f1_weighted', cv = myPreSplit, verbose = 1,
+                     n_jobs = -1)
+
+grid.fit (np.concatenate ((X_train, X_val), axis = 0),
+          np.concatenate ((y_train, y_val), axis = 0))
+print (model.best_params_)
 
 
+
+
+
+sys.exit ()
 ###############################################################################
 ## Fit the network
 ###############################################################################
