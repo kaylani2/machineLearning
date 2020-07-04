@@ -14,7 +14,9 @@ import time
 ## Define constants
 ###############################################################################
 # Random state for reproducibility
+STATES = [0, 10, 100, 1000, 10000]
 STATE = 0
+#for STATE in STATES:
 np.random.seed (STATE)
 
 pd.set_option ('display.max_rows', None)
@@ -381,9 +383,9 @@ myPreSplit = PredefinedSplit (test_fold)
 
 parameters = {'n_estimators' : [100, 200],
               'criterion' : ['gini', 'entropy'],
-              'max_depth' : [1, 10, 100, 1000, 10000, None],#100000, 1000000, None],
-              'min_samples_split' : [2],
-              'bootstrap' : [True]}#, False]}
+              'max_depth' : [1, 10, 100, 1000, None],#100000, 1000000, None],
+              'min_samples_split' : [2, 3],
+              'bootstrap' : [True, False]}
 
 clf = RandomForestClassifier ()
 bestModel = GridSearchCV (estimator = clf,
@@ -401,9 +403,10 @@ print (bestModel.best_params_)
 #                                    max_depth = 1000, min_samples_split = 2,
 #                                    n_estimators = 100)
 
+sys.exit ()
 startTime = time.time ()
 bestModel.fit (X_train, y_train)
-print (str (time.time () - startTime), 'to train model.')
+print (str (time.time () - startTime), 's to train model.')
 
 
 ###############################################################################
@@ -413,19 +416,18 @@ from sklearn.metrics import confusion_matrix, classification_report
 from sklearn.metrics import confusion_matrix, precision_score, recall_score
 from sklearn.metrics import f1_score, classification_report, accuracy_score
 from sklearn.metrics import cohen_kappa_score
-y_pred = bestModel.predict (X_val)
-print ('\nPerformance on VALIDATION set:')
-print ('Confusion matrix:')
-print (confusion_matrix (y_val, y_pred,
-                         labels = df [TARGET].unique ()))
-print ('Accuracy:', accuracy_score (y_val, y_pred))
-print ('Precision:', precision_score (y_val, y_pred, average = 'macro'))
-print ('Recall:', recall_score (y_val, y_pred, average = 'macro'))
-print ('F1:', f1_score (y_val, y_pred, average = 'macro'))
-print ('Cohen Kappa:', cohen_kappa_score (y_val, y_pred,
-                       labels = df [TARGET].unique ()))
+#y_pred = bestModel.predict (X_val)
+#print ('\nPerformance on VALIDATION set:')
+#print ('Confusion matrix:')
+#print (confusion_matrix (y_val, y_pred,
+#                         labels = df [TARGET].unique ()))
+#print ('Accuracy:', accuracy_score (y_val, y_pred))
+#print ('Precision:', precision_score (y_val, y_pred, average = 'macro'))
+#print ('Recall:', recall_score (y_val, y_pred, average = 'macro'))
+#print ('F1:', f1_score (y_val, y_pred, average = 'macro'))
+#print ('Cohen Kappa:', cohen_kappa_score (y_val, y_pred,
+#                       labels = df [TARGET].unique ()))
 
-sys.exit ()
 ### K: NOTE: Only look at test results when publishing...
 print ('\nPerformance on TEST set:')
 y_pred = bestModel.predict (X_test)

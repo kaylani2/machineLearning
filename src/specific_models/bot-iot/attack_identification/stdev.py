@@ -9,7 +9,7 @@ recall      = []
 f1          = []
 cohen_kappa = []
 
-with open ('logfile.2020-07-03-16_01_30.log') as f:
+with open ('logfile.2020-07-03-17_05_20.log') as f:
   for line in f:
     if (re.search ('to train model', line)):
       train_time.append (float (line.split () [0]))
