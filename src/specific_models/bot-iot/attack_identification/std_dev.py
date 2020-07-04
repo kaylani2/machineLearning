@@ -1,6 +1,8 @@
 import re
 import sys
 import statistics
+import locale
+locale.setlocale(locale.LC_ALL, 'pt_BR.UTF-8')
 
 train_time  = []
 accuracy    = []
@@ -31,3 +33,25 @@ print ('Recall mean +/- stdv: {} +/- {}'.format (statistics.mean (recall), stati
 print ('F1 mean +/- stdv: {} +/- {}'.format (statistics.mean (f1), statistics.stdev (f1)))
 print ('Cohen kappa mean +/- stdv: {} +/- {}'.format (statistics.mean (cohen_kappa), statistics.stdev (cohen_kappa)))
 print ('Train time mean +/- stdv: {} +/- {}'.format (statistics.mean (train_time), statistics.stdev (train_time)))
+
+
+mean_accuracy = str (round (statistics.mean (accuracy) * 100, 3))[:-1]
+stdev_accuracy = str (round (statistics.stdev (accuracy) * 100, 3))[:-1]
+mean_precision = str (round (statistics.mean (precision) * 100, 3))[:-1]
+stdev_precision = str (round (statistics.stdev (precision) * 100, 3))[:-1]
+mean_recall = str (round (statistics.mean (recall) * 100, 3))[:-1]
+stdev_recall = str (round (statistics.stdev (recall) * 100, 3))[:-1]
+mean_f1 = str (round (statistics.mean (f1) * 100, 3))[:-1]
+stdev_f1 = str (round (statistics.stdev (f1) * 100, 3))[:-1]
+mean_cohen_kappa = str (round (statistics.mean (cohen_kappa) * 100, 3))[:-1]
+stdev_cohen_kappa = str (round (statistics.stdev (cohen_kappa) * 100, 3))[:-1]
+mean_train_time = str (round (statistics.mean (train_time), 3))[:-1]
+stdev_train_time = str (round (statistics.stdev (train_time), 3))[:-1]
+
+
+
+output = '\n\n\\thead{Floresta aleatória} & \makecell{$(' + mean_accuracy + '\pm$ \\\\ $' + stdev_accuracy + ')\%$} & \makecell{$(' + mean_precision + '\pm$ \\\\ $' + stdev_precision + ')\%$} & \makecell{$(' + mean_recall + '\pm$ \\\\ $' + stdev_recall + ')\%$} & \makecell{$(' + mean_f1 + '\pm$ \\\\ $' + stdev_f1 + ')\%$} & \makecell{$(' + mean_cohen_kappa + '\pm$ \\\\ $' + stdev_cohen_kappa + ')\%$} & \makecell{$(' + mean_train_time + '\pm$ \\\\ $' + stdev_train_time + ')$ s} \\\\ \hline %'
+
+
+
+print (output.replace ('.', ','))
