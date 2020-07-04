@@ -23,9 +23,14 @@ import sys
 ## Define constants 
 ###############################################################################
 
-
 # Random state for reproducibility
-STATE = 0
+try: 
+  # If defined at argv:
+  STATE = int(sys.argv[1])
+except:
+  # If not defined, it will be 0
+  STATE = 0
+
 np.random.seed(10)
 # List of available attacks on the dataset
 
@@ -332,32 +337,32 @@ import time
 
 ### -1 indices -> train
 ### 0  indices -> validation
-test_fold = np.repeat ([-1, 0], [X_train_val.shape [0], X_val.shape [0]])
-myPreSplit = PredefinedSplit (test_fold)
-#myPreSplit.get_n_splits ()
-#myPreSplit.split ()
-#for train_index, test_index in myPreSplit.split ():
-#    print ("TRAIN:", train_index, "TEST:", test_index)
+# test_fold = np.repeat ([-1, 0], [X_train_val.shape [0], X_val.shape [0]])
+# myPreSplit = PredefinedSplit (test_fold)
+# #myPreSplit.get_n_splits ()
+# #myPreSplit.split ()
+# #for train_index, test_index in myPreSplit.split ():
+# #    print ("TRAIN:", train_index, "TEST:", test_index)
 
 
-parameters = {'n_estimators' : [100, 200], 
-              'criterion' : ['gini', 'entropy'],
-              'max_depth' : [1, 10, 100, 1000, 10000, None],
-              'min_samples_split' : [2],
-             'bootstrap' : [True, False]}
+# parameters = {'n_estimators' : [100, 200], 
+#               'criterion' : ['gini', 'entropy'],
+#               'max_depth' : [1, 10, 100, 1000, 10000, None],
+#               'min_samples_split' : [2],
+#              'bootstrap' : [True, False]}
 
-clf = RandomForestClassifier ()
+# clf = RandomForestClassifier ()
 
-model = GridSearchCV (estimator = clf,
-                      param_grid = parameters,
-                      scoring = 'f1_weighted',
-                      cv = myPreSplit,
-                      verbose = 1)
+# model = GridSearchCV (estimator = clf,
+#                       param_grid = parameters,
+#                       scoring = 'f1_weighted',
+#                       cv = myPreSplit,
+#                       verbose = 1)
 
-model.fit (np.concatenate ((X_train_val, X_val), axis = 0),
-           np.concatenate ((y_train_val, y_val), axis = 0))
+# model.fit (np.concatenate ((X_train_val, X_val), axis = 0),
+#            np.concatenate ((y_train_val, y_val), axis = 0))
 
-print (model.best_params_)
+# print (model.best_params_)
 
 #{'bootstrap': True, 'criterion': 'entropy', 'max_depth': 1, 'min_samples_split': 2, 'n_estimators': 100}
 
@@ -377,20 +382,20 @@ from sklearn.metrics import f1_score
 from sklearn.metrics import confusion_matrix
 from sklearn.metrics import cohen_kappa_score
 
-y_pred = model.predict(X_test)
+# y_pred = model.predict(X_test)
 
-print('Metrics from tuned model:')
+# print('Metrics from tuned model:')
 
-# New Model Evaluation metrics 
-print('Accuracy Score : ' + str(accuracy_score(y_test,y_pred)))
-print('Precision Score : ' + str(precision_score(y_test,y_pred)))
-print('Recall Score : ' + str(recall_score(y_test,y_pred)))
-print('F1 Score : ' + str(f1_score(y_test,y_pred)))
-print('Cohen Kappa Score: ', str(cohen_kappa_score(y_test, y_pred)))
+# # New Model Evaluation metrics 
+# print('Accuracy Score : ' + str(accuracy_score(y_test,y_pred)))
+# print('Precision Score : ' + str(precision_score(y_test,y_pred)))
+# print('Recall Score : ' + str(recall_score(y_test,y_pred)))
+# print('F1 Score : ' + str(f1_score(y_test,y_pred)))
+# print('Cohen Kappa Score: ', str(cohen_kappa_score(y_test, y_pred)))
 
-#Logistic Regression (Grid Search) Confusion matrix
-confusion_matrix(y_test,y_pred)
-print('\n\n\n')
+# #Logistic Regression (Grid Search) Confusion matrix
+# confusion_matrix(y_test,y_pred)
+# print('\n\n\n')
 
 
 
@@ -400,9 +405,9 @@ print('\n\n\n')
 from sklearn.metrics import plot_confusion_matrix
 from matplotlib import pyplot as plt
 
-plot_confusion_matrix(model, X_test, y_test)  # doctest: +SKIP
-plt.savefig("random_forest_confusion_matrix_with_tuning.png", format="png")
-plt.show()  # doctest: +SKIP
+# plot_confusion_matrix(model, X_test, y_test)  # doctest: +SKIP
+# plt.savefig("random_forest_confusion_matrix_with_tuning.png", format="png")
+# plt.show()  # doctest: +SKIP
 # td  sp  dp  pr  flg  ipkt ibyt
 
 
@@ -419,11 +424,12 @@ start_time = time.time()
 
 #{'bootstrap': True, 'criterion': 'entropy', 'max_depth': 1, 'min_samples_split': 2, 'n_estimators': 100}
 # Assign the model to be used with adjusted parameters
-clf = RandomForestClassifier()
+clf = RandomForestClassifier(bootstrap = True, criterion = 'entropy', max_depth = 1, min_samples_split = 2, n_estimators = 100)
 
 # Training the model
 model = clf.fit(X_train, y_train)
 print("--- %s seconds ---" % (time.time() - start_time))
+training_time = time.time() - start_time
 
 
 # In[31]:
@@ -448,24 +454,54 @@ print('Metrics from above model, without tuning:')
 # Predicting from the test slice
 y_pred = model.predict(X_test)
 
+## Giving the output
+f= open("output_random_forest.txt","w+")
+
+f.write('random_forest Metrics:\n')
+
 # Precision == TP / (TP + FP)
-print('Precision Score: ', precision_score(y_test, y_pred))
+precision = precision_score(y_test, y_pred)
+print('Precision Score: ', precision)
+f.write('\nPrecision: ')
+f.write(str(precision))
 
 # Recall == TP / (TP + FN)
+recall = recall_score(y_test, y_pred)
 print('Recall Score: ', recall_score(y_test, y_pred))
-print('Cohen Kappa Score: ', cohen_kappa_score(y_test, y_pred))
+f.write('\nRecall: ')
+f.write(str(precision))
+
 # Accuracy 
 train_score = model.score(X_test, y_test)
 print('Accuracy: ', train_score)
+f.write('\nAccuracy: ')
+f.write(str(train_score))
 
 # f1 
 f_one_score = f1_score(y_test, y_pred)
 print('F1 Score: ', f_one_score)
+f.write('\nf_one_score: ')
+f.write(str(f_one_score))
+
+cohen = str(cohen_kappa_score(y_test, y_pred))
+print('Cohen Kappa Score: ', cohen)
+f.write('\nCohen: ')
+f.write(str(cohen))
+
+
+f.write('\nMade in ')
+f.write(str(training_time))
+f.write(' seconds\n')
 
 # Multilabel Confusion Matrix: 
 # [tn fp]
 # [fn tp]
-print(multilabel_confusion_matrix(y_test, y_pred, labels=[0, 1]))
+confusion_matrix = str(multilabel_confusion_matrix(y_test, y_pred, labels=[0, 1]))
+print(confusion_matrix)
+f.write('\nCofusion Matrix: ')
+f.write(confusion_matrix)
+
+f.close()
 
 
 # In[32]:

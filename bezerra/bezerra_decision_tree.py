@@ -25,7 +25,12 @@ import sys
 
 
 # Random state for reproducibility
-STATE = 0
+try: 
+  # If defined at argv:
+  STATE = int(sys.argv[1])
+except:
+  # If not defined, it will be 0
+  STATE = 0
 np.random.seed(10)
 # List of available attacks on the dataset
 
@@ -430,7 +435,7 @@ clf = tree.DecisionTreeClassifier()
 # Training the model
 model = clf.fit(X_train, y_train)
 print("--- %s seconds ---" % (time.time() - start_time))
-
+training_time = time.time() - start_time
 
 # In[82]:
 
@@ -449,26 +454,54 @@ from sklearn.metrics import confusion_matrix
 # Predicting from the test slice
 y_pred = model.predict(X_test)
 
+## Giving the output
+f = open("output_decision_tree.txt","a")
+
+f.write('\n\n\ndecision_tree Metrics: Random State ==')
+f.write(str(STATE))
 # Precision == TP / (TP + FP)
-print('Precision Score: ', precision_score(y_test, y_pred))
+precision = precision_score(y_test, y_pred)
+print('Precision Score: ', precision)
+f.write('\nPrecision:')
+f.write(str(precision))
 
 # Recall == TP / (TP + FN)
+recall = recall_score(y_test, y_pred)
 print('Recall Score: ', recall_score(y_test, y_pred))
+f.write('\nRecall:')
+f.write(str(precision))
 
 # Accuracy 
 train_score = model.score(X_test, y_test)
 print('Accuracy: ', train_score)
+f.write('\nAccuracy:')
+f.write(str(train_score))
 
 # f1 
 f_one_score = f1_score(y_test, y_pred)
 print('F1 Score: ', f_one_score)
-print('Cohen Kappa Score: ', str(cohen_kappa_score(y_test, y_pred)))
+f.write('\nf_one_score:')
+f.write(str(f_one_score))
+
+cohen = str(cohen_kappa_score(y_test, y_pred))
+print('Cohen Kappa Score: ', cohen)
+f.write('\nCohen: ')
+f.write(str(cohen))
+
+
+f.write('\nMade in ')
+f.write(str(training_time))
+f.write(' seconds\n')
 
 # Multilabel Confusion Matrix: 
 # [tn fp]
 # [fn tp]
-print(multilabel_confusion_matrix(y_test, y_pred, labels=[0, 1]))
+confusion_matrix = str(multilabel_confusion_matrix(y_test, y_pred, labels=[0, 1]))
+print(confusion_matrix)
+f.write('\nCofusion Matrix: ')
+f.write(confusion_matrix)
 
+f.close()
 
 # In[83]:
 
@@ -481,22 +514,4 @@ plot_confusion_matrix(model, X_test, y_test)  # doctest: +SKIP
 plt.savefig("decision_tree_confusion_matrix_without_tuning.png", format="png")
 plt.show()  # doctest: +SKIP
 # td  sp  dp  pr  flg  ipkt ibyt
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
 
