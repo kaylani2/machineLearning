@@ -29,7 +29,7 @@ FULL_FILES = 74
 FILE_NAME = BOT_IOT_DIRECTORY + BOT_IOT_FILE_5_PERCENT_SCHEMA#FULL_SCHEMA
 FEATURES = BOT_IOT_DIRECTORY + BOT_IOT_FEATURE_NAMES
 NAN_VALUES = ['?', '.']
-TARGET = 'category'
+TARGET = 'attack'
 
 ###############################################################################
 ## Load dataset
@@ -69,7 +69,7 @@ print ('NaN columns:', nanColumns, '\n')
 print ('\nAttack types:', df ['attack'].unique ())
 print ('Attack distribution:')
 print (df ['attack'].value_counts ())
-print ('\nCateogry types:', df [TARGET].unique ())
+print ('\nCateogry types:', df ['category'].unique ())
 print ('Cateogry distribution:')
 print (df [TARGET].value_counts ())
 print ('\nSubcategory types:', df ['subcategory'].unique ())
@@ -186,31 +186,31 @@ print ('Objects:', list (df.select_dtypes (['object']).columns), '\n')
 
 ###############################################################################
 ### Drop unused targets
-### K: NOTE: attack and attack_subcategory are labels for different
+### K: NOTE: category and subcategory are labels for different
 ### applications, not attributes. They must not be used to aid classification.
 print ('\nDropping attack and attack_subcategory.')
 print ('These are labels for other scenarios.')
-df.drop (axis = 'columns', columns = 'attack', inplace = True)
+df.drop (axis = 'columns', columns = 'category', inplace = True)
 df.drop (axis = 'columns', columns = 'subcategory', inplace = True)
 
 
 ###############################################################################
 ## Encode Label
 ###############################################################################
-print ('\nEnconding label.')
-myLabels = df [TARGET].unique ()
-print ('Label types before conversion:', myLabels)
-for label, code in zip (myLabels, range (len (myLabels))):
-  df [TARGET].replace (label, code, inplace = True)
-print ('Label types after conversion:', df [TARGET].unique ())
+#print ('\nEnconding label.')
+#myLabels = df [TARGET].unique ()
+#print ('Label types before conversion:', myLabels)
+#for label, code in zip (myLabels, range (len (myLabels))):
+#  df [TARGET].replace (label, code, inplace = True)
+#print ('Label types after conversion:', df [TARGET].unique ())
 
 
 ###############################################################################
 ## Split dataset into train, validation and test sets
 ###############################################################################
 from sklearn.model_selection import train_test_split
-TEST_SIZE = 4/10
-VALIDATION_SIZE = 1/10
+TEST_SIZE = 2/10
+VALIDATION_SIZE = 1/4
 print ('\nSplitting dataset (test/train):', TEST_SIZE)
 X_train_df, X_test_df, y_train_df, y_test_df = train_test_split (
                                                df.iloc [:, :-1],
@@ -343,26 +343,36 @@ from sklearn.svm import SVC, LinearSVC
 test_fold = np.repeat ([-1, 0], [X_train.shape [0], X_val.shape [0]])
 myPreSplit = PredefinedSplit (test_fold)
 
-# 30 minutos na pepe nao fechou...
 parameters = {'C' : [0.001, 0.01, 0.1, 1],
-              'kernel' : ['linear', 'poly'],#, 'rbf', 'sigmoid', 'precomputed'],
-              'degree' : [1, 2, 3],
-              'class_weight' : [None, 'balanced']}
+              #'kernel' : ['linear', 'poly'],#, 'rbf', 'sigmoid', 'precomputed'],
+              #'degree' : [1, 2, 3],
+              'dual' : [False], # n_samples >>>> n_features (From the docs)
+              'class_weight' : [None, 'balanced'],
+              'tol': [1e-3, 1e-4, 1e-5],
+              #'loss': ['hinge', 'square_hinge'], 
+              'max_iter' : [10000],
+              'random_state' : [STATE]}
 
-#clf = SVC ()
-#bestModel = GridSearchCV (estimator = clf,
-#                          param_grid = parameters,
-#                          scoring = 'f1_weighted',
-#                          cv = myPreSplit,
-#                          verbose = 10,
-#                          n_jobs = -1)
-#
-#bestModel.fit (np.concatenate ((X_train, X_val), axis = 0),
-#               np.concatenate ((y_train, y_val), axis = 0))
-#print (bestModel.best_params_)
+clf = LinearSVC ()
+bestModel = GridSearchCV (estimator = clf,
+                          param_grid = parameters,
+                          scoring = 'f1_weighted',
+                          cv = myPreSplit,
+                          verbose = 10,
+                          n_jobs = -1)
 
-bestModel = LinearSVC (C = 0.1, random_state = STATE, verbose = 2)
+bestModel.fit (np.concatenate ((X_train, X_val), axis = 0),
+               np.concatenate ((y_train, y_val), axis = 0))
+print (bestModel.best_params_)
+
+#{'C': 1, 'class_weight': None, 'dual': False, 'max_iter': 10000, 'random_state': 0, 'tol': 0.001}
+
+
+#bestModel = LinearSVC (C = 0.1, random_state = STATE, max_iter = 10000,
+#                       verbose = 2)
+startTime = time.time ()
 bestModel.fit (X_train, y_train)
+print (str (time.time () - startTime), 's to train model.')
 
 
 ###############################################################################
