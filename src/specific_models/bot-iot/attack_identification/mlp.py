@@ -293,7 +293,7 @@ print (str (time.time () - startTime), 'to normalize data.')
 ###############################################################################
 from sklearn.feature_selection import SelectKBest
 from sklearn.feature_selection import f_classif, chi2, mutual_info_classif
-NUMBER_OF_FEATURES = 9 #'all'
+NUMBER_OF_FEATURES = 2 #'all'
 print ('\nSelecting top', NUMBER_OF_FEATURES, 'features.')
 startTime = time.time ()
 #fs = SelectKBest (score_func = mutual_info_classif, k = NUMBER_OF_FEATURES)
@@ -375,32 +375,44 @@ print ('Balanced:', Counter (y_bal))
 import keras.utils
 from keras.utils import to_categorical
 numberOfClasses = len (df [TARGET].unique ())
+print ('y_val:')
+print (y_val [:50])
+print (y_val.shape)
 y_train = keras.utils.to_categorical (y_train, numberOfClasses)
 y_val = keras.utils.to_categorical (y_val, numberOfClasses)
 y_test = keras.utils.to_categorical (y_test, numberOfClasses)
 
 from sklearn.model_selection import PredefinedSplit
-  from sklearn.model_selection import GridSearchCV
-  from sklearn.tree import DecisionTreeClassifier
-  import time
-  ### -1 indices -> train
-  ### 0  indices -> validation
-  test_fold = np.repeat ([-1, 0], [X_train.shape [0], X_val.shape [0]])
-  myPreSplit = PredefinedSplit (test_fold)
+from sklearn.model_selection import GridSearchCV
+from sklearn.tree import DecisionTreeClassifier
+import time
+### -1 indices -> train
+### 0  indices -> validation
+test_fold = np.repeat ([-1, 0], [X_train.shape [0], X_val.shape [0]])
+myPreSplit = PredefinedSplit (test_fold)
 
 
+print ('y_val:')
+print (y_val [:50])
+print (y_val.shape)
+y_val = y_val.argmax (axis = 1)
+print ('y_val:')
+print (y_val [:50])
+print (y_val.shape)
+y_train = y_train.argmax (axis = 1)
 
 print ('\nCreating learning model.')
 from keras.models import Sequential
 from keras.layers import Dense, Dropout
 from keras.optimizers import RMSprop
 from keras.optimizers import Adam
+from keras.wrappers.scikit_learn import KerasClassifier
 from keras import metrics
 BATCH_SIZE = 64
 NUMBER_OF_EPOCHS = 4
 LEARNING_RATE = 0.001
 
-def createModel ():
+def create_model ():
   model = Sequential ()
   model.add (Dense (units = 64, activation = 'relu',
                     input_shape = (X_train.shape [1], )))
@@ -411,23 +423,56 @@ def createModel ():
                  metrics = ['accuracy', metrics.CategoricalAccuracy ()])
   return model
 
-model = KerasClassifier (build_fn = create_model, verbose = 0)
+model = KerasClassifier (build_fn = create_model, verbose = 2)
 batch_size = [10, 20, 40, 60, 80, 100]
 epochs = [3, 5, 10]
 param_grid = dict (batch_size = batch_size, epochs = epochs)
 grid = GridSearchCV (estimator = model, param_grid = param_grid,
-                     scoring = 'f1_weighted', cv = myPreSplit, verbose = 1,
+                     scoring = 'f1_weighted', cv = myPreSplit, verbose = 2,
                      n_jobs = -1)
 
-grid.fit (np.concatenate ((X_train, X_val), axis = 0),
-          np.concatenate ((y_train, y_val), axis = 0))
-print (model.best_params_)
+grid_result = grid.fit (np.concatenate ((X_train, X_val), axis = 0),
+                        np.concatenate ((y_train, y_val), axis = 0))
+print (grid_result.best_params_)
 
-
-
-
+print("Best: %f using %s" % (grid_result.best_score_, grid_result.best_params_))
+means = grid_result.cv_results_['mean_test_score']
+stds = grid_result.cv_results_['std_test_score']
+params = grid_result.cv_results_['params']
+for mean, stdev, param in zip(means, stds, params):
+  print("%f (%f) with: %r" % (mean, stdev, param))
 
 sys.exit ()
+
+"""
+print ('\nCreating learning model.')
+from keras.models import Sequential
+from keras.layers import Dense, Dropout
+BATCH_SIZE = 64
+NUMBER_OF_EPOCHS = 4
+LEARNING_RATE = 0.001
+bestModel = Sequential ()
+bestModel.add (Dense (units = 64, activation = 'relu',
+                  input_shape = (X_train.shape [1], )))
+bestModel.add (Dense (32, activation = 'relu'))
+bestModel.add (Dense (numberOfClasses, activation = 'softmax'))
+print ('Model summary:')
+bestModel.summary ()
+
+###############################################################################
+## Compile the network
+###############################################################################
+print ('\nCompiling the network.')
+from keras.optimizers import RMSprop
+from keras.optimizers import Adam
+from keras import metrics
+bestModel.compile (loss = 'categorical_crossentropy',
+               optimizer = Adam (lr = LEARNING_RATE),
+               metrics = ['accuracy',
+                          metrics.CategoricalAccuracy ()])
+
+
+
 ###############################################################################
 ## Fit the network
 ###############################################################################
@@ -442,6 +487,7 @@ history = bestModel.fit (X_train, y_train,
                          validation_data = (X_val, y_val))
 print (str (time.time () - startTime), 's to train model.')
 
+"""
 
 ###############################################################################
 ## Analyze results
