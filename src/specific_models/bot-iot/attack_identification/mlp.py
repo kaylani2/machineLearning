@@ -408,25 +408,33 @@ from keras.optimizers import RMSprop
 from keras.optimizers import Adam
 from keras.wrappers.scikit_learn import KerasClassifier
 from keras import metrics
-BATCH_SIZE = 64
-NUMBER_OF_EPOCHS = 4
-LEARNING_RATE = 0.001
+from keras.constraints import maxnorm
+#BATCH_SIZE = 64
+#NUMBER_OF_EPOCHS = 4
+#LEARNING_RATE = 0.001
 
-def create_model ():
+def create_model (learn_rate = 0.01, dropout_rate = 0.0, weight_constraint = 0):
   model = Sequential ()
   model.add (Dense (units = 64, activation = 'relu',
+                    kernel_constraint = maxnorm (weight_constraint),
                     input_shape = (X_train.shape [1], )))
+  model.add(Dropout(dropout_rate))
   model.add (Dense (32, activation = 'relu'))
   model.add (Dense (numberOfClasses, activation = 'softmax'))
-  model.compile (loss = 'categorical_crossentropy',
-                 optimizer = Adam (lr = LEARNING_RATE),
-                 metrics = ['accuracy', metrics.CategoricalAccuracy ()])
+  model.compile (loss = 'binary_crossentropy',
+                 optimizer = Adam (lr = learn_rate),
+                 metrics = ['accuracy'])#, metrics.CategoricalAccuracy ()])
   return model
 
 model = KerasClassifier (build_fn = create_model, verbose = 2)
-batch_size = [10, 20, 40, 60, 80, 100]
-epochs = [3, 5, 10]
-param_grid = dict (batch_size = batch_size, epochs = epochs)
+batch_size = [30]#10, 30, 50]
+epochs = [3]#, 5, 10]
+learn_rate = [0.001, 0.01, 0.1, 0.2, 0.3]
+dropout_rate = [0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]
+weight_constraint = [1, 2, 3, 4, 5]
+param_grid = dict (batch_size = batch_size, epochs = epochs,
+                   dropout_rate = dropout_rate, learn_rate = learn_rate,
+                   weight_constraint = weight_constraint)
 grid = GridSearchCV (estimator = model, param_grid = param_grid,
                      scoring = 'f1_weighted', cv = myPreSplit, verbose = 2,
                      n_jobs = -1)
@@ -442,18 +450,20 @@ params = grid_result.cv_results_['params']
 for mean, stdev, param in zip(means, stds, params):
   print("%f (%f) with: %r" % (mean, stdev, param))
 
-sys.exit ()
 
-"""
+{'batch_size': 30, 'dropout_rate': 0.0, 'epochs': 3, 'learn_rate': 0.01, 'weight_constraint': 4}
+
 print ('\nCreating learning model.')
 from keras.models import Sequential
 from keras.layers import Dense, Dropout
-BATCH_SIZE = 64
-NUMBER_OF_EPOCHS = 4
-LEARNING_RATE = 0.001
+BATCH_SIZE = 30
+NUMBER_OF_EPOCHS = 3
+LEARNING_RATE = 0.01
+WEIGHT_CONSTRAINT = 4
 bestModel = Sequential ()
 bestModel.add (Dense (units = 64, activation = 'relu',
-                  input_shape = (X_train.shape [1], )))
+                      kernel_constraint = maxnorm (weight_constraint),
+                      input_shape = (X_train.shape [1], )))
 bestModel.add (Dense (32, activation = 'relu'))
 bestModel.add (Dense (numberOfClasses, activation = 'softmax'))
 print ('Model summary:')
@@ -467,9 +477,8 @@ from keras.optimizers import RMSprop
 from keras.optimizers import Adam
 from keras import metrics
 bestModel.compile (loss = 'categorical_crossentropy',
-               optimizer = Adam (lr = LEARNING_RATE),
-               metrics = ['accuracy',
-                          metrics.CategoricalAccuracy ()])
+                   optimizer = Adam (lr = LEARNING_RATE),
+                   metrics = ['accuracy'])
 
 
 
@@ -481,13 +490,13 @@ startTime = time.time ()
 history = bestModel.fit (X_train, y_train,
                          batch_size = BATCH_SIZE,
                          epochs = NUMBER_OF_EPOCHS,
+                         #weight_constraint = WEIGHT_CONSTRAINT,
                          verbose = 2, #1 = progress bar, not useful for logging
                          workers = 0,
                          use_multiprocessing = True,
                          validation_data = (X_val, y_val))
 print (str (time.time () - startTime), 's to train model.')
 
-"""
 
 ###############################################################################
 ## Analyze results
