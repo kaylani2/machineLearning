@@ -1,8 +1,6 @@
 import re
 import sys
 import statistics
-import locale
-locale.setlocale(locale.LC_ALL, 'pt_BR.UTF-8')
 
 train_time  = []
 accuracy    = []
@@ -11,10 +9,8 @@ recall      = []
 f1          = []
 cohen_kappa = []
 
-with open ('logfile.2020-07-05-17_08_13.log') as f:
+with open ('hyper_mlp.log') as f:
   for line in f:
-    if (re.search ('to train model', line)):
-      train_time.append (float (line.split () [0]))
     if (re.search ('Accuracy', line)):
       accuracy.append (float (line.split () [1]))
     if (re.search ('Precision', line)):
@@ -25,6 +21,8 @@ with open ('logfile.2020-07-05-17_08_13.log') as f:
       f1.append (float (line.split () [1]))
     if (re.search ('Cohen Kappa', line)):
       cohen_kappa.append (float (line.split () [2]))
+    if (re.search ('to train model', line)):
+      train_time.append (float (line.split () [0]))
 
 
 print ('Accuracy mean +/- stdv: {} +/- {}'.format (statistics.mean (accuracy), statistics.stdev (accuracy)))
@@ -54,4 +52,4 @@ output = '\n\n\\thead{Floresta aleatória} & \makecell{$(' + mean_accuracy + '\p
 
 
 
-print (output.replace ('.', ','))
+print (output.replace ('.', ',').replace ('0,', '0,00'))
