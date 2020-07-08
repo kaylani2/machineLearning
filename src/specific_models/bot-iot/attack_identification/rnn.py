@@ -2,7 +2,7 @@
 # github.com/kaylani2
 # kaylani AT gta DOT ufrj DOT br
 
-### K: Model: Recurrent Neural Network
+### K: Model: LSTM
 
 import pandas as pd
 import numpy as np
@@ -389,23 +389,49 @@ print ('y_test shape:', y_test.shape)
 ### K: Be aware.
 
 #if ( (X_train.shape [0] % STEPS) != 0):
-#  X_train = X_train [:-(X_train.shape [0] % STEPS), :]
+#  X_train = X_train [:- (X_train.shape [0] % STEPS), :]
 #
-#X_train = X_train.reshape ((X_train.shape [0] // STEPS, STEPS,
+#X_train = X_train.reshape ( (X_train.shape [0] // STEPS, STEPS,
 #                            X_train.shape [1]),
 #                            order = 'C')
 startTime = time.time ()
-for myArray in (X_train, X_val, X_test):
-  if ((myArray.shape [0] % STEPS) != 0):
-    myArray = myArray [:-(myArray.shape [0] % STEPS), :]
-  myArray = myArray.reshape ((myArray.shape [0] // STEPS, STEPS,
-                            myArray.shape [1]),
-                            order = 'C')
 
-for myArray in (y_train, y_val, y_test):
-  if ((myArray.shape [0] % STEPS) != 0):
-    myArray = myArray [:-(myArray.shape [0] % STEPS)]
-  myArray = myArray.reshape ((myArray.shape [0] // STEPS, STEPS), order = 'C')
+# X_train
+if ((X_train.shape [0] % STEPS) != 0):
+  X_train = X_train [:- (X_train.shape [0] % STEPS), :]
+X_train = X_train.reshape ((X_train.shape [0] // STEPS, STEPS, X_train.shape [1]),
+                           order = 'C')
+print ('Finished X_train.')
+
+# X_val
+if ((X_val.shape [0] % STEPS) != 0):
+  X_val = X_val [:- (X_val.shape [0] % STEPS), :]
+X_val = X_val.reshape ((X_val.shape [0] // STEPS, STEPS, X_val.shape [1]),
+                       order = 'C')
+print ('Finished X_val.')
+
+# X_test
+if ((X_test.shape [0] % STEPS) != 0):
+  X_test = X_test [:- (X_test.shape [0] % STEPS), :]
+X_test = X_test.reshape ((X_test.shape [0] // STEPS, STEPS, X_test.shape [1]),
+                          order = 'C')
+print ('Finished X_test.')
+
+# Y_train
+if ((y_train.shape [0] % STEPS) != 0):
+  y_train = y_train [:- (y_train.shape [0] % STEPS)]
+y_train = y_train.reshape ( (y_train.shape [0] // STEPS, STEPS), order = 'C')
+
+# Y_val
+if ((y_val.shape [0] % STEPS) != 0):
+  y_val = y_val [:- (y_val.shape [0] % STEPS)]
+y_val = y_val.reshape ( (y_val.shape [0] // STEPS, STEPS), order = 'C')
+
+# Y_test
+if ((y_test.shape [0] % STEPS) != 0):
+  y_test = y_test [:- (y_test.shape [0] % STEPS)]
+y_test = y_test.reshape ( (y_test.shape [0] // STEPS, STEPS), order = 'C')
+
 print (str (time.time () - startTime), 's reshape data.')
 
 
@@ -413,26 +439,26 @@ print (str (time.time () - startTime), 's reshape data.')
 #LENGTH = 5
 #
 #sets_list = [X_train, X_test]
-#for index, data in enumerate(sets_list):
+#for index, data in enumerate (sets_list):
 #    n = data.shape[0]
 #    samples = []
 #    print (
 #
 #    # step over the X_train.shape[0] (samples) in jumps of 200 (time_steps)
-#    for i in range(0,n,LENGTH):
+#    for i in range (0,n,LENGTH):
 #        print ('index, i1:', index, i)
 #        # grab from i to i + 200
 #        sample = data[i:i+LENGTH]
-#        samples.append(sample)
+#        samples.append (sample)
 #
 #    # convert list of arrays into 2d array
-#    new_data = list()
-#    new_data = np.array(new_data)
-#    for i in range(len(samples)):
+#    new_data = list ()
+#    new_data = np.array (new_data)
+#    for i in range (len (samples)):
 #        print ('index, i1:', index, i)
-#        new_data = np.append(new_data, samples[i])
+#        new_data = np.append (new_data, samples[i])
 #
-#    sets_list[index] = new_data.reshape(len(samples), LENGTH, data.shape[1])
+#    sets_list[index] = new_data.reshape (len (samples), LENGTH, data.shape[1])
 #
 #
 #X_train = sets_list[0]
@@ -448,7 +474,6 @@ print ('y_test shape:', y_test.shape)
 
 
 
-sys.exit ()
 ###############################################################################
 ## Create learning model (Multilayer Perceptron) and tune hyperparameters
 ###############################################################################
@@ -459,9 +484,9 @@ numberOfClasses = len (df [TARGET].unique ())
 print ('y_val:')
 print (y_val [:50])
 print (y_val.shape)
-y_train = keras.utils.to_categorical (y_train, numberOfClasses)
-y_val = keras.utils.to_categorical (y_val, numberOfClasses)
-y_test = keras.utils.to_categorical (y_test, numberOfClasses)
+#y_train = keras.utils.to_categorical (y_train, numberOfClasses)
+#y_val = keras.utils.to_categorical (y_val, numberOfClasses)
+#y_test = keras.utils.to_categorical (y_test, numberOfClasses)
 
 from sklearn.model_selection import PredefinedSplit
 from sklearn.model_selection import GridSearchCV
@@ -490,6 +515,7 @@ from keras.optimizers import Adam
 from keras.wrappers.scikit_learn import KerasClassifier
 from keras import metrics
 from keras.constraints import maxnorm
+from keras.layers import LSTM
 #BATCH_SIZE = 64
 #NUMBER_OF_EPOCHS = 4
 #LEARNING_RATE = 0.001
@@ -535,23 +561,14 @@ from keras.constraints import maxnorm
 ##Best: 0.999957 using {'batch_size': 30, 'dropout_rate': 0.7, 'epochs': 3, 'learn_rate': 0.3, 'weight_constraint': 1}
 
 print ('\nCreating learning model.')
-from keras.models import Sequential
-from keras.layers import Dense, Dropout
 BATCH_SIZE = 30
-NUMBER_OF_EPOCHS = 3
+NUMBER_OF_EPOCHS = 1
 LEARNING_RATE = 0.001
 WEIGHT_CONSTRAINT = 1
-#from sklearn.utils import class_weight
-#class_weight = class_weight.compute_class_weight ('balanced',
-#                                                  np.unique (y_train),
-#                                                  y_train)
 bestModel = Sequential ()
-bestModel.add (Dense (units = 64, activation = 'relu',
-                      #kernel_constraint = maxnorm (WEIGHT_CONSTRAINT),
-                      kernel_constraint = maxnorm (WEIGHT_CONSTRAINT),
-                      input_shape = (X_train.shape [1], )))
-bestModel.add (Dense (32, activation = 'relu'))
-bestModel.add (Dense (numberOfClasses, activation = 'sigmoid'))
+bestModel.add (LSTM (50, activation = 'relu' , input_shape = (X_train.shape[1], X_train.shape[2])))
+bestModel.add (Dense (1))
+
 print ('Model summary:')
 bestModel.summary ()
 
@@ -562,11 +579,12 @@ print ('\nCompiling the network.')
 from keras.optimizers import RMSprop
 from keras.optimizers import Adam
 from keras import metrics
-bestModel.compile (loss = 'binary_crossentropy',
-                   optimizer = Adam (lr = LEARNING_RATE),
-                   metrics = ['binary_accuracy',
-                              #metrics.Recall (),
-                              metrics.Precision ()])
+bestModel.compile (optimizer = 'adam' , loss = 'mse' )
+#bestModel.compile (loss = 'binary_crossentropy',
+#                   optimizer = Adam (lr = LEARNING_RATE),
+#                   metrics = ['binary_accuracy',
+#                              #metrics.Recall (),
+#                              metrics.Precision ()])
 
 
 
@@ -575,14 +593,16 @@ bestModel.compile (loss = 'binary_crossentropy',
 ###############################################################################
 print ('\nFitting the network.')
 startTime = time.time ()
-history = bestModel.fit (X_train, y_train,
-                         batch_size = BATCH_SIZE,
-                         epochs = NUMBER_OF_EPOCHS,
-                         verbose = 2, #1 = progress bar, not useful for logging
-                         workers = 0,
-                         use_multiprocessing = True,
-                         #class_weight = 'auto',
-                         validation_data = (X_val, y_val))
+#history = bestModel.fit (X_train, y_train,
+#                         batch_size = BATCH_SIZE,
+#                         epochs = NUMBER_OF_EPOCHS,
+#                         verbose = 2, #1 = progress bar, not useful for logging
+#                         workers = 0,
+#                         use_multiprocessing = True,
+#                         #class_weight = 'auto',
+#                         validation_data = (X_val, y_val))
+bestModel.fit (X_train, y_train, epochs = NUMBER_OF_EPOCHS,
+               use_multiprocessing = True, verbose = 2)
 print (str (time.time () - startTime), 's to train model.')
 
 
@@ -593,21 +613,34 @@ from sklearn.metrics import confusion_matrix, classification_report
 from sklearn.metrics import confusion_matrix, precision_score, recall_score
 from sklearn.metrics import f1_score, classification_report, accuracy_score
 from sklearn.metrics import cohen_kappa_score
-#y_pred = bestModel.predict (X_val)
-#y_pred = y_pred.round ()
-#print ('\nPerformance on VALIDATION set:')
-#print ('Confusion matrix:')
-#print (confusion_matrix (y_val.argmax (axis = 1), y_pred.argmax (axis = 1),
-#                         labels = df [TARGET].unique ()))
-#print ('Accuracy:', accuracy_score (y_val, y_pred))
-#print ('Precision:', precision_score (y_val, y_pred, average = 'macro'))
-#print ('Recall:', recall_score (y_val, y_pred, average = 'macro'))
-#print ('F1:', f1_score (y_val, y_pred, average = 'macro'))
-#print ('Cohen Kappa:', cohen_kappa_score (y_val.argmax (axis = 1),
-#                                          y_pred.argmax (axis = 1),
-#                                          labels = df [TARGET].unique ()))
+y_pred = bestModel.predict (X_val)
+y_pred = y_pred.round ()
+
+print ('y_val:')
+print (y_val [:50])
+print (y_val.shape)
+#y_val = y_val.argmax (axis = 1)
+print ('y_pred:')
+print (y_pred [:50])
+print (y_pred.shape)
+#y_train = y_train.argmax (axis = 1)
+
+
+
+print ('\nPerformance on VALIDATION set:')
+print ('Confusion matrix:')
+print (confusion_matrix (y_val.argmax (axis = 1), y_pred.argmax (axis = 1),
+                         labels = df [TARGET].unique ()))
+print ('Accuracy:', accuracy_score (y_val, y_pred))
+print ('Precision:', precision_score (y_val, y_pred, average = 'macro'))
+print ('Recall:', recall_score (y_val, y_pred, average = 'macro'))
+print ('F1:', f1_score (y_val, y_pred, average = 'macro'))
+print ('Cohen Kappa:', cohen_kappa_score (y_val.argmax (axis = 1),
+                                          y_pred.argmax (axis = 1),
+                                          labels = df [TARGET].unique ()))
 
 ### K: NOTE: Only look at test results when publishing...
+sys.exit ()
 print ('\nPerformance on TEST set:')
 y_pred = bestModel.predict (X_test)
 y_pred = y_pred.round ()
