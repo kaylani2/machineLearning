@@ -376,6 +376,8 @@ print ('Balanced:', Counter (y_bal))
 ###############################################################################
 ## Rearrange samples for RNN
 ###############################################################################
+STEPS = 5
+print ('\nRearranging dataset for the RNN.')
 print ('X_train shape:', X_train.shape)
 print ('y_train shape:', y_train.shape)
 print ('X_val shape:', X_val.shape)
@@ -383,36 +385,70 @@ print ('y_val shape:', y_val.shape)
 print ('X_test shape:', X_test.shape)
 print ('y_test shape:', y_test.shape)
 
-"""
-from numpy import array
-LENGTH = 5
+### K: Operations that return a new array usually take a lot of time...
+### K: Be aware.
 
-sets_list = [X_train, X_test]
-for index, data in enumerate(sets_list):
-    n = data.shape[0]
-    samples = []
+#if ( (X_train.shape [0] % STEPS) != 0):
+#  X_train = X_train [:-(X_train.shape [0] % STEPS), :]
+#
+#X_train = X_train.reshape ((X_train.shape [0] // STEPS, STEPS,
+#                            X_train.shape [1]),
+#                            order = 'C')
+startTime = time.time ()
+for myArray in (X_train, X_val, X_test):
+  if ((myArray.shape [0] % STEPS) != 0):
+    myArray = myArray [:-(myArray.shape [0] % STEPS), :]
+  myArray = myArray.reshape ((myArray.shape [0] // STEPS, STEPS,
+                            myArray.shape [1]),
+                            order = 'C')
 
-    print (index)
-    # step over the X_train.shape[0] (samples) in jumps of 200 (time_steps)
-    for i in range(0,n,LENGTH):
-        # grab from i to i + 200
-        sample = data[i:i+LENGTH]
-        samples.append(sample)
-
-    # convert list of arrays into 2d array
-    new_data = list()
-    new_data = np.array(new_data)
-    for i in range(len(samples)):
-        new_data = np.append(new_data, samples[i])
-
-    sets_list[index] = new_data.reshape(len(samples), LENGTH, data.shape[1])
+for myArray in (y_train, y_val, y_test):
+  if ((myArray.shape [0] % STEPS) != 0):
+    myArray = myArray [:-(myArray.shape [0] % STEPS)]
+  myArray = myArray.reshape ((myArray.shape [0] // STEPS, STEPS), order = 'C')
+print (str (time.time () - startTime), 's reshape data.')
 
 
-X_train = sets_list[0]
-X_test = sets_list[1]
+#from numpy import array
+#LENGTH = 5
+#
+#sets_list = [X_train, X_test]
+#for index, data in enumerate(sets_list):
+#    n = data.shape[0]
+#    samples = []
+#    print (
+#
+#    # step over the X_train.shape[0] (samples) in jumps of 200 (time_steps)
+#    for i in range(0,n,LENGTH):
+#        print ('index, i1:', index, i)
+#        # grab from i to i + 200
+#        sample = data[i:i+LENGTH]
+#        samples.append(sample)
+#
+#    # convert list of arrays into 2d array
+#    new_data = list()
+#    new_data = np.array(new_data)
+#    for i in range(len(samples)):
+#        print ('index, i1:', index, i)
+#        new_data = np.append(new_data, samples[i])
+#
+#    sets_list[index] = new_data.reshape(len(samples), LENGTH, data.shape[1])
+#
+#
+#X_train = sets_list[0]
+#X_test = sets_list[1]
+
+print ('X_train shape:', X_train.shape)
+print ('y_train shape:', y_train.shape)
+print ('X_val shape:', X_val.shape)
+print ('y_val shape:', y_val.shape)
+print ('X_test shape:', X_test.shape)
+print ('y_test shape:', y_test.shape)
+
+
+
 
 sys.exit ()
-"""
 ###############################################################################
 ## Create learning model (Multilayer Perceptron) and tune hyperparameters
 ###############################################################################
@@ -458,47 +494,45 @@ from keras.constraints import maxnorm
 #NUMBER_OF_EPOCHS = 4
 #LEARNING_RATE = 0.001
 
-"""
-def create_model (learn_rate = 0.01, dropout_rate = 0.0, weight_constraint = 0):
-  model = Sequential ()
-  model.add (Dense (units = 64, activation = 'relu',
-                    kernel_constraint = maxnorm (weight_constraint),
-                    input_shape = (X_train.shape [1], )))
-  model.add (Dropout (dropout_rate))
-  model.add (Dense (32, activation = 'relu'))
-  model.add (Dense (numberOfClasses, activation = 'softmax'))
-  model.compile (loss = 'binary_crossentropy',
-                 optimizer = Adam (lr = learn_rate),
-                 metrics = ['accuracy'])#, metrics.CategoricalAccuracy ()])
-  return model
-
-model = KerasClassifier (build_fn = create_model, verbose = 2)
-batch_size = [30]#10, 30, 50]
-epochs = [3]#, 5, 10]
-learn_rate = [0.001, 0.01, 0.1, 0.2, 0.3]
-dropout_rate = [0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]
-weight_constraint = [1, 2, 3, 4, 5]
-param_grid = dict (batch_size = batch_size, epochs = epochs,
-                   dropout_rate = dropout_rate, learn_rate = learn_rate,
-                   weight_constraint = weight_constraint)
-grid = GridSearchCV (estimator = model, param_grid = param_grid,
-                     scoring = 'f1_weighted', cv = myPreSplit, verbose = 2,
-                     n_jobs = -1)
-
-grid_result = grid.fit (np.concatenate ( (X_train, X_val), axis = 0),
-                        np.concatenate ( (y_train, y_val), axis = 0))
-print (grid_result.best_params_)
-
-print ("Best: %f using %s" % (grid_result.best_score_, grid_result.best_params_))
-means = grid_result.cv_results_['mean_test_score']
-stds = grid_result.cv_results_['std_test_score']
-params = grid_result.cv_results_['params']
-for mean, stdev, param in zip (means, stds, params):
-  print ("%f (%f) with: %r" % (mean, stdev, param))
-
-
-#Best: 0.999957 using {'batch_size': 30, 'dropout_rate': 0.7, 'epochs': 3, 'learn_rate': 0.3, 'weight_constraint': 1}
-"""
+#def create_model (learn_rate = 0.01, dropout_rate = 0.0, weight_constraint = 0):
+#  model = Sequential ()
+#  model.add (Dense (units = 64, activation = 'relu',
+#                    kernel_constraint = maxnorm (weight_constraint),
+#                    input_shape = (X_train.shape [1], )))
+#  model.add (Dropout (dropout_rate))
+#  model.add (Dense (32, activation = 'relu'))
+#  model.add (Dense (numberOfClasses, activation = 'softmax'))
+#  model.compile (loss = 'binary_crossentropy',
+#                 optimizer = Adam (lr = learn_rate),
+#                 metrics = ['accuracy'])#, metrics.CategoricalAccuracy ()])
+#  return model
+#
+#model = KerasClassifier (build_fn = create_model, verbose = 2)
+#batch_size = [30]#10, 30, 50]
+#epochs = [3]#, 5, 10]
+#learn_rate = [0.001, 0.01, 0.1, 0.2, 0.3]
+#dropout_rate = [0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]
+#weight_constraint = [1, 2, 3, 4, 5]
+#param_grid = dict (batch_size = batch_size, epochs = epochs,
+#                   dropout_rate = dropout_rate, learn_rate = learn_rate,
+#                   weight_constraint = weight_constraint)
+#grid = GridSearchCV (estimator = model, param_grid = param_grid,
+#                     scoring = 'f1_weighted', cv = myPreSplit, verbose = 2,
+#                     n_jobs = -1)
+#
+#grid_result = grid.fit (np.concatenate ( (X_train, X_val), axis = 0),
+#                        np.concatenate ( (y_train, y_val), axis = 0))
+#print (grid_result.best_params_)
+#
+#print ("Best: %f using %s" % (grid_result.best_score_, grid_result.best_params_))
+#means = grid_result.cv_results_['mean_test_score']
+#stds = grid_result.cv_results_['std_test_score']
+#params = grid_result.cv_results_['params']
+#for mean, stdev, param in zip (means, stds, params):
+#  print ("%f (%f) with: %r" % (mean, stdev, param))
+#
+#
+##Best: 0.999957 using {'batch_size': 30, 'dropout_rate': 0.7, 'epochs': 3, 'learn_rate': 0.3, 'weight_constraint': 1}
 
 print ('\nCreating learning model.')
 from keras.models import Sequential

@@ -1,5 +1,7 @@
 import numpy as np
 
+STEPS = 3
+
 
 
 a = np.array ([[1, 2, 3], [4, 5, 6]])
@@ -13,13 +15,32 @@ c = np.array ([['a0', 'a1', 'a2', 'a3'],
                ['d0', 'd1', 'd2', 'd3'],
                ['e0', 'e1', 'e2', 'e3'],
                ['f0', 'f1', 'f2', 'f3'],
+               ['f0', 'f1', 'f2', 'f3'],
               ])
 
 
-c = c.reshape (-1)
+#c = c.reshape (-1)
+if ( (c.shape [0] % STEPS) != 0):
+  #c = np.delete (c, c.shape [0] % STEPS)
+  c = c [:-(c.shape [0] % STEPS), :]
+
+c = c.reshape ((c.shape [0] // STEPS, STEPS, 4), order = 'C')
 
 
-c_y = np.array (['a_y', 'b_y', 'c_y', 'd_y', 'e_y', 'f_y'])
+
+c_y = np.array (['a_y',
+                 'b_y',
+                 'c_y',
+                 'd_y',
+                 'e_y',
+                 'f_y',
+                 'f_y',
+                 'f_y',
+                ])
+if ( (c_y.shape [0] % STEPS) != 0):
+  #c = np.delete (c, c.shape [0] % STEPS)
+  c_y = c_y [:-(c.shape [0] % STEPS)]
+c_y = c_y.reshape ((3, STEPS), order = 'C')
 
 d = np.array ([
                [['A0', 'A1', 'A2', 'A3'],
