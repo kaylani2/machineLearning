@@ -2,7 +2,7 @@
 # github.com/kaylani2
 # kaylani AT gta DOT ufrj DOT br
 
-### K: Model: Multilayer Perceptron
+### K: Model: Recurrent Neural Network
 
 import pandas as pd
 import numpy as np
@@ -15,8 +15,8 @@ import time
 ###############################################################################
 # Random state for reproducibility
 
-STATES = [0, 10, 100, 1000, 10000]
 STATE = 0
+#STATES = [0, 10, 100, 1000, 10000]
 #for STATE in STATES:
 np.random.seed (STATE)
 
@@ -37,10 +37,6 @@ TARGET = 'attack'
 ###############################################################################
 ## Load dataset
 ###############################################################################
-#featureDf = pd.read_csv (FEATURES)
-#featureColumns = featureDf.columns.to_list ()
-#featureColumns = [f.strip () for f in featureColumns]
-
 df = pd.DataFrame ()
 for fileNumber in range (1, FIVE_PERCENT_FILES + 1):#FULL_FILES + 1):
   print ('Reading', FILE_NAME.format (str (fileNumber)))
@@ -120,9 +116,13 @@ print ('\nColumn | NaN values')
 print (df.isnull ().sum ())
 print ('Removing attributes with more than half NaN values.')
 df = df.dropna (axis = 'columns', thresh = df.shape [0] // 2)
+print ('1')
 print ('Dataframe contains NaN values:', df.isnull ().values.any ())
-print ('\nColumn | NaN values (after dropping columns)')
-print (df.isnull ().sum ())
+print ('1')
+#print ('\nColumn | NaN values (after dropping columns)')
+#print (df.isnull ().sum ())
+
+print ('1')
 
 ###############################################################################
 ### Input missing values
@@ -130,17 +130,20 @@ print (df.isnull ().sum ())
 ### K: NOTE: This must be done after splitting to dataset to avoid data leakge.
 df ['sport'].replace ('-1', np.nan, inplace = True)
 df ['dport'].replace ('-1', np.nan, inplace = True)
+print ('2')
 ### K: Negative port values are invalid.
 columsWithMissingValues = ['sport', 'dport']
 ### K: Examine values.
 for column in df.columns:
   nUnique = df [column].nunique ()
+print ('3')
 for column, nUnique in zip (df.columns, nUniques):
     if (nUnique < 5):
       print (column, df [column].unique ())
     else:
       print (column, 'unique values:', nUnique)
 
+print ('4')
 # sport  unique values: 91168     # most_frequent?
 # dport  unique values: 115949    # most_frequent?
 imputingStrategies = ['most_frequent', 'most_frequent']
@@ -296,7 +299,7 @@ print (str (time.time () - startTime), 'to normalize data.')
 ###############################################################################
 from sklearn.feature_selection import SelectKBest
 from sklearn.feature_selection import f_classif, chi2, mutual_info_classif
-NUMBER_OF_FEATURES = 2 #'all'
+NUMBER_OF_FEATURES = 9 #'all'
 print ('\nSelecting top', NUMBER_OF_FEATURES, 'features.')
 startTime = time.time ()
 #fs = SelectKBest (score_func = mutual_info_classif, k = NUMBER_OF_FEATURES)
@@ -370,7 +373,46 @@ print ('Under:', Counter (y_under))
 print ('Balanced:', Counter (y_bal))
 """
 
+###############################################################################
+## Rearrange samples for RNN
+###############################################################################
+print ('X_train shape:', X_train.shape)
+print ('y_train shape:', y_train.shape)
+print ('X_val shape:', X_val.shape)
+print ('y_val shape:', y_val.shape)
+print ('X_test shape:', X_test.shape)
+print ('y_test shape:', y_test.shape)
 
+"""
+from numpy import array
+LENGTH = 5
+
+sets_list = [X_train, X_test]
+for index, data in enumerate(sets_list):
+    n = data.shape[0]
+    samples = []
+
+    print (index)
+    # step over the X_train.shape[0] (samples) in jumps of 200 (time_steps)
+    for i in range(0,n,LENGTH):
+        # grab from i to i + 200
+        sample = data[i:i+LENGTH]
+        samples.append(sample)
+
+    # convert list of arrays into 2d array
+    new_data = list()
+    new_data = np.array(new_data)
+    for i in range(len(samples)):
+        new_data = np.append(new_data, samples[i])
+
+    sets_list[index] = new_data.reshape(len(samples), LENGTH, data.shape[1])
+
+
+X_train = sets_list[0]
+X_test = sets_list[1]
+
+sys.exit ()
+"""
 ###############################################################################
 ## Create learning model (Multilayer Perceptron) and tune hyperparameters
 ###############################################################################
@@ -416,45 +458,47 @@ from keras.constraints import maxnorm
 #NUMBER_OF_EPOCHS = 4
 #LEARNING_RATE = 0.001
 
-#def create_model (learn_rate = 0.01, dropout_rate = 0.0, weight_constraint = 0):
-#  model = Sequential ()
-#  model.add (Dense (units = 64, activation = 'relu',
-#                    kernel_constraint = maxnorm (weight_constraint),
-#                    input_shape = (X_train.shape [1], )))
-#  model.add (Dropout (dropout_rate))
-#  model.add (Dense (32, activation = 'relu'))
-#  model.add (Dense (numberOfClasses, activation = 'softmax'))
-#  model.compile (loss = 'binary_crossentropy',
-#                 optimizer = Adam (lr = learn_rate),
-#                 metrics = ['accuracy'])#, metrics.CategoricalAccuracy ()])
-#  return model
-#
-#model = KerasClassifier (build_fn = create_model, verbose = 2)
-#batch_size = [30]#10, 30, 50]
-#epochs = [3]#, 5, 10]
-#learn_rate = [0.001, 0.01, 0.1, 0.2, 0.3]
-#dropout_rate = [0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]
-#weight_constraint = [1, 2, 3, 4, 5]
-#param_grid = dict (batch_size = batch_size, epochs = epochs,
-#                   dropout_rate = dropout_rate, learn_rate = learn_rate,
-#                   weight_constraint = weight_constraint)
-#grid = GridSearchCV (estimator = model, param_grid = param_grid,
-#                     scoring = 'f1_weighted', cv = myPreSplit, verbose = 2,
-#                     n_jobs = -1)
-#
-#grid_result = grid.fit (np.concatenate ( (X_train, X_val), axis = 0),
-#                        np.concatenate ( (y_train, y_val), axis = 0))
-#print (grid_result.best_params_)
-#
-#print ("Best: %f using %s" % (grid_result.best_score_, grid_result.best_params_))
-#means = grid_result.cv_results_['mean_test_score']
-#stds = grid_result.cv_results_['std_test_score']
-#params = grid_result.cv_results_['params']
-#for mean, stdev, param in zip (means, stds, params):
-#  print ("%f (%f) with: %r" % (mean, stdev, param))
-#
-#
-##Best: 0.999957 using {'batch_size': 30, 'dropout_rate': 0.7, 'epochs': 3, 'learn_rate': 0.3, 'weight_constraint': 1}
+"""
+def create_model (learn_rate = 0.01, dropout_rate = 0.0, weight_constraint = 0):
+  model = Sequential ()
+  model.add (Dense (units = 64, activation = 'relu',
+                    kernel_constraint = maxnorm (weight_constraint),
+                    input_shape = (X_train.shape [1], )))
+  model.add (Dropout (dropout_rate))
+  model.add (Dense (32, activation = 'relu'))
+  model.add (Dense (numberOfClasses, activation = 'softmax'))
+  model.compile (loss = 'binary_crossentropy',
+                 optimizer = Adam (lr = learn_rate),
+                 metrics = ['accuracy'])#, metrics.CategoricalAccuracy ()])
+  return model
+
+model = KerasClassifier (build_fn = create_model, verbose = 2)
+batch_size = [30]#10, 30, 50]
+epochs = [3]#, 5, 10]
+learn_rate = [0.001, 0.01, 0.1, 0.2, 0.3]
+dropout_rate = [0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]
+weight_constraint = [1, 2, 3, 4, 5]
+param_grid = dict (batch_size = batch_size, epochs = epochs,
+                   dropout_rate = dropout_rate, learn_rate = learn_rate,
+                   weight_constraint = weight_constraint)
+grid = GridSearchCV (estimator = model, param_grid = param_grid,
+                     scoring = 'f1_weighted', cv = myPreSplit, verbose = 2,
+                     n_jobs = -1)
+
+grid_result = grid.fit (np.concatenate ( (X_train, X_val), axis = 0),
+                        np.concatenate ( (y_train, y_val), axis = 0))
+print (grid_result.best_params_)
+
+print ("Best: %f using %s" % (grid_result.best_score_, grid_result.best_params_))
+means = grid_result.cv_results_['mean_test_score']
+stds = grid_result.cv_results_['std_test_score']
+params = grid_result.cv_results_['params']
+for mean, stdev, param in zip (means, stds, params):
+  print ("%f (%f) with: %r" % (mean, stdev, param))
+
+
+#Best: 0.999957 using {'batch_size': 30, 'dropout_rate': 0.7, 'epochs': 3, 'learn_rate': 0.3, 'weight_constraint': 1}
+"""
 
 print ('\nCreating learning model.')
 from keras.models import Sequential
