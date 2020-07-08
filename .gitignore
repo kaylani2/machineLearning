@@ -20,6 +20,7 @@ datasets/bezerra/
 datasets/cardiff/
 datasets/unsw-nb15/
 datasets/ctu-13/
+datasets/Dataset-IoT/
 diamonds.py
 logs/
 src/plot_functions/*.png
