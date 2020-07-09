@@ -203,12 +203,15 @@ df.drop (axis = 'columns', columns = 'subcategory', inplace = True)
 ###############################################################################
 ## Encode Label
 ###############################################################################
-#print ('\nEnconding label.')
+print ('\nEnconding label.')
 #myLabels = df [TARGET].unique ()
 #print ('Label types before conversion:', myLabels)
 #for label, code in zip (myLabels, range (len (myLabels))):
 #  df [TARGET].replace (label, code, inplace = True)
 #print ('Label types after conversion:', df [TARGET].unique ())
+#df [TARGET].replace (0, 9, inplace = True)
+#df [TARGET].replace (1, 0, inplace = True)
+#df [TARGET].replace (9, 1, inplace = True)
 
 
 ###############################################################################
@@ -464,7 +467,7 @@ print ('y_test shape:', y_test.shape)
 
 ### SLIDING WINDOW: JUST RIGHT!
 
-STEPS = 5
+STEPS = 10
 FEATURES = X_train.shape [1]
 def window_stack (a, stride = 1, numberOfSteps = 3):
     return np.hstack ([ a [i:1+i-numberOfSteps or None:stride] for i in range (0,numberOfSteps) ])
@@ -577,7 +580,7 @@ from keras.layers import LSTM
 
 print ('\nCreating learning model.')
 BATCH_SIZE = 30
-NUMBER_OF_EPOCHS = 3
+NUMBER_OF_EPOCHS = 1
 LEARNING_RATE = 0.001
 WEIGHT_CONSTRAINT = 1
 bestModel = Sequential ()
@@ -596,7 +599,9 @@ print ('\nCompiling the network.')
 from keras.optimizers import RMSprop
 from keras.optimizers import Adam
 from keras import metrics
-bestModel.compile (optimizer = 'adam' , loss = 'mae')
+bestModel.compile (optimizer = 'adam',
+                   loss = 'binary_crossentropy',
+                   )#metrics = ['binary_accuracy', metrics.Precision ()])
 #bestModel.compile (loss = 'binary_crossentropy',
 #                   optimizer = Adam (lr = LEARNING_RATE),
 #                   metrics = ['binary_accuracy',
@@ -657,9 +662,9 @@ print (confusion_matrix (y_val, y_pred,
                          #.argmax (axis = 1), y_pred.argmax (axis = 1),
                          labels = df [TARGET].unique ()))
 print ('Accuracy:', accuracy_score (y_val, y_pred))
-print ('Precision:', precision_score (y_val, y_pred, average = 'macro'))
-print ('Recall:', recall_score (y_val, y_pred, average = 'macro'))
-print ('F1:', f1_score (y_val, y_pred, average = 'macro'))
+print ('Precision:', precision_score (y_val, y_pred, average = 'micro'))
+print ('Recall:', recall_score (y_val, y_pred, average = 'micro'))
+print ('F1:', f1_score (y_val, y_pred, average = 'micro'))
 print ('Cohen Kappa:', cohen_kappa_score (y_val,#.argmax (axis = 1),
                                           y_pred,#.argmax (axis = 1),
                                           labels = df [TARGET].unique ()))
