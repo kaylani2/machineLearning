@@ -315,10 +315,11 @@ print (str (time.time () - startTime), 'to normalize data.')
 #y_test = keras.utils.to_categorical (y_test, numberOfClasses)
 #
 print ('\nCreating learning model.')
-NUMBER_OF_EPOCHS = 10
-DROPOUT = 0.1
+NUMBER_OF_EPOCHS = 2
+DROPOUT = 0.0
 BATCH_SIZE = 32
-clf1 = AutoEncoder (hidden_neurons = [25, 2, 2, 25], epochs = NUMBER_OF_EPOCHS,
+clf1 = AutoEncoder (hidden_neurons = [30, 25, 2, 2, 25, 30],
+                    epochs = NUMBER_OF_EPOCHS,
                     batch_size = BATCH_SIZE, dropout_rate = DROPOUT,
                     validation_size = 0.1, preprocessing = False,
                     verbose = 2, random_state = STATE)
@@ -337,10 +338,11 @@ plt.title ("Histogram for Model Clf1 Anomaly Scores")
 plt.savefig ('hist.png')
 
 
-print ('\nOn Training Data:')
-evaluate_print (cfl1, y_train, y_train_scores)
 print ('\nOn Test Data:')
 evaluate_print (cfl1, y_test, y_test_scores)
+
+print ('\nOn Training Data:')
+evaluate_print (cfl1, y_train, y_train_scores)
 
 clf1.predict_proba (X_val)
 

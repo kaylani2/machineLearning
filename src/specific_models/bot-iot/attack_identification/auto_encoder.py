@@ -23,6 +23,13 @@ from keras import metrics
 from keras.constraints import maxnorm
 from keras.models import Sequential
 from keras.layers import Dense, Dropout
+from keras.optimizers import RMSprop
+from keras.optimizers import Adam
+from keras import metrics
+from sklearn.metrics import confusion_matrix, classification_report
+from sklearn.metrics import confusion_matrix, precision_score, recall_score
+from sklearn.metrics import f1_score, classification_report, accuracy_score
+from sklearn.metrics import cohen_kappa_score, mean_squared_error
 
 
 ###############################################################################
@@ -52,10 +59,6 @@ TARGET = 'attack'
 ###############################################################################
 ## Load dataset
 ###############################################################################
-#featureDf = pd.read_csv (FEATURES)
-#featureColumns = featureDf.columns.to_list ()
-#featureColumns = [f.strip () for f in featureColumns]
-
 df = pd.DataFrame ()
 for fileNumber in range (3, FIVE_PERCENT_FILES + 1):#FULL_FILES + 1):
   print ('Reading', FILE_NAME.format (str (fileNumber)))
@@ -226,23 +229,56 @@ df.drop (axis = 'columns', columns = 'subcategory', inplace = True)
 ###############################################################################
 ## Split dataset into train, validation and test sets
 ###############################################################################
+### Isolate attack and normal samples
+mask = df [TARGET] == 0
+# 0 == normal
+df_normal = df [mask]
+# 1 == attack
+df_attack = df [~mask]
+
+print ('Attack set:')
+print (df_attack [TARGET].value_counts ())
+print ('Normal set:')
+print (df_normal [TARGET].value_counts ())
+
+### Sample and drop random attacks
+df_random_attacks = df_attack.sample (n = df_normal.shape [0], random_state = STATE)
+df_attack = df_attack.drop (df_random_attacks.index)
+
+### Assemble test set
+df_test = pd.DataFrame ()
+df_test = pd.concat ([df_test, df_normal])
+df_test = pd.concat ([df_test, df_random_attacks])
+print ('Test set:')
+print (df_test [TARGET].value_counts ())
+X_test_df = df_test.iloc [:, :-1]
+y_test_df = df_test.iloc [:, -1]
+
+df_train = df_attack
+
+
 from sklearn.model_selection import train_test_split
-TEST_SIZE = 2/10
 VALIDATION_SIZE = 1/4
-print ('\nSplitting dataset (test/train):', TEST_SIZE)
-X_train_df, X_test_df, y_train_df, y_test_df = train_test_split (
-                                               df.iloc [:, :-1],
-                                               df.iloc [:, -1],
-                                               test_size = TEST_SIZE,
-                                               random_state = STATE,)
-                                               #shuffle = False)
 print ('\nSplitting dataset (validation/train):', VALIDATION_SIZE)
 X_train_df, X_val_df, y_train_df, y_val_df = train_test_split (
-                                             X_train_df,
-                                             y_train_df,
+                                             df_train.iloc [:, :-1],
+                                             df_train.iloc [:, -1],
                                              test_size = VALIDATION_SIZE,
                                              random_state = STATE,)
                                              #shuffle = False)
+
+### K: We're not gonna use y to train, but this is needed to see if the samples
+### were evenly split.
+#print ('Train set:')
+#print (y_train_df)
+#print ('Val set:')
+#print (y_val_df)
+print ('Train set:')
+print (y_train_df.value_counts ())
+print ('Val set:')
+print (y_val_df.value_counts ())
+#sys.exit ()
+
 X_train_df.sort_index (inplace = True)
 y_train_df.sort_index (inplace = True)
 X_val_df.sort_index (inplace = True)
@@ -256,6 +292,7 @@ print ('X_val_df shape:', X_val_df.shape)
 print ('y_val_df shape:', y_val_df.shape)
 print ('X_test_df shape:', X_test_df.shape)
 print ('y_test_df shape:', y_test_df.shape)
+
 
 
 ###############################################################################
@@ -307,130 +344,35 @@ print (str (time.time () - startTime), 'to normalize data.')
 
 
 ###############################################################################
-## Perform feature selection
-###############################################################################
-from sklearn.feature_selection import SelectKBest
-from sklearn.feature_selection import f_classif, chi2, mutual_info_classif
-NUMBER_OF_FEATURES = 2 #'all'
-print ('\nSelecting top', NUMBER_OF_FEATURES, 'features.')
-startTime = time.time ()
-#fs = SelectKBest (score_func = mutual_info_classif, k = NUMBER_OF_FEATURES)
-### K: ~30 minutes to FAIL fit mutual_info_classif to 5% bot-iot
-#fs = SelectKBest (score_func = chi2, k = NUMBER_OF_FEATURES) # X must be >= 0
-### K: ~4 seconds to fit chi2 to 5% bot-iot (MinMaxScaler (0, 1))
-fs = SelectKBest (score_func = f_classif, k = NUMBER_OF_FEATURES)
-### K: ~4 seconds to fit f_classif to 5% bot-iot
-fs.fit (X_train, y_train)
-X_train = fs.transform (X_train)
-X_val = fs.transform (X_val)
-X_test = fs.transform (X_test)
-print (str (time.time () - startTime), 'to select features.')
-print ('X_train shape:', X_train.shape)
-print ('y_train shape:', y_train.shape)
-print ('X_val shape:', X_val.shape)
-print ('y_val shape:', y_val.shape)
-print ('X_test shape:', X_test.shape)
-print ('y_test shape:', y_test.shape)
-bestFeatures = []
-for feature in range (len (fs.scores_)):
-  bestFeatures.append ({'f': feature, 's': fs.scores_ [feature]})
-bestFeatures = sorted (bestFeatures, key = lambda k: k ['s'])
-for feature in bestFeatures:
-  print ('Feature %d: %f' % (feature ['f'], feature ['s']))
-
-#pyplot.bar ( [i for i in range (len (fs.scores_))], fs.scores_)
-#pyplot.show ()
-
-
-###############################################################################
-## Handle imbalanced data
-###############################################################################
-"""
-### K: 10,000 samples per attack
-from collections import Counter
-from imblearn.over_sampling import RandomOverSampler
-from imblearn.under_sampling import RandomUnderSampler
-print ('\nHandling imbalanced label distribution.')
-
-### Only oversample
-myOversampler = RandomOverSampler (sampling_strategy = 'not majority',
-                                   random_state = STATE)
-X_over, y_over = myOversampler.fit_resample (X_train, y_train)
-
-### Only undersample
-myUndersampler = RandomUnderSampler (sampling_strategy = 'not minority',
-                                     random_state = STATE)
-X_under, y_under = myUndersampler.fit_resample (X_train, y_train)
-
-### Balanced
-MAX_SAMPLES = int (1e4)
-labels = dict (Counter (y_train))
-
-sampleDictOver = {k : max (labels [k], MAX_SAMPLES) for k in labels}
-balancedOverSampler = RandomOverSampler (sampling_strategy = sampleDictOver,
-                                         random_state = STATE)
-
-X_bal, y_bal = balancedOverSampler.fit_resample (X_train, y_train)
-labels = dict (Counter (y_bal))
-
-sampleDictUnder = {k : min (labels [k], MAX_SAMPLES) for k in labels}
-balancedUnderSampler = RandomUnderSampler (sampling_strategy = sampleDictUnder,
-                                           random_state = STATE)
-
-X_bal, y_bal = balancedUnderSampler.fit_resample (X_bal, y_bal)
-
-print ('Real:', Counter (y_train))
-print ('Over:', Counter (y_over))
-print ('Under:', Counter (y_under))
-print ('Balanced:', Counter (y_bal))
-"""
-
-
-###############################################################################
 ## Create learning model (Auto Encoder) and tune hyperparameters
 ###############################################################################
-### K: One hot encode the output.
-numberOfClasses = len (df [TARGET].unique ())
-y_train = keras.utils.to_categorical (y_train, numberOfClasses)
-y_val = keras.utils.to_categorical (y_val, numberOfClasses)
-y_test = keras.utils.to_categorical (y_test, numberOfClasses)
+NUMBER_OF_EPOCHS = 4
+BATCH_SIZE = 32
+INPUT_SHAPE = (X_train.shape [1], )
 
 print ('\nCreating learning model.')
-#bestModel = Sequential ()
-#bestModel.add (Dense (units = 64, activation = 'relu',
-#                      #kernel_constraint = maxnorm (WEIGHT_CONSTRAINT),
-#                      kernel_constraint = maxnorm (WEIGHT_CONSTRAINT),
-#                      input_shape = (X_train.shape [1], )))
-#bestModel.add (Dense (32, activation = 'relu'))
-#bestModel.add (Dense (numberOfClasses, activation = 'sigmoid'))
-#print ('Model summary:')
-#bestModel.summary ()
-
-### 64*64*8*64*64 autoencoder
+### *64*8*64 autoencoder
 bestModel = Sequential ()
-bestModel.add (Dense (64, activation = 'relu'))
+bestModel.add (Dense (X_train.shape [1], activation = 'relu',
+                      input_shape = INPUT_SHAPE))
+#bestModel.add (Dense (64, activation = 'relu'))
 bestModel.add (Dense (64, activation = 'relu'))
 bestModel.add (Dense (8,  activation = 'relu'))
 bestModel.add (Dense (64, activation = 'relu'))
-bestModel.add (Dense (64, activation = 'relu'))
-bestModel.add (Dense (numberOfClasses, activation = None))
-print ('Model summary:')
-bestModel.summary ()
+#bestModel.add (Dense (64, activation = 'relu'))
+bestModel.add (Dense (X_train.shape [1], activation = None))
 
 
 ###############################################################################
 ## Compile the network
 ###############################################################################
 print ('\nCompiling the network.')
-from keras.optimizers import RMSprop
-from keras.optimizers import Adam
-from keras import metrics
-bestModel.compile (loss = 'binary_crossentropy',
-                   optimizer = Adam (lr = LEARNING_RATE),
-                   metrics = ['binary_accuracy',
-                              #metrics.Recall (),
-                              metrics.Precision ()])
+bestModel.compile (loss = 'mean_squared_error',
+                   optimizer = 'adam',
+                   metrics = ['mse'])#,metrics.Precision ()])
 
+print ('Model summary:')
+bestModel.summary ()
 
 
 ###############################################################################
@@ -438,38 +380,49 @@ bestModel.compile (loss = 'binary_crossentropy',
 ###############################################################################
 print ('\nFitting the network.')
 startTime = time.time ()
-history = bestModel.fit (X_train, y_train,
+history = bestModel.fit (X_train, X_train,
                          batch_size = BATCH_SIZE,
                          epochs = NUMBER_OF_EPOCHS,
                          verbose = 2, #1 = progress bar, not useful for logging
                          workers = 0,
                          use_multiprocessing = True,
                          #class_weight = 'auto',
-                         validation_data = (X_val, y_val))
+                         validation_data = (X_val, X_val))
 print (str (time.time () - startTime), 's to train model.')
 
 
 ###############################################################################
 ## Analyze results
 ###############################################################################
-from sklearn.metrics import confusion_matrix, classification_report
-from sklearn.metrics import confusion_matrix, precision_score, recall_score
-from sklearn.metrics import f1_score, classification_report, accuracy_score
-from sklearn.metrics import cohen_kappa_score
-#y_pred = bestModel.predict (X_val)
-#y_pred = y_pred.round ()
-#print ('\nPerformance on VALIDATION set:')
-#print ('Confusion matrix:')
-#print (confusion_matrix (y_val.argmax (axis = 1), y_pred.argmax (axis = 1),
-#                         labels = df [TARGET].unique ()))
-#print ('Accuracy:', accuracy_score (y_val, y_pred))
-#print ('Precision:', precision_score (y_val, y_pred, average = 'macro'))
-#print ('Recall:', recall_score (y_val, y_pred, average = 'macro'))
-#print ('F1:', f1_score (y_val, y_pred, average = 'macro'))
-#print ('Cohen Kappa:', cohen_kappa_score (y_val.argmax (axis = 1),
-#                                          y_pred.argmax (axis = 1),
-#                                          labels = df [TARGET].unique ()))
+X_pred_val = bestModel.predict (X_val)
+print (X_pred_val)
+print (X_val)
+print ('Train error:', mean_squared_error (bestModel.predict (X_train),
+                                           X_train))
+print ('Validation error:', mean_squared_error (X_pred_val, X_val))
 
+X_pred_test = bestModel.predict (X_test)
+print ('Test error:', mean_squared_error (X_pred_test, X_test))
+sys.exit ()
+
+
+
+
+
+y_pred = y_pred.round ()
+print ('\nPerformance on VALIDATION set:')
+print ('Confusion matrix:')
+print (confusion_matrix (y_val.argmax (axis = 1), y_pred.argmax (axis = 1),
+                         labels = df [TARGET].unique ()))
+print ('Accuracy:', accuracy_score (y_val, y_pred))
+print ('Precision:', precision_score (y_val, y_pred, average = 'macro'))
+print ('Recall:', recall_score (y_val, y_pred, average = 'macro'))
+print ('F1:', f1_score (y_val, y_pred, average = 'macro'))
+print ('Cohen Kappa:', cohen_kappa_score (y_val.argmax (axis = 1),
+                                          y_pred.argmax (axis = 1),
+                                          labels = df [TARGET].unique ()))
+
+sys.exit ()
 ### K: NOTE: Only look at test results when publishing...
 print ('\nPerformance on TEST set:')
 y_pred = bestModel.predict (X_test)
