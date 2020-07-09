@@ -376,7 +376,6 @@ print ('Balanced:', Counter (y_bal))
 ###############################################################################
 ## Rearrange samples for RNN
 ###############################################################################
-STEPS = 5
 print ('\nRearranging dataset for the RNN.')
 print ('X_train shape:', X_train.shape)
 print ('y_train shape:', y_train.shape)
@@ -385,56 +384,56 @@ print ('y_val shape:', y_val.shape)
 print ('X_test shape:', X_test.shape)
 print ('y_test shape:', y_test.shape)
 
-### K: Operations that return a new array usually take a lot of time...
-### K: Be aware.
 
+### K: JUMPING WINDOWS APPROACH: WRONG!!!
 #if ( (X_train.shape [0] % STEPS) != 0):
 #  X_train = X_train [:- (X_train.shape [0] % STEPS), :]
 #
 #X_train = X_train.reshape ( (X_train.shape [0] // STEPS, STEPS,
 #                            X_train.shape [1]),
 #                            order = 'C')
-startTime = time.time ()
+#startTime = time.time ()
+#
+## X_train
+#if ( (X_train.shape [0] % STEPS) != 0):
+#  X_train = X_train [:- (X_train.shape [0] % STEPS), :]
+#X_train = X_train.reshape ( (X_train.shape [0] // STEPS, STEPS, X_train.shape [1]),
+#                           order = 'C')
+#print ('Finished X_train.')
+#
+## X_val
+#if ( (X_val.shape [0] % STEPS) != 0):
+#  X_val = X_val [:- (X_val.shape [0] % STEPS), :]
+#X_val = X_val.reshape ( (X_val.shape [0] // STEPS, STEPS, X_val.shape [1]),
+#                       order = 'C')
+#print ('Finished X_val.')
+#
+## X_test
+#if ( (X_test.shape [0] % STEPS) != 0):
+#  X_test = X_test [:- (X_test.shape [0] % STEPS), :]
+#X_test = X_test.reshape ( (X_test.shape [0] // STEPS, STEPS, X_test.shape [1]),
+#                          order = 'C')
+#print ('Finished X_test.')
+#
+## Y_train
+#if ( (y_train.shape [0] % STEPS) != 0):
+#  y_train = y_train [:- (y_train.shape [0] % STEPS)]
+#y_train = y_train.reshape ( (y_train.shape [0] // STEPS, STEPS), order = 'C')
+#
+## Y_val
+#if ( (y_val.shape [0] % STEPS) != 0):
+#  y_val = y_val [:- (y_val.shape [0] % STEPS)]
+#y_val = y_val.reshape ( (y_val.shape [0] // STEPS, STEPS), order = 'C')
+#
+## Y_test
+#if ( (y_test.shape [0] % STEPS) != 0):
+#  y_test = y_test [:- (y_test.shape [0] % STEPS)]
+#y_test = y_test.reshape ( (y_test.shape [0] // STEPS, STEPS), order = 'C')
+#
+#print (str (time.time () - startTime), 's reshape data.')
 
-# X_train
-if ((X_train.shape [0] % STEPS) != 0):
-  X_train = X_train [:- (X_train.shape [0] % STEPS), :]
-X_train = X_train.reshape ((X_train.shape [0] // STEPS, STEPS, X_train.shape [1]),
-                           order = 'C')
-print ('Finished X_train.')
 
-# X_val
-if ((X_val.shape [0] % STEPS) != 0):
-  X_val = X_val [:- (X_val.shape [0] % STEPS), :]
-X_val = X_val.reshape ((X_val.shape [0] // STEPS, STEPS, X_val.shape [1]),
-                       order = 'C')
-print ('Finished X_val.')
-
-# X_test
-if ((X_test.shape [0] % STEPS) != 0):
-  X_test = X_test [:- (X_test.shape [0] % STEPS), :]
-X_test = X_test.reshape ((X_test.shape [0] // STEPS, STEPS, X_test.shape [1]),
-                          order = 'C')
-print ('Finished X_test.')
-
-# Y_train
-if ((y_train.shape [0] % STEPS) != 0):
-  y_train = y_train [:- (y_train.shape [0] % STEPS)]
-y_train = y_train.reshape ( (y_train.shape [0] // STEPS, STEPS), order = 'C')
-
-# Y_val
-if ((y_val.shape [0] % STEPS) != 0):
-  y_val = y_val [:- (y_val.shape [0] % STEPS)]
-y_val = y_val.reshape ( (y_val.shape [0] // STEPS, STEPS), order = 'C')
-
-# Y_test
-if ((y_test.shape [0] % STEPS) != 0):
-  y_test = y_test [:- (y_test.shape [0] % STEPS)]
-y_test = y_test.reshape ( (y_test.shape [0] // STEPS, STEPS), order = 'C')
-
-print (str (time.time () - startTime), 's reshape data.')
-
-
+### SLIDING WINDOW APPROACH: TAKES TOO LONG!
 #from numpy import array
 #LENGTH = 5
 #
@@ -442,7 +441,6 @@ print (str (time.time () - startTime), 's reshape data.')
 #for index, data in enumerate (sets_list):
 #    n = data.shape[0]
 #    samples = []
-#    print (
 #
 #    # step over the X_train.shape[0] (samples) in jumps of 200 (time_steps)
 #    for i in range (0,n,LENGTH):
@@ -455,7 +453,7 @@ print (str (time.time () - startTime), 's reshape data.')
 #    new_data = list ()
 #    new_data = np.array (new_data)
 #    for i in range (len (samples)):
-#        print ('index, i1:', index, i)
+#        print ('index, i2:', index, i)
 #        new_data = np.append (new_data, samples[i])
 #
 #    sets_list[index] = new_data.reshape (len (samples), LENGTH, data.shape[1])
@@ -464,13 +462,30 @@ print (str (time.time () - startTime), 's reshape data.')
 #X_train = sets_list[0]
 #X_test = sets_list[1]
 
+### SLIDING WINDOW: JUST RIGHT!
+
+STEPS = 5
+FEATURES = X_train.shape [1]
+def window_stack (a, stride = 1, numberOfSteps = 3):
+    return np.hstack ([ a [i:1+i-numberOfSteps or None:stride] for i in range (0,numberOfSteps) ])
+
+X_train = window_stack (X_train, stride = 1, numberOfSteps = STEPS)
+X_train = X_train.reshape (X_train.shape [0], STEPS, FEATURES)
+X_val = window_stack (X_val, stride = 1, numberOfSteps = STEPS)
+X_val = X_val.reshape (X_val.shape [0], STEPS, FEATURES)
+X_test = window_stack (X_test, stride = 1, numberOfSteps = STEPS)
+X_test = X_test.reshape (X_test.shape [0], STEPS, FEATURES)
+
+y_train = y_train [ (STEPS - 1):]
+y_val = y_val [ (STEPS - 1):]
+y_test = y_test [ (STEPS - 1):]
+
 print ('X_train shape:', X_train.shape)
 print ('y_train shape:', y_train.shape)
 print ('X_val shape:', X_val.shape)
 print ('y_val shape:', y_val.shape)
 print ('X_test shape:', X_test.shape)
 print ('y_test shape:', y_test.shape)
-
 
 
 
@@ -562,11 +577,13 @@ from keras.layers import LSTM
 
 print ('\nCreating learning model.')
 BATCH_SIZE = 30
-NUMBER_OF_EPOCHS = 1
+NUMBER_OF_EPOCHS = 3
 LEARNING_RATE = 0.001
 WEIGHT_CONSTRAINT = 1
 bestModel = Sequential ()
-bestModel.add (LSTM (50, activation = 'relu' , input_shape = (X_train.shape[1], X_train.shape[2])))
+bestModel.add (LSTM (100, activation = 'relu', return_sequences = True,
+               input_shape = (X_train.shape[1], X_train.shape[2])))
+bestModel.add (LSTM (100, activation = 'relu'))
 bestModel.add (Dense (1))
 
 print ('Model summary:')
@@ -579,7 +596,7 @@ print ('\nCompiling the network.')
 from keras.optimizers import RMSprop
 from keras.optimizers import Adam
 from keras import metrics
-bestModel.compile (optimizer = 'adam' , loss = 'mse' )
+bestModel.compile (optimizer = 'adam' , loss = 'mae')
 #bestModel.compile (loss = 'binary_crossentropy',
 #                   optimizer = Adam (lr = LEARNING_RATE),
 #                   metrics = ['binary_accuracy',
@@ -619,8 +636,15 @@ y_pred = y_pred.round ()
 print ('y_val:')
 print (y_val [:50])
 print (y_val.shape)
+#y_val = y_val.reshape (y_val.shape [0], 1))
+#print ('y_val after reshape:')
+#print (y_val.shape)
 #y_val = y_val.argmax (axis = 1)
 print ('y_pred:')
+print (y_pred [:50])
+print (y_pred.shape)
+y_pred = y_pred.reshape (y_pred.shape [0], )
+print ('y_pred after reshape:')
 print (y_pred [:50])
 print (y_pred.shape)
 #y_train = y_train.argmax (axis = 1)
@@ -629,14 +653,15 @@ print (y_pred.shape)
 
 print ('\nPerformance on VALIDATION set:')
 print ('Confusion matrix:')
-print (confusion_matrix (y_val.argmax (axis = 1), y_pred.argmax (axis = 1),
+print (confusion_matrix (y_val, y_pred,
+                         #.argmax (axis = 1), y_pred.argmax (axis = 1),
                          labels = df [TARGET].unique ()))
 print ('Accuracy:', accuracy_score (y_val, y_pred))
 print ('Precision:', precision_score (y_val, y_pred, average = 'macro'))
 print ('Recall:', recall_score (y_val, y_pred, average = 'macro'))
 print ('F1:', f1_score (y_val, y_pred, average = 'macro'))
-print ('Cohen Kappa:', cohen_kappa_score (y_val.argmax (axis = 1),
-                                          y_pred.argmax (axis = 1),
+print ('Cohen Kappa:', cohen_kappa_score (y_val,#.argmax (axis = 1),
+                                          y_pred,#.argmax (axis = 1),
                                           labels = df [TARGET].unique ()))
 
 ### K: NOTE: Only look at test results when publishing...
