@@ -24,6 +24,8 @@ from keras.constraints import maxnorm
 from keras.models import Sequential
 from keras.layers import Dense, Dropout
 from pyod.models.auto_encoder import AutoEncoder
+import matplotlib.pyplot as plt
+from pyod.utils.data import evaluate_print
 
 
 ###############################################################################
@@ -48,7 +50,7 @@ TARGET = 'attack'
 ## Load dataset
 ###############################################################################
 df = pd.DataFrame ()
-for fileNumber in range (3, FIVE_PERCENT_FILES + 1):#FULL_FILES + 1):
+for fileNumber in range (1, FIVE_PERCENT_FILES + 1):#FULL_FILES + 1):
   print ('Reading', FILE_NAME.format (str (fileNumber)))
   aux = pd.read_csv (FILE_NAME.format (str (fileNumber)),
                      #names = featureColumns,
@@ -56,7 +58,6 @@ for fileNumber in range (3, FIVE_PERCENT_FILES + 1):#FULL_FILES + 1):
                      dtype = {'pkSeqID' : np.int32}, na_values = NAN_VALUES,
                      low_memory = False)
   df = pd.concat ( [df, aux])
-
 
 ###############################################################################
 ## Display specific (dataset dependent) information
@@ -197,31 +198,46 @@ df.drop (axis = 'columns', columns = 'subcategory', inplace = True)
 ## Split dataset into train, validation and test sets
 ###############################################################################
 
+### Isolate attack and normal samples
+mask = df [TARGET] == 0
 # 0 == normal
-df1 = df [df [TARGET] == 0]
+df_normal = df [mask]
 # 1 == attack
-df2 = df [df [TARGET] == 1]
+df_attack = df [~mask]
 
+print ('Attack set:')
+print (df_attack [TARGET].value_counts ())
+print ('Normal set:')
+print (df_normal [TARGET].value_counts ())
 
+### Sample and drop random attacks
+df_random_attacks = df_attack.sample (n = df_normal.shape [0], random_state = STATE)
+df_attack = df_attack.drop (df_random_attacks.index)
+
+### Assemble test set
+df_test = pd.DataFrame ()
+df_test = pd.concat ([df_test, df_normal])
+df_test = pd.concat ([df_test, df_random_attacks])
+print ('Test set:')
+print (df_test [TARGET].value_counts ())
+X_test_df = df_test.iloc [:, :-1]
+y_test_df = df_test.iloc [:, -1]
+
+df_train = df_attack
+print ('Train set:')
+print (df_train [TARGET].value_counts ())
 
 
 from sklearn.model_selection import train_test_split
-TEST_SIZE = 2/10
 VALIDATION_SIZE = 1/4
-print ('\nSplitting dataset (test/train):', TEST_SIZE)
-X_train_df, X_test_df, y_train_df, y_test_df = train_test_split (
-                                               df.iloc [:, :-1],
-                                               df.iloc [:, -1],
-                                               test_size = TEST_SIZE,
-                                               random_state = STATE,)
-                                               #shuffle = False)
 print ('\nSplitting dataset (validation/train):', VALIDATION_SIZE)
 X_train_df, X_val_df, y_train_df, y_val_df = train_test_split (
-                                             X_train_df,
-                                             y_train_df,
+                                             df_train.iloc [:, :-1],
+                                             df_train.iloc [:, -1],
                                              test_size = VALIDATION_SIZE,
                                              random_state = STATE,)
                                              #shuffle = False)
+
 X_train_df.sort_index (inplace = True)
 y_train_df.sort_index (inplace = True)
 X_val_df.sort_index (inplace = True)
@@ -288,38 +304,6 @@ print (str (time.time () - startTime), 'to normalize data.')
 ###############################################################################
 ## Perform feature selection
 ###############################################################################
-from sklearn.feature_selection import SelectKBest
-from sklearn.feature_selection import f_classif, chi2, mutual_info_classif
-NUMBER_OF_FEATURES = 2 #'all'
-print ('\nSelecting top', NUMBER_OF_FEATURES, 'features.')
-startTime = time.time ()
-#fs = SelectKBest (score_func = mutual_info_classif, k = NUMBER_OF_FEATURES)
-### K: ~30 minutes to FAIL fit mutual_info_classif to 5% bot-iot
-#fs = SelectKBest (score_func = chi2, k = NUMBER_OF_FEATURES) # X must be >= 0
-### K: ~4 seconds to fit chi2 to 5% bot-iot (MinMaxScaler (0, 1))
-fs = SelectKBest (score_func = f_classif, k = NUMBER_OF_FEATURES)
-### K: ~4 seconds to fit f_classif to 5% bot-iot
-fs.fit (X_train, y_train)
-X_train = fs.transform (X_train)
-X_val = fs.transform (X_val)
-X_test = fs.transform (X_test)
-print (str (time.time () - startTime), 'to select features.')
-print ('X_train shape:', X_train.shape)
-print ('y_train shape:', y_train.shape)
-print ('X_val shape:', X_val.shape)
-print ('y_val shape:', y_val.shape)
-print ('X_test shape:', X_test.shape)
-print ('y_test shape:', y_test.shape)
-bestFeatures = []
-for feature in range (len (fs.scores_)):
-  bestFeatures.append ({'f': feature, 's': fs.scores_ [feature]})
-bestFeatures = sorted (bestFeatures, key = lambda k: k ['s'])
-for feature in bestFeatures:
-  print ('Feature %d: %f' % (feature ['f'], feature ['s']))
-
-#pyplot.bar ( [i for i in range (len (fs.scores_))], fs.scores_)
-#pyplot.show ()
-
 
 ###############################################################################
 ## Create learning model (Auto Encoder) and tune hyperparameters
@@ -331,43 +315,37 @@ for feature in bestFeatures:
 #y_test = keras.utils.to_categorical (y_test, numberOfClasses)
 #
 print ('\nCreating learning model.')
-clf1 = AutoEncoder (hidden_neurons = [25, 2, 2, 25])
-clf1.fit (X_train)
-
-
-
-
-
-
-###############################################################################
-## Compile the network
-###############################################################################
-print ('\nCompiling the network.')
-from keras.optimizers import RMSprop
-from keras.optimizers import Adam
-from keras import metrics
-bestModel.compile (loss = 'binary_crossentropy',
-                   optimizer = Adam (lr = LEARNING_RATE),
-                   metrics = ['binary_accuracy',
-                              #metrics.Recall (),
-                              metrics.Precision ()])
-
-
-
-###############################################################################
-## Fit the network
-###############################################################################
-print ('\nFitting the network.')
+NUMBER_OF_EPOCHS = 10
+DROPOUT = 0.1
+BATCH_SIZE = 32
+clf1 = AutoEncoder (hidden_neurons = [25, 2, 2, 25], epochs = NUMBER_OF_EPOCHS,
+                    batch_size = BATCH_SIZE, dropout_rate = DROPOUT,
+                    validation_size = 0.1, preprocessing = False,
+                    verbose = 2, random_state = STATE)
 startTime = time.time ()
-history = bestModel.fit (X_train, y_train,
-                         batch_size = BATCH_SIZE,
-                         epochs = NUMBER_OF_EPOCHS,
-                         verbose = 2, #1 = progress bar, not useful for logging
-                         workers = 0,
-                         use_multiprocessing = True,
-                         #class_weight = 'auto',
-                         validation_data = (X_val, y_val))
+clf1.fit (X_train)
 print (str (time.time () - startTime), 's to train model.')
+# Get the outlier scores for the train data
+y_train_scores = clf1.decision_scores_
+# Predict the anomaly scores
+y_test_scores = clf1.decision_function (X_test)  # outlier scores
+y_test_scores = pd.Series (y_test_scores)
+
+# Plot it!
+plt.hist (y_test_scores, bins='auto')
+plt.title ("Histogram for Model Clf1 Anomaly Scores")
+plt.savefig ('hist.png')
+
+
+print ('\nOn Training Data:')
+evaluate_print (cfl1, y_train, y_train_scores)
+print ('\nOn Test Data:')
+evaluate_print (cfl1, y_test, y_test_scores)
+
+clf1.predict_proba (X_val)
+
+return (0)
+
 
 
 ###############################################################################
