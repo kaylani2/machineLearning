@@ -24,6 +24,8 @@ from keras.constraints import maxnorm
 from keras.models import Sequential
 from keras.layers import Dense, Dropout
 from pyod.models.auto_encoder import AutoEncoder
+import matplotlib.pyplot as plt
+from pyod.utils.data import evaluate_print
 
 
 ###############################################################################
@@ -203,6 +205,11 @@ df_normal = df [mask]
 # 1 == attack
 df_attack = df [~mask]
 
+print ('Attack set:')
+print (df_attack [TARGET].value_counts ())
+print ('Normal set:')
+print (df_normal [TARGET].value_counts ())
+
 ### Sample and drop random attacks
 df_random_attacks = df_attack.sample (n = df_normal.shape [0], random_state = STATE)
 df_attack = df_attack.drop (df_random_attacks.index)
@@ -211,10 +218,14 @@ df_attack = df_attack.drop (df_random_attacks.index)
 df_test = pd.DataFrame ()
 df_test = pd.concat ([df_test, df_normal])
 df_test = pd.concat ([df_test, df_random_attacks])
-X_test = df_test.iloc [:, :-1]
-y_test = df_test.iloc [:, -1]
+print ('Test set:')
+print (df_test [TARGET].value_counts ())
+X_test_df = df_test.iloc [:, :-1]
+y_test_df = df_test.iloc [:, -1]
 
 df_train = df_attack
+print ('Train set:')
+print (df_train [TARGET].value_counts ())
 
 
 from sklearn.model_selection import train_test_split
@@ -241,7 +252,6 @@ print ('y_val_df shape:', y_val_df.shape)
 print ('X_test_df shape:', X_test_df.shape)
 print ('y_test_df shape:', y_test_df.shape)
 
-sys.exit ()
 
 ###############################################################################
 ## Imput missing data
@@ -305,19 +315,29 @@ print (str (time.time () - startTime), 'to normalize data.')
 #y_test = keras.utils.to_categorical (y_test, numberOfClasses)
 #
 print ('\nCreating learning model.')
-clf1 = AutoEncoder (hidden_neurons = [25, 2, 2, 25])
+NUMBER_OF_EPOCHS = 5
+DROPOUT = 0.1
+BATCH_SIZE = 32
+clf1 = AutoEncoder (hidden_neurons = [25, 2, 2, 25], epochs = NUMBER_OF_EPOCHS,
+                    batch_size = BATCH_SIZE, dropout_rate = DROPOUT,
+                    validation_size = 0.1, preprocessing = False,
+                    verbose = 2, random_state = STATE)
 clf1.fit (X_train)
 # Get the outlier scores for the train data
 y_train_scores = clf1.decision_scores_
 # Predict the anomaly scores
-y_test_scores = clf1.decision_function(X_test)  # outlier scores
-y_test_scores = pd.Series(y_test_scores)
+y_test_scores = clf1.decision_function (X_test)  # outlier scores
+y_test_scores = pd.Series (y_test_scores)
 
 # Plot it!
-import matplotlib.pyplot as plt
-plt.hist(y_test_scores, bins='auto')
-plt.title("Histogram for Model Clf1 Anomaly Scores")
-plt.savefig('hist.png')
+plt.hist (y_test_scores, bins='auto')
+plt.title ("Histogram for Model Clf1 Anomaly Scores")
+plt.savefig ('hist.png')
+
+print ('\nOn Training Data:')
+evaluate_print (cfl1, y_train, y_train_scores)
+print ('\nOn Test Data:')
+evaluate_print (cfl1, y_test, y_test_scores)
 
 
 sys.exit ()
