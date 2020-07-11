@@ -2,7 +2,7 @@
 # github.com/kaylani2
 # kaylani AT gta DOT ufrj DOT br
 
-### K: Model: Auto Encoder
+### K: Model: Autoencoder
 
 import pandas as pd
 import numpy as np
@@ -30,6 +30,7 @@ from sklearn.metrics import confusion_matrix, classification_report
 from sklearn.metrics import confusion_matrix, precision_score, recall_score
 from sklearn.metrics import f1_score, classification_report, accuracy_score
 from sklearn.metrics import cohen_kappa_score, mean_squared_error
+from sklearn.model_selection import train_test_split
 
 
 ###############################################################################
@@ -92,7 +93,7 @@ print ('Attack distribution:')
 print (df ['attack'].value_counts ())
 print ('\nCateogry types:', df ['category'].unique ())
 print ('Cateogry distribution:')
-print (df [TARGET].value_counts ())
+print (df ['category'].value_counts ())
 print ('\nSubcategory types:', df ['subcategory'].unique ())
 print ('Subcategory distribution:')
 print (df ['subcategory'].value_counts ())
@@ -218,13 +219,7 @@ df.drop (axis = 'columns', columns = 'subcategory', inplace = True)
 ###############################################################################
 ## Encode Label
 ###############################################################################
-#print ('\nEnconding label.')
-#myLabels = df [TARGET].unique ()
-#print ('Label types before conversion:', myLabels)
-#for label, code in zip (myLabels, range (len (myLabels))):
-#  df [TARGET].replace (label, code, inplace = True)
-#print ('Label types after conversion:', df [TARGET].unique ())
-
+### K: Binary classification. Already encoded.
 
 ###############################################################################
 ## Split dataset into train, validation and test sets
@@ -253,11 +248,11 @@ print ('Test set:')
 print (df_test [TARGET].value_counts ())
 X_test_df = df_test.iloc [:, :-1]
 y_test_df = df_test.iloc [:, -1]
+### K: y_test is required to plot the roc curve in the end
+
+
 
 df_train = df_attack
-
-
-from sklearn.model_selection import train_test_split
 VALIDATION_SIZE = 1/4
 print ('\nSplitting dataset (validation/train):', VALIDATION_SIZE)
 X_train_df, X_val_df, y_train_df, y_val_df = train_test_split (
@@ -267,24 +262,13 @@ X_train_df, X_val_df, y_train_df, y_val_df = train_test_split (
                                              random_state = STATE,)
                                              #shuffle = False)
 
-### K: We're not gonna use y to train, but this is needed to see if the samples
-### were evenly split.
-#print ('Train set:')
-#print (y_train_df)
-#print ('Val set:')
-#print (y_val_df)
-print ('Train set:')
-print (y_train_df.value_counts ())
-print ('Val set:')
-print (y_val_df.value_counts ())
-#sys.exit ()
 
-X_train_df.sort_index (inplace = True)
-y_train_df.sort_index (inplace = True)
-X_val_df.sort_index (inplace = True)
-y_val_df.sort_index (inplace = True)
-X_test_df.sort_index (inplace = True)
-y_test_df.sort_index (inplace = True)
+#X_train_df.sort_index (inplace = True)
+#y_train_df.sort_index (inplace = True)
+#X_val_df.sort_index (inplace = True)
+#y_val_df.sort_index (inplace = True)
+#X_test_df.sort_index (inplace = True)
+#y_test_df.sort_index (inplace = True)
 #X_train_df.sort_values  (by = 'pkSeqID', inplace = True)
 print ('X_train_df shape:', X_train_df.shape)
 print ('y_train_df shape:', y_train_df.shape)
@@ -355,11 +339,9 @@ print ('\nCreating learning model.')
 bestModel = Sequential ()
 bestModel.add (Dense (X_train.shape [1], activation = 'relu',
                       input_shape = INPUT_SHAPE))
-#bestModel.add (Dense (64, activation = 'relu'))
 bestModel.add (Dense (64, activation = 'relu'))
 bestModel.add (Dense (8,  activation = 'relu'))
 bestModel.add (Dense (64, activation = 'relu'))
-#bestModel.add (Dense (64, activation = 'relu'))
 bestModel.add (Dense (X_train.shape [1], activation = None))
 
 
@@ -399,41 +381,17 @@ print (X_pred_val)
 print (X_val)
 print ('Train error:', mean_squared_error (bestModel.predict (X_train),
                                            X_train))
-print ('Validation error:', mean_squared_error (X_pred_val, X_val))
 
+print ('Validation error:', mean_squared_error (X_pred_val, X_val))
+for pred_sample, real_sample in zip (X_pred_test [:50], X_test [:50]):
+  print ('MSE (pred, real)')
+  print (mean_squared_error (pred_sample, real_sample))
+
+### K: NOTE: Only look at test results when publishing...
+sys.exit ()
 X_pred_test = bestModel.predict (X_test)
 print ('Test error:', mean_squared_error (X_pred_test, X_test))
-sys.exit ()
-
-
-
-
-
-y_pred = y_pred.round ()
-print ('\nPerformance on VALIDATION set:')
-print ('Confusion matrix:')
-print (confusion_matrix (y_val.argmax (axis = 1), y_pred.argmax (axis = 1),
-                         labels = df [TARGET].unique ()))
-print ('Accuracy:', accuracy_score (y_val, y_pred))
-print ('Precision:', precision_score (y_val, y_pred, average = 'macro'))
-print ('Recall:', recall_score (y_val, y_pred, average = 'macro'))
-print ('F1:', f1_score (y_val, y_pred, average = 'macro'))
-print ('Cohen Kappa:', cohen_kappa_score (y_val.argmax (axis = 1),
-                                          y_pred.argmax (axis = 1),
-                                          labels = df [TARGET].unique ()))
-
-sys.exit ()
-### K: NOTE: Only look at test results when publishing...
-print ('\nPerformance on TEST set:')
-y_pred = bestModel.predict (X_test)
-y_pred = y_pred.round ()
-print ('Confusion matrix:')
-print (confusion_matrix (y_test.argmax (axis = 1), y_pred.argmax (axis = 1),
-                         labels = df [TARGET].unique ()))
-print ('Accuracy:', accuracy_score (y_test, y_pred))
-print ('Precision:', precision_score (y_test, y_pred, average = 'macro'))
-print ('Recall:', recall_score (y_test, y_pred, average = 'macro'))
-print ('F1:', f1_score (y_test, y_pred, average = 'macro'))
-print ('Cohen Kappa:', cohen_kappa_score (y_test.argmax (axis = 1),
-                                          y_pred.argmax (axis = 1),
-                                          labels = df [TARGET].unique ()))
+for pred_sample, real_sample, label in zip (X_pred_test, X_test, y_test):
+  print ('MSE (pred, real) | Label')
+  print (mean_squared_error (pred_sample, real_sample), '|', label)
+### @TODO: Plot ROC on test set
