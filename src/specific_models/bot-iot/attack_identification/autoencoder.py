@@ -31,6 +31,8 @@ from sklearn.metrics import confusion_matrix, precision_score, recall_score
 from sklearn.metrics import f1_score, classification_report, accuracy_score
 from sklearn.metrics import cohen_kappa_score, mean_squared_error
 from sklearn.model_selection import train_test_split
+from sklearn.model_selection import PredefinedSplit
+from sklearn.model_selection import GridSearchCV
 
 
 ###############################################################################
@@ -61,7 +63,7 @@ TARGET = 'attack'
 ## Load dataset
 ###############################################################################
 df = pd.DataFrame ()
-for fileNumber in range (3, FIVE_PERCENT_FILES + 1):#FULL_FILES + 1):
+for fileNumber in range (1, FIVE_PERCENT_FILES + 1):#FULL_FILES + 1):
   print ('Reading', FILE_NAME.format (str (fileNumber)))
   aux = pd.read_csv (FILE_NAME.format (str (fileNumber)),
                      #names = featureColumns,
@@ -328,9 +330,56 @@ print (str (time.time () - startTime), 'to normalize data.')
 
 
 ###############################################################################
-## Create learning model (Auto Encoder) and tune hyperparameters
+## Create learning model (Autoencoder) and tune hyperparameters
 ###############################################################################
-NUMBER_OF_EPOCHS = 4
+
+###############################################################################
+## Hyperparameter tuning
+test_fold = np.repeat ([-1, 0], [X_train.shape [0], X_val.shape [0]])
+myPreSplit = PredefinedSplit (test_fold)
+def create_model (learn_rate = 0.01, dropout_rate = 0.0, weight_constraint = 0):
+  model = Sequential ()
+  model.add (Dense (X_train.shape [1], activation = 'relu',
+                    input_shape = (X_train.shape [1], )))
+  model.add (Dense (32, activation = 'relu'))
+  model.add (Dense (8,  activation = 'relu'))
+  model.add (Dense (32, activation = 'relu'))
+  model.add (Dense (X_train.shape [1], activation = None))
+  model.compile (loss = 'mean_squared_error',
+                 optimizer = 'adam',
+                 metrics = ['mse'])
+  return model
+
+model = KerasClassifier (build_fn = create_model, verbose = 2)
+batch_size = [30]#10, 30, 50]
+epochs = [2]#, 5, 10]
+learn_rate = [0.001, 0.01, 0.1]#, 0.2, 0.3]
+dropout_rate = [0.0]#, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]
+weight_constraint = []#1, 2, 3, 4, 5]
+param_grid = dict (batch_size = batch_size, epochs = epochs,
+                   dropout_rate = dropout_rate, learn_rate = learn_rate,
+                   weight_constraint = weight_constraint)
+grid = GridSearchCV (estimator = model, param_grid = param_grid,
+                     scoring = 'mse', cv = myPreSplit, verbose = 2,
+                     n_jobs = -1)
+
+grid_result = grid.fit (np.concatenate ( (X_train, X_val), axis = 0),
+                        np.concatenate ( (X_train, X_val), axis = 0))
+print (grid_result.best_params_)
+
+print ("Best: %f using %s" % (grid_result.best_score_, grid_result.best_params_))
+means = grid_result.cv_results_['mean_test_score']
+stds = grid_result.cv_results_['std_test_score']
+params = grid_result.cv_results_['params']
+for mean, stdev, param in zip (means, stds, params):
+  print ("%f (%f) with: %r" % (mean, stdev, param))
+
+sys.exit ()
+
+
+###############################################################################
+## Finished model
+NUMBER_OF_EPOCHS = 2
 BATCH_SIZE = 32
 INPUT_SHAPE = (X_train.shape [1], )
 
@@ -338,10 +387,10 @@ print ('\nCreating learning model.')
 ### *64*8*64 autoencoder
 bestModel = Sequential ()
 bestModel.add (Dense (X_train.shape [1], activation = 'relu',
-                      input_shape = INPUT_SHAPE))
-bestModel.add (Dense (64, activation = 'relu'))
+                      input_shape = (X_train.shape [1], )))
+bestModel.add (Dense (32, activation = 'relu'))
 bestModel.add (Dense (8,  activation = 'relu'))
-bestModel.add (Dense (64, activation = 'relu'))
+bestModel.add (Dense (32, activation = 'relu'))
 bestModel.add (Dense (X_train.shape [1], activation = None))
 
 
@@ -383,15 +432,19 @@ print ('Train error:', mean_squared_error (bestModel.predict (X_train),
                                            X_train))
 
 print ('Validation error:', mean_squared_error (X_pred_val, X_val))
-for pred_sample, real_sample in zip (X_pred_test [:50], X_test [:50]):
+
+SAMPLES = 50
+print ('Error on first', SAMPLES, 'samples:')
+for pred_sample, real_sample in zip (X_pred_val [:SAMPLES], X_val [:SAMPLES]):
   print ('MSE (pred, real)')
   print (mean_squared_error (pred_sample, real_sample))
 
+
 ### K: NOTE: Only look at test results when publishing...
-sys.exit ()
-X_pred_test = bestModel.predict (X_test)
-print ('Test error:', mean_squared_error (X_pred_test, X_test))
-for pred_sample, real_sample, label in zip (X_pred_test, X_test, y_test):
-  print ('MSE (pred, real) | Label')
-  print (mean_squared_error (pred_sample, real_sample), '|', label)
-### @TODO: Plot ROC on test set
+#sys.exit ()
+#X_pred_test = bestModel.predict (X_test)
+#print ('Test error:', mean_squared_error (X_pred_test, X_test))
+#for pred_sample, real_sample, label in zip (X_pred_test, X_test, y_test):
+#  print ('MSE (pred, real) | Label')
+#  print (mean_squared_error (pred_sample, real_sample), '|', label)
+#### @TODO: Plot ROC on test set
