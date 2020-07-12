@@ -34,6 +34,9 @@ from sklearn.metrics import cohen_kappa_score, mean_squared_error
 from sklearn.model_selection import train_test_split
 from sklearn.model_selection import PredefinedSplit
 from sklearn.model_selection import GridSearchCV
+from sklearn.metrics import roc_curve
+from sklearn.metrics import roc_auc_score
+from sklearn.preprocessing import StandardScaler, RobustScaler, MinMaxScaler
 
 
 ###############################################################################
@@ -263,23 +266,14 @@ X_train_df, X_val_df, y_train_df, y_val_df = train_test_split (
                                              df_train.iloc [:, -1],
                                              test_size = VALIDATION_SIZE,
                                              random_state = STATE,)
-                                             #shuffle = False)
 
 
-#X_train_df.sort_index (inplace = True)
-#y_train_df.sort_index (inplace = True)
-#X_val_df.sort_index (inplace = True)
-#y_val_df.sort_index (inplace = True)
-#X_test_df.sort_index (inplace = True)
-#y_test_df.sort_index (inplace = True)
-#X_train_df.sort_values  (by = 'pkSeqID', inplace = True)
 print ('X_train_df shape:', X_train_df.shape)
 print ('y_train_df shape:', y_train_df.shape)
 print ('X_val_df shape:', X_val_df.shape)
 print ('y_val_df shape:', y_val_df.shape)
 print ('X_test_df shape:', X_test_df.shape)
 print ('y_test_df shape:', y_test_df.shape)
-
 
 
 ###############################################################################
@@ -318,11 +312,9 @@ print ('y_test shape:', y_test.shape)
 ## Apply normalization
 ###############################################################################
 ### K: NOTE: Only use derived information from the train set to avoid leakage.
-from sklearn.preprocessing import StandardScaler, RobustScaler, MinMaxScaler
 print ('\nApplying normalization.')
 startTime = time.time ()
 scaler = StandardScaler ()
-#scaler = MinMaxScaler (feature_range = (0, 1))
 scaler.fit (X_train)
 X_train = scaler.transform (X_train)
 X_val = scaler.transform (X_val)
@@ -335,57 +327,58 @@ print (str (time.time () - startTime), 'to normalize data.')
 ###############################################################################
 
 ###############################################################################
-## Hyperparameter tuning
-test_fold = np.repeat ([-1, 0], [X_train.shape [0], X_val.shape [0]])
-myPreSplit = PredefinedSplit (test_fold)
-def create_model (learn_rate = 0.01, dropout_rate = 0.0, weight_constraint = 0):
-  model = Sequential ()
-  model.add (Dense (X_train.shape [1], activation = 'relu',
-                    input_shape = (X_train.shape [1], )))
-  model.add (Dense (32, activation = 'relu'))
-  model.add (Dense (8,  activation = 'relu'))
-  model.add (Dense (32, activation = 'relu'))
-  model.add (Dense (X_train.shape [1], activation = None))
-  model.compile (loss = 'mean_squared_error',
-                 optimizer = 'adam',
-                 metrics = ['mse'])
-  return model
-
-model = KerasRegressor (build_fn = create_model, verbose = 2)
-batch_size = [10, 30, 50]
-epochs = [3, 5]#, 5, 10]
-learn_rate = [0.001, 0.01, 0.1]#, 0.2, 0.3]
-dropout_rate = [0.0, 0.2, 0.5]#, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]
-weight_constraint = [0]#1, 2, 3, 4, 5]
-param_grid = dict (batch_size = batch_size, epochs = epochs,
-                   dropout_rate = dropout_rate, learn_rate = learn_rate,
-                   weight_constraint = weight_constraint)
-grid = GridSearchCV (estimator = model, param_grid = param_grid,
-                     scoring = 'neg_mean_squared_error', cv = myPreSplit,
-                     verbose = 2, n_jobs = -1)
-
-grid_result = grid.fit (np.vstack ( (X_train, X_val)),#, axis = 1),
-                        np.vstack ( (X_train, X_val)))#, axis = 1))
-print (grid_result.best_params_)
-
-print ("Best: %f using %s" % (grid_result.best_score_, grid_result.best_params_))
-means = grid_result.cv_results_['mean_test_score']
-stds = grid_result.cv_results_['std_test_score']
-params = grid_result.cv_results_['params']
-for mean, stdev, param in zip (means, stds, params):
-  print ("%f (%f) with: %r" % (mean, stdev, param))
-
-sys.exit ()
+# Hyperparameter tuning
+#test_fold = np.repeat ([-1, 0], [X_train.shape [0], X_val.shape [0]])
+#myPreSplit = PredefinedSplit (test_fold)
+#def create_model (learn_rate = 0.01, dropout_rate = 0.0, weight_constraint = 0):
+#  model = Sequential ()
+#  model.add (Dense (X_train.shape [1], activation = 'relu',
+#                    input_shape = (X_train.shape [1], )))
+#  model.add (Dense (32, activation = 'relu'))
+#  model.add (Dense (8,  activation = 'relu'))
+#  model.add (Dense (32, activation = 'relu'))
+#  model.add (Dense (X_train.shape [1], activation = None))
+#  model.compile (loss = 'mean_squared_error',
+#                 optimizer = 'adam',
+#                 metrics = ['mse'])
+#  return model
+#
+#model = KerasRegressor (build_fn = create_model, verbose = 2)
+#batch_size = [30]#, 50]
+#epochs = [5]#, 5, 10]
+#learn_rate = [0.01, 0.1]#, 0.2, 0.3]
+#dropout_rate = [0.0, 0.2]#, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]
+#weight_constraint = [0]#1, 2, 3, 4, 5]
+#param_grid = dict (batch_size = batch_size, epochs = epochs,
+#                   dropout_rate = dropout_rate, learn_rate = learn_rate,
+#                   weight_constraint = weight_constraint)
+#grid = GridSearchCV (estimator = model, param_grid = param_grid,
+#                     scoring = 'neg_mean_squared_error', cv = myPreSplit,
+#                     verbose = 2, n_jobs = 16)
+#
+#grid_result = grid.fit (np.vstack ( (X_train, X_val)),#, axis = 1),
+#                        np.vstack ( (X_train, X_val)))#, axis = 1))
+#print (grid_result.best_params_)
+#
+#print ("Best: %f using %s" % (grid_result.best_score_, grid_result.best_params_))
+#means = grid_result.cv_results_['mean_test_score']
+#stds = grid_result.cv_results_['std_test_score']
+#params = grid_result.cv_results_['params']
+#for mean, stdev, param in zip (means, stds, params):
+#  print ("%f (%f) with: %r" % (mean, stdev, param))
+#
+## Best: -0.129429 using {'batch_size': 30, 'dropout_rate': 0.0, 'epochs': 5, 'learn_rate': 0.1, 'weight_constraint': 0}
 
 
 ###############################################################################
 ## Finished model
-NUMBER_OF_EPOCHS = 2
-BATCH_SIZE = 32
+NUMBER_OF_EPOCHS = 1 ### PRA AGILIZAR O TESTE
+BATCH_SIZE = 30
+LEARNING_RATE = 0.1
+
 INPUT_SHAPE = (X_train.shape [1], )
 
 print ('\nCreating learning model.')
-### *64*8*64 autoencoder
 bestModel = Sequential ()
 bestModel.add (Dense (X_train.shape [1], activation = 'relu',
                       input_shape = (X_train.shape [1], )))
@@ -400,7 +393,7 @@ bestModel.add (Dense (X_train.shape [1], activation = None))
 ###############################################################################
 print ('\nCompiling the network.')
 bestModel.compile (loss = 'mean_squared_error',
-                   optimizer = 'adam',
+                   optimizer = Adam (lr = LEARNING_RATE),
                    metrics = ['mse'])#,metrics.Precision ()])
 
 print ('Model summary:')
@@ -436,16 +429,67 @@ print ('Validation error:', mean_squared_error (X_pred_val, X_val))
 
 SAMPLES = 50
 print ('Error on first', SAMPLES, 'samples:')
+print ('MSE (pred, real)')
 for pred_sample, real_sample in zip (X_pred_val [:SAMPLES], X_val [:SAMPLES]):
-  print ('MSE (pred, real)')
   print (mean_squared_error (pred_sample, real_sample))
 
 
 ### K: NOTE: Only look at test results when publishing...
 #sys.exit ()
-#X_pred_test = bestModel.predict (X_test)
-#print ('Test error:', mean_squared_error (X_pred_test, X_test))
-#for pred_sample, real_sample, label in zip (X_pred_test, X_test, y_test):
-#  print ('MSE (pred, real) | Label')
-#  print (mean_squared_error (pred_sample, real_sample), '|', label)
-#### @TODO: Plot ROC on test set
+X_pred_test = bestModel.predict (X_test)
+print (X_pred_test.shape )
+print ('Test error:', mean_squared_error (X_pred_test, X_test))
+y_pred = []
+print ('MSE (pred, real) | Label')
+for pred_sample, real_sample, label in zip (X_pred_test, X_test, y_test):
+  print (mean_squared_error (pred_sample, real_sample), '|', label)
+  y_pred.append (mean_squared_error (pred_sample, real_sample))
+
+y_test, y_pred = zip (*sorted (zip (y_test, y_pred)))
+print ('MSE (pred, real) | Label')
+for test, pred in zip (y_test, y_pred):
+  print (test, '|', pred)
+
+
+y_pred = np.array (y_pred)
+scaler = MinMaxScaler ()
+y_pred = scaler.fit_transform (y_pred.reshape (-1, 1))
+print (y_pred)
+y_pred = y_pred.round ()
+
+print ('pred | real')
+print ('All:')
+for pred, real in zip (y_pred, y_test):
+  print (pred, '|', real)
+
+print ('pred | real')
+print ('Wrongs:')
+for pred, real in zip (y_pred, y_test):
+  if (pred != real):
+    print (pred, '|', real)
+
+
+
+
+### @TODO: Plot ROC on test set
+### K: ROC
+#ns_probs = [0 for _ in range (len (y_test))] # no skill predictor
+#ns_auc = roc_auc_score (y_test, ns_probs)
+#lr_auc = roc_auc_score (y_test, y_pred)
+#
+#print ('No Skill: ROC AUC = %.3f' % (ns_auc))
+#print ('Autoencoders: ROC AUC = %.3f' % (lr_auc))
+#
+#ns_fpr, ns_tpr, _ = roc_curve (y_test, ns_probs)
+#lr_fpr, lr_tpr, _ = roc_curve (y_test, lr_probs)
+#
+## plot the roc curve for the model
+#pyplot.plot (ns_fpr, ns_tpr, linestyle = '--', label = 'No Skill')
+#pyplot.plot (lr_fpr, lr_tpr, marker = '.', label = 'Autoencoder')
+## axis labels
+#pyplot.xlabel ('False Positive Rate')
+#pyplot.ylabel ('True Positive Rate')
+## show the legend
+#pyplot.legend ()
+## show the plot
+#pyplot.savefig ('roc_autoencoder.png')
