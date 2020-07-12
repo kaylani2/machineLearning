@@ -1,0 +1,274 @@
+Reading ../../../../datasets/bot-iot/UNSW_2018_IoT_Botnet_Full5pc_1.csv
+Reading ../../../../datasets/bot-iot/UNSW_2018_IoT_Botnet_Full5pc_2.csv
+Reading ../../../../datasets/bot-iot/UNSW_2018_IoT_Botnet_Full5pc_3.csv
+Reading ../../../../datasets/bot-iot/UNSW_2018_IoT_Botnet_Full5pc_4.csv
+<class 'pandas.core.frame.DataFrame'>
+Int64Index: 3668522 entries, 1 to 3668522
+Data columns (total 45 columns):
+stime                               float64
+flgs                                object
+flgs_number                         int64
+proto                               object
+proto_number                        int64
+saddr                               object
+sport                               object
+daddr                               object
+dport                               object
+pkts                                int64
+bytes                               int64
+state                               object
+state_number                        int64
+ltime                               float64
+seq                                 int64
+dur                                 float64
+mean                                float64
+stddev                              float64
+sum                                 float64
+min                                 float64
+max                                 float64
+spkts                               int64
+dpkts                               int64
+sbytes                              int64
+dbytes                              int64
+rate                                float64
+srate                               float64
+drate                               float64
+TnBPSrcIP                           int64
+TnBPDstIP                           int64
+TnP_PSrcIP                          int64
+TnP_PDstIP                          int64
+TnP_PerProto                        int64
+TnP_Per_Dport                       int64
+AR_P_Proto_P_SrcIP                  float64
+AR_P_Proto_P_DstIP                  float64
+N_IN_Conn_P_DstIP                   int64
+N_IN_Conn_P_SrcIP                   int64
+AR_P_Proto_P_Sport                  float64
+AR_P_Proto_P_Dport                  float64
+Pkts_P_State_P_Protocol_P_DestIP    int64
+Pkts_P_State_P_Protocol_P_SrcIP     int64
+attack                              int64
+category                            object
+subcategory                         object
+dtypes: float64(15), int64(21), object(9)
+memory usage: 1.3+ GB
+
+Dataframe contains NaN values: False
+Number of NaN columns: 0
+NaN columns: [] 
+
+
+Attack types: [1 0]
+Attack distribution:
+1    3668045
+0        477
+Name: attack, dtype: int64
+
+Cateogry types: ['DoS' 'DDoS' 'Normal' 'Reconnaissance' 'Theft']
+Cateogry distribution:
+1    3668045
+0        477
+Name: attack, dtype: int64
+
+Subcategory types: ['HTTP' 'TCP' 'UDP' 'Normal' 'OS_Fingerprint' 'Service_Scan'
+ 'Data_Exfiltration' 'Keylogging']
+Subcategory distribution:
+UDP                  1981230
+TCP                  1593180
+Service_Scan           73168
+OS_Fingerprint         17914
+HTTP                    2474
+Normal                   477
+Keylogging                73
+Data_Exfiltration          6
+Name: subcategory, dtype: int64
+
+Column | # of different values
+stime | 392259
+flgs | 9
+flgs_number | 9
+proto | 5
+proto_number | 5
+saddr | 21
+sport | 65541
+daddr | 84
+dport | 7698
+pkts | 123
+bytes | 1633
+state | 11
+state_number | 11
+ltime | 383624
+seq | 262212
+dur | 612509
+mean | 507089
+stddev | 421379
+sum | 934972
+min | 271147
+max | 594525
+spkts | 91
+dpkts | 62
+sbytes | 1052
+dbytes | 472
+rate | 139677
+srate | 119709
+drate | 20714
+TnBPSrcIP | 8639
+TnBPDstIP | 7631
+TnP_PSrcIP | 1522
+TnP_PDstIP | 1587
+TnP_PerProto | 1560
+TnP_Per_Dport | 1582
+AR_P_Proto_P_SrcIP | 46289
+AR_P_Proto_P_DstIP | 39186
+N_IN_Conn_P_DstIP | 100
+N_IN_Conn_P_SrcIP | 100
+AR_P_Proto_P_Sport | 136207
+AR_P_Proto_P_Dport | 42237
+Pkts_P_State_P_Protocol_P_DestIP | 1595
+Pkts_P_State_P_Protocol_P_SrcIP | 1526
+attack | 2
+category | 5
+subcategory | 8
+
+Removing attributes that have only one (or zero) sampled value.
+
+Column | # of different values
+stime | 392259
+flgs | 9
+flgs_number | 9
+proto | 5
+proto_number | 5
+saddr | 21
+sport | 65541
+daddr | 84
+dport | 7698
+pkts | 123
+bytes | 1633
+state | 11
+state_number | 11
+ltime | 383624
+seq | 262212
+dur | 612509
+mean | 507089
+stddev | 421379
+sum | 934972
+min | 271147
+max | 594525
+spkts | 91
+dpkts | 62
+sbytes | 1052
+dbytes | 472
+rate | 139677
+srate | 119709
+drate | 20714
+TnBPSrcIP | 8639
+TnBPDstIP | 7631
+TnP_PSrcIP | 1522
+TnP_PDstIP | 1587
+TnP_PerProto | 1560
+TnP_Per_Dport | 1582
+AR_P_Proto_P_SrcIP | 46289
+AR_P_Proto_P_DstIP | 39186
+N_IN_Conn_P_DstIP | 100
+N_IN_Conn_P_SrcIP | 100
+AR_P_Proto_P_Sport | 136207
+AR_P_Proto_P_Dport | 42237
+Pkts_P_State_P_Protocol_P_DestIP | 1595
+Pkts_P_State_P_Protocol_P_SrcIP | 1526
+attack | 2
+category | 5
+subcategory | 8
+
+Removing redundant columns: ['state_number', 'proto_number', 'flgs_number']
+
+Column | NaN values
+stime                               0
+flgs                                0
+proto                               0
+saddr                               0
+sport                               0
+daddr                               0
+dport                               0
+pkts                                0
+bytes                               0
+state                               0
+ltime                               0
+seq                                 0
+dur                                 0
+mean                                0
+stddev                              0
+sum                                 0
+min                                 0
+max                                 0
+spkts                               0
+dpkts                               0
+sbytes                              0
+dbytes                              0
+rate                                0
+srate                               0
+drate                               0
+TnBPSrcIP                           0
+TnBPDstIP                           0
+TnP_PSrcIP                          0
+TnP_PDstIP                          0
+TnP_PerProto                        0
+TnP_Per_Dport                       0
+AR_P_Proto_P_SrcIP                  0
+AR_P_Proto_P_DstIP                  0
+N_IN_Conn_P_DstIP                   0
+N_IN_Conn_P_SrcIP                   0
+AR_P_Proto_P_Sport                  0
+AR_P_Proto_P_Dport                  0
+Pkts_P_State_P_Protocol_P_DestIP    0
+Pkts_P_State_P_Protocol_P_SrcIP     0
+attack                              0
+category                            0
+subcategory                         0
+dtype: int64
+Removing attributes with more than half NaN values.
+Dataframe contains NaN values: False
+
+Column | NaN values (after dropping columns)
+stime                               0
+flgs                                0
+proto                               0
+saddr                               0
+sport                               0
+daddr                               0
+dport                               0
+pkts                                0
+bytes                               0
+state                               0
+ltime                               0
+seq                                 0
+dur                                 0
+mean                                0
+stddev                              0
+sum                                 0
+min                                 0
+max                                 0
+spkts                               0
+dpkts                               0
+sbytes                              0
+dbytes                              0
+rate                                0
+srate                               0
+drate                               0
+TnBPSrcIP                           0
+TnBPDstIP                           0
+TnP_PSrcIP                          0
+TnP_PDstIP                          0
+TnP_PerProto                        0
+TnP_Per_Dport                       0
+AR_P_Proto_P_SrcIP                  0
+AR_P_Proto_P_DstIP                  0
+N_IN_Conn_P_DstIP                   0
+N_IN_Conn_P_SrcIP                   0
+AR_P_Proto_P_Sport                  0
+AR_P_Proto_P_Dport                  0
+Pkts_P_State_P_Protocol_P_DestIP    0
+Pkts_P_State_P_Protocol_P_SrcIP     0
+attack                              0
+category                            0
+subcategory                         0
+dtype: int64

@@ -2,7 +2,7 @@
 # github.com/kaylani2
 # kaylani AT gta DOT ufrj DOT br
 
-### K: Model: Autoencoder
+### K: Model: Convolutional Autoencoder (not tested)
 
 import pandas as pd
 import numpy as np
@@ -74,7 +74,7 @@ for fileNumber in range (1, FIVE_PERCENT_FILES + 1):#FULL_FILES + 1):
                      index_col = 'pkSeqID',
                      dtype = {'pkSeqID' : np.int32}, na_values = NAN_VALUES,
                      low_memory = False)
-  df = pd.concat ( [df, aux])
+  df = pd.concat ([df, aux])
 
 
 ###############################################################################
@@ -248,8 +248,8 @@ df_attack = df_attack.drop (df_random_attacks.index)
 
 ### Assemble test set
 df_test = pd.DataFrame ()
-df_test = pd.concat ( [df_test, df_normal])
-df_test = pd.concat ( [df_test, df_random_attacks])
+df_test = pd.concat ([df_test, df_normal])
+df_test = pd.concat ([df_test, df_random_attacks])
 print ('Test set:')
 print (df_test [TARGET].value_counts ())
 X_test_df = df_test.iloc [:, :-1]
@@ -328,7 +328,7 @@ print (str (time.time () - startTime), 'to normalize data.')
 
 ###############################################################################
 # Hyperparameter tuning
-#test_fold = np.repeat ( [-1, 0], [X_train.shape [0], X_val.shape [0]])
+#test_fold = np.repeat ([-1, 0], [X_train.shape [0], X_val.shape [0]])
 #myPreSplit = PredefinedSplit (test_fold)
 #def create_model (learn_rate = 0.01, dropout_rate = 0.0, weight_constraint = 0):
 #  model = Sequential ()
@@ -361,9 +361,9 @@ print (str (time.time () - startTime), 'to normalize data.')
 #print (grid_result.best_params_)
 #
 #print ("Best: %f using %s" % (grid_result.best_score_, grid_result.best_params_))
-#means = grid_result.cv_results_ ['mean_test_score']
-#stds = grid_result.cv_results_ ['std_test_score']
-#params = grid_result.cv_results_ ['params']
+#means = grid_result.cv_results_['mean_test_score']
+#stds = grid_result.cv_results_['std_test_score']
+#params = grid_result.cv_results_['params']
 #for mean, stdev, param in zip (means, stds, params):
 #  print ("%f (%f) with: %r" % (mean, stdev, param))
 #
@@ -379,13 +379,58 @@ LEARNING_RATE = 0.1
 INPUT_SHAPE = (X_train.shape [1], )
 
 print ('\nCreating learning model.')
-bestModel = Sequential ()
-bestModel.add (Dense (X_train.shape [1], activation = 'relu',
-                      input_shape = (X_train.shape [1], )))
-bestModel.add (Dense (32, activation = 'relu'))
-bestModel.add (Dense (8,  activation = 'relu'))
-bestModel.add (Dense (32, activation = 'relu'))
-bestModel.add (Dense (X_train.shape [1], activation = None))
+
+input_img = Input (shape= (28, 28, 1))  # adapt this if using `channels_first` image data format
+
+x = Conv2D (16, (3, 3), activation='relu', padding='same') (input_img)
+x = MaxPooling2D ((2, 2), padding='same') (x)
+x = Conv2D (8, (3, 3), activation='relu', padding='same') (x)
+x = MaxPooling2D ((2, 2), padding='same') (x)
+x = Conv2D (8, (3, 3), activation='relu', padding='same') (x)
+encoded = MaxPooling2D ((2, 2), padding='same') (x)
+
+# at this point the representation is (4, 4, 8) i.e. 128-dimensional
+x = Conv2D (8, (3, 3), activation='relu', padding='same') (encoded)
+x = UpSampling2D ((2, 2)) (x)
+x = Conv2D (8, (3, 3), activation='relu', padding='same') (x)
+x = UpSampling2D ((2, 2)) (x)
+x = Conv2D (16, (3, 3), activation='relu') (x)
+x = UpSampling2D ((2, 2)) (x)
+decoded = Conv2D (1, (3, 3), activation='sigmoid', padding='same') (x)
+autoencoder = Model (input_img, decoded)
+autoencoder.compile (optimizer='adadelta', loss='binary_crossentropy')
+
+(x_train, _), (x_test, _) = mnist.load_data()
+x_train = x_train.astype('float32') / 255.
+x_test = x_test.astype('float32') / 255.
+x_train = np.reshape(x_train, (len(x_train), 28, 28, 1))  # adapt this if using `channels_first` image data format
+x_test = np.reshape(x_test, (len(x_test), 28, 28, 1))
+autoencoder.fit(x_train, x_train,
+                epochs=50,
+                batch_size=128,
+                shuffle=True,
+                validation_data=(x_test, x_test),
+                callbacks=[TensorBoard(log_dir='/tmp/autoencoder')])
+
+decoded_imgs = autoencoder.predict(x_test)
+n = 10
+plt.figure(figsize=(20, 4))
+for i in range(1,n+1):
+    # display original
+    ax = plt.subplot(2, n, i)
+    plt.imshow(x_test[i].reshape(28, 28))
+    plt.gray()
+    ax.get_xaxis().set_visible(False)
+    ax.get_yaxis().set_visible(False)
+    # display reconstruction
+    ax = plt.subplot(2, n, i + n)
+    plt.imshow(decoded_imgs[i].reshape(28, 28))
+    plt.gray()
+    ax.get_xaxis().set_visible(False)
+    ax.get_yaxis().set_visible(False)
+plt.show()
+
+##
 
 
 ###############################################################################
@@ -419,136 +464,54 @@ print (str (time.time () - startTime), 's to train model.')
 ###############################################################################
 ## Analyze results
 ###############################################################################
-X_val_pred   = bestModel.predict (X_val)
-X_train_pred = bestModel.predict (X_train)
-print ('Train error:'     , mean_squared_error (X_train_pred, X_train))
-print ('Validation error:', mean_squared_error (X_val_pred, X_val))
+X_pred_val = bestModel.predict (X_val)
+print (X_pred_val)
+print (X_val)
+print ('Train error:', mean_squared_error (bestModel.predict (X_train),
+                                           X_train))
 
-#SAMPLES = 50
-#print ('Error on first', SAMPLES, 'samples:')
-#print ('MSE (pred, real)')
-#for pred_sample, real_sample in zip (X_val_pred [:SAMPLES], X_val [:SAMPLES]):
-#  print (mean_squared_error (pred_sample, real_sample))
+print ('Validation error:', mean_squared_error (X_pred_val, X_val))
 
-### K: This looks like another hyperparameter to be adjusted by using a
-### separate validation set that contains normal and anomaly samples.
-### K: I've guessed 1%, this may be a future line of research.
-THRESHOLD_SAMPLE_PERCENTAGE = 1/100
-
-train_mse_element_wise = np.mean (np.square (X_train_pred - X_train), axis = 1)
-val_mse_element_wise = np.mean (np.square (X_val_pred - X_val), axis = 1)
-
-max_threshold_val = np.max (val_mse_element_wise)
-print ('max_Thresh val:', max_threshold_val)
-
-
-
-print ('samples:')
-print (int (round (val_mse_element_wise.shape [0] *
-           THRESHOLD_SAMPLE_PERCENTAGE)))
-
-top_n_values_val = np.partition (-val_mse_element_wise,
-                                 int (round (val_mse_element_wise.shape [0] *
-                                             THRESHOLD_SAMPLE_PERCENTAGE)))
-
-top_n_values_val = -top_n_values_val [: int (round (val_mse_element_wise.shape [0] *
-                                                    THRESHOLD_SAMPLE_PERCENTAGE))]
-
-
-### K: O limiar de classificacao sera a mediana dos N maiores custos obtidos
-### ao validar a rede no conjunto de validacao. N e um hiperparametro que pode
-### ser ajustado, mas e necessario um conjunto de validacao com amostras
-### anomalas em adicao ao conjunto de validacao atual, que so tem amostras nao
-### anomalas. @TODO: Desenvolver e validar o conjunto com esta nova tecnica.
-threshold = np.median (top_n_values_val)
-print ('Thresh val:', threshold)
+SAMPLES = 50
+print ('Error on first', SAMPLES, 'samples:')
+print ('MSE (pred, real)')
+for pred_sample, real_sample in zip (X_pred_val [:SAMPLES], X_val [:SAMPLES]):
+  print (mean_squared_error (pred_sample, real_sample))
 
 
 ### K: NOTE: Only look at test results when publishing...
 #sys.exit ()
-X_test_pred = bestModel.predict (X_test)
-print (X_test_pred.shape)
-print ('Test error:', mean_squared_error (X_test_pred, X_test))
-
-
-y_pred = np.mean (np.square (X_test_pred - X_test), axis = 1)
-#y_pred = []
-#for pred_sample, real_sample, label in zip (X_test_pred, X_test, y_test):
-#  y_pred.append (mean_squared_error (pred_sample, real_sample))
-
-#print ('\nLabel | MSE (pred, real)')
-#for label, pred in zip (y_test, y_pred):
-#  print (label, '|', pred)
+X_pred_test = bestModel.predict (X_test)
+print (X_pred_test.shape )
+print ('Test error:', mean_squared_error (X_pred_test, X_test))
+y_pred = []
+print ('MSE (pred, real) | Label')
+for pred_sample, real_sample, label in zip (X_pred_test, X_test, y_test):
+  print (mean_squared_error (pred_sample, real_sample), '|', label)
+  y_pred.append (mean_squared_error (pred_sample, real_sample))
 
 y_test, y_pred = zip (*sorted (zip (y_test, y_pred)))
-#print ('\nLabel | MSE (pred, real) (ordered)')
-#for label, pred in zip (y_test, y_pred):
-#  print (label, '|', pred)
-
-# 0 == normal
-# 1 == attack
-print ('\nMSE (pred, real) | Label (ordered)')
-tp, tn, fp, fn = 0, 0, 0, 0
-for label, pred in zip (y_test, y_pred):
-#  if (pred >= threshold):
-#    print ('Classified as anomaly     (NORMAL):', label)
-#  else:
-#    print ('Classified as not anomaly (ATTACK):', label)
-
-  if ((pred >= threshold) and (label == 0)):
-    print ('True negative.')
-    tn += 1
-  elif ((pred >= threshold) and (label == 1)):
-    print ('False negative!')
-    fn += 1
-  elif ((pred < threshold) and (label == 1)):
-    print ('True positive.')
-    tp += 1
-  elif ((pred < threshold) and (label == 0)):
-    print ('False positive!')
-    fp += 1
-
-print ('Confusion matrix:')
-print ('tp | fp')
-print ('fn | tn')
-print (tp, '|', fp)
-print (fn, '|', tn)
+print ('MSE (pred, real) | Label')
+for test, pred in zip (y_test, y_pred):
+  print (test, '|', pred)
 
 
-### K: @TODO: Decide how to find the optimal threshold value for classification whilst avoiding data leakage.
+y_pred = np.array (y_pred)
+scaler = MinMaxScaler ()
+y_pred = scaler.fit_transform (y_pred.reshape (-1, 1))
+print (y_pred)
+y_pred = y_pred.round ()
 
-# https://towardsdatascience.com/anomaly-detection-with-autoencoder-b4cdce4866a6
-## /\ This approach looks directly at the test results to find a good separation (BUT WITHOUT THE LABELS), so it's not leaking...????
+print ('pred | real')
+print ('All:')
+for pred, real in zip (y_pred, y_test):
+  print (pred, '|', real)
 
-# https://www.pyimagesearch.com/2020/03/02/anomaly-detection-with-keras-tensorflow-and-deep-learning/
-## /\ This one uses "quantiles". Poorly explained and organized...
-
-# https://keras.io/examples/timeseries/timeseries_anomaly_detection/
-## /\
-#1. Find MAE loss on training samples.
-#2. Find max MAE loss value. This is the worst our model has performed trying to reconstruct a sample. We will make this the threshold for anomaly detection.
-#3. If the reconstruction loss for a sample is greater than this threshold value then we can infer that the model is seeing a pattern that it isn't familiar with. We will label this sample as an anomaly.
-### K: Esta parece a mais razoável...
-
-
-
-### K: Scaling the losses was not a good idea...
-#y_pred = np.array (y_pred)
-#scaler = MinMaxScaler ()
-#y_pred = scaler.fit_transform (y_pred.reshape (-1, 1))
-#print (y_pred)
-#y_pred = y_pred.round ()
-
-#print ('pred | real')
-#print ('All:')
-#for pred, real in zip (y_pred, y_test):
-#  print (pred, '|', real)
-#
-#print ('pred | real')
-#print ('Wrongs:')
-#for pred, real in zip (y_pred, y_test):
-#  if (pred != real):
-#    print (pred, '|', real)
+print ('pred | real')
+print ('Wrongs:')
+for pred, real in zip (y_pred, y_test):
+  if (pred != real):
+    print (pred, '|', real)
 
 
 

@@ -1,0 +1,4 @@
+  File "autoencoder.py", line 437
+    top_n_values = -temp [: int (round (val_mse_element_wise.shape [0] * 0.01))]
+               ^
+SyntaxError: invalid syntax

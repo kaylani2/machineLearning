@@ -1,0 +1,4 @@
+  File "autoencoder.py", line 493
+    if ((pred >= threshold) and (label = 0)):
+                                       ^
+SyntaxError: invalid syntax
