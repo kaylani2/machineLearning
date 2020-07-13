@@ -2,7 +2,7 @@
 # github.com/kaylani2
 # kaylani AT gta DOT ufrj DOT br
 
-### K: Model: 2D CNN
+### K: Model: 2D CNN OUTPUT ONE HOT ENCODED
 
 import pandas as pd
 import numpy as np
@@ -232,9 +232,9 @@ TEST_SIZE = 2/10
 VALIDATION_SIZE = 1/4
 print ('\nSplitting dataset (test/train):', TEST_SIZE)
 ### K: Dataset is too big, not enough memory
-drop_indices = np.random.choice (df.index, int (df.shape [0] * 0.5),
-                                 replace = False)
-df = df.drop (drop_indices)
+#drop_indices = np.random.choice (df.index, int (df.shape [0] * 0.5),
+#                                 replace = False)
+#df = df.drop (drop_indices)
 X_train_df, X_test_df, y_train_df, y_test_df = train_test_split (
                                                df.iloc [:, :-1],
                                                df.iloc [:, -1],
@@ -380,6 +380,7 @@ print (X_train.shape)
 ###############################################################################
 ## Finished model
 
+DROPOUT_RATE = 0.2
 bestModel = Sequential ()
 bestModel.add (Conv2D (64, (3, 3), activation = 'relu',
                    input_shape = (SIZE, SIZE, 1),
@@ -387,6 +388,7 @@ bestModel.add (Conv2D (64, (3, 3), activation = 'relu',
 bestModel.add (Conv2D (64, (2, 2), activation = 'relu'))
 bestModel.add (MaxPooling2D ( (2, 2)))
 bestModel.add (Flatten ())
+bestModel.add (Dropout (DROPOUT_RATE))
 bestModel.add (Dense (64, activation = 'relu',))# kernel_initializer = initializer))
 bestModel.add (Dense (1, activation = 'sigmoid',))# kernel_initializer = initializer))
 
