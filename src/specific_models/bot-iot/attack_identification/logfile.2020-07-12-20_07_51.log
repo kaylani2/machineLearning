@@ -1,4 +1,0 @@
-  File "rnn.py", line 549
-    input_shape = (X_train.shape [1], X_train.shape [2])))
-    ^
-IndentationError: unexpected indent
