@@ -641,12 +641,13 @@ print ('\nPerformance on TEST set:')
 y_pred = bestModel.predict (X_test)
 y_pred = y_pred.round ()
 print ('Confusion matrix:')
-print (confusion_matrix (y_test.argmax (axis = 1), y_pred.argmax (axis = 1),
+print (confusion_matrix (y_test,#.argmax (axis = 1),
+                         y_pred,#.argmax (axis = 1),
                          labels = df [TARGET].unique ()))
 print ('Accuracy:', accuracy_score (y_test, y_pred))
 print ('Precision:', precision_score (y_test, y_pred, average = 'macro'))
 print ('Recall:', recall_score (y_test, y_pred, average = 'macro'))
 print ('F1:', f1_score (y_test, y_pred, average = 'macro'))
-print ('Cohen Kappa:', cohen_kappa_score (y_test.argmax (axis = 1),
-                                          y_pred.argmax (axis = 1),
+print ('Cohen Kappa:', cohen_kappa_score (y_test,#.argmax (axis = 1),
+                                          y_pred,#.argmax (axis = 1),
                                           labels = df [TARGET].unique ()))

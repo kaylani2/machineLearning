@@ -8,6 +8,7 @@ import pandas as pd
 import numpy as np
 import sys
 import time
+import math
 import keras.utils
 from keras.utils import to_categorical
 from sklearn.model_selection import PredefinedSplit
@@ -15,7 +16,7 @@ from sklearn.model_selection import GridSearchCV
 from sklearn.tree import DecisionTreeClassifier
 import time
 from keras.models import Sequential
-from keras.layers import Dense, Dropout
+from keras.layers import Dense, Dropout, Conv2D, MaxPooling2D, Flatten
 from keras.optimizers import RMSprop
 from keras.optimizers import Adam
 from keras.wrappers.scikit_learn import KerasClassifier
@@ -230,6 +231,10 @@ from sklearn.model_selection import train_test_split
 TEST_SIZE = 2/10
 VALIDATION_SIZE = 1/4
 print ('\nSplitting dataset (test/train):', TEST_SIZE)
+### K: Dataset is too big, not enough memory
+drop_indices = np.random.choice (df.index, int (df.shape [0] * 0.5),
+                                 replace = False)
+df = df.drop (drop_indices)
 X_train_df, X_test_df, y_train_df, y_test_df = train_test_split (
                                                df.iloc [:, :-1],
                                                df.iloc [:, -1],
@@ -312,48 +317,88 @@ print (str (time.time () - startTime), 'to normalize data.')
 
 ###############################################################################
 ## Data reshaping
-SAMPLE_2D_SIZE = X_train.shape [1] # 7x7
+SAMPLE_2D_SIZE = math.ceil (math.sqrt (X_train.shape [1]))# 7x7
+SIZE = math.ceil (math.sqrt (X_train.shape [1]))# 7x7
+print (SAMPLE_2D_SIZE)
 
 X_train.resize ( (X_train.shape[0], SAMPLE_2D_SIZE, SAMPLE_2D_SIZE))
-X_train = X_train.reshape ( (X_train.shape[0], 7, 7, 1))
+X_train = X_train.reshape ( (X_train.shape[0], SIZE, SIZE, 1))
 X_val.resize ( (X_val.shape[0], SAMPLE_2D_SIZE, SAMPLE_2D_SIZE))
-X_val = X_val.reshape ( (X_val.shape[0], 7, 7, 1))
+X_val = X_val.reshape ( (X_val.shape[0], SIZE, SIZE, 1))
 X_test.resize ( (X_test.shape[0], SAMPLE_2D_SIZE, SAMPLE_2D_SIZE))
 
-print (train_features.shape)
+print (X_train.shape)
 
 
 ###############################################################################
 ## Hyperparameter tuning
-test_fold = np.repeat ([-1, 0], [X_train.shape [0], X_val.shape [0]])
-myPreSplit = PredefinedSplit (test_fold)
+#test_fold = np.repeat ([-1, 0], [X_train.shape [0], X_val.shape [0]])
+#myPreSplit = PredefinedSplit (test_fold)
+#
+#def create_model (learn_rate = 0.01, dropout_rate = 0.0, weight_constraint = 0):
+#  model = Sequential ()
+#  model.add (Conv2D (64, (3, 3), activation = 'relu',
+#                     input_shape = (SIZE, SIZE, 1),))
+#  model.add (Conv2D (64, (2, 2), activation = 'relu'))
+#  model.add (MaxPooling2D ( (2, 2)))
+#  model.add (Flatten ())
+#  model.add (Dense (64, activation = 'relu',))
+#  model.add (Dense (1, activation = 'sigmoid',))
+#  model.compile (optimizer = Adam (lr = learn_rate),
+#                 loss = 'binary_crossentropy',
+#                 metrics = ['binary_accuracy', metrics.Precision ()])
+#  return model
+#
+#model = KerasClassifier (build_fn = create_model, verbose = 2)
+#batch_size = [30]#10, 30, 50]
+#epochs = [3, 5, 10]
+#learn_rate = [0.001, 0.01, 0.1, 0.2, 0.3]
+#dropout_rate = [0.0]
+#weight_constraint = [0, 1]#, 2, 3, 4, 5]
+#param_grid = dict (batch_size = batch_size, epochs = epochs,
+#                   dropout_rate = dropout_rate, learn_rate = learn_rate,
+#                   weight_constraint = weight_constraint)
+#grid = GridSearchCV (estimator = model, param_grid = param_grid,
+#                     scoring = 'f1_weighted', cv = myPreSplit, verbose = 2,
+#                     n_jobs = -1)
+#
+#grid_result = grid.fit (np.concatenate ( (X_train, X_val), axis = 0),
+#                        np.concatenate ( (y_train, y_val), axis = 0))
+#print (grid_result.best_params_)
+#
+#print ("Best: %f using %s" % (grid_result.best_score_, grid_result.best_params_))
+#means = grid_result.cv_results_['mean_test_score']
+#stds = grid_result.cv_results_['std_test_score']
+#params = grid_result.cv_results_['params']
+#for mean, stdev, param in zip (means, stds, params):
+#  print ("%f (%f) with: %r" % (mean, stdev, param))
+#sys.exit ()
+
+
+# Best: 0.999992 using {'dropout_rate': 0.0, 'learn_rate': 0.001, 'epochs': 5, 'weight_constraint': 0, 'batch_size': 30}
 
 ###############################################################################
 ## Finished model
 
-
-model = models.Sequential ()
-model.add (layers.Conv2D (64, (3, 3), activation = 'relu',
-                          input_shape = (7, 7, 1),
-                          kernel_initializer = initializer))
-model.add (layers.MaxPooling2D ( (3, 3)))
-model.add (layers.Conv2D (64, (2, 2), activation = 'relu'))
-model.add (layers.MaxPooling2D ( (2, 2)))
-model.add (layers.Flatten ())
-model.add (layers.Dense (64, activation = 'relu',
-                         kernel_initializer = initializer))
-model.add (layers.Dense (1, activation = 'sigmoid',
-                         kernel_initializer = initializer))
+bestModel = Sequential ()
+bestModel.add (Conv2D (64, (3, 3), activation = 'relu',
+                   input_shape = (SIZE, SIZE, 1),
+                   ))#kernel_initializer = initializer))
+bestModel.add (Conv2D (64, (2, 2), activation = 'relu'))
+bestModel.add (MaxPooling2D ( (2, 2)))
+bestModel.add (Flatten ())
+bestModel.add (Dense (64, activation = 'relu',))# kernel_initializer = initializer))
+bestModel.add (Dense (1, activation = 'sigmoid',))# kernel_initializer = initializer))
 
 ###############################################################################
 ## Compile the network
 ###############################################################################
 LEARNING_RATE = 0.01
-model.compile (optimizer = keras.optimizers.Adam (lr = LEARNING_RATE),
-               loss = keras.losses.BinaryCrossentropy (),
+bestModel.compile (optimizer = Adam (lr = LEARNING_RATE),
+               loss = 'binary_crossentropy',
                metrics = ['binary_accuracy', metrics.Precision ()])
 
-model.summary ()
+bestModel.summary ()
 
 
 
@@ -362,44 +407,52 @@ model.summary ()
 ###############################################################################
 ## Fit the network
 ###############################################################################
-NUMBER_OF_EPOCHS = 2
-BATCH_SIZE = 32
+NUMBER_OF_EPOCHS = 5
+BATCH_SIZE = 30
 print ('\nFitting the network.')
 startTime = time.time ()
-history = bestModel.fit (X_train, X_train,
+history = bestModel.fit (X_train, y_train,
                          batch_size = BATCH_SIZE,
                          epochs = NUMBER_OF_EPOCHS,
                          verbose = 2, #1 = progress bar, not useful for logging
                          workers = 0,
                          use_multiprocessing = True,
                          #class_weight = 'auto',
-                         validation_data = (X_val, X_val))
+                         validation_data = (X_val, y_val))
 print (str (time.time () - startTime), 's to train model.')
 
 
 ###############################################################################
 ## Analyze results
 ###############################################################################
-X_pred_val = bestModel.predict (X_val)
-print (X_pred_val)
-print (X_val)
-print ('Train error:', mean_squared_error (bestModel.predict (X_train),
-                                           X_train))
-
-print ('Validation error:', mean_squared_error (X_pred_val, X_val))
-
-SAMPLES = 50
-print ('Error on first', SAMPLES, 'samples:')
-for pred_sample, real_sample in zip (X_pred_val [:SAMPLES], X_val [:SAMPLES]):
-  print ('MSE (pred, real)')
-  print (mean_squared_error (pred_sample, real_sample))
-
+y_pred = bestModel.predict (X_val)
+y_pred = y_pred.round ()
+print ('\nPerformance on VALIDATION set:')
+print ('Confusion matrix:')
+print (confusion_matrix (y_val,#.argmax (axis = 1),
+                         y_pred,#.argmax (axis = 1),
+                         labels = df [TARGET].unique ()))
+print ('Accuracy:', accuracy_score (y_val, y_pred))
+print ('Precision:', precision_score (y_val, y_pred, average = 'macro'))
+print ('Recall:', recall_score (y_val, y_pred, average = 'macro'))
+print ('F1:', f1_score (y_val, y_pred, average = 'macro'))
+print ('Cohen Kappa:', cohen_kappa_score (y_val,#.argmax (axis = 1),
+                                          y_pred,#.argmax (axis = 1),
+                                          labels = df [TARGET].unique ()))
 
 ### K: NOTE: Only look at test results when publishing...
-#sys.exit ()
-#X_pred_test = bestModel.predict (X_test)
-#print ('Test error:', mean_squared_error (X_pred_test, X_test))
-#for pred_sample, real_sample, label in zip (X_pred_test, X_test, y_test):
-#  print ('MSE (pred, real) | Label')
-#  print (mean_squared_error (pred_sample, real_sample), '|', label)
-#### @TODO: Plot ROC on test set
+sys.exit ()
+print ('\nPerformance on TEST set:')
+y_pred = bestModel.predict (X_test)
+y_pred = y_pred.round ()
+print ('Confusion matrix:')
+print (confusion_matrix (y_test,#.argmax (axis = 1),
+                         y_pred,#.argmax (axis = 1),
+                         labels = df [TARGET].unique ()))
+print ('Accuracy:', accuracy_score (y_test, y_pred))
+print ('Precision:', precision_score (y_test, y_pred, average = 'macro'))
+print ('Recall:', recall_score (y_test, y_pred, average = 'macro'))
+print ('F1:', f1_score (y_test, y_pred, average = 'macro'))
+print ('Cohen Kappa:', cohen_kappa_score (y_test,#.argmax (axis = 1),
+                                          y_pred,#.argmax (axis = 1),
+                                          labels = df [TARGET].unique ()))
