@@ -226,14 +226,14 @@ print('Number of attacks: ', y.value_counts()[1])
 ## Create artificial non-attacks samples using Random undersampling
 ###############################################################################
 
-from imblearn.under_sampling import RandomUnderSampler # doctest: +NORMALIZE_WHITESPACE
+# from imblearn.under_sampling import RandomUnderSampler # doctest: +NORMALIZE_WHITESPACE
 
-ros = RandomUnderSampler(random_state=42)
+# ros = RandomUnderSampler(random_state=42)
 
-X, y = ros.fit_resample(X, y)
+# X, y = ros.fit_resample(X, y)
 
-print('Number of non-attacks: ', y.value_counts()[0])
-print('Number of attacks: ', y.value_counts()[1])
+# print('Number of non-attacks: ', y.value_counts()[0])
+# print('Number of attacks: ', y.value_counts()[1])
 
 
 
