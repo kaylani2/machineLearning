@@ -296,7 +296,7 @@ print (str (time.time () - startTime), 'to normalize data.')
 ###############################################################################
 from sklearn.feature_selection import SelectKBest
 from sklearn.feature_selection import f_classif, chi2, mutual_info_classif
-NUMBER_OF_FEATURES = 2 #'all'
+NUMBER_OF_FEATURES = 9 #'all'
 print ('\nSelecting top', NUMBER_OF_FEATURES, 'features.')
 startTime = time.time ()
 #fs = SelectKBest (score_func = mutual_info_classif, k = NUMBER_OF_FEATURES)
