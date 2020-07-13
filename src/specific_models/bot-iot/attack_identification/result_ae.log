@@ -1,0 +1,7046 @@
+STATE: 0
+Reading ../../../../datasets/bot-iot/UNSW_2018_IoT_Botnet_Full5pc_1.csv
+Reading ../../../../datasets/bot-iot/UNSW_2018_IoT_Botnet_Full5pc_2.csv
+Reading ../../../../datasets/bot-iot/UNSW_2018_IoT_Botnet_Full5pc_3.csv
+Reading ../../../../datasets/bot-iot/UNSW_2018_IoT_Botnet_Full5pc_4.csv
+<class 'pandas.core.frame.DataFrame'>
+Int64Index: 3668522 entries, 1 to 3668522
+Data columns (total 45 columns):
+ #   Column                            Dtype  
+---  ------                            -----  
+ 0   stime                             float64
+ 1   flgs                              object 
+ 2   flgs_number                       int64  
+ 3   proto                             object 
+ 4   proto_number                      int64  
+ 5   saddr                             object 
+ 6   sport                             object 
+ 7   daddr                             object 
+ 8   dport                             object 
+ 9   pkts                              int64  
+ 10  bytes                             int64  
+ 11  state                             object 
+ 12  state_number                      int64  
+ 13  ltime                             float64
+ 14  seq                               int64  
+ 15  dur                               float64
+ 16  mean                              float64
+ 17  stddev                            float64
+ 18  sum                               float64
+ 19  min                               float64
+ 20  max                               float64
+ 21  spkts                             int64  
+ 22  dpkts                             int64  
+ 23  sbytes                            int64  
+ 24  dbytes                            int64  
+ 25  rate                              float64
+ 26  srate                             float64
+ 27  drate                             float64
+ 28  TnBPSrcIP                         int64  
+ 29  TnBPDstIP                         int64  
+ 30  TnP_PSrcIP                        int64  
+ 31  TnP_PDstIP                        int64  
+ 32  TnP_PerProto                      int64  
+ 33  TnP_Per_Dport                     int64  
+ 34  AR_P_Proto_P_SrcIP                float64
+ 35  AR_P_Proto_P_DstIP                float64
+ 36  N_IN_Conn_P_DstIP                 int64  
+ 37  N_IN_Conn_P_SrcIP                 int64  
+ 38  AR_P_Proto_P_Sport                float64
+ 39  AR_P_Proto_P_Dport                float64
+ 40  Pkts_P_State_P_Protocol_P_DestIP  int64  
+ 41  Pkts_P_State_P_Protocol_P_SrcIP   int64  
+ 42  attack                            int64  
+ 43  category                          object 
+ 44  subcategory                       object 
+dtypes: float64(15), int64(21), object(9)
+memory usage: 1.3+ GB
+
+Dataframe contains NaN values: False
+Number of NaN columns: 0
+NaN columns: [] 
+
+
+Attack types: [1 0]
+Attack distribution:
+1    3668045
+0        477
+Name: attack, dtype: int64
+
+Cateogry types: ['DoS' 'DDoS' 'Normal' 'Reconnaissance' 'Theft']
+Cateogry distribution:
+DDoS              1926624
+DoS               1650260
+Reconnaissance      91082
+Normal                477
+Theft                  79
+Name: category, dtype: int64
+
+Subcategory types: ['HTTP' 'TCP' 'UDP' 'Normal' 'OS_Fingerprint' 'Service_Scan'
+ 'Data_Exfiltration' 'Keylogging']
+Subcategory distribution:
+UDP                  1981230
+TCP                  1593180
+Service_Scan           73168
+OS_Fingerprint         17914
+HTTP                    2474
+Normal                   477
+Keylogging                73
+Data_Exfiltration          6
+Name: subcategory, dtype: int64
+
+Column | # of different values
+stime | 392259
+flgs | 9
+flgs_number | 9
+proto | 5
+proto_number | 5
+saddr | 21
+sport | 65541
+daddr | 84
+dport | 7698
+pkts | 123
+bytes | 1633
+state | 11
+state_number | 11
+ltime | 383624
+seq | 262212
+dur | 612509
+mean | 507089
+stddev | 421379
+sum | 934972
+min | 271147
+max | 594525
+spkts | 91
+dpkts | 62
+sbytes | 1052
+dbytes | 472
+rate | 139677
+srate | 119709
+drate | 20714
+TnBPSrcIP | 8639
+TnBPDstIP | 7631
+TnP_PSrcIP | 1522
+TnP_PDstIP | 1587
+TnP_PerProto | 1560
+TnP_Per_Dport | 1582
+AR_P_Proto_P_SrcIP | 46289
+AR_P_Proto_P_DstIP | 39186
+N_IN_Conn_P_DstIP | 100
+N_IN_Conn_P_SrcIP | 100
+AR_P_Proto_P_Sport | 136207
+AR_P_Proto_P_Dport | 42237
+Pkts_P_State_P_Protocol_P_DestIP | 1595
+Pkts_P_State_P_Protocol_P_SrcIP | 1526
+attack | 2
+category | 5
+subcategory | 8
+
+Removing attributes that have only one (or zero) sampled value.
+
+Column | # of different values
+stime | 392259
+flgs | 9
+flgs_number | 9
+proto | 5
+proto_number | 5
+saddr | 21
+sport | 65541
+daddr | 84
+dport | 7698
+pkts | 123
+bytes | 1633
+state | 11
+state_number | 11
+ltime | 383624
+seq | 262212
+dur | 612509
+mean | 507089
+stddev | 421379
+sum | 934972
+min | 271147
+max | 594525
+spkts | 91
+dpkts | 62
+sbytes | 1052
+dbytes | 472
+rate | 139677
+srate | 119709
+drate | 20714
+TnBPSrcIP | 8639
+TnBPDstIP | 7631
+TnP_PSrcIP | 1522
+TnP_PDstIP | 1587
+TnP_PerProto | 1560
+TnP_Per_Dport | 1582
+AR_P_Proto_P_SrcIP | 46289
+AR_P_Proto_P_DstIP | 39186
+N_IN_Conn_P_DstIP | 100
+N_IN_Conn_P_SrcIP | 100
+AR_P_Proto_P_Sport | 136207
+AR_P_Proto_P_Dport | 42237
+Pkts_P_State_P_Protocol_P_DestIP | 1595
+Pkts_P_State_P_Protocol_P_SrcIP | 1526
+attack | 2
+category | 5
+subcategory | 8
+
+Removing redundant columns: ['state_number', 'proto_number', 'flgs_number']
+
+Column | NaN values
+stime                               0
+flgs                                0
+proto                               0
+saddr                               0
+sport                               0
+daddr                               0
+dport                               0
+pkts                                0
+bytes                               0
+state                               0
+ltime                               0
+seq                                 0
+dur                                 0
+mean                                0
+stddev                              0
+sum                                 0
+min                                 0
+max                                 0
+spkts                               0
+dpkts                               0
+sbytes                              0
+dbytes                              0
+rate                                0
+srate                               0
+drate                               0
+TnBPSrcIP                           0
+TnBPDstIP                           0
+TnP_PSrcIP                          0
+TnP_PDstIP                          0
+TnP_PerProto                        0
+TnP_Per_Dport                       0
+AR_P_Proto_P_SrcIP                  0
+AR_P_Proto_P_DstIP                  0
+N_IN_Conn_P_DstIP                   0
+N_IN_Conn_P_SrcIP                   0
+AR_P_Proto_P_Sport                  0
+AR_P_Proto_P_Dport                  0
+Pkts_P_State_P_Protocol_P_DestIP    0
+Pkts_P_State_P_Protocol_P_SrcIP     0
+attack                              0
+category                            0
+subcategory                         0
+dtype: int64
+Removing attributes with more than half NaN values.
+Dataframe contains NaN values: False
+
+Column | NaN values (after dropping columns)
+stime                               0
+flgs                                0
+proto                               0
+saddr                               0
+sport                               0
+daddr                               0
+dport                               0
+pkts                                0
+bytes                               0
+state                               0
+ltime                               0
+seq                                 0
+dur                                 0
+mean                                0
+stddev                              0
+sum                                 0
+min                                 0
+max                                 0
+spkts                               0
+dpkts                               0
+sbytes                              0
+dbytes                              0
+rate                                0
+srate                               0
+drate                               0
+TnBPSrcIP                           0
+TnBPDstIP                           0
+TnP_PSrcIP                          0
+TnP_PDstIP                          0
+TnP_PerProto                        0
+TnP_Per_Dport                       0
+AR_P_Proto_P_SrcIP                  0
+AR_P_Proto_P_DstIP                  0
+N_IN_Conn_P_DstIP                   0
+N_IN_Conn_P_SrcIP                   0
+AR_P_Proto_P_Sport                  0
+AR_P_Proto_P_Dport                  0
+Pkts_P_State_P_Protocol_P_DestIP    0
+Pkts_P_State_P_Protocol_P_SrcIP     0
+attack                              0
+category                            0
+subcategory                         0
+dtype: int64
+stime unique values: 392259
+flgs unique values: 9
+proto unique values: 9
+saddr unique values: 5
+sport unique values: 5
+daddr unique values: 21
+dport unique values: 65541
+pkts unique values: 84
+bytes unique values: 7698
+state unique values: 123
+ltime unique values: 1633
+seq unique values: 11
+dur unique values: 11
+mean unique values: 383624
+stddev unique values: 262212
+sum unique values: 612509
+min unique values: 507089
+max unique values: 421379
+spkts unique values: 934972
+dpkts unique values: 271147
+sbytes unique values: 594525
+dbytes unique values: 91
+rate unique values: 62
+srate unique values: 1052
+drate unique values: 472
+TnBPSrcIP unique values: 139677
+TnBPDstIP unique values: 119709
+TnP_PSrcIP unique values: 20714
+TnP_PDstIP unique values: 8639
+TnP_PerProto unique values: 7631
+TnP_Per_Dport unique values: 1522
+AR_P_Proto_P_SrcIP unique values: 1587
+AR_P_Proto_P_DstIP unique values: 1560
+N_IN_Conn_P_DstIP unique values: 1582
+N_IN_Conn_P_SrcIP unique values: 46289
+AR_P_Proto_P_Sport unique values: 39186
+AR_P_Proto_P_Dport unique values: 100
+Pkts_P_State_P_Protocol_P_DestIP unique values: 100
+Pkts_P_State_P_Protocol_P_SrcIP unique values: 136207
+attack unique values: 42237
+category unique values: 1595
+subcategory unique values: 1526
+<class 'pandas.core.frame.DataFrame'>
+Int64Index: 3668522 entries, 1 to 3668522
+Columns: 42 entries, stime to subcategory
+dtypes: float64(15), int64(18), object(9)
+memory usage: 1.2+ GB
+
+Objects: ['flgs', 'proto', 'saddr', 'sport', 'daddr', 'dport', 'state', 'category', 'subcategory'] 
+
+
+Check for high cardinality.
+Column | # of different values | values
+flgs | 9 | ['e' 'e s' 'e d' 'e *' 'e g' 'eU' 'e &' 'e   t' 'e  D']
+proto | 5 | ['tcp' 'arp' 'udp' 'icmp' 'ipv6-icmp']
+saddr | 21 | ['192.168.100.147' '192.168.100.7' '192.168.100.148' '192.168.100.6'
+ '192.168.100.149' '192.168.100.150' '192.168.100.5' '192.168.100.3'
+ '192.168.100.1' '192.168.100.4' '192.168.100.27'
+ 'fe80::250:56ff:febe:254' '192.168.100.46' 'fe80::250:56ff:febe:26db'
+ 'fe80::250:56ff:febe:e9d9' 'fe80::c0c0:aa20:45b9:bdd9'
+ 'fe80::250:56ff:febe:89ee' 'fe80::2c6a:ff9b:7e14:166a'
+ 'fe80::250:56ff:febe:bf1a' 'fe80::250:56ff:febe:c038' '192.168.100.55']
+sport | 65540 | ['49960' nan '49962' ... '0x0008' '0x000d' '0x0011']
+daddr | 84 | ['192.168.100.7' '192.168.100.147' '192.168.100.6' '192.168.100.148'
+ '192.168.100.5' '192.168.100.3' '192.168.100.149' '192.168.100.150'
+ '192.168.100.4' '27.124.125.250' '192.168.100.1' '192.168.100.27'
+ '192.168.217.2' '192.168.100.255' '8.8.8.8' 'ff02::1' '255.255.255.255'
+ '13.55.154.73' '192.168.100.55' '184.85.248.65' '205.251.194.167'
+ '192.5.5.241' '192.35.51.30' '205.251.195.97' '205.251.196.236'
+ '199.7.91.13' '192.12.94.30' '52.35.35.13' '216.239.38.10' '199.7.83.42'
+ '192.42.93.30' '172.217.25.170' 'ff02::fb' '224.0.0.251' 'ff02::2'
+ '129.250.35.250' '91.189.91.157' '216.239.34.10' '192.52.178.30'
+ '224.0.0.252' '96.7.49.66' '205.251.193.2' '192.33.4.12' '192.41.162.30'
+ '192.36.148.17' '35.165.2.252' '52.11.124.117' '52.201.147.106'
+ '216.239.36.10' '192.112.36.4' '192.31.80.30' '91.189.92.40'
+ '128.63.2.53' '202.12.27.33' '192.203.230.10' '192.55.83.30'
+ '205.251.198.119' '192.33.14.30' '192.58.128.30' '205.251.196.160'
+ '205.251.199.148' '192.54.112.30' '156.154.100.3' '199.19.57.1'
+ '205.251.194.86' '205.251.199.194' '205.251.199.61' '205.251.195.185'
+ '205.251.194.201' '205.251.198.239' '205.251.193.205' '205.251.196.32'
+ '198.41.0.4' '192.48.79.30' '199.19.56.1' '156.154.101.3'
+ '205.251.197.206' '205.251.192.170' '205.251.195.59' '205.251.198.91'
+ '205.251.194.84' '192.26.92.30' '205.251.194.102' '205.251.194.154']
+dport | 7697 | ['80' nan '30551' ... '42052' '2660' '2664']
+state | 11 | ['RST' 'CON' 'REQ' 'INT' 'URP' 'FIN' 'ACC' 'NRS' 'ECO' 'TST' 'MAS']
+category | 5 | ['DoS' 'DDoS' 'Normal' 'Reconnaissance' 'Theft']
+subcategory | 8 | ['HTTP' 'TCP' 'UDP' 'Normal' 'OS_Fingerprint' 'Service_Scan'
+ 'Data_Exfiltration' 'Keylogging']
+
+Handling categorical attributes (label encoding).
+Objects: ['category', 'subcategory']
+
+Dropping category and subcategory.
+These are labels for other scenarios.
+Attack set:
+1    3668045
+Name: attack, dtype: int64
+Normal set:
+0    477
+Name: attack, dtype: int64
+Test set:
+1    477
+0    477
+Name: attack, dtype: int64
+
+Splitting dataset (validation/train): 0.25
+X_train_df shape: (2750676, 37)
+y_train_df shape: (2750676,)
+X_val_df shape: (916892, 37)
+y_val_df shape: (916892,)
+X_test_df shape: (954, 37)
+y_test_df shape: (954,)
+
+Converting dataframe to numpy array.
+X_train shape: (2750676, 37)
+y_train shape: (2750676,)
+X_val shape: (916892, 37)
+y_val shape: (916892,)
+X_test shape: (954, 37)
+y_test shape: (954,)
+
+Applying normalization.
+5.625435829162598 to normalize data.
+
+Creating learning model.
+2020-07-13 11:14:40.267070: W tensorflow/stream_executor/platform/default/dso_loader.cc:55] Could not load dynamic library 'libcuda.so.1'; dlerror: libcuda.so.1: cannot open shared object file: No such file or directory
+2020-07-13 11:14:40.267117: E tensorflow/stream_executor/cuda/cuda_driver.cc:313] failed call to cuInit: UNKNOWN ERROR (303)
+2020-07-13 11:14:40.267150: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:156] kernel driver does not appear to be running on this host (slave03): /proc/driver/nvidia/version does not exist
+2020-07-13 11:14:40.300907: I tensorflow/core/platform/profile_utils/cpu_utils.cc:102] CPU Frequency: 1995095000 Hz
+2020-07-13 11:14:40.303912: I tensorflow/compiler/xla/service/service.cc:168] XLA service 0x7f1660000b20 initialized for platform Host (this does not guarantee that XLA will be used). Devices:
+2020-07-13 11:14:40.303945: I tensorflow/compiler/xla/service/service.cc:176]   StreamExecutor device (0): Host, Default Version
+
+Compiling the network.
+Model summary:
+Model: "sequential"
+_________________________________________________________________
+Layer (type)                 Output Shape              Param #   
+=================================================================
+dense (Dense)                (None, 37)                1406      
+_________________________________________________________________
+dense_1 (Dense)              (None, 32)                1216      
+_________________________________________________________________
+dense_2 (Dense)              (None, 8)                 264       
+_________________________________________________________________
+dense_3 (Dense)              (None, 32)                288       
+_________________________________________________________________
+dense_4 (Dense)              (None, 37)                1221      
+=================================================================
+Total params: 4,395
+Trainable params: 4,395
+Non-trainable params: 0
+_________________________________________________________________
+
+Fitting the network.
+Epoch 1/5
+91690/91690 - 184s - loss: 1.0076 - mse: 1.0076 - val_loss: 1.2363 - val_mse: 1.2363
+Epoch 2/5
+91690/91690 - 184s - loss: 1.0076 - mse: 1.0076 - val_loss: 1.2358 - val_mse: 1.2358
+Epoch 3/5
+91690/91690 - 184s - loss: 1.0076 - mse: 1.0076 - val_loss: 1.2369 - val_mse: 1.2369
+Epoch 4/5
+91690/91690 - 184s - loss: 1.0076 - mse: 1.0076 - val_loss: 1.2432 - val_mse: 1.2432
+Epoch 5/5
+91690/91690 - 184s - loss: 1.0076 - mse: 1.0076 - val_loss: 1.2331 - val_mse: 1.2331
+922.7647104263306 s to train model.
+Train error: 1.0036046480224998
+Validation error: 1.233067630283181
+max_Thresh val: 83170.56994606486
+samples:
+9169
+Thresh val: 7.594954110294357
+(954, 37)
+Test error: 13952383.994229726
+
+MSE (pred, real) | Label (ordered)
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+False negative!
+Confusion matrix:
+tp | fp
+fn | tn
+476 | 82
+1 | 395
+STATE: 10
+Reading ../../../../datasets/bot-iot/UNSW_2018_IoT_Botnet_Full5pc_1.csv
+Reading ../../../../datasets/bot-iot/UNSW_2018_IoT_Botnet_Full5pc_2.csv
+Reading ../../../../datasets/bot-iot/UNSW_2018_IoT_Botnet_Full5pc_3.csv
+Reading ../../../../datasets/bot-iot/UNSW_2018_IoT_Botnet_Full5pc_4.csv
+<class 'pandas.core.frame.DataFrame'>
+Int64Index: 3668522 entries, 1 to 3668522
+Data columns (total 45 columns):
+ #   Column                            Dtype  
+---  ------                            -----  
+ 0   stime                             float64
+ 1   flgs                              object 
+ 2   flgs_number                       int64  
+ 3   proto                             object 
+ 4   proto_number                      int64  
+ 5   saddr                             object 
+ 6   sport                             object 
+ 7   daddr                             object 
+ 8   dport                             object 
+ 9   pkts                              int64  
+ 10  bytes                             int64  
+ 11  state                             object 
+ 12  state_number                      int64  
+ 13  ltime                             float64
+ 14  seq                               int64  
+ 15  dur                               float64
+ 16  mean                              float64
+ 17  stddev                            float64
+ 18  sum                               float64
+ 19  min                               float64
+ 20  max                               float64
+ 21  spkts                             int64  
+ 22  dpkts                             int64  
+ 23  sbytes                            int64  
+ 24  dbytes                            int64  
+ 25  rate                              float64
+ 26  srate                             float64
+ 27  drate                             float64
+ 28  TnBPSrcIP                         int64  
+ 29  TnBPDstIP                         int64  
+ 30  TnP_PSrcIP                        int64  
+ 31  TnP_PDstIP                        int64  
+ 32  TnP_PerProto                      int64  
+ 33  TnP_Per_Dport                     int64  
+ 34  AR_P_Proto_P_SrcIP                float64
+ 35  AR_P_Proto_P_DstIP                float64
+ 36  N_IN_Conn_P_DstIP                 int64  
+ 37  N_IN_Conn_P_SrcIP                 int64  
+ 38  AR_P_Proto_P_Sport                float64
+ 39  AR_P_Proto_P_Dport                float64
+ 40  Pkts_P_State_P_Protocol_P_DestIP  int64  
+ 41  Pkts_P_State_P_Protocol_P_SrcIP   int64  
+ 42  attack                            int64  
+ 43  category                          object 
+ 44  subcategory                       object 
+dtypes: float64(15), int64(21), object(9)
+memory usage: 1.3+ GB
+
+Dataframe contains NaN values: False
+Number of NaN columns: 0
+NaN columns: [] 
+
+
+Attack types: [1 0]
+Attack distribution:
+1    3668045
+0        477
+Name: attack, dtype: int64
+
+Cateogry types: ['DoS' 'DDoS' 'Normal' 'Reconnaissance' 'Theft']
+Cateogry distribution:
+DDoS              1926624
+DoS               1650260
+Reconnaissance      91082
+Normal                477
+Theft                  79
+Name: category, dtype: int64
+
+Subcategory types: ['HTTP' 'TCP' 'UDP' 'Normal' 'OS_Fingerprint' 'Service_Scan'
+ 'Data_Exfiltration' 'Keylogging']
+Subcategory distribution:
+UDP                  1981230
+TCP                  1593180
+Service_Scan           73168
+OS_Fingerprint         17914
+HTTP                    2474
+Normal                   477
+Keylogging                73
+Data_Exfiltration          6
+Name: subcategory, dtype: int64
+
+Column | # of different values
+stime | 392259
+flgs | 9
+flgs_number | 9
+proto | 5
+proto_number | 5
+saddr | 21
+sport | 65541
+daddr | 84
+dport | 7698
+pkts | 123
+bytes | 1633
+state | 11
+state_number | 11
+ltime | 383624
+seq | 262212
+dur | 612509
+mean | 507089
+stddev | 421379
+sum | 934972
+min | 271147
+max | 594525
+spkts | 91
+dpkts | 62
+sbytes | 1052
+dbytes | 472
+rate | 139677
+srate | 119709
+drate | 20714
+TnBPSrcIP | 8639
+TnBPDstIP | 7631
+TnP_PSrcIP | 1522
+TnP_PDstIP | 1587
+TnP_PerProto | 1560
+TnP_Per_Dport | 1582
+AR_P_Proto_P_SrcIP | 46289
+AR_P_Proto_P_DstIP | 39186
+N_IN_Conn_P_DstIP | 100
+N_IN_Conn_P_SrcIP | 100
+AR_P_Proto_P_Sport | 136207
+AR_P_Proto_P_Dport | 42237
+Pkts_P_State_P_Protocol_P_DestIP | 1595
+Pkts_P_State_P_Protocol_P_SrcIP | 1526
+attack | 2
+category | 5
+subcategory | 8
+
+Removing attributes that have only one (or zero) sampled value.
+
+Column | # of different values
+stime | 392259
+flgs | 9
+flgs_number | 9
+proto | 5
+proto_number | 5
+saddr | 21
+sport | 65541
+daddr | 84
+dport | 7698
+pkts | 123
+bytes | 1633
+state | 11
+state_number | 11
+ltime | 383624
+seq | 262212
+dur | 612509
+mean | 507089
+stddev | 421379
+sum | 934972
+min | 271147
+max | 594525
+spkts | 91
+dpkts | 62
+sbytes | 1052
+dbytes | 472
+rate | 139677
+srate | 119709
+drate | 20714
+TnBPSrcIP | 8639
+TnBPDstIP | 7631
+TnP_PSrcIP | 1522
+TnP_PDstIP | 1587
+TnP_PerProto | 1560
+TnP_Per_Dport | 1582
+AR_P_Proto_P_SrcIP | 46289
+AR_P_Proto_P_DstIP | 39186
+N_IN_Conn_P_DstIP | 100
+N_IN_Conn_P_SrcIP | 100
+AR_P_Proto_P_Sport | 136207
+AR_P_Proto_P_Dport | 42237
+Pkts_P_State_P_Protocol_P_DestIP | 1595
+Pkts_P_State_P_Protocol_P_SrcIP | 1526
+attack | 2
+category | 5
+subcategory | 8
+
+Removing redundant columns: ['state_number', 'proto_number', 'flgs_number']
+
+Column | NaN values
+stime                               0
+flgs                                0
+proto                               0
+saddr                               0
+sport                               0
+daddr                               0
+dport                               0
+pkts                                0
+bytes                               0
+state                               0
+ltime                               0
+seq                                 0
+dur                                 0
+mean                                0
+stddev                              0
+sum                                 0
+min                                 0
+max                                 0
+spkts                               0
+dpkts                               0
+sbytes                              0
+dbytes                              0
+rate                                0
+srate                               0
+drate                               0
+TnBPSrcIP                           0
+TnBPDstIP                           0
+TnP_PSrcIP                          0
+TnP_PDstIP                          0
+TnP_PerProto                        0
+TnP_Per_Dport                       0
+AR_P_Proto_P_SrcIP                  0
+AR_P_Proto_P_DstIP                  0
+N_IN_Conn_P_DstIP                   0
+N_IN_Conn_P_SrcIP                   0
+AR_P_Proto_P_Sport                  0
+AR_P_Proto_P_Dport                  0
+Pkts_P_State_P_Protocol_P_DestIP    0
+Pkts_P_State_P_Protocol_P_SrcIP     0
+attack                              0
+category                            0
+subcategory                         0
+dtype: int64
+Removing attributes with more than half NaN values.
+Dataframe contains NaN values: False
+
+Column | NaN values (after dropping columns)
+stime                               0
+flgs                                0
+proto                               0
+saddr                               0
+sport                               0
+daddr                               0
+dport                               0
+pkts                                0
+bytes                               0
+state                               0
+ltime                               0
+seq                                 0
+dur                                 0
+mean                                0
+stddev                              0
+sum                                 0
+min                                 0
+max                                 0
+spkts                               0
+dpkts                               0
+sbytes                              0
+dbytes                              0
+rate                                0
+srate                               0
+drate                               0
+TnBPSrcIP                           0
+TnBPDstIP                           0
+TnP_PSrcIP                          0
+TnP_PDstIP                          0
+TnP_PerProto                        0
+TnP_Per_Dport                       0
+AR_P_Proto_P_SrcIP                  0
+AR_P_Proto_P_DstIP                  0
+N_IN_Conn_P_DstIP                   0
+N_IN_Conn_P_SrcIP                   0
+AR_P_Proto_P_Sport                  0
+AR_P_Proto_P_Dport                  0
+Pkts_P_State_P_Protocol_P_DestIP    0
+Pkts_P_State_P_Protocol_P_SrcIP     0
+attack                              0
+category                            0
+subcategory                         0
+dtype: int64
+stime unique values: 392259
+flgs unique values: 9
+proto unique values: 9
+saddr unique values: 5
+sport unique values: 5
+daddr unique values: 21
+dport unique values: 65541
+pkts unique values: 84
+bytes unique values: 7698
+state unique values: 123
+ltime unique values: 1633
+seq unique values: 11
+dur unique values: 11
+mean unique values: 383624
+stddev unique values: 262212
+sum unique values: 612509
+min unique values: 507089
+max unique values: 421379
+spkts unique values: 934972
+dpkts unique values: 271147
+sbytes unique values: 594525
+dbytes unique values: 91
+rate unique values: 62
+srate unique values: 1052
+drate unique values: 472
+TnBPSrcIP unique values: 139677
+TnBPDstIP unique values: 119709
+TnP_PSrcIP unique values: 20714
+TnP_PDstIP unique values: 8639
+TnP_PerProto unique values: 7631
+TnP_Per_Dport unique values: 1522
+AR_P_Proto_P_SrcIP unique values: 1587
+AR_P_Proto_P_DstIP unique values: 1560
+N_IN_Conn_P_DstIP unique values: 1582
+N_IN_Conn_P_SrcIP unique values: 46289
+AR_P_Proto_P_Sport unique values: 39186
+AR_P_Proto_P_Dport unique values: 100
+Pkts_P_State_P_Protocol_P_DestIP unique values: 100
+Pkts_P_State_P_Protocol_P_SrcIP unique values: 136207
+attack unique values: 42237
+category unique values: 1595
+subcategory unique values: 1526
+<class 'pandas.core.frame.DataFrame'>
+Int64Index: 3668522 entries, 1 to 3668522
+Columns: 42 entries, stime to subcategory
+dtypes: float64(15), int64(18), object(9)
+memory usage: 1.2+ GB
+
+Objects: ['flgs', 'proto', 'saddr', 'sport', 'daddr', 'dport', 'state', 'category', 'subcategory'] 
+
+
+Check for high cardinality.
+Column | # of different values | values
+flgs | 9 | ['e' 'e s' 'e d' 'e *' 'e g' 'eU' 'e &' 'e   t' 'e  D']
+proto | 5 | ['tcp' 'arp' 'udp' 'icmp' 'ipv6-icmp']
+saddr | 21 | ['192.168.100.147' '192.168.100.7' '192.168.100.148' '192.168.100.6'
+ '192.168.100.149' '192.168.100.150' '192.168.100.5' '192.168.100.3'
+ '192.168.100.1' '192.168.100.4' '192.168.100.27'
+ 'fe80::250:56ff:febe:254' '192.168.100.46' 'fe80::250:56ff:febe:26db'
+ 'fe80::250:56ff:febe:e9d9' 'fe80::c0c0:aa20:45b9:bdd9'
+ 'fe80::250:56ff:febe:89ee' 'fe80::2c6a:ff9b:7e14:166a'
+ 'fe80::250:56ff:febe:bf1a' 'fe80::250:56ff:febe:c038' '192.168.100.55']
+sport | 65540 | ['49960' nan '49962' ... '0x0008' '0x000d' '0x0011']
+daddr | 84 | ['192.168.100.7' '192.168.100.147' '192.168.100.6' '192.168.100.148'
+ '192.168.100.5' '192.168.100.3' '192.168.100.149' '192.168.100.150'
+ '192.168.100.4' '27.124.125.250' '192.168.100.1' '192.168.100.27'
+ '192.168.217.2' '192.168.100.255' '8.8.8.8' 'ff02::1' '255.255.255.255'
+ '13.55.154.73' '192.168.100.55' '184.85.248.65' '205.251.194.167'
+ '192.5.5.241' '192.35.51.30' '205.251.195.97' '205.251.196.236'
+ '199.7.91.13' '192.12.94.30' '52.35.35.13' '216.239.38.10' '199.7.83.42'
+ '192.42.93.30' '172.217.25.170' 'ff02::fb' '224.0.0.251' 'ff02::2'
+ '129.250.35.250' '91.189.91.157' '216.239.34.10' '192.52.178.30'
+ '224.0.0.252' '96.7.49.66' '205.251.193.2' '192.33.4.12' '192.41.162.30'
+ '192.36.148.17' '35.165.2.252' '52.11.124.117' '52.201.147.106'
+ '216.239.36.10' '192.112.36.4' '192.31.80.30' '91.189.92.40'
+ '128.63.2.53' '202.12.27.33' '192.203.230.10' '192.55.83.30'
+ '205.251.198.119' '192.33.14.30' '192.58.128.30' '205.251.196.160'
+ '205.251.199.148' '192.54.112.30' '156.154.100.3' '199.19.57.1'
+ '205.251.194.86' '205.251.199.194' '205.251.199.61' '205.251.195.185'
+ '205.251.194.201' '205.251.198.239' '205.251.193.205' '205.251.196.32'
+ '198.41.0.4' '192.48.79.30' '199.19.56.1' '156.154.101.3'
+ '205.251.197.206' '205.251.192.170' '205.251.195.59' '205.251.198.91'
+ '205.251.194.84' '192.26.92.30' '205.251.194.102' '205.251.194.154']
+dport | 7697 | ['80' nan '30551' ... '42052' '2660' '2664']
+state | 11 | ['RST' 'CON' 'REQ' 'INT' 'URP' 'FIN' 'ACC' 'NRS' 'ECO' 'TST' 'MAS']
+category | 5 | ['DoS' 'DDoS' 'Normal' 'Reconnaissance' 'Theft']
+subcategory | 8 | ['HTTP' 'TCP' 'UDP' 'Normal' 'OS_Fingerprint' 'Service_Scan'
+ 'Data_Exfiltration' 'Keylogging']
+
+Handling categorical attributes (label encoding).
+Objects: ['category', 'subcategory']
+
+Dropping category and subcategory.
+These are labels for other scenarios.
+Attack set:
+1    3668045
+Name: attack, dtype: int64
+Normal set:
+0    477
+Name: attack, dtype: int64
+Test set:
+1    477
+0    477
+Name: attack, dtype: int64
+
+Splitting dataset (validation/train): 0.25
+X_train_df shape: (2750676, 37)
+y_train_df shape: (2750676,)
+X_val_df shape: (916892, 37)
+y_val_df shape: (916892,)
+X_test_df shape: (954, 37)
+y_test_df shape: (954,)
+
+Converting dataframe to numpy array.
+X_train shape: (2750676, 37)
+y_train shape: (2750676,)
+X_val shape: (916892, 37)
+y_val shape: (916892,)
+X_test shape: (954, 37)
+y_test shape: (954,)
+
+Applying normalization.
+5.681143283843994 to normalize data.
+
+Creating learning model.
+
+Compiling the network.
+Model summary:
+Model: "sequential_1"
+_________________________________________________________________
+Layer (type)                 Output Shape              Param #   
+=================================================================
+dense_5 (Dense)              (None, 37)                1406      
+_________________________________________________________________
+dense_6 (Dense)              (None, 32)                1216      
+_________________________________________________________________
+dense_7 (Dense)              (None, 8)                 264       
+_________________________________________________________________
+dense_8 (Dense)              (None, 32)                288       
+_________________________________________________________________
+dense_9 (Dense)              (None, 37)                1221      
+=================================================================
+Total params: 4,395
+Trainable params: 4,395
+Non-trainable params: 0
+_________________________________________________________________
+
+Fitting the network.
+Epoch 1/5
+91690/91690 - 183s - loss: 1.0076 - mse: 1.0076 - val_loss: 1.1359 - val_mse: 1.1359
+Epoch 2/5
+91690/91690 - 184s - loss: 1.0076 - mse: 1.0076 - val_loss: 1.1403 - val_mse: 1.1403
+Epoch 3/5
+91690/91690 - 183s - loss: 1.0076 - mse: 1.0076 - val_loss: 1.1325 - val_mse: 1.1325
+Epoch 4/5
+91690/91690 - 186s - loss: 1.0076 - mse: 1.0076 - val_loss: 1.1313 - val_mse: 1.1313
+Epoch 5/5
+91690/91690 - 183s - loss: 1.0076 - mse: 1.0076 - val_loss: 1.1331 - val_mse: 1.1331
+921.7531428337097 s to train model.
+Train error: 1.0045029993778156
+Validation error: 1.1330717358914533
+max_Thresh val: 82564.47088398712
+samples:
+9169
+Thresh val: 7.438477438250849
+(954, 37)
+Test error: 13093324.176161723
+
+MSE (pred, real) | Label (ordered)
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+False negative!
+False negative!
+Confusion matrix:
+tp | fp
+fn | tn
+475 | 82
+2 | 395
+STATE: 100
+Reading ../../../../datasets/bot-iot/UNSW_2018_IoT_Botnet_Full5pc_1.csv
+Reading ../../../../datasets/bot-iot/UNSW_2018_IoT_Botnet_Full5pc_2.csv
+Reading ../../../../datasets/bot-iot/UNSW_2018_IoT_Botnet_Full5pc_3.csv
+Reading ../../../../datasets/bot-iot/UNSW_2018_IoT_Botnet_Full5pc_4.csv
+<class 'pandas.core.frame.DataFrame'>
+Int64Index: 3668522 entries, 1 to 3668522
+Data columns (total 45 columns):
+ #   Column                            Dtype  
+---  ------                            -----  
+ 0   stime                             float64
+ 1   flgs                              object 
+ 2   flgs_number                       int64  
+ 3   proto                             object 
+ 4   proto_number                      int64  
+ 5   saddr                             object 
+ 6   sport                             object 
+ 7   daddr                             object 
+ 8   dport                             object 
+ 9   pkts                              int64  
+ 10  bytes                             int64  
+ 11  state                             object 
+ 12  state_number                      int64  
+ 13  ltime                             float64
+ 14  seq                               int64  
+ 15  dur                               float64
+ 16  mean                              float64
+ 17  stddev                            float64
+ 18  sum                               float64
+ 19  min                               float64
+ 20  max                               float64
+ 21  spkts                             int64  
+ 22  dpkts                             int64  
+ 23  sbytes                            int64  
+ 24  dbytes                            int64  
+ 25  rate                              float64
+ 26  srate                             float64
+ 27  drate                             float64
+ 28  TnBPSrcIP                         int64  
+ 29  TnBPDstIP                         int64  
+ 30  TnP_PSrcIP                        int64  
+ 31  TnP_PDstIP                        int64  
+ 32  TnP_PerProto                      int64  
+ 33  TnP_Per_Dport                     int64  
+ 34  AR_P_Proto_P_SrcIP                float64
+ 35  AR_P_Proto_P_DstIP                float64
+ 36  N_IN_Conn_P_DstIP                 int64  
+ 37  N_IN_Conn_P_SrcIP                 int64  
+ 38  AR_P_Proto_P_Sport                float64
+ 39  AR_P_Proto_P_Dport                float64
+ 40  Pkts_P_State_P_Protocol_P_DestIP  int64  
+ 41  Pkts_P_State_P_Protocol_P_SrcIP   int64  
+ 42  attack                            int64  
+ 43  category                          object 
+ 44  subcategory                       object 
+dtypes: float64(15), int64(21), object(9)
+memory usage: 1.3+ GB
+
+Dataframe contains NaN values: False
+Number of NaN columns: 0
+NaN columns: [] 
+
+
+Attack types: [1 0]
+Attack distribution:
+1    3668045
+0        477
+Name: attack, dtype: int64
+
+Cateogry types: ['DoS' 'DDoS' 'Normal' 'Reconnaissance' 'Theft']
+Cateogry distribution:
+DDoS              1926624
+DoS               1650260
+Reconnaissance      91082
+Normal                477
+Theft                  79
+Name: category, dtype: int64
+
+Subcategory types: ['HTTP' 'TCP' 'UDP' 'Normal' 'OS_Fingerprint' 'Service_Scan'
+ 'Data_Exfiltration' 'Keylogging']
+Subcategory distribution:
+UDP                  1981230
+TCP                  1593180
+Service_Scan           73168
+OS_Fingerprint         17914
+HTTP                    2474
+Normal                   477
+Keylogging                73
+Data_Exfiltration          6
+Name: subcategory, dtype: int64
+
+Column | # of different values
+stime | 392259
+flgs | 9
+flgs_number | 9
+proto | 5
+proto_number | 5
+saddr | 21
+sport | 65541
+daddr | 84
+dport | 7698
+pkts | 123
+bytes | 1633
+state | 11
+state_number | 11
+ltime | 383624
+seq | 262212
+dur | 612509
+mean | 507089
+stddev | 421379
+sum | 934972
+min | 271147
+max | 594525
+spkts | 91
+dpkts | 62
+sbytes | 1052
+dbytes | 472
+rate | 139677
+srate | 119709
+drate | 20714
+TnBPSrcIP | 8639
+TnBPDstIP | 7631
+TnP_PSrcIP | 1522
+TnP_PDstIP | 1587
+TnP_PerProto | 1560
+TnP_Per_Dport | 1582
+AR_P_Proto_P_SrcIP | 46289
+AR_P_Proto_P_DstIP | 39186
+N_IN_Conn_P_DstIP | 100
+N_IN_Conn_P_SrcIP | 100
+AR_P_Proto_P_Sport | 136207
+AR_P_Proto_P_Dport | 42237
+Pkts_P_State_P_Protocol_P_DestIP | 1595
+Pkts_P_State_P_Protocol_P_SrcIP | 1526
+attack | 2
+category | 5
+subcategory | 8
+
+Removing attributes that have only one (or zero) sampled value.
+
+Column | # of different values
+stime | 392259
+flgs | 9
+flgs_number | 9
+proto | 5
+proto_number | 5
+saddr | 21
+sport | 65541
+daddr | 84
+dport | 7698
+pkts | 123
+bytes | 1633
+state | 11
+state_number | 11
+ltime | 383624
+seq | 262212
+dur | 612509
+mean | 507089
+stddev | 421379
+sum | 934972
+min | 271147
+max | 594525
+spkts | 91
+dpkts | 62
+sbytes | 1052
+dbytes | 472
+rate | 139677
+srate | 119709
+drate | 20714
+TnBPSrcIP | 8639
+TnBPDstIP | 7631
+TnP_PSrcIP | 1522
+TnP_PDstIP | 1587
+TnP_PerProto | 1560
+TnP_Per_Dport | 1582
+AR_P_Proto_P_SrcIP | 46289
+AR_P_Proto_P_DstIP | 39186
+N_IN_Conn_P_DstIP | 100
+N_IN_Conn_P_SrcIP | 100
+AR_P_Proto_P_Sport | 136207
+AR_P_Proto_P_Dport | 42237
+Pkts_P_State_P_Protocol_P_DestIP | 1595
+Pkts_P_State_P_Protocol_P_SrcIP | 1526
+attack | 2
+category | 5
+subcategory | 8
+
+Removing redundant columns: ['state_number', 'proto_number', 'flgs_number']
+
+Column | NaN values
+stime                               0
+flgs                                0
+proto                               0
+saddr                               0
+sport                               0
+daddr                               0
+dport                               0
+pkts                                0
+bytes                               0
+state                               0
+ltime                               0
+seq                                 0
+dur                                 0
+mean                                0
+stddev                              0
+sum                                 0
+min                                 0
+max                                 0
+spkts                               0
+dpkts                               0
+sbytes                              0
+dbytes                              0
+rate                                0
+srate                               0
+drate                               0
+TnBPSrcIP                           0
+TnBPDstIP                           0
+TnP_PSrcIP                          0
+TnP_PDstIP                          0
+TnP_PerProto                        0
+TnP_Per_Dport                       0
+AR_P_Proto_P_SrcIP                  0
+AR_P_Proto_P_DstIP                  0
+N_IN_Conn_P_DstIP                   0
+N_IN_Conn_P_SrcIP                   0
+AR_P_Proto_P_Sport                  0
+AR_P_Proto_P_Dport                  0
+Pkts_P_State_P_Protocol_P_DestIP    0
+Pkts_P_State_P_Protocol_P_SrcIP     0
+attack                              0
+category                            0
+subcategory                         0
+dtype: int64
+Removing attributes with more than half NaN values.
+Dataframe contains NaN values: False
+
+Column | NaN values (after dropping columns)
+stime                               0
+flgs                                0
+proto                               0
+saddr                               0
+sport                               0
+daddr                               0
+dport                               0
+pkts                                0
+bytes                               0
+state                               0
+ltime                               0
+seq                                 0
+dur                                 0
+mean                                0
+stddev                              0
+sum                                 0
+min                                 0
+max                                 0
+spkts                               0
+dpkts                               0
+sbytes                              0
+dbytes                              0
+rate                                0
+srate                               0
+drate                               0
+TnBPSrcIP                           0
+TnBPDstIP                           0
+TnP_PSrcIP                          0
+TnP_PDstIP                          0
+TnP_PerProto                        0
+TnP_Per_Dport                       0
+AR_P_Proto_P_SrcIP                  0
+AR_P_Proto_P_DstIP                  0
+N_IN_Conn_P_DstIP                   0
+N_IN_Conn_P_SrcIP                   0
+AR_P_Proto_P_Sport                  0
+AR_P_Proto_P_Dport                  0
+Pkts_P_State_P_Protocol_P_DestIP    0
+Pkts_P_State_P_Protocol_P_SrcIP     0
+attack                              0
+category                            0
+subcategory                         0
+dtype: int64
+stime unique values: 392259
+flgs unique values: 9
+proto unique values: 9
+saddr unique values: 5
+sport unique values: 5
+daddr unique values: 21
+dport unique values: 65541
+pkts unique values: 84
+bytes unique values: 7698
+state unique values: 123
+ltime unique values: 1633
+seq unique values: 11
+dur unique values: 11
+mean unique values: 383624
+stddev unique values: 262212
+sum unique values: 612509
+min unique values: 507089
+max unique values: 421379
+spkts unique values: 934972
+dpkts unique values: 271147
+sbytes unique values: 594525
+dbytes unique values: 91
+rate unique values: 62
+srate unique values: 1052
+drate unique values: 472
+TnBPSrcIP unique values: 139677
+TnBPDstIP unique values: 119709
+TnP_PSrcIP unique values: 20714
+TnP_PDstIP unique values: 8639
+TnP_PerProto unique values: 7631
+TnP_Per_Dport unique values: 1522
+AR_P_Proto_P_SrcIP unique values: 1587
+AR_P_Proto_P_DstIP unique values: 1560
+N_IN_Conn_P_DstIP unique values: 1582
+N_IN_Conn_P_SrcIP unique values: 46289
+AR_P_Proto_P_Sport unique values: 39186
+AR_P_Proto_P_Dport unique values: 100
+Pkts_P_State_P_Protocol_P_DestIP unique values: 100
+Pkts_P_State_P_Protocol_P_SrcIP unique values: 136207
+attack unique values: 42237
+category unique values: 1595
+subcategory unique values: 1526
+<class 'pandas.core.frame.DataFrame'>
+Int64Index: 3668522 entries, 1 to 3668522
+Columns: 42 entries, stime to subcategory
+dtypes: float64(15), int64(18), object(9)
+memory usage: 1.2+ GB
+
+Objects: ['flgs', 'proto', 'saddr', 'sport', 'daddr', 'dport', 'state', 'category', 'subcategory'] 
+
+
+Check for high cardinality.
+Column | # of different values | values
+flgs | 9 | ['e' 'e s' 'e d' 'e *' 'e g' 'eU' 'e &' 'e   t' 'e  D']
+proto | 5 | ['tcp' 'arp' 'udp' 'icmp' 'ipv6-icmp']
+saddr | 21 | ['192.168.100.147' '192.168.100.7' '192.168.100.148' '192.168.100.6'
+ '192.168.100.149' '192.168.100.150' '192.168.100.5' '192.168.100.3'
+ '192.168.100.1' '192.168.100.4' '192.168.100.27'
+ 'fe80::250:56ff:febe:254' '192.168.100.46' 'fe80::250:56ff:febe:26db'
+ 'fe80::250:56ff:febe:e9d9' 'fe80::c0c0:aa20:45b9:bdd9'
+ 'fe80::250:56ff:febe:89ee' 'fe80::2c6a:ff9b:7e14:166a'
+ 'fe80::250:56ff:febe:bf1a' 'fe80::250:56ff:febe:c038' '192.168.100.55']
+sport | 65540 | ['49960' nan '49962' ... '0x0008' '0x000d' '0x0011']
+daddr | 84 | ['192.168.100.7' '192.168.100.147' '192.168.100.6' '192.168.100.148'
+ '192.168.100.5' '192.168.100.3' '192.168.100.149' '192.168.100.150'
+ '192.168.100.4' '27.124.125.250' '192.168.100.1' '192.168.100.27'
+ '192.168.217.2' '192.168.100.255' '8.8.8.8' 'ff02::1' '255.255.255.255'
+ '13.55.154.73' '192.168.100.55' '184.85.248.65' '205.251.194.167'
+ '192.5.5.241' '192.35.51.30' '205.251.195.97' '205.251.196.236'
+ '199.7.91.13' '192.12.94.30' '52.35.35.13' '216.239.38.10' '199.7.83.42'
+ '192.42.93.30' '172.217.25.170' 'ff02::fb' '224.0.0.251' 'ff02::2'
+ '129.250.35.250' '91.189.91.157' '216.239.34.10' '192.52.178.30'
+ '224.0.0.252' '96.7.49.66' '205.251.193.2' '192.33.4.12' '192.41.162.30'
+ '192.36.148.17' '35.165.2.252' '52.11.124.117' '52.201.147.106'
+ '216.239.36.10' '192.112.36.4' '192.31.80.30' '91.189.92.40'
+ '128.63.2.53' '202.12.27.33' '192.203.230.10' '192.55.83.30'
+ '205.251.198.119' '192.33.14.30' '192.58.128.30' '205.251.196.160'
+ '205.251.199.148' '192.54.112.30' '156.154.100.3' '199.19.57.1'
+ '205.251.194.86' '205.251.199.194' '205.251.199.61' '205.251.195.185'
+ '205.251.194.201' '205.251.198.239' '205.251.193.205' '205.251.196.32'
+ '198.41.0.4' '192.48.79.30' '199.19.56.1' '156.154.101.3'
+ '205.251.197.206' '205.251.192.170' '205.251.195.59' '205.251.198.91'
+ '205.251.194.84' '192.26.92.30' '205.251.194.102' '205.251.194.154']
+dport | 7697 | ['80' nan '30551' ... '42052' '2660' '2664']
+state | 11 | ['RST' 'CON' 'REQ' 'INT' 'URP' 'FIN' 'ACC' 'NRS' 'ECO' 'TST' 'MAS']
+category | 5 | ['DoS' 'DDoS' 'Normal' 'Reconnaissance' 'Theft']
+subcategory | 8 | ['HTTP' 'TCP' 'UDP' 'Normal' 'OS_Fingerprint' 'Service_Scan'
+ 'Data_Exfiltration' 'Keylogging']
+
+Handling categorical attributes (label encoding).
+Objects: ['category', 'subcategory']
+
+Dropping category and subcategory.
+These are labels for other scenarios.
+Attack set:
+1    3668045
+Name: attack, dtype: int64
+Normal set:
+0    477
+Name: attack, dtype: int64
+Test set:
+1    477
+0    477
+Name: attack, dtype: int64
+
+Splitting dataset (validation/train): 0.25
+X_train_df shape: (2750676, 37)
+y_train_df shape: (2750676,)
+X_val_df shape: (916892, 37)
+y_val_df shape: (916892,)
+X_test_df shape: (954, 37)
+y_test_df shape: (954,)
+
+Converting dataframe to numpy array.
+X_train shape: (2750676, 37)
+y_train shape: (2750676,)
+X_val shape: (916892, 37)
+y_val shape: (916892,)
+X_test shape: (954, 37)
+y_test shape: (954,)
+
+Applying normalization.
+5.58448600769043 to normalize data.
+
+Creating learning model.
+
+Compiling the network.
+Model summary:
+Model: "sequential_2"
+_________________________________________________________________
+Layer (type)                 Output Shape              Param #   
+=================================================================
+dense_10 (Dense)             (None, 37)                1406      
+_________________________________________________________________
+dense_11 (Dense)             (None, 32)                1216      
+_________________________________________________________________
+dense_12 (Dense)             (None, 8)                 264       
+_________________________________________________________________
+dense_13 (Dense)             (None, 32)                288       
+_________________________________________________________________
+dense_14 (Dense)             (None, 37)                1221      
+=================================================================
+Total params: 4,395
+Trainable params: 4,395
+Non-trainable params: 0
+_________________________________________________________________
+
+Fitting the network.
+Epoch 1/5
+91690/91690 - 185s - loss: 1.0076 - mse: 1.0076 - val_loss: 1.0960 - val_mse: 1.0960
+Epoch 2/5
+91690/91690 - 185s - loss: 1.0076 - mse: 1.0076 - val_loss: 1.0661 - val_mse: 1.0661
+Epoch 3/5
+91690/91690 - 185s - loss: 1.0075 - mse: 1.0075 - val_loss: 1.0706 - val_mse: 1.0706
+Epoch 4/5
+91690/91690 - 185s - loss: 1.0075 - mse: 1.0075 - val_loss: 1.0669 - val_mse: 1.0669
+Epoch 5/5
+91690/91690 - 185s - loss: 1.0075 - mse: 1.0075 - val_loss: 1.0675 - val_mse: 1.0675
+926.8347001075745 s to train model.
+Train error: 1.0035696586737284
+Validation error: 1.0674581868175956
+max_Thresh val: 96772.88858758743
+samples:
+9169
+Thresh val: 7.307468887024665
+(954, 37)
+Test error: 13155032.836193813
+
+MSE (pred, real) | Label (ordered)
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+False negative!
+False negative!
+False negative!
+False negative!
+Confusion matrix:
+tp | fp
+fn | tn
+473 | 82
+4 | 395
+STATE: 1000
+Reading ../../../../datasets/bot-iot/UNSW_2018_IoT_Botnet_Full5pc_1.csv
+Reading ../../../../datasets/bot-iot/UNSW_2018_IoT_Botnet_Full5pc_2.csv
+Reading ../../../../datasets/bot-iot/UNSW_2018_IoT_Botnet_Full5pc_3.csv
+Reading ../../../../datasets/bot-iot/UNSW_2018_IoT_Botnet_Full5pc_4.csv
+<class 'pandas.core.frame.DataFrame'>
+Int64Index: 3668522 entries, 1 to 3668522
+Data columns (total 45 columns):
+ #   Column                            Dtype  
+---  ------                            -----  
+ 0   stime                             float64
+ 1   flgs                              object 
+ 2   flgs_number                       int64  
+ 3   proto                             object 
+ 4   proto_number                      int64  
+ 5   saddr                             object 
+ 6   sport                             object 
+ 7   daddr                             object 
+ 8   dport                             object 
+ 9   pkts                              int64  
+ 10  bytes                             int64  
+ 11  state                             object 
+ 12  state_number                      int64  
+ 13  ltime                             float64
+ 14  seq                               int64  
+ 15  dur                               float64
+ 16  mean                              float64
+ 17  stddev                            float64
+ 18  sum                               float64
+ 19  min                               float64
+ 20  max                               float64
+ 21  spkts                             int64  
+ 22  dpkts                             int64  
+ 23  sbytes                            int64  
+ 24  dbytes                            int64  
+ 25  rate                              float64
+ 26  srate                             float64
+ 27  drate                             float64
+ 28  TnBPSrcIP                         int64  
+ 29  TnBPDstIP                         int64  
+ 30  TnP_PSrcIP                        int64  
+ 31  TnP_PDstIP                        int64  
+ 32  TnP_PerProto                      int64  
+ 33  TnP_Per_Dport                     int64  
+ 34  AR_P_Proto_P_SrcIP                float64
+ 35  AR_P_Proto_P_DstIP                float64
+ 36  N_IN_Conn_P_DstIP                 int64  
+ 37  N_IN_Conn_P_SrcIP                 int64  
+ 38  AR_P_Proto_P_Sport                float64
+ 39  AR_P_Proto_P_Dport                float64
+ 40  Pkts_P_State_P_Protocol_P_DestIP  int64  
+ 41  Pkts_P_State_P_Protocol_P_SrcIP   int64  
+ 42  attack                            int64  
+ 43  category                          object 
+ 44  subcategory                       object 
+dtypes: float64(15), int64(21), object(9)
+memory usage: 1.3+ GB
+
+Dataframe contains NaN values: False
+Number of NaN columns: 0
+NaN columns: [] 
+
+
+Attack types: [1 0]
+Attack distribution:
+1    3668045
+0        477
+Name: attack, dtype: int64
+
+Cateogry types: ['DoS' 'DDoS' 'Normal' 'Reconnaissance' 'Theft']
+Cateogry distribution:
+DDoS              1926624
+DoS               1650260
+Reconnaissance      91082
+Normal                477
+Theft                  79
+Name: category, dtype: int64
+
+Subcategory types: ['HTTP' 'TCP' 'UDP' 'Normal' 'OS_Fingerprint' 'Service_Scan'
+ 'Data_Exfiltration' 'Keylogging']
+Subcategory distribution:
+UDP                  1981230
+TCP                  1593180
+Service_Scan           73168
+OS_Fingerprint         17914
+HTTP                    2474
+Normal                   477
+Keylogging                73
+Data_Exfiltration          6
+Name: subcategory, dtype: int64
+
+Column | # of different values
+stime | 392259
+flgs | 9
+flgs_number | 9
+proto | 5
+proto_number | 5
+saddr | 21
+sport | 65541
+daddr | 84
+dport | 7698
+pkts | 123
+bytes | 1633
+state | 11
+state_number | 11
+ltime | 383624
+seq | 262212
+dur | 612509
+mean | 507089
+stddev | 421379
+sum | 934972
+min | 271147
+max | 594525
+spkts | 91
+dpkts | 62
+sbytes | 1052
+dbytes | 472
+rate | 139677
+srate | 119709
+drate | 20714
+TnBPSrcIP | 8639
+TnBPDstIP | 7631
+TnP_PSrcIP | 1522
+TnP_PDstIP | 1587
+TnP_PerProto | 1560
+TnP_Per_Dport | 1582
+AR_P_Proto_P_SrcIP | 46289
+AR_P_Proto_P_DstIP | 39186
+N_IN_Conn_P_DstIP | 100
+N_IN_Conn_P_SrcIP | 100
+AR_P_Proto_P_Sport | 136207
+AR_P_Proto_P_Dport | 42237
+Pkts_P_State_P_Protocol_P_DestIP | 1595
+Pkts_P_State_P_Protocol_P_SrcIP | 1526
+attack | 2
+category | 5
+subcategory | 8
+
+Removing attributes that have only one (or zero) sampled value.
+
+Column | # of different values
+stime | 392259
+flgs | 9
+flgs_number | 9
+proto | 5
+proto_number | 5
+saddr | 21
+sport | 65541
+daddr | 84
+dport | 7698
+pkts | 123
+bytes | 1633
+state | 11
+state_number | 11
+ltime | 383624
+seq | 262212
+dur | 612509
+mean | 507089
+stddev | 421379
+sum | 934972
+min | 271147
+max | 594525
+spkts | 91
+dpkts | 62
+sbytes | 1052
+dbytes | 472
+rate | 139677
+srate | 119709
+drate | 20714
+TnBPSrcIP | 8639
+TnBPDstIP | 7631
+TnP_PSrcIP | 1522
+TnP_PDstIP | 1587
+TnP_PerProto | 1560
+TnP_Per_Dport | 1582
+AR_P_Proto_P_SrcIP | 46289
+AR_P_Proto_P_DstIP | 39186
+N_IN_Conn_P_DstIP | 100
+N_IN_Conn_P_SrcIP | 100
+AR_P_Proto_P_Sport | 136207
+AR_P_Proto_P_Dport | 42237
+Pkts_P_State_P_Protocol_P_DestIP | 1595
+Pkts_P_State_P_Protocol_P_SrcIP | 1526
+attack | 2
+category | 5
+subcategory | 8
+
+Removing redundant columns: ['state_number', 'proto_number', 'flgs_number']
+
+Column | NaN values
+stime                               0
+flgs                                0
+proto                               0
+saddr                               0
+sport                               0
+daddr                               0
+dport                               0
+pkts                                0
+bytes                               0
+state                               0
+ltime                               0
+seq                                 0
+dur                                 0
+mean                                0
+stddev                              0
+sum                                 0
+min                                 0
+max                                 0
+spkts                               0
+dpkts                               0
+sbytes                              0
+dbytes                              0
+rate                                0
+srate                               0
+drate                               0
+TnBPSrcIP                           0
+TnBPDstIP                           0
+TnP_PSrcIP                          0
+TnP_PDstIP                          0
+TnP_PerProto                        0
+TnP_Per_Dport                       0
+AR_P_Proto_P_SrcIP                  0
+AR_P_Proto_P_DstIP                  0
+N_IN_Conn_P_DstIP                   0
+N_IN_Conn_P_SrcIP                   0
+AR_P_Proto_P_Sport                  0
+AR_P_Proto_P_Dport                  0
+Pkts_P_State_P_Protocol_P_DestIP    0
+Pkts_P_State_P_Protocol_P_SrcIP     0
+attack                              0
+category                            0
+subcategory                         0
+dtype: int64
+Removing attributes with more than half NaN values.
+Dataframe contains NaN values: False
+
+Column | NaN values (after dropping columns)
+stime                               0
+flgs                                0
+proto                               0
+saddr                               0
+sport                               0
+daddr                               0
+dport                               0
+pkts                                0
+bytes                               0
+state                               0
+ltime                               0
+seq                                 0
+dur                                 0
+mean                                0
+stddev                              0
+sum                                 0
+min                                 0
+max                                 0
+spkts                               0
+dpkts                               0
+sbytes                              0
+dbytes                              0
+rate                                0
+srate                               0
+drate                               0
+TnBPSrcIP                           0
+TnBPDstIP                           0
+TnP_PSrcIP                          0
+TnP_PDstIP                          0
+TnP_PerProto                        0
+TnP_Per_Dport                       0
+AR_P_Proto_P_SrcIP                  0
+AR_P_Proto_P_DstIP                  0
+N_IN_Conn_P_DstIP                   0
+N_IN_Conn_P_SrcIP                   0
+AR_P_Proto_P_Sport                  0
+AR_P_Proto_P_Dport                  0
+Pkts_P_State_P_Protocol_P_DestIP    0
+Pkts_P_State_P_Protocol_P_SrcIP     0
+attack                              0
+category                            0
+subcategory                         0
+dtype: int64
+stime unique values: 392259
+flgs unique values: 9
+proto unique values: 9
+saddr unique values: 5
+sport unique values: 5
+daddr unique values: 21
+dport unique values: 65541
+pkts unique values: 84
+bytes unique values: 7698
+state unique values: 123
+ltime unique values: 1633
+seq unique values: 11
+dur unique values: 11
+mean unique values: 383624
+stddev unique values: 262212
+sum unique values: 612509
+min unique values: 507089
+max unique values: 421379
+spkts unique values: 934972
+dpkts unique values: 271147
+sbytes unique values: 594525
+dbytes unique values: 91
+rate unique values: 62
+srate unique values: 1052
+drate unique values: 472
+TnBPSrcIP unique values: 139677
+TnBPDstIP unique values: 119709
+TnP_PSrcIP unique values: 20714
+TnP_PDstIP unique values: 8639
+TnP_PerProto unique values: 7631
+TnP_Per_Dport unique values: 1522
+AR_P_Proto_P_SrcIP unique values: 1587
+AR_P_Proto_P_DstIP unique values: 1560
+N_IN_Conn_P_DstIP unique values: 1582
+N_IN_Conn_P_SrcIP unique values: 46289
+AR_P_Proto_P_Sport unique values: 39186
+AR_P_Proto_P_Dport unique values: 100
+Pkts_P_State_P_Protocol_P_DestIP unique values: 100
+Pkts_P_State_P_Protocol_P_SrcIP unique values: 136207
+attack unique values: 42237
+category unique values: 1595
+subcategory unique values: 1526
+<class 'pandas.core.frame.DataFrame'>
+Int64Index: 3668522 entries, 1 to 3668522
+Columns: 42 entries, stime to subcategory
+dtypes: float64(15), int64(18), object(9)
+memory usage: 1.2+ GB
+
+Objects: ['flgs', 'proto', 'saddr', 'sport', 'daddr', 'dport', 'state', 'category', 'subcategory'] 
+
+
+Check for high cardinality.
+Column | # of different values | values
+flgs | 9 | ['e' 'e s' 'e d' 'e *' 'e g' 'eU' 'e &' 'e   t' 'e  D']
+proto | 5 | ['tcp' 'arp' 'udp' 'icmp' 'ipv6-icmp']
+saddr | 21 | ['192.168.100.147' '192.168.100.7' '192.168.100.148' '192.168.100.6'
+ '192.168.100.149' '192.168.100.150' '192.168.100.5' '192.168.100.3'
+ '192.168.100.1' '192.168.100.4' '192.168.100.27'
+ 'fe80::250:56ff:febe:254' '192.168.100.46' 'fe80::250:56ff:febe:26db'
+ 'fe80::250:56ff:febe:e9d9' 'fe80::c0c0:aa20:45b9:bdd9'
+ 'fe80::250:56ff:febe:89ee' 'fe80::2c6a:ff9b:7e14:166a'
+ 'fe80::250:56ff:febe:bf1a' 'fe80::250:56ff:febe:c038' '192.168.100.55']
+sport | 65540 | ['49960' nan '49962' ... '0x0008' '0x000d' '0x0011']
+daddr | 84 | ['192.168.100.7' '192.168.100.147' '192.168.100.6' '192.168.100.148'
+ '192.168.100.5' '192.168.100.3' '192.168.100.149' '192.168.100.150'
+ '192.168.100.4' '27.124.125.250' '192.168.100.1' '192.168.100.27'
+ '192.168.217.2' '192.168.100.255' '8.8.8.8' 'ff02::1' '255.255.255.255'
+ '13.55.154.73' '192.168.100.55' '184.85.248.65' '205.251.194.167'
+ '192.5.5.241' '192.35.51.30' '205.251.195.97' '205.251.196.236'
+ '199.7.91.13' '192.12.94.30' '52.35.35.13' '216.239.38.10' '199.7.83.42'
+ '192.42.93.30' '172.217.25.170' 'ff02::fb' '224.0.0.251' 'ff02::2'
+ '129.250.35.250' '91.189.91.157' '216.239.34.10' '192.52.178.30'
+ '224.0.0.252' '96.7.49.66' '205.251.193.2' '192.33.4.12' '192.41.162.30'
+ '192.36.148.17' '35.165.2.252' '52.11.124.117' '52.201.147.106'
+ '216.239.36.10' '192.112.36.4' '192.31.80.30' '91.189.92.40'
+ '128.63.2.53' '202.12.27.33' '192.203.230.10' '192.55.83.30'
+ '205.251.198.119' '192.33.14.30' '192.58.128.30' '205.251.196.160'
+ '205.251.199.148' '192.54.112.30' '156.154.100.3' '199.19.57.1'
+ '205.251.194.86' '205.251.199.194' '205.251.199.61' '205.251.195.185'
+ '205.251.194.201' '205.251.198.239' '205.251.193.205' '205.251.196.32'
+ '198.41.0.4' '192.48.79.30' '199.19.56.1' '156.154.101.3'
+ '205.251.197.206' '205.251.192.170' '205.251.195.59' '205.251.198.91'
+ '205.251.194.84' '192.26.92.30' '205.251.194.102' '205.251.194.154']
+dport | 7697 | ['80' nan '30551' ... '42052' '2660' '2664']
+state | 11 | ['RST' 'CON' 'REQ' 'INT' 'URP' 'FIN' 'ACC' 'NRS' 'ECO' 'TST' 'MAS']
+category | 5 | ['DoS' 'DDoS' 'Normal' 'Reconnaissance' 'Theft']
+subcategory | 8 | ['HTTP' 'TCP' 'UDP' 'Normal' 'OS_Fingerprint' 'Service_Scan'
+ 'Data_Exfiltration' 'Keylogging']
+
+Handling categorical attributes (label encoding).
+Objects: ['category', 'subcategory']
+
+Dropping category and subcategory.
+These are labels for other scenarios.
+Attack set:
+1    3668045
+Name: attack, dtype: int64
+Normal set:
+0    477
+Name: attack, dtype: int64
+Test set:
+1    477
+0    477
+Name: attack, dtype: int64
+
+Splitting dataset (validation/train): 0.25
+X_train_df shape: (2750676, 37)
+y_train_df shape: (2750676,)
+X_val_df shape: (916892, 37)
+y_val_df shape: (916892,)
+X_test_df shape: (954, 37)
+y_test_df shape: (954,)
+
+Converting dataframe to numpy array.
+X_train shape: (2750676, 37)
+y_train shape: (2750676,)
+X_val shape: (916892, 37)
+y_val shape: (916892,)
+X_test shape: (954, 37)
+y_test shape: (954,)
+
+Applying normalization.
+5.784228563308716 to normalize data.
+
+Creating learning model.
+
+Compiling the network.
+Model summary:
+Model: "sequential_3"
+_________________________________________________________________
+Layer (type)                 Output Shape              Param #   
+=================================================================
+dense_15 (Dense)             (None, 37)                1406      
+_________________________________________________________________
+dense_16 (Dense)             (None, 32)                1216      
+_________________________________________________________________
+dense_17 (Dense)             (None, 8)                 264       
+_________________________________________________________________
+dense_18 (Dense)             (None, 32)                288       
+_________________________________________________________________
+dense_19 (Dense)             (None, 37)                1221      
+=================================================================
+Total params: 4,395
+Trainable params: 4,395
+Non-trainable params: 0
+_________________________________________________________________
+
+Fitting the network.
+Epoch 1/5
+91690/91690 - 188s - loss: 1.0074 - mse: 1.0074 - val_loss: 1.0599 - val_mse: 1.0599
+Epoch 2/5
+91690/91690 - 186s - loss: 1.0075 - mse: 1.0075 - val_loss: 1.0593 - val_mse: 1.0593
+Epoch 3/5
+91690/91690 - 185s - loss: 1.0075 - mse: 1.0075 - val_loss: 1.0732 - val_mse: 1.0732
+Epoch 4/5
+91690/91690 - 186s - loss: 1.0076 - mse: 1.0076 - val_loss: 1.0635 - val_mse: 1.0635
+Epoch 5/5
+91690/91690 - 186s - loss: 1.0075 - mse: 1.0075 - val_loss: 1.0622 - val_mse: 1.0622
+933.5749864578247 s to train model.
+Train error: 1.0078672898028422
+Validation error: 1.0622503664249252
+max_Thresh val: 64836.83178425559
+samples:
+9169
+Thresh val: 7.442349256037569
+(954, 37)
+Test error: 12213948.165565258
+
+MSE (pred, real) | Label (ordered)
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+False negative!
+False negative!
+Confusion matrix:
+tp | fp
+fn | tn
+475 | 82
+2 | 395
+STATE: 10000
+Reading ../../../../datasets/bot-iot/UNSW_2018_IoT_Botnet_Full5pc_1.csv
+Reading ../../../../datasets/bot-iot/UNSW_2018_IoT_Botnet_Full5pc_2.csv
+Reading ../../../../datasets/bot-iot/UNSW_2018_IoT_Botnet_Full5pc_3.csv
+Reading ../../../../datasets/bot-iot/UNSW_2018_IoT_Botnet_Full5pc_4.csv
+<class 'pandas.core.frame.DataFrame'>
+Int64Index: 3668522 entries, 1 to 3668522
+Data columns (total 45 columns):
+ #   Column                            Dtype  
+---  ------                            -----  
+ 0   stime                             float64
+ 1   flgs                              object 
+ 2   flgs_number                       int64  
+ 3   proto                             object 
+ 4   proto_number                      int64  
+ 5   saddr                             object 
+ 6   sport                             object 
+ 7   daddr                             object 
+ 8   dport                             object 
+ 9   pkts                              int64  
+ 10  bytes                             int64  
+ 11  state                             object 
+ 12  state_number                      int64  
+ 13  ltime                             float64
+ 14  seq                               int64  
+ 15  dur                               float64
+ 16  mean                              float64
+ 17  stddev                            float64
+ 18  sum                               float64
+ 19  min                               float64
+ 20  max                               float64
+ 21  spkts                             int64  
+ 22  dpkts                             int64  
+ 23  sbytes                            int64  
+ 24  dbytes                            int64  
+ 25  rate                              float64
+ 26  srate                             float64
+ 27  drate                             float64
+ 28  TnBPSrcIP                         int64  
+ 29  TnBPDstIP                         int64  
+ 30  TnP_PSrcIP                        int64  
+ 31  TnP_PDstIP                        int64  
+ 32  TnP_PerProto                      int64  
+ 33  TnP_Per_Dport                     int64  
+ 34  AR_P_Proto_P_SrcIP                float64
+ 35  AR_P_Proto_P_DstIP                float64
+ 36  N_IN_Conn_P_DstIP                 int64  
+ 37  N_IN_Conn_P_SrcIP                 int64  
+ 38  AR_P_Proto_P_Sport                float64
+ 39  AR_P_Proto_P_Dport                float64
+ 40  Pkts_P_State_P_Protocol_P_DestIP  int64  
+ 41  Pkts_P_State_P_Protocol_P_SrcIP   int64  
+ 42  attack                            int64  
+ 43  category                          object 
+ 44  subcategory                       object 
+dtypes: float64(15), int64(21), object(9)
+memory usage: 1.3+ GB
+
+Dataframe contains NaN values: False
+Number of NaN columns: 0
+NaN columns: [] 
+
+
+Attack types: [1 0]
+Attack distribution:
+1    3668045
+0        477
+Name: attack, dtype: int64
+
+Cateogry types: ['DoS' 'DDoS' 'Normal' 'Reconnaissance' 'Theft']
+Cateogry distribution:
+DDoS              1926624
+DoS               1650260
+Reconnaissance      91082
+Normal                477
+Theft                  79
+Name: category, dtype: int64
+
+Subcategory types: ['HTTP' 'TCP' 'UDP' 'Normal' 'OS_Fingerprint' 'Service_Scan'
+ 'Data_Exfiltration' 'Keylogging']
+Subcategory distribution:
+UDP                  1981230
+TCP                  1593180
+Service_Scan           73168
+OS_Fingerprint         17914
+HTTP                    2474
+Normal                   477
+Keylogging                73
+Data_Exfiltration          6
+Name: subcategory, dtype: int64
+
+Column | # of different values
+stime | 392259
+flgs | 9
+flgs_number | 9
+proto | 5
+proto_number | 5
+saddr | 21
+sport | 65541
+daddr | 84
+dport | 7698
+pkts | 123
+bytes | 1633
+state | 11
+state_number | 11
+ltime | 383624
+seq | 262212
+dur | 612509
+mean | 507089
+stddev | 421379
+sum | 934972
+min | 271147
+max | 594525
+spkts | 91
+dpkts | 62
+sbytes | 1052
+dbytes | 472
+rate | 139677
+srate | 119709
+drate | 20714
+TnBPSrcIP | 8639
+TnBPDstIP | 7631
+TnP_PSrcIP | 1522
+TnP_PDstIP | 1587
+TnP_PerProto | 1560
+TnP_Per_Dport | 1582
+AR_P_Proto_P_SrcIP | 46289
+AR_P_Proto_P_DstIP | 39186
+N_IN_Conn_P_DstIP | 100
+N_IN_Conn_P_SrcIP | 100
+AR_P_Proto_P_Sport | 136207
+AR_P_Proto_P_Dport | 42237
+Pkts_P_State_P_Protocol_P_DestIP | 1595
+Pkts_P_State_P_Protocol_P_SrcIP | 1526
+attack | 2
+category | 5
+subcategory | 8
+
+Removing attributes that have only one (or zero) sampled value.
+
+Column | # of different values
+stime | 392259
+flgs | 9
+flgs_number | 9
+proto | 5
+proto_number | 5
+saddr | 21
+sport | 65541
+daddr | 84
+dport | 7698
+pkts | 123
+bytes | 1633
+state | 11
+state_number | 11
+ltime | 383624
+seq | 262212
+dur | 612509
+mean | 507089
+stddev | 421379
+sum | 934972
+min | 271147
+max | 594525
+spkts | 91
+dpkts | 62
+sbytes | 1052
+dbytes | 472
+rate | 139677
+srate | 119709
+drate | 20714
+TnBPSrcIP | 8639
+TnBPDstIP | 7631
+TnP_PSrcIP | 1522
+TnP_PDstIP | 1587
+TnP_PerProto | 1560
+TnP_Per_Dport | 1582
+AR_P_Proto_P_SrcIP | 46289
+AR_P_Proto_P_DstIP | 39186
+N_IN_Conn_P_DstIP | 100
+N_IN_Conn_P_SrcIP | 100
+AR_P_Proto_P_Sport | 136207
+AR_P_Proto_P_Dport | 42237
+Pkts_P_State_P_Protocol_P_DestIP | 1595
+Pkts_P_State_P_Protocol_P_SrcIP | 1526
+attack | 2
+category | 5
+subcategory | 8
+
+Removing redundant columns: ['state_number', 'proto_number', 'flgs_number']
+
+Column | NaN values
+stime                               0
+flgs                                0
+proto                               0
+saddr                               0
+sport                               0
+daddr                               0
+dport                               0
+pkts                                0
+bytes                               0
+state                               0
+ltime                               0
+seq                                 0
+dur                                 0
+mean                                0
+stddev                              0
+sum                                 0
+min                                 0
+max                                 0
+spkts                               0
+dpkts                               0
+sbytes                              0
+dbytes                              0
+rate                                0
+srate                               0
+drate                               0
+TnBPSrcIP                           0
+TnBPDstIP                           0
+TnP_PSrcIP                          0
+TnP_PDstIP                          0
+TnP_PerProto                        0
+TnP_Per_Dport                       0
+AR_P_Proto_P_SrcIP                  0
+AR_P_Proto_P_DstIP                  0
+N_IN_Conn_P_DstIP                   0
+N_IN_Conn_P_SrcIP                   0
+AR_P_Proto_P_Sport                  0
+AR_P_Proto_P_Dport                  0
+Pkts_P_State_P_Protocol_P_DestIP    0
+Pkts_P_State_P_Protocol_P_SrcIP     0
+attack                              0
+category                            0
+subcategory                         0
+dtype: int64
+Removing attributes with more than half NaN values.
+Dataframe contains NaN values: False
+
+Column | NaN values (after dropping columns)
+stime                               0
+flgs                                0
+proto                               0
+saddr                               0
+sport                               0
+daddr                               0
+dport                               0
+pkts                                0
+bytes                               0
+state                               0
+ltime                               0
+seq                                 0
+dur                                 0
+mean                                0
+stddev                              0
+sum                                 0
+min                                 0
+max                                 0
+spkts                               0
+dpkts                               0
+sbytes                              0
+dbytes                              0
+rate                                0
+srate                               0
+drate                               0
+TnBPSrcIP                           0
+TnBPDstIP                           0
+TnP_PSrcIP                          0
+TnP_PDstIP                          0
+TnP_PerProto                        0
+TnP_Per_Dport                       0
+AR_P_Proto_P_SrcIP                  0
+AR_P_Proto_P_DstIP                  0
+N_IN_Conn_P_DstIP                   0
+N_IN_Conn_P_SrcIP                   0
+AR_P_Proto_P_Sport                  0
+AR_P_Proto_P_Dport                  0
+Pkts_P_State_P_Protocol_P_DestIP    0
+Pkts_P_State_P_Protocol_P_SrcIP     0
+attack                              0
+category                            0
+subcategory                         0
+dtype: int64
+stime unique values: 392259
+flgs unique values: 9
+proto unique values: 9
+saddr unique values: 5
+sport unique values: 5
+daddr unique values: 21
+dport unique values: 65541
+pkts unique values: 84
+bytes unique values: 7698
+state unique values: 123
+ltime unique values: 1633
+seq unique values: 11
+dur unique values: 11
+mean unique values: 383624
+stddev unique values: 262212
+sum unique values: 612509
+min unique values: 507089
+max unique values: 421379
+spkts unique values: 934972
+dpkts unique values: 271147
+sbytes unique values: 594525
+dbytes unique values: 91
+rate unique values: 62
+srate unique values: 1052
+drate unique values: 472
+TnBPSrcIP unique values: 139677
+TnBPDstIP unique values: 119709
+TnP_PSrcIP unique values: 20714
+TnP_PDstIP unique values: 8639
+TnP_PerProto unique values: 7631
+TnP_Per_Dport unique values: 1522
+AR_P_Proto_P_SrcIP unique values: 1587
+AR_P_Proto_P_DstIP unique values: 1560
+N_IN_Conn_P_DstIP unique values: 1582
+N_IN_Conn_P_SrcIP unique values: 46289
+AR_P_Proto_P_Sport unique values: 39186
+AR_P_Proto_P_Dport unique values: 100
+Pkts_P_State_P_Protocol_P_DestIP unique values: 100
+Pkts_P_State_P_Protocol_P_SrcIP unique values: 136207
+attack unique values: 42237
+category unique values: 1595
+subcategory unique values: 1526
+<class 'pandas.core.frame.DataFrame'>
+Int64Index: 3668522 entries, 1 to 3668522
+Columns: 42 entries, stime to subcategory
+dtypes: float64(15), int64(18), object(9)
+memory usage: 1.2+ GB
+
+Objects: ['flgs', 'proto', 'saddr', 'sport', 'daddr', 'dport', 'state', 'category', 'subcategory'] 
+
+
+Check for high cardinality.
+Column | # of different values | values
+flgs | 9 | ['e' 'e s' 'e d' 'e *' 'e g' 'eU' 'e &' 'e   t' 'e  D']
+proto | 5 | ['tcp' 'arp' 'udp' 'icmp' 'ipv6-icmp']
+saddr | 21 | ['192.168.100.147' '192.168.100.7' '192.168.100.148' '192.168.100.6'
+ '192.168.100.149' '192.168.100.150' '192.168.100.5' '192.168.100.3'
+ '192.168.100.1' '192.168.100.4' '192.168.100.27'
+ 'fe80::250:56ff:febe:254' '192.168.100.46' 'fe80::250:56ff:febe:26db'
+ 'fe80::250:56ff:febe:e9d9' 'fe80::c0c0:aa20:45b9:bdd9'
+ 'fe80::250:56ff:febe:89ee' 'fe80::2c6a:ff9b:7e14:166a'
+ 'fe80::250:56ff:febe:bf1a' 'fe80::250:56ff:febe:c038' '192.168.100.55']
+sport | 65540 | ['49960' nan '49962' ... '0x0008' '0x000d' '0x0011']
+daddr | 84 | ['192.168.100.7' '192.168.100.147' '192.168.100.6' '192.168.100.148'
+ '192.168.100.5' '192.168.100.3' '192.168.100.149' '192.168.100.150'
+ '192.168.100.4' '27.124.125.250' '192.168.100.1' '192.168.100.27'
+ '192.168.217.2' '192.168.100.255' '8.8.8.8' 'ff02::1' '255.255.255.255'
+ '13.55.154.73' '192.168.100.55' '184.85.248.65' '205.251.194.167'
+ '192.5.5.241' '192.35.51.30' '205.251.195.97' '205.251.196.236'
+ '199.7.91.13' '192.12.94.30' '52.35.35.13' '216.239.38.10' '199.7.83.42'
+ '192.42.93.30' '172.217.25.170' 'ff02::fb' '224.0.0.251' 'ff02::2'
+ '129.250.35.250' '91.189.91.157' '216.239.34.10' '192.52.178.30'
+ '224.0.0.252' '96.7.49.66' '205.251.193.2' '192.33.4.12' '192.41.162.30'
+ '192.36.148.17' '35.165.2.252' '52.11.124.117' '52.201.147.106'
+ '216.239.36.10' '192.112.36.4' '192.31.80.30' '91.189.92.40'
+ '128.63.2.53' '202.12.27.33' '192.203.230.10' '192.55.83.30'
+ '205.251.198.119' '192.33.14.30' '192.58.128.30' '205.251.196.160'
+ '205.251.199.148' '192.54.112.30' '156.154.100.3' '199.19.57.1'
+ '205.251.194.86' '205.251.199.194' '205.251.199.61' '205.251.195.185'
+ '205.251.194.201' '205.251.198.239' '205.251.193.205' '205.251.196.32'
+ '198.41.0.4' '192.48.79.30' '199.19.56.1' '156.154.101.3'
+ '205.251.197.206' '205.251.192.170' '205.251.195.59' '205.251.198.91'
+ '205.251.194.84' '192.26.92.30' '205.251.194.102' '205.251.194.154']
+dport | 7697 | ['80' nan '30551' ... '42052' '2660' '2664']
+state | 11 | ['RST' 'CON' 'REQ' 'INT' 'URP' 'FIN' 'ACC' 'NRS' 'ECO' 'TST' 'MAS']
+category | 5 | ['DoS' 'DDoS' 'Normal' 'Reconnaissance' 'Theft']
+subcategory | 8 | ['HTTP' 'TCP' 'UDP' 'Normal' 'OS_Fingerprint' 'Service_Scan'
+ 'Data_Exfiltration' 'Keylogging']
+
+Handling categorical attributes (label encoding).
+Objects: ['category', 'subcategory']
+
+Dropping category and subcategory.
+These are labels for other scenarios.
+Attack set:
+1    3668045
+Name: attack, dtype: int64
+Normal set:
+0    477
+Name: attack, dtype: int64
+Test set:
+1    477
+0    477
+Name: attack, dtype: int64
+
+Splitting dataset (validation/train): 0.25
+X_train_df shape: (2750676, 37)
+y_train_df shape: (2750676,)
+X_val_df shape: (916892, 37)
+y_val_df shape: (916892,)
+X_test_df shape: (954, 37)
+y_test_df shape: (954,)
+
+Converting dataframe to numpy array.
+X_train shape: (2750676, 37)
+y_train shape: (2750676,)
+X_val shape: (916892, 37)
+y_val shape: (916892,)
+X_test shape: (954, 37)
+y_test shape: (954,)
+
+Applying normalization.
+5.609327077865601 to normalize data.
+
+Creating learning model.
+
+Compiling the network.
+Model summary:
+Model: "sequential_4"
+_________________________________________________________________
+Layer (type)                 Output Shape              Param #   
+=================================================================
+dense_20 (Dense)             (None, 37)                1406      
+_________________________________________________________________
+dense_21 (Dense)             (None, 32)                1216      
+_________________________________________________________________
+dense_22 (Dense)             (None, 8)                 264       
+_________________________________________________________________
+dense_23 (Dense)             (None, 32)                288       
+_________________________________________________________________
+dense_24 (Dense)             (None, 37)                1221      
+=================================================================
+Total params: 4,395
+Trainable params: 4,395
+Non-trainable params: 0
+_________________________________________________________________
+
+Fitting the network.
+Epoch 1/5
+91690/91690 - 188s - loss: 1.0077 - mse: 1.0077 - val_loss: 0.9661 - val_mse: 0.9661
+Epoch 2/5
+91690/91690 - 187s - loss: 1.0075 - mse: 1.0075 - val_loss: 0.9670 - val_mse: 0.9670
+Epoch 3/5
+91690/91690 - 187s - loss: 1.0076 - mse: 1.0076 - val_loss: 0.9613 - val_mse: 0.9613
+Epoch 4/5
+91690/91690 - 186s - loss: 1.0076 - mse: 1.0076 - val_loss: 0.9639 - val_mse: 0.9639
+Epoch 5/5
+91690/91690 - 186s - loss: 1.0076 - mse: 1.0076 - val_loss: 0.9644 - val_mse: 0.9644
+936.4523801803589 s to train model.
+Train error: 1.0065850228231772
+Validation error: 0.9644206072361154
+max_Thresh val: 64813.51860293958
+samples:
+9169
+Thresh val: 7.460841084794129
+(954, 37)
+Test error: 12387970.358500138
+
+MSE (pred, real) | Label (ordered)
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+False positive!
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True negative.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+True positive.
+False negative!
+False negative!
+False negative!
+False negative!
+Confusion matrix:
+tp | fp
+fn | tn
+473 | 82
+4 | 395
