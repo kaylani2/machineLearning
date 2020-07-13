@@ -431,6 +431,9 @@ bestModel.compile (optimizer = 'adam',
 ###############################################################################
 ## Fit the network
 ###############################################################################
+
+import time
+
 print ('\nFitting the network.')
 startTime = time.time ()
 #history = bestModel.fit (X_train, y_train,
@@ -443,7 +446,8 @@ startTime = time.time ()
 #                         validation_data = (X_val, y_val))
 bestModel.fit (X_train, y_train, epochs = NUMBER_OF_EPOCHS,
                use_multiprocessing = True, verbose = 2)
-print (str (time.time () - startTime), 's to train model.')
+training_time = time.time () - startTime
+print (str (training_time), 's to train model.')
 
 ###################
 
@@ -501,10 +505,13 @@ print (str (time.time () - startTime), 's to train model.')
 
 y_pred = bestModel.predict (X_test)
 
-plot_cm(y_test, y_pred_rounded)
+y_pred = np.round(y_pred, 0)
+
+y_pred = abs(pd.Series(y_pred.reshape(y_pred.shape[0])))
+
+
 
 print('y_test:', y_test)
-print('y_pred_rounded', y_pred_rounded)
 
 ###############################################################################
 ## Obtain metrics from the above model 
@@ -515,10 +522,8 @@ from sklearn.metrics import accuracy_score
 from sklearn.metrics import multilabel_confusion_matrix
 from sklearn.metrics import f1_score
 from sklearn.metrics import confusion_matrix
+from sklearn.metrics import cohen_kappa_score
 
-
-# Predicting from the test slice
-y_pred = y_pred_rounded
 
 ## Giving the output
 f = open("output_rnn.txt","a")
@@ -538,10 +543,10 @@ f.write('\nRecall:')
 f.write(str(precision))
 
 # Accuracy 
-train_score = model.score(X_test, y_test)
-print('Accuracy: ', train_score)
+accuracy = accuracy_score(y_test, y_pred)
+print('Accuracy: ', accuracy)
 f.write('\nAccuracy:')
-f.write(str(train_score))
+f.write(str(accuracy))
 
 # f1 
 f_one_score = f1_score(y_test, y_pred)
@@ -1044,11 +1049,12 @@ f.close()
 # m.result().numpy()
 
 
-# import matplotlib.pyplot as plt
+# import matpyp..lot as plt
 # from sklearn.metrics import confusion_matrix
 # import seaborn as sns
 
-# def plot_cm(labels, predictions, p=0.5):
+# plot_cm(labels, predictions, p=0.5):
+# elot_cm(labels, predictions, p=0.5):
 #     cm = confusion_matrix(labels, predictions > p)
 #     plt.figure(figsize=(5,5))
 #     sns.heatmap(cm, annot=True, fmt="d")
@@ -1066,7 +1072,7 @@ f.close()
 # # In[29]:
 
 
-# plot_cm(y_test, y_pred_rounded)
+# y_test, y_pred_rounded)
 
 
 # # In[34]:
