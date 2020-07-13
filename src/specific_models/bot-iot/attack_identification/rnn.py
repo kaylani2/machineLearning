@@ -45,7 +45,7 @@ for fileNumber in range (1, FIVE_PERCENT_FILES + 1):#FULL_FILES + 1):
                      index_col = 'pkSeqID',
                      dtype = {'pkSeqID' : np.int32}, na_values = NAN_VALUES,
                      low_memory = False)
-  df = pd.concat ([df, aux])
+  df = pd.concat ( [df, aux])
 
 
 ###############################################################################
@@ -336,45 +336,6 @@ for feature in bestFeatures:
 ###############################################################################
 ## Handle imbalanced data
 ###############################################################################
-"""
-### K: 10,000 samples per attack
-from collections import Counter
-from imblearn.over_sampling import RandomOverSampler
-from imblearn.under_sampling import RandomUnderSampler
-print ('\nHandling imbalanced label distribution.')
-
-### Only oversample
-myOversampler = RandomOverSampler (sampling_strategy = 'not majority',
-                                   random_state = STATE)
-X_over, y_over = myOversampler.fit_resample (X_train, y_train)
-
-### Only undersample
-myUndersampler = RandomUnderSampler (sampling_strategy = 'not minority',
-                                     random_state = STATE)
-X_under, y_under = myUndersampler.fit_resample (X_train, y_train)
-
-### Balanced
-MAX_SAMPLES = int (1e4)
-labels = dict (Counter (y_train))
-
-sampleDictOver = {k : max (labels [k], MAX_SAMPLES) for k in labels}
-balancedOverSampler = RandomOverSampler (sampling_strategy = sampleDictOver,
-                                         random_state = STATE)
-
-X_bal, y_bal = balancedOverSampler.fit_resample (X_train, y_train)
-labels = dict (Counter (y_bal))
-
-sampleDictUnder = {k : min (labels [k], MAX_SAMPLES) for k in labels}
-balancedUnderSampler = RandomUnderSampler (sampling_strategy = sampleDictUnder,
-                                           random_state = STATE)
-
-X_bal, y_bal = balancedUnderSampler.fit_resample (X_bal, y_bal)
-
-print ('Real:', Counter (y_train))
-print ('Over:', Counter (y_over))
-print ('Under:', Counter (y_under))
-print ('Balanced:', Counter (y_bal))
-"""
 
 ###############################################################################
 ## Rearrange samples for RNN
@@ -442,14 +403,14 @@ print ('y_test shape:', y_test.shape)
 #
 #sets_list = [X_train, X_test]
 #for index, data in enumerate (sets_list):
-#    n = data.shape[0]
+#    n = data.shape [0]
 #    samples = []
 #
-#    # step over the X_train.shape[0] (samples) in jumps of 200 (time_steps)
+#    # step over the X_train.shape [0] (samples) in jumps of 200 (time_steps)
 #    for i in range (0,n,LENGTH):
 #        print ('index, i1:', index, i)
 #        # grab from i to i + 200
-#        sample = data[i:i+LENGTH]
+#        sample = data [i:i+LENGTH]
 #        samples.append (sample)
 #
 #    # convert list of arrays into 2d array
@@ -457,20 +418,20 @@ print ('y_test shape:', y_test.shape)
 #    new_data = np.array (new_data)
 #    for i in range (len (samples)):
 #        print ('index, i2:', index, i)
-#        new_data = np.append (new_data, samples[i])
+#        new_data = np.append (new_data, samples [i])
 #
-#    sets_list[index] = new_data.reshape (len (samples), LENGTH, data.shape[1])
+#    sets_list [index] = new_data.reshape (len (samples), LENGTH, data.shape [1])
 #
 #
-#X_train = sets_list[0]
-#X_test = sets_list[1]
+#X_train = sets_list [0]
+#X_test = sets_list [1]
 
 ### SLIDING WINDOW: JUST RIGHT!
 
-STEPS = 10
+STEPS = 3
 FEATURES = X_train.shape [1]
 def window_stack (a, stride = 1, numberOfSteps = 3):
-    return np.hstack ([ a [i:1+i-numberOfSteps or None:stride] for i in range (0,numberOfSteps) ])
+    return np.hstack ( [ a [i:1+i-numberOfSteps or None:stride] for i in range (0,numberOfSteps) ])
 
 X_train = window_stack (X_train, stride = 1, numberOfSteps = STEPS)
 X_train = X_train.reshape (X_train.shape [0], STEPS, FEATURES)
@@ -512,7 +473,7 @@ from sklearn.tree import DecisionTreeClassifier
 import time
 ### -1 indices -> train
 ### 0  indices -> validation
-test_fold = np.repeat ([-1, 0], [X_train.shape [0], X_val.shape [0]])
+test_fold = np.repeat ( [-1, 0], [X_train.shape [0], X_val.shape [0]])
 myPreSplit = PredefinedSplit (test_fold)
 
 
@@ -569,9 +530,9 @@ from keras.layers import LSTM
 #print (grid_result.best_params_)
 #
 #print ("Best: %f using %s" % (grid_result.best_score_, grid_result.best_params_))
-#means = grid_result.cv_results_['mean_test_score']
-#stds = grid_result.cv_results_['std_test_score']
-#params = grid_result.cv_results_['params']
+#means = grid_result.cv_results_ ['mean_test_score']
+#stds = grid_result.cv_results_ ['std_test_score']
+#params = grid_result.cv_results_ ['params']
 #for mean, stdev, param in zip (means, stds, params):
 #  print ("%f (%f) with: %r" % (mean, stdev, param))
 #
@@ -579,15 +540,17 @@ from keras.layers import LSTM
 ##Best: 0.999957 using {'batch_size': 30, 'dropout_rate': 0.7, 'epochs': 3, 'learn_rate': 0.3, 'weight_constraint': 1}
 
 print ('\nCreating learning model.')
+numberOfClasses = len (df [TARGET].unique ())
 BATCH_SIZE = 30
-NUMBER_OF_EPOCHS = 1
+NUMBER_OF_EPOCHS = 3
 LEARNING_RATE = 0.001
 WEIGHT_CONSTRAINT = 1
 bestModel = Sequential ()
-bestModel.add (LSTM (100, activation = 'relu', return_sequences = True,
-               input_shape = (X_train.shape[1], X_train.shape[2])))
-bestModel.add (LSTM (100, activation = 'relu'))
-bestModel.add (Dense (1))
+#bestModel.add (LSTM (100, activation = 'relu', return_sequences = True,
+#               input_shape = (X_train.shape [1], X_train.shape [2])))
+#bestModel.add (LSTM (100, activation = 'relu'))
+bestModel.add (LSTM (50, activation= 'relu' , input_shape= (X_train.shape [1], X_train.shape [2])))
+bestModel.add (Dense (1, activation = 'sigmoid'))
 
 print ('Model summary:')
 bestModel.summary ()
@@ -653,6 +616,9 @@ print ('y_pred after reshape:')
 print (y_pred [:50])
 print (y_pred.shape)
 #y_train = y_train.argmax (axis = 1)
+
+print (pd.Series (y_val).value_counts ())
+print (pd.Series (y_pred).value_counts ())
 
 
 
