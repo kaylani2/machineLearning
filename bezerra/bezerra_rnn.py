@@ -33,6 +33,8 @@ except:
   STATE = 0
 np.random.seed(10)
 # List of available attacks on the dataset
+STEPS = 10
+
 
 TARGET = 'Label'
 
