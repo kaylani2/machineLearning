@@ -143,7 +143,7 @@ prev_df = pd.concat(dataframes_list)
 
 
 # Sample the dataset if necessary
-df = prev_df.sample (frac = 1, replace = True, random_state = 0)
+# df = prev_df.sample (frac = 1, replace = True, random_state = 0)
 
 # We can see that this dataset has a temporal description.
 # So it is not a good idea to randomly remove rows if using RNN
