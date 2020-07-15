@@ -29,7 +29,7 @@ from sklearn.metrics import cohen_kappa_score
 
 STATE = 0
 STATES = [0, 10, 100, 1000, 10000]
-#for STATE in STATES:
+for STATE in STATES:
   np.random.seed (STATE)
 
   pd.set_option ('display.max_rows', None)

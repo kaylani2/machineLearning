@@ -1,0 +1,4 @@
+  File "rnn.py", line 33
+    np.random.seed (STATE)
+    ^
+IndentationError: unexpected indent
