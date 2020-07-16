@@ -236,6 +236,8 @@ df.replace (np.nan, 0, inplace = True)
 from sklearn.impute import SimpleImputer
 from sklearn.preprocessing import OrdinalEncoder
 from numpy import empty
+from sklearn.preprocessing import StandardScaler
+
 
 cat_cols = df.columns[df.dtypes == 'O'] # Returns array with the columns that has Object types elements
 
@@ -302,6 +304,11 @@ X_test_df = df_test.iloc [:, 1:]
 y_test_df = df_test.iloc [:, 0]
 
 ### K: y_test is required to plot the roc curve in the end
+
+###############################################################################
+## Splitting the data
+###############################################################################
+from sklearn.model_selection import train_test_split
 
 
 
@@ -381,16 +388,10 @@ from keras.optimizers import RMSprop
 from keras.optimizers import Adam
 from keras.wrappers.scikit_learn import KerasClassifier
 from keras.wrappers.scikit_learn import KerasRegressor
-from keras import metrics
 from keras.constraints import maxnorm
+from sklearn.metrics import mean_squared_error
 
-# For the metrics
-from sklearn.metrics import confusion_matrix, classification_report
-from sklearn.metrics import precision_score, recall_score
-from sklearn.metrics import f1_score, accuracy_score
-from sklearn.metrics import cohen_kappa_score, mean_squared_error
-from sklearn.metrics import roc_curve
-from sklearn.metrics import roc_auc_score
+
 from sklearn.preprocessing import StandardScaler, RobustScaler, MinMaxScaler
 
 
@@ -403,54 +404,57 @@ from sklearn.preprocessing import StandardScaler, RobustScaler, MinMaxScaler
 
 # Hyperparameter tuning
 
-test_fold = np.repeat ( [-1, 0], [X_train.shape [0], X_val.shape [0]])
-myPreSplit = PredefinedSplit (test_fold)
-def create_model (learn_rate = 0.01, dropout_rate = 0.0, weight_constraint = 0):
-    model = Sequential ()
-    model.add (Dense (X_train.shape [1], activation = 'relu',
-                   input_shape = (X_train.shape [1], )))
-    model.add (Dense (32, activation = 'relu'))
-    model.add (Dense (8,  activation = 'relu'))
-    model.add (Dense (32, activation = 'relu'))
-    model.add (Dense (X_train.shape [1], activation = None))
-    model.compile (loss = 'mean_squared_error',
-                optimizer = 'adam',
-                metrics = ['mse'])
-    return model
+# test_fold = np.repeat ( [-1, 0], [X_train.shape [0], X_val.shape [0]])
+# myPreSplit = PredefinedSplit (test_fold)
+# def create_model (learn_rate = 0.01, dropout_rate = 0.0, weight_constraint = 0):
+#     model = Sequential ()
+#     model.add (Dense (X_train.shape [1], activation = 'relu',
+#                    input_shape = (X_train.shape [1], )))
+#     model.add (Dense (32, activation = 'relu'))
+#     model.add (Dense (8,  activation = 'relu'))
+#     model.add (Dense (32, activation = 'relu'))
+#     model.add (Dense (X_train.shape [1], activation = None))
+#     model.compile (loss = 'mean_squared_error',
+#                 optimizer = 'adam',
+#                 metrics = ['mse'])
+#     return model
 
-model = KerasRegressor (build_fn = create_model, verbose = 2)
-batch_size = [30]#, 50]
-epochs = [5]#, 5, 10]
-learn_rate = [0.01, 0.1]#, 0.2, 0.3]
-dropout_rate = [0.0, 0.2]#, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]
-weight_constraint = [0]#1, 2, 3, 4, 5]
-param_grid = dict (batch_size = batch_size, epochs = epochs,
-                  dropout_rate = dropout_rate, learn_rate = learn_rate,
-                  weight_constraint = weight_constraint)
-grid = GridSearchCV (estimator = model, param_grid = param_grid,
-                    scoring = 'neg_mean_squared_error', cv = myPreSplit,
-                    verbose = 2, n_jobs = 16)
+# model = KerasRegressor (build_fn = create_model, verbose = 2)
+# batch_size = [30]#, 50]
+# epochs = [5, 10]
+# learn_rate = [0.01, 0.1]#, 0.2, 0.3]
+# dropout_rate = [0.0, 0.2]#, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]
+# weight_constraint = [0]#1, 2, 3, 4, 5]
+# param_grid = dict (batch_size = batch_size, epochs = epochs,
+#                   dropout_rate = dropout_rate, learn_rate = learn_rate,
+#                   weight_constraint = weight_constraint)
+# grid = GridSearchCV (estimator = model, param_grid = param_grid,
+#                     scoring = 'neg_mean_squared_error', cv = myPreSplit,
+#                     verbose = 2, n_jobs = 16)
 
-grid_result = grid.fit (np.vstack ( (X_train, X_val)),#, axis = 1),
-                       np.vstack ( (X_train, X_val)))#, axis = 1))
-print (grid_result.best_params_)
+# grid_result = grid.fit (np.vstack ( (X_train, X_val)),#, axis = 1),
+#                        np.vstack ( (X_train, X_val)))#, axis = 1))
+# print (grid_result.best_params_)
 
-print ("Best: %f using %s" % (grid_result.best_score_, grid_result.best_params_))
-means = grid_result.cv_results_ ['mean_test_score']
-stds = grid_result.cv_results_ ['std_test_score']
-params = grid_result.cv_results_ ['params']
-for mean, stdev, param in zip (means, stds, params):
-    print ("%f (%f) with: %r" % (mean, stdev, param))
+# print ("Best: %f using %s" % (grid_result.best_score_, grid_result.best_params_))
+# means = grid_result.cv_results_ ['mean_test_score']
+# stds = grid_result.cv_results_ ['std_test_score']
+# params = grid_result.cv_results_ ['params']
+# for mean, stdev, param in zip (means, stds, params):
+#     print ("%f (%f) with: %r" % (mean, stdev, param))
 
-# Best: -0.129429 using {'batch_size': 30, 'dropout_rate': 0.0, 'epochs': 5, 'learn_rate': 0.1, 'weight_constraint': 0}
 
 
 # In[ ]:
+# Best model: {'batch_size': 30, 'dropout_rate': 0.0, 'epochs': 10, 'learn_rate': 0.1, 'weight_constraint': 0}
 
 
 ###############################################################################
-## Finished model
-NUMBER_OF_EPOCHS = 5
+## Final model
+###############################################################################
+
+
+NUMBER_OF_EPOCHS = 100
 BATCH_SIZE = 30
 LEARNING_RATE = 0.1
 
@@ -494,7 +498,8 @@ history = bestModel.fit (X_train, X_train,
                        use_multiprocessing = True,
                        #class_weight = 'auto',
                        validation_data = (X_val, X_val))
-print (str (time.time () - startTime), 's to train model.')
+training_time = time.time () - startTime
+print (str (training_time), 's to train model.')
 
 
 # In[ ]:
@@ -549,12 +554,7 @@ threshold = np.median (top_n_values_val)
 print ('Thresh val:', threshold)
 
 
-# In[ ]:
 
-
-
-### K: NOTE: Only look at test results when publishing...
-#sys.exit ()
 X_test_pred = bestModel.predict (X_test)
 print (X_test_pred.shape)
 print ('Test error:', mean_squared_error (X_test_pred, X_test))
@@ -599,9 +599,87 @@ print ('fn | tn\n\n')
 print (tp, '|', fp)
 print (fn, '|', tn)
 
+def accuracy_score(tp, fp, fn, tn):
+  return (tp + tn)/(tp + tn + fp + fn)
 
-# In[ ]:
+def precision_score(tp, fp, fn, tn):
+  return (tp)/(tp + fp)
 
+def recall_score(tp, fp, fn, tn):
+  return (tp)/(tp + fn)
+
+def f1_score(tp, fp, fn, tn):
+  return (2 * tp)/(2 * tp + fp + fn)
+
+
+def f1_score(tp, fp, fn, tn):
+  return (2 * tp)/(2 * tp + fp + fn) 
+
+def true_negative_rate_score(tp, fp, fn, tn):
+  return (tn)/(tn + fp) 
+
+
+def cohen_kappa_score(tp, fp, fn, tn):
+  # Not going to be calculated right now
+  return 1
+
+# Predicting from the test slice
+
+
+
+## Giving the output
+f= open("output_autoencoder.txt","a")
+
+f.write('\n\nautoencoder Metrics: Random State ==')
+f.write(str(STATE))
+
+# Precision == TP / (TP + FP)
+precision = precision_score(tp, fp, fn, tn)
+print('Precision Score: ', precision)
+f.write('\nPrecision: ')
+f.write(str(precision))
+
+# Recall == TP / (TP + FN)
+recall = recall_score(tp, fp, fn, tn)
+print('Recall Score: ', recall)
+f.write('\nRecall: ')
+f.write(str(precision))
+
+# Accuracy 
+accuracy = accuracy_score(tp, fp, fn, tn)
+print('Accuracy: ', accuracy)
+f.write('\nAccuracy: ')
+f.write(str(accuracy))
+
+# f1 
+f_one_score = f1_score(tp, fp, fn, tn)
+print('F1 Score: ', f_one_score)
+f.write('\nf_one_score: ')
+f.write(str(f_one_score))
+
+cohen = str(cohen_kappa_score(tp, fp, fn, tn))
+print('Cohen Kappa Score: ', cohen)
+f.write('\nCohen: ')
+f.write(str(cohen))
+
+true_negative_rate = str(true_negative_rate_score(tp, fp, fn, tn))
+print('true_negative_rate: ', true_negative_rate)
+f.write('\ntrue_negative_rate: ')
+f.write(str(true_negative_rate))
+
+f.write('\nMade in ')
+f.write(str(training_time))
+f.write(' seconds\n')
+
+f.write('confusion_matrix')
+f.write(str(tp))
+f.write('|')
+f.write(str(fp))
+f.write('\n')
+f.write(str(fn))
+f.write('|')
+f.write(str(tn))
+f.close()
 
 
 
