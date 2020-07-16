@@ -354,13 +354,13 @@ print (str (time.time () - startTime), 'to normalize data.')
 
 ###############################################################################
 ## One hot encode the output
-numberOfClasses = len (df [TARGET].unique ())
-print ('y_val:')
-print (y_val [:50])
-print (y_val.shape)
-y_train = keras.utils.to_categorical (y_train, numberOfClasses)
-y_val = keras.utils.to_categorical (y_val, numberOfClasses)
-y_test = keras.utils.to_categorical (y_test, numberOfClasses)
+#numberOfClasses = len (df [TARGET].unique ())
+#print ('y_val:')
+#print (y_val [:50])
+#print (y_val.shape)
+#y_train = keras.utils.to_categorical (y_train, numberOfClasses)
+#y_val = keras.utils.to_categorical (y_val, numberOfClasses)
+#y_test = keras.utils.to_categorical (y_test, numberOfClasses)
 
 ###############################################################################
 ## Data reshaping
@@ -375,35 +375,42 @@ X_val = X_val.reshape ( (X_val.shape[0], SIZE, SIZE, 1))
 X_test.resize ( (X_test.shape[0], SAMPLE_2D_SIZE, SAMPLE_2D_SIZE))
 print (X_train.shape)
 
-###############################################################################
-## Hyperparameter tuning
+################################################################################
+### Hyperparameter tuning
 #test_fold = np.repeat ([-1, 0], [X_train.shape [0], X_val.shape [0]])
 #myPreSplit = PredefinedSplit (test_fold)
 #
-#def create_model (learn_rate = 0.01, dropout_rate = 0.0, weight_constraint = 0):
+#def create_model (learn_rate = 0.01, dropout_rate = 0.0, weight_constraint = 0,
+#                  filter_size = 2):
 #  model = Sequential ()
-#  model.add (Conv2D (64, (3, 3), activation = 'relu',
+#  model.add (Conv2D (64, (filter_size, filter_size), activation = 'relu',
 #                     input_shape = (SIZE, SIZE, 1),))
-#  model.add (Conv2D (64, (2, 2), activation = 'relu'))
-#  model.add (MaxPooling2D ( (2, 2)))
+#  model.add (Conv2D (64, (filter_size, filter_size), activation = 'relu'))
+#  model.add (MaxPooling2D ( (filter_size, filter_size)))
 #  model.add (Flatten ())
 #  model.add (Dense (64, activation = 'relu',))
 #  model.add (Dropout (dropout_rate))
-#  model.add (Dense (numberOfClasses, activation = 'softmax',))
+#  model.add (Dense (1, activation = 'sigmoid',))
 #  model.compile (optimizer = Adam (lr = learn_rate),
 #                 loss = 'binary_crossentropy',
 #                 metrics = ['binary_accuracy'])#, metrics.Precision ()])
 #  return model
 #
 #model = KerasClassifier (build_fn = create_model, verbose = 2)
-#batch_size = [30]#10, 30, 50]
-#epochs = [3, 5]
-#learn_rate = [0.001, 0.01, 0.1, 0.2]
-#dropout_rate = [0.0, 0.2]
+#batch_size = [2000, 5000]#, 2000]#10, 30, 50]
+#epochs = [5, 10]
+#learn_rate = [0.001]#, 0.01]#, 0.1, 0.2]
+#dropout_rate = [0.0, 0.2]#, 0.2]
 #weight_constraint = [0]#, 2, 3, 4, 5]
+#filter_size = [2]#, 3]
+## batch_size = [100, 1000, 2048, 3200]
+## epochs = [5, 20, 50, 100]
+## lr = [1e-3, 1e-2, 1e-1, 2e-1]
+## dropout_rate = [0.0, 0.2, 0.3]
 #param_grid = dict (batch_size = batch_size, epochs = epochs,
 #                   dropout_rate = dropout_rate, learn_rate = learn_rate,
-#                   weight_constraint = weight_constraint)
+#                   weight_constraint = weight_constraint,
+#                   filter_size = filter_size)
 #grid = GridSearchCV (estimator = model, param_grid = param_grid,
 #                     scoring = 'f1_weighted', cv = myPreSplit, verbose = 2,
 #                     n_jobs = -1)
@@ -421,7 +428,8 @@ print (X_train.shape)
 #sys.exit ()
 
 
-# Best: 0.999935 using {'learn_rate': 0.001, 'weight_constraint': 0, 'epochs': 3, 'dropout_rate': 0.0, 'batch_size': 30}
+# Best: 0.999992 using {'epochs': 10, 'weight_constraint': 0, 'dropout_rate': 0.2, 'filter_size': 2, 'learn_rate': 0.001, 'batch_size': 5000}
+
 
 
 
@@ -429,9 +437,12 @@ print (X_train.shape)
 ###############################################################################
 ## Finished model
 
-DROPOUT_RATE = 0.0
+DROPOUT_RATE = 0.2
+NUMBER_OF_EPOCHS = 10
+BATCH_SIZE = 5000
+LEARNING_RATE = 0.001
 bestModel = Sequential ()
-bestModel.add (Conv2D (64, (3, 3), activation = 'relu',
+bestModel.add (Conv2D (64, (2, 2), activation = 'relu',
                    input_shape = (SIZE, SIZE, 1),
                    ))#kernel_initializer = initializer))
 bestModel.add (Conv2D (64, (2, 2), activation = 'relu'))
@@ -439,12 +450,11 @@ bestModel.add (MaxPooling2D ( (2, 2)))
 bestModel.add (Flatten ())
 bestModel.add (Dropout (DROPOUT_RATE))
 bestModel.add (Dense (64, activation = 'relu',))
-bestModel.add (Dense (numberOfClasses, activation = 'softmax',))
+bestModel.add (Dense (1, activation = 'sigmoid',))
 
 ###############################################################################
 ## Compile the network
 ###############################################################################
-LEARNING_RATE = 0.001
 bestModel.compile (optimizer = Adam (lr = LEARNING_RATE),
                loss = 'binary_crossentropy',
                metrics = ['binary_accuracy', metrics.Precision ()])
@@ -458,8 +468,6 @@ bestModel.summary ()
 ###############################################################################
 ## Fit the network
 ###############################################################################
-NUMBER_OF_EPOCHS = 2
-BATCH_SIZE = 30
 print ('\nFitting the network.')
 startTime = time.time ()
 history = bestModel.fit (X_train, y_train,
@@ -480,8 +488,8 @@ y_pred = bestModel.predict (X_val)
 y_pred = y_pred.round ()
 print ('\nPerformance on VALIDATION set:')
 print ('Confusion matrix:')
-print (confusion_matrix (y_val.argmax (axis = 1),
-                         y_pred.argmax (axis = 1),
+print (confusion_matrix (y_val,#.argmax (axis = 1),
+                         y_pred,#.argmax (axis = 1),
                          labels = df [TARGET].unique ()))
 print ('Accuracy:', accuracy_score (y_val, y_pred))
 print ('Precision:', precision_score (y_val, y_pred, average = 'macro'))

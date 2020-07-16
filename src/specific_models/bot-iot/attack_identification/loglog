@@ -1,0 +1,650 @@
+Reading ../../../../datasets/bot-iot/UNSW_2018_IoT_Botnet_Full5pc_1.csv
+Reading ../../../../datasets/bot-iot/UNSW_2018_IoT_Botnet_Full5pc_2.csv
+Reading ../../../../datasets/bot-iot/UNSW_2018_IoT_Botnet_Full5pc_3.csv
+Reading ../../../../datasets/bot-iot/UNSW_2018_IoT_Botnet_Full5pc_4.csv
+<class 'pandas.core.frame.DataFrame'>
+Int64Index: 3668522 entries, 1 to 3668522
+Data columns (total 45 columns):
+stime                               float64
+flgs                                object
+flgs_number                         int64
+proto                               object
+proto_number                        int64
+saddr                               object
+sport                               object
+daddr                               object
+dport                               object
+pkts                                int64
+bytes                               int64
+state                               object
+state_number                        int64
+ltime                               float64
+seq                                 int64
+dur                                 float64
+mean                                float64
+stddev                              float64
+sum                                 float64
+min                                 float64
+max                                 float64
+spkts                               int64
+dpkts                               int64
+sbytes                              int64
+dbytes                              int64
+rate                                float64
+srate                               float64
+drate                               float64
+TnBPSrcIP                           int64
+TnBPDstIP                           int64
+TnP_PSrcIP                          int64
+TnP_PDstIP                          int64
+TnP_PerProto                        int64
+TnP_Per_Dport                       int64
+AR_P_Proto_P_SrcIP                  float64
+AR_P_Proto_P_DstIP                  float64
+N_IN_Conn_P_DstIP                   int64
+N_IN_Conn_P_SrcIP                   int64
+AR_P_Proto_P_Sport                  float64
+AR_P_Proto_P_Dport                  float64
+Pkts_P_State_P_Protocol_P_DestIP    int64
+Pkts_P_State_P_Protocol_P_SrcIP     int64
+attack                              int64
+category                            object
+subcategory                         object
+dtypes: float64(15), int64(21), object(9)
+memory usage: 1.3+ GB
+
+Dataframe contains NaN values: False
+Number of NaN columns: 0
+NaN columns: [] 
+
+
+Attack types: [1 0]
+Attack distribution:
+1    3668045
+0        477
+Name: attack, dtype: int64
+
+Cateogry types: ['DoS' 'DDoS' 'Normal' 'Reconnaissance' 'Theft']
+Cateogry distribution:
+DDoS              1926624
+DoS               1650260
+Reconnaissance      91082
+Normal                477
+Theft                  79
+Name: category, dtype: int64
+
+Subcategory types: ['HTTP' 'TCP' 'UDP' 'Normal' 'OS_Fingerprint' 'Service_Scan'
+ 'Data_Exfiltration' 'Keylogging']
+Subcategory distribution:
+UDP                  1981230
+TCP                  1593180
+Service_Scan           73168
+OS_Fingerprint         17914
+HTTP                    2474
+Normal                   477
+Keylogging                73
+Data_Exfiltration          6
+Name: subcategory, dtype: int64
+
+Column | # of different values
+stime | 392259
+flgs | 9
+flgs_number | 9
+proto | 5
+proto_number | 5
+saddr | 21
+sport | 65541
+daddr | 84
+dport | 7698
+pkts | 123
+bytes | 1633
+state | 11
+state_number | 11
+ltime | 383624
+seq | 262212
+dur | 612509
+mean | 507089
+stddev | 421379
+sum | 934972
+min | 271147
+max | 594525
+spkts | 91
+dpkts | 62
+sbytes | 1052
+dbytes | 472
+rate | 139677
+srate | 119709
+drate | 20714
+TnBPSrcIP | 8639
+TnBPDstIP | 7631
+TnP_PSrcIP | 1522
+TnP_PDstIP | 1587
+TnP_PerProto | 1560
+TnP_Per_Dport | 1582
+AR_P_Proto_P_SrcIP | 46289
+AR_P_Proto_P_DstIP | 39186
+N_IN_Conn_P_DstIP | 100
+N_IN_Conn_P_SrcIP | 100
+AR_P_Proto_P_Sport | 136207
+AR_P_Proto_P_Dport | 42237
+Pkts_P_State_P_Protocol_P_DestIP | 1595
+Pkts_P_State_P_Protocol_P_SrcIP | 1526
+attack | 2
+category | 5
+subcategory | 8
+
+Removing attributes that have only one (or zero) sampled value.
+
+Column | # of different values
+stime | 392259
+flgs | 9
+flgs_number | 9
+proto | 5
+proto_number | 5
+saddr | 21
+sport | 65541
+daddr | 84
+dport | 7698
+pkts | 123
+bytes | 1633
+state | 11
+state_number | 11
+ltime | 383624
+seq | 262212
+dur | 612509
+mean | 507089
+stddev | 421379
+sum | 934972
+min | 271147
+max | 594525
+spkts | 91
+dpkts | 62
+sbytes | 1052
+dbytes | 472
+rate | 139677
+srate | 119709
+drate | 20714
+TnBPSrcIP | 8639
+TnBPDstIP | 7631
+TnP_PSrcIP | 1522
+TnP_PDstIP | 1587
+TnP_PerProto | 1560
+TnP_Per_Dport | 1582
+AR_P_Proto_P_SrcIP | 46289
+AR_P_Proto_P_DstIP | 39186
+N_IN_Conn_P_DstIP | 100
+N_IN_Conn_P_SrcIP | 100
+AR_P_Proto_P_Sport | 136207
+AR_P_Proto_P_Dport | 42237
+Pkts_P_State_P_Protocol_P_DestIP | 1595
+Pkts_P_State_P_Protocol_P_SrcIP | 1526
+attack | 2
+category | 5
+subcategory | 8
+
+Removing redundant columns: ['state_number', 'proto_number', 'flgs_number']
+
+Column | NaN values
+stime                               0
+flgs                                0
+proto                               0
+saddr                               0
+sport                               0
+daddr                               0
+dport                               0
+pkts                                0
+bytes                               0
+state                               0
+ltime                               0
+seq                                 0
+dur                                 0
+mean                                0
+stddev                              0
+sum                                 0
+min                                 0
+max                                 0
+spkts                               0
+dpkts                               0
+sbytes                              0
+dbytes                              0
+rate                                0
+srate                               0
+drate                               0
+TnBPSrcIP                           0
+TnBPDstIP                           0
+TnP_PSrcIP                          0
+TnP_PDstIP                          0
+TnP_PerProto                        0
+TnP_Per_Dport                       0
+AR_P_Proto_P_SrcIP                  0
+AR_P_Proto_P_DstIP                  0
+N_IN_Conn_P_DstIP                   0
+N_IN_Conn_P_SrcIP                   0
+AR_P_Proto_P_Sport                  0
+AR_P_Proto_P_Dport                  0
+Pkts_P_State_P_Protocol_P_DestIP    0
+Pkts_P_State_P_Protocol_P_SrcIP     0
+attack                              0
+category                            0
+subcategory                         0
+dtype: int64
+Removing attributes with more than half NaN values.
+Dataframe contains NaN values: False
+
+Column | NaN values (after dropping columns)
+stime                               0
+flgs                                0
+proto                               0
+saddr                               0
+sport                               0
+daddr                               0
+dport                               0
+pkts                                0
+bytes                               0
+state                               0
+ltime                               0
+seq                                 0
+dur                                 0
+mean                                0
+stddev                              0
+sum                                 0
+min                                 0
+max                                 0
+spkts                               0
+dpkts                               0
+sbytes                              0
+dbytes                              0
+rate                                0
+srate                               0
+drate                               0
+TnBPSrcIP                           0
+TnBPDstIP                           0
+TnP_PSrcIP                          0
+TnP_PDstIP                          0
+TnP_PerProto                        0
+TnP_Per_Dport                       0
+AR_P_Proto_P_SrcIP                  0
+AR_P_Proto_P_DstIP                  0
+N_IN_Conn_P_DstIP                   0
+N_IN_Conn_P_SrcIP                   0
+AR_P_Proto_P_Sport                  0
+AR_P_Proto_P_Dport                  0
+Pkts_P_State_P_Protocol_P_DestIP    0
+Pkts_P_State_P_Protocol_P_SrcIP     0
+attack                              0
+category                            0
+subcategory                         0
+dtype: int642020-07-15 17:50:40.530927: W tensorflow/stream_executor/platform/default/dso_loader.cc:55] Could not load dynamic library 'libcuda.so.1'; dlerror: libcuda.so.1: cannot open shared object file: No such file or directory
+2020-07-15 17:50:40.531045: E tensorflow/stream_executor/cuda/cuda_driver.cc:313] failed call to cuInit: UNKNOWN ERROR (303)
+2020-07-15 17:50:40.531092: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:156] kernel driver does not appear to be running on this host (ponte): /proc/driver/nvidia/version does not exist
+2020-07-15 17:50:40.531231: I tensorflow/core/platform/cpu_feature_guard.cc:143] Your CPU supports instructions that this TensorFlow binary was not compiled to use: AVX2 FMA
+2020-07-15 17:50:40.535121: I tensorflow/core/platform/profile_utils/cpu_utils.cc:102] CPU Frequency: 3600000000 Hz
+2020-07-15 17:50:40.535239: I tensorflow/compiler/xla/service/service.cc:168] XLA service 0x55769868b4a0 initialized for platform Host (this does not guarantee that XLA will be used). Devices:
+2020-07-15 17:50:40.535279: I tensorflow/compiler/xla/service/service.cc:176]   StreamExecutor device (0): Host, Default Version
+
+stime unique values: 392259
+flgs unique values: 9
+proto unique values: 9
+saddr unique values: 5
+sport unique values: 5
+daddr unique values: 21
+dport unique values: 65541
+pkts unique values: 84
+bytes unique values: 7698
+state unique values: 123
+ltime unique values: 1633
+seq unique values: 11
+dur unique values: 11
+mean unique values: 383624
+stddev unique values: 262212
+sum unique values: 612509
+min unique values: 507089
+max unique values: 421379
+spkts unique values: 934972
+dpkts unique values: 271147
+sbytes unique values: 594525
+dbytes unique values: 91
+rate unique values: 62
+srate unique values: 1052
+drate unique values: 472
+TnBPSrcIP unique values: 139677
+TnBPDstIP unique values: 119709
+TnP_PSrcIP unique values: 20714
+TnP_PDstIP unique values: 8639
+TnP_PerProto unique values: 7631
+TnP_Per_Dport unique values: 1522
+AR_P_Proto_P_SrcIP unique values: 1587
+AR_P_Proto_P_DstIP unique values: 1560
+N_IN_Conn_P_DstIP unique values: 1582
+N_IN_Conn_P_SrcIP unique values: 46289
+AR_P_Proto_P_Sport unique values: 39186
+AR_P_Proto_P_Dport unique values: 100
+Pkts_P_State_P_Protocol_P_DestIP unique values: 100
+Pkts_P_State_P_Protocol_P_SrcIP unique values: 136207
+attack unique values: 42237
+category unique values: 1595
+subcategory unique values: 1526
+<class 'pandas.core.frame.DataFrame'>
+Int64Index: 3668522 entries, 1 to 3668522
+Columns: 42 entries, stime to subcategory
+dtypes: float64(15), int64(18), object(9)
+memory usage: 1.2+ GB
+
+Objects: ['flgs', 'proto', 'saddr', 'sport', 'daddr', 'dport', 'state', 'category', 'subcategory'] 
+
+
+Check for high cardinality.
+Column | # of different values | values
+flgs | 9 | ['e' 'e s' 'e d' 'e *' 'e g' 'eU' 'e &' 'e   t' 'e  D']
+proto | 5 | ['tcp' 'arp' 'udp' 'icmp' 'ipv6-icmp']
+saddr | 21 | ['192.168.100.147' '192.168.100.7' '192.168.100.148' '192.168.100.6'
+ '192.168.100.149' '192.168.100.150' '192.168.100.5' '192.168.100.3'
+ '192.168.100.1' '192.168.100.4' '192.168.100.27'
+ 'fe80::250:56ff:febe:254' '192.168.100.46' 'fe80::250:56ff:febe:26db'
+ 'fe80::250:56ff:febe:e9d9' 'fe80::c0c0:aa20:45b9:bdd9'
+ 'fe80::250:56ff:febe:89ee' 'fe80::2c6a:ff9b:7e14:166a'
+ 'fe80::250:56ff:febe:bf1a' 'fe80::250:56ff:febe:c038' '192.168.100.55']
+sport | 65540 | ['49960' nan '49962' ... '0x0008' '0x000d' '0x0011']
+daddr | 84 | ['192.168.100.7' '192.168.100.147' '192.168.100.6' '192.168.100.148'
+ '192.168.100.5' '192.168.100.3' '192.168.100.149' '192.168.100.150'
+ '192.168.100.4' '27.124.125.250' '192.168.100.1' '192.168.100.27'
+ '192.168.217.2' '192.168.100.255' '8.8.8.8' 'ff02::1' '255.255.255.255'
+ '13.55.154.73' '192.168.100.55' '184.85.248.65' '205.251.194.167'
+ '192.5.5.241' '192.35.51.30' '205.251.195.97' '205.251.196.236'
+ '199.7.91.13' '192.12.94.30' '52.35.35.13' '216.239.38.10' '199.7.83.42'
+ '192.42.93.30' '172.217.25.170' 'ff02::fb' '224.0.0.251' 'ff02::2'
+ '129.250.35.250' '91.189.91.157' '216.239.34.10' '192.52.178.30'
+ '224.0.0.252' '96.7.49.66' '205.251.193.2' '192.33.4.12' '192.41.162.30'
+ '192.36.148.17' '35.165.2.252' '52.11.124.117' '52.201.147.106'
+ '216.239.36.10' '192.112.36.4' '192.31.80.30' '91.189.92.40'
+ '128.63.2.53' '202.12.27.33' '192.203.230.10' '192.55.83.30'
+ '205.251.198.119' '192.33.14.30' '192.58.128.30' '205.251.196.160'
+ '205.251.199.148' '192.54.112.30' '156.154.100.3' '199.19.57.1'
+ '205.251.194.86' '205.251.199.194' '205.251.199.61' '205.251.195.185'
+ '205.251.194.201' '205.251.198.239' '205.251.193.205' '205.251.196.32'
+ '198.41.0.4' '192.48.79.30' '199.19.56.1' '156.154.101.3'
+ '205.251.197.206' '205.251.192.170' '205.251.195.59' '205.251.198.91'
+ '205.251.194.84' '192.26.92.30' '205.251.194.102' '205.251.194.154']
+dport | 7697 | ['80' nan '30551' ... '42052' '2660' '2664']
+state | 11 | ['RST' 'CON' 'REQ' 'INT' 'URP' 'FIN' 'ACC' 'NRS' 'ECO' 'TST' 'MAS']
+category | 5 | ['DoS' 'DDoS' 'Normal' 'Reconnaissance' 'Theft']
+subcategory | 8 | ['HTTP' 'TCP' 'UDP' 'Normal' 'OS_Fingerprint' 'Service_Scan'
+ 'Data_Exfiltration' 'Keylogging']
+
+Handling categorical attributes (label encoding).
+Objects: ['category', 'subcategory']
+
+Dropping category and subcategory.
+These are labels for other scenarios.
+
+Splitting dataset (test/train): 0.2
+
+Splitting dataset (validation/train): 0.25
+X_train_df shape: (1100556, 37)
+y_train_df shape: (1100556,)
+X_val_df shape: (366852, 37)
+y_val_df shape: (366852,)
+X_test_df shape: (366853, 37)
+y_test_df shape: (366853,)
+
+Converting dataframe to numpy array.
+X_train shape: (1100556, 37)
+y_train shape: (1100556,)
+X_val shape: (366852, 37)
+y_val shape: (366852,)
+X_test shape: (366853, 37)
+y_test shape: (366853,)
+
+Applying normalization.
+0.6759679317474365 to normalize data.
+7
+(1100556, 7, 7, 1)
+Fitting 1 folds for each of 24 candidates, totalling 24 fits
+[CV] dropout_rate=0.0, epochs=3, weight_constraint=0, batch_size=100, learn_rate=0.001, filter_size=2 
+Epoch 1/3
+11006/11006 - 70s - binary_accuracy: 0.9999 - loss: 0.0037
+Epoch 2/3
+11006/11006 - 72s - binary_accuracy: 0.9999 - loss: 3.8896e-04
+Epoch 3/3
+11006/11006 - 69s - binary_accuracy: 1.0000 - loss: 2.2475e-04
+Using TensorFlow backend.
+[Parallel(n_jobs=-1)]: Using backend SequentialBackend with 1 concurrent workers.
+WARNING:tensorflow:From /net/tijuca/lab/users/Miguel/kaylani/.local/share/virtualenvs/machineLearning-1nycamDU/lib/python3.5/site-packages/tensorflow/python/keras/wrappers/scikit_learn.py:241: Sequential.predict_classes (from tensorflow.python.keras.engine.sequential) is deprecated and will be removed after 2021-01-01.
+Instructions for updating:
+Please use instead:* `np.argmax(model.predict(x), axis=-1)`,   if your model does multi-class classification   (e.g. if it uses a `softmax` last-layer activation).* `(model.predict(x) > 0.5).astype("int32")`,   if your model does binary classification   (e.g. if it uses a `sigmoid` last-layer activation).
+3669/3669 - 6s
+[CV]  dropout_rate=0.0, epochs=3, weight_constraint=0, batch_size=100, learn_rate=0.001, filter_size=2, total= 3.6min
+[CV] dropout_rate=0.0, epochs=3, weight_constraint=0, batch_size=100, learn_rate=0.01, filter_size=2 
+Epoch 1/3
+11006/11006 - 69s - binary_accuracy: 0.9998 - loss: 0.0168
+Epoch 2/3
+11006/11006 - 69s - binary_accuracy: 0.9998 - loss: 0.0081
+Epoch 3/3
+11006/11006 - 68s - binary_accuracy: 0.9999 - loss: 0.0025
+3669/3669 - 6s
+[CV]  dropout_rate=0.0, epochs=3, weight_constraint=0, batch_size=100, learn_rate=0.01, filter_size=2, total= 3.5min
+[CV] dropout_rate=0.0, epochs=5, weight_constraint=0, batch_size=100, learn_rate=0.001, filter_size=2 
+Epoch 1/5
+11006/11006 - 70s - binary_accuracy: 0.9999 - loss: 0.0016
+Epoch 2/5
+11006/11006 - 70s - binary_accuracy: 1.0000 - loss: 3.1565e-04
+Epoch 3/5
+11006/11006 - 69s - binary_accuracy: 0.9999 - loss: 3.0513e-04
+Epoch 4/5
+11006/11006 - 69s - binary_accuracy: 0.9999 - loss: 2.2406e-04
+Epoch 5/5
+11006/11006 - 69s - binary_accuracy: 1.0000 - loss: 1.8794e-04
+3669/3669 - 6s
+[CV]  dropout_rate=0.0, epochs=5, weight_constraint=0, batch_size=100, learn_rate=0.001, filter_size=2, total= 5.9min
+[CV] dropout_rate=0.0, epochs=5, weight_constraint=0, batch_size=100, learn_rate=0.01, filter_size=2 
+Epoch 1/5
+11006/11006 - 69s - binary_accuracy: 0.9998 - loss: 0.0296
+Epoch 2/5
+11006/11006 - 69s - binary_accuracy: 0.9999 - loss: 0.0030
+Epoch 3/5
+11006/11006 - 69s - binary_accuracy: 0.9999 - loss: 0.0013
+Epoch 4/5
+11006/11006 - 69s - binary_accuracy: 0.9999 - loss: 0.0013
+Epoch 5/5
+11006/11006 - 69s - binary_accuracy: 0.9999 - loss: 0.0013
+3669/3669 - 6s
+[CV]  dropout_rate=0.0, epochs=5, weight_constraint=0, batch_size=100, learn_rate=0.01, filter_size=2, total= 5.8min
+[CV] dropout_rate=0.2, epochs=3, weight_constraint=0, batch_size=100, learn_rate=0.001, filter_size=2 
+Epoch 1/3
+11006/11006 - 70s - binary_accuracy: 0.9999 - loss: 0.0045
+Epoch 2/3
+11006/11006 - 69s - binary_accuracy: 0.9999 - loss: 3.0972e-04
+Epoch 3/3
+11006/11006 - 69s - binary_accuracy: 0.9999 - loss: 2.4147e-04
+3669/3669 - 6s
+[CV]  dropout_rate=0.2, epochs=3, weight_constraint=0, batch_size=100, learn_rate=0.001, filter_size=2, total= 3.6min
+[CV] dropout_rate=0.2, epochs=3, weight_constraint=0, batch_size=100, learn_rate=0.01, filter_size=2 
+Epoch 1/3
+11006/11006 - 69s - binary_accuracy: 0.9998 - loss: 0.0153
+Epoch 2/3
+11006/11006 - 69s - binary_accuracy: 0.9999 - loss: 0.0023
+Epoch 3/3
+11006/11006 - 69s - binary_accuracy: 0.9999 - loss: 0.0022
+3669/3669 - 6s
+[CV]  dropout_rate=0.2, epochs=3, weight_constraint=0, batch_size=100, learn_rate=0.01, filter_size=2, total= 3.5min
+[CV] dropout_rate=0.2, epochs=5, weight_constraint=0, batch_size=100, learn_rate=0.001, filter_size=2 
+Epoch 1/5
+11006/11006 - 70s - binary_accuracy: 0.9998 - loss: 0.0045
+Epoch 2/5
+11006/11006 - 70s - binary_accuracy: 0.9999 - loss: 4.6765e-04
+Epoch 3/5
+11006/11006 - 70s - binary_accuracy: 0.9999 - loss: 3.0638e-04
+Epoch 4/5
+11006/11006 - 70s - binary_accuracy: 1.0000 - loss: 2.5826e-04
+Epoch 5/5
+11006/11006 - 70s - binary_accuracy: 1.0000 - loss: 3.3288e-04
+3669/3669 - 6s
+[CV]  dropout_rate=0.2, epochs=5, weight_constraint=0, batch_size=100, learn_rate=0.001, filter_size=2, total= 5.9min
+[CV] dropout_rate=0.2, epochs=5, weight_constraint=0, batch_size=100, learn_rate=0.01, filter_size=2 
+Epoch 1/5
+11006/11006 - 69s - binary_accuracy: 0.9999 - loss: 0.0111
+Epoch 2/5
+11006/11006 - 69s - binary_accuracy: 0.9999 - loss: 0.0011
+Epoch 3/5
+11006/11006 - 69s - binary_accuracy: 0.9998 - loss: 0.0059
+Epoch 4/5
+11006/11006 - 69s - binary_accuracy: 0.9999 - loss: 0.0133
+Epoch 5/5
+11006/11006 - 69s - binary_accuracy: 0.9999 - loss: 0.0044
+3669/3669 - 6s
+[CV]  dropout_rate=0.2, epochs=5, weight_constraint=0, batch_size=100, learn_rate=0.01, filter_size=2, total= 5.8min
+[CV] dropout_rate=0.0, epochs=3, weight_constraint=0, batch_size=1000, learn_rate=0.001, filter_size=2 
+Epoch 1/3
+1101/1101 - 64s - binary_accuracy: 0.9988 - loss: 0.0118
+Epoch 2/3
+1101/1101 - 64s - binary_accuracy: 0.9999 - loss: 2.1433e-04
+Epoch 3/3
+1101/1101 - 64s - binary_accuracy: 0.9999 - loss: 2.1247e-04
+367/367 - 5s
+[CV]  dropout_rate=0.0, epochs=3, weight_constraint=0, batch_size=1000, learn_rate=0.001, filter_size=2, total= 3.3min
+[CV] dropout_rate=0.0, epochs=3, weight_constraint=0, batch_size=1000, learn_rate=0.01, filter_size=2 
+Epoch 1/3
+1101/1101 - 63s - binary_accuracy: 0.9994 - loss: 0.0186
+Epoch 2/3
+1101/1101 - 63s - binary_accuracy: 0.9999 - loss: 2.0190e-04
+Epoch 3/3
+1101/1101 - 63s - binary_accuracy: 0.9999 - loss: 1.7772e-04
+367/367 - 5s
+[CV]  dropout_rate=0.0, epochs=3, weight_constraint=0, batch_size=1000, learn_rate=0.01, filter_size=2, total= 3.3min
+[CV] dropout_rate=0.0, epochs=5, weight_constraint=0, batch_size=1000, learn_rate=0.001, filter_size=2 
+Epoch 1/5
+1101/1101 - 64s - binary_accuracy: 0.9992 - loss: 0.0099
+Epoch 2/5
+1101/1101 - 64s - binary_accuracy: 0.9999 - loss: 3.6180e-04
+Epoch 3/5
+1101/1101 - 64s - binary_accuracy: 1.0000 - loss: 1.8774e-04
+Epoch 4/5
+1101/1101 - 64s - binary_accuracy: 1.0000 - loss: 1.3059e-04
+Epoch 5/5
+1101/1101 - 64s - binary_accuracy: 1.0000 - loss: 2.9163e-04
+367/367 - 5s
+[CV]  dropout_rate=0.0, epochs=5, weight_constraint=0, batch_size=1000, learn_rate=0.001, filter_size=2, total= 5.4min
+[CV] dropout_rate=0.0, epochs=5, weight_constraint=0, batch_size=1000, learn_rate=0.01, filter_size=2 
+Epoch 1/5
+1101/1101 - 63s - binary_accuracy: 0.9997 - loss: 0.0307
+Epoch 2/5
+1101/1101 - 63s - binary_accuracy: 0.9999 - loss: 2.6492e-04
+Epoch 3/5
+1101/1101 - 63s - binary_accuracy: 0.9999 - loss: 2.1853e-04
+Epoch 4/5
+1101/1101 - 63s - binary_accuracy: 0.9999 - loss: 2.2446e-04
+Epoch 5/5
+1101/1101 - 63s - binary_accuracy: 0.9999 - loss: 1.5727e-04
+367/367 - 5s
+[CV]  dropout_rate=0.0, epochs=5, weight_constraint=0, batch_size=1000, learn_rate=0.01, filter_size=2, total= 5.3min
+[CV] dropout_rate=0.2, epochs=3, weight_constraint=0, batch_size=1000, learn_rate=0.001, filter_size=2 
+Epoch 1/3
+1101/1101 - 64s - binary_accuracy: 0.9998 - loss: 0.0096
+Epoch 2/3
+1101/1101 - 64s - binary_accuracy: 0.9999 - loss: 2.8861e-04
+Epoch 3/3
+1101/1101 - 64s - binary_accuracy: 1.0000 - loss: 1.1688e-04
+367/367 - 5s
+[CV]  dropout_rate=0.2, epochs=3, weight_constraint=0, batch_size=1000, learn_rate=0.001, filter_size=2, total= 3.3min
+[CV] dropout_rate=0.2, epochs=3, weight_constraint=0, batch_size=1000, learn_rate=0.01, filter_size=2 
+Epoch 1/3
+1101/1101 - 63s - binary_accuracy: 0.9996 - loss: 0.0079
+Epoch 2/3
+1101/1101 - 63s - binary_accuracy: 0.9999 - loss: 2.2078e-04
+Epoch 3/3
+1101/1101 - 63s - binary_accuracy: 0.9999 - loss: 8.1570e-04
+367/367 - 5s
+[CV]  dropout_rate=0.2, epochs=3, weight_constraint=0, batch_size=1000, learn_rate=0.01, filter_size=2, total= 3.2min
+[CV] dropout_rate=0.2, epochs=5, weight_constraint=0, batch_size=1000, learn_rate=0.001, filter_size=2 
+Epoch 1/5
+1101/1101 - 64s - binary_accuracy: 0.9992 - loss: 0.0135
+Epoch 2/5
+1101/1101 - 64s - binary_accuracy: 0.9999 - loss: 3.9465e-04
+Epoch 3/5
+1101/1101 - 64s - binary_accuracy: 1.0000 - loss: 1.8248e-04
+Epoch 4/5
+1101/1101 - 64s - binary_accuracy: 1.0000 - loss: 1.2443e-04
+Epoch 5/5
+1101/1101 - 64s - binary_accuracy: 0.9999 - loss: 1.8511e-04
+367/367 - 5s
+[CV]  dropout_rate=0.2, epochs=5, weight_constraint=0, batch_size=1000, learn_rate=0.001, filter_size=2, total= 5.4min
+[CV] dropout_rate=0.2, epochs=5, weight_constraint=0, batch_size=1000, learn_rate=0.01, filter_size=2 
+Epoch 1/5
+1101/1101 - 63s - binary_accuracy: 0.9996 - loss: 0.0192
+Epoch 2/5
+1101/1101 - 63s - binary_accuracy: 0.9999 - loss: 3.3461e-04
+Epoch 3/5
+1101/1101 - 63s - binary_accuracy: 0.9999 - loss: 3.3386e-04
+Epoch 4/5
+1101/1101 - 63s - binary_accuracy: 0.9999 - loss: 1.9820e-04
+Epoch 5/5
+1101/1101 - 62s - binary_accuracy: 0.9999 - loss: 2.3436e-04
+367/367 - 5s
+[CV]  dropout_rate=0.2, epochs=5, weight_constraint=0, batch_size=1000, learn_rate=0.01, filter_size=2, total= 5.3min
+[CV] dropout_rate=0.0, epochs=3, weight_constraint=0, batch_size=2000, learn_rate=0.001, filter_size=2 
+Epoch 1/3
+551/551 - 63s - binary_accuracy: 0.9981 - loss: 0.0161
+Epoch 2/3
+551/551 - 63s - binary_accuracy: 0.9999 - loss: 6.3831e-04
+Epoch 3/3
+551/551 - 63s - binary_accuracy: 0.9999 - loss: 2.1597e-04
+184/184 - 5s
+[CV]  dropout_rate=0.0, epochs=3, weight_constraint=0, batch_size=2000, learn_rate=0.001, filter_size=2, total= 3.3min
+[CV] dropout_rate=0.0, epochs=3, weight_constraint=0, batch_size=2000, learn_rate=0.01, filter_size=2 
+Epoch 1/3
+551/551 - 63s - binary_accuracy: 0.9989 - loss: 0.0203
+Epoch 2/3
+551/551 - 63s - binary_accuracy: 0.9999 - loss: 1.8893e-04
+Epoch 3/3
+551/551 - 63s - binary_accuracy: 0.9999 - loss: 1.5232e-04
+184/184 - 5s
+[CV]  dropout_rate=0.0, epochs=3, weight_constraint=0, batch_size=2000, learn_rate=0.01, filter_size=2, total= 3.2min
+[CV] dropout_rate=0.0, epochs=5, weight_constraint=0, batch_size=2000, learn_rate=0.001, filter_size=2 
+Epoch 1/5
+551/551 - 63s - binary_accuracy: 0.9996 - loss: 0.0167
+Epoch 2/5
+551/551 - 63s - binary_accuracy: 0.9999 - loss: 6.8523e-04
+Epoch 3/5
+551/551 - 63s - binary_accuracy: 0.9999 - loss: 1.9855e-04
+Epoch 4/5
+551/551 - 63s - binary_accuracy: 1.0000 - loss: 1.4081e-04
+Epoch 5/5
+551/551 - 63s - binary_accuracy: 1.0000 - loss: 1.1076e-04
+184/184 - 5s
+[CV]  dropout_rate=0.0, epochs=5, weight_constraint=0, batch_size=2000, learn_rate=0.001, filter_size=2, total= 5.4min
+[CV] dropout_rate=0.0, epochs=5, weight_constraint=0, batch_size=2000, learn_rate=0.01, filter_size=2 
+Epoch 1/5
+551/551 - 63s - binary_accuracy: 0.9986 - loss: 0.0147
+Epoch 2/5
+551/551 - 63s - binary_accuracy: 0.9999 - loss: 2.9951e-04
+Epoch 3/5
+551/551 - 63s - binary_accuracy: 0.9999 - loss: 1.8193e-04
+Epoch 4/5
+551/551 - 63s - binary_accuracy: 0.9999 - loss: 1.5026e-04
+Epoch 5/5
+551/551 - 63s - binary_accuracy: 0.9999 - loss: 1.7127e-04
+184/184 - 5s
+[CV]  dropout_rate=0.0, epochs=5, weight_constraint=0, batch_size=2000, learn_rate=0.01, filter_size=2, total= 5.3min
+[CV] dropout_rate=0.2, epochs=3, weight_constraint=0, batch_size=2000, learn_rate=0.001, filter_size=2 
+Epoch 1/3
+551/551 - 63s - binary_accuracy: 0.9992 - loss: 0.0156
+Epoch 2/3
+551/551 - 63s - binary_accuracy: 0.9999 - loss: 3.1759e-04
+Epoch 3/3
+551/551 - 63s - binary_accuracy: 0.9999 - loss: 1.5458e-04
+184/184 - 5s
+[CV]  dropout_rate=0.2, epochs=3, weight_constraint=0, batch_size=2000, learn_rate=0.001, filter_size=2, total= 3.3min
+[CV] dropout_rate=0.2, epochs=3, weight_constraint=0, batch_size=2000, learn_rate=0.01, filter_size=2 
+Epoch 1/3
+551/551 - 63s - binary_accuracy: 0.9999 - loss: 0.0125
+Epoch 2/3
+551/551 - 63s - binary_accuracy: 0.9999 - loss: 2.3471e-04
+Epoch 3/3
+551/551 - 63s - binary_accuracy: 0.9999 - loss: 4.8538e-04
+184/184 - 5s
+[CV]  dropout_rate=0.2, epochs=3, weight_constraint=0, batch_size=2000, learn_rate=0.01, filter_size=2, total= 3.2min
+[CV] dropout_rate=0.2, epochs=5, weight_constraint=0, batch_size=2000, learn_rate=0.001, filter_size=2 
+Epoch 1/5
+551/551 - 63s - binary_accuracy: 0.9987 - loss: 0.0175
+Epoch 2/5
+551/551 - 63s - binary_accuracy: 0.9999 - loss: 5.1895e-04

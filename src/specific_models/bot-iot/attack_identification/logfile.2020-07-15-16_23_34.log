@@ -1,0 +1,4 @@
+  File "cnn_sample_based_2d_out-one.py", line 384
+    filter_size = 2):
+              ^
+SyntaxError: invalid syntax
