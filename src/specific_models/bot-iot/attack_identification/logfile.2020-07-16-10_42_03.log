@@ -1,0 +1,493 @@
+Reading ../../../../datasets/bot-iot/UNSW_2018_IoT_Botnet_Full5pc_1.csv
+Reading ../../../../datasets/bot-iot/UNSW_2018_IoT_Botnet_Full5pc_2.csv
+Reading ../../../../datasets/bot-iot/UNSW_2018_IoT_Botnet_Full5pc_3.csv
+Reading ../../../../datasets/bot-iot/UNSW_2018_IoT_Botnet_Full5pc_4.csv
+<class 'pandas.core.frame.DataFrame'>
+Int64Index: 3668522 entries, 1 to 3668522
+Data columns (total 45 columns):
+stime                               float64
+flgs                                object
+flgs_number                         int64
+proto                               object
+proto_number                        int64
+saddr                               object
+sport                               object
+daddr                               object
+dport                               object
+pkts                                int64
+bytes                               int64
+state                               object
+state_number                        int64
+ltime                               float64
+seq                                 int64
+dur                                 float64
+mean                                float64
+stddev                              float64
+sum                                 float64
+min                                 float64
+max                                 float64
+spkts                               int64
+dpkts                               int64
+sbytes                              int64
+dbytes                              int64
+rate                                float64
+srate                               float64
+drate                               float64
+TnBPSrcIP                           int64
+TnBPDstIP                           int64
+TnP_PSrcIP                          int64
+TnP_PDstIP                          int64
+TnP_PerProto                        int64
+TnP_Per_Dport                       int64
+AR_P_Proto_P_SrcIP                  float64
+AR_P_Proto_P_DstIP                  float64
+N_IN_Conn_P_DstIP                   int64
+N_IN_Conn_P_SrcIP                   int64
+AR_P_Proto_P_Sport                  float64
+AR_P_Proto_P_Dport                  float64
+Pkts_P_State_P_Protocol_P_DestIP    int64
+Pkts_P_State_P_Protocol_P_SrcIP     int64
+attack                              int64
+category                            object
+subcategory                         object
+dtypes: float64(15), int64(21), object(9)
+memory usage: 1.3+ GB
+
+Dataframe contains NaN values: False
+Number of NaN columns: 0
+NaN columns: [] 
+
+
+Attack types: [1 0]
+Attack distribution:
+1    3668045
+0        477
+Name: attack, dtype: int64
+
+Cateogry types: ['DoS' 'DDoS' 'Normal' 'Reconnaissance' 'Theft']
+Cateogry distribution:
+DDoS              1926624
+DoS               1650260
+Reconnaissance      91082
+Normal                477
+Theft                  79
+Name: category, dtype: int64
+
+Subcategory types: ['HTTP' 'TCP' 'UDP' 'Normal' 'OS_Fingerprint' 'Service_Scan'
+ 'Data_Exfiltration' 'Keylogging']
+Subcategory distribution:
+UDP                  1981230
+TCP                  1593180
+Service_Scan           73168
+OS_Fingerprint         17914
+HTTP                    2474
+Normal                   477
+Keylogging                73
+Data_Exfiltration          6
+Name: subcategory, dtype: int64
+
+Column | # of different values
+stime | 392259
+flgs | 9
+flgs_number | 9
+proto | 5
+proto_number | 5
+saddr | 21
+sport | 65541
+daddr | 84
+dport | 7698
+pkts | 123
+bytes | 1633
+state | 11
+state_number | 11
+ltime | 383624
+seq | 262212
+dur | 612509
+mean | 507089
+stddev | 421379
+sum | 934972
+min | 271147
+max | 594525
+spkts | 91
+dpkts | 62
+sbytes | 1052
+dbytes | 472
+rate | 139677
+srate | 119709
+drate | 20714
+TnBPSrcIP | 8639
+TnBPDstIP | 7631
+TnP_PSrcIP | 1522
+TnP_PDstIP | 1587
+TnP_PerProto | 1560
+TnP_Per_Dport | 1582
+AR_P_Proto_P_SrcIP | 46289
+AR_P_Proto_P_DstIP | 39186
+N_IN_Conn_P_DstIP | 100
+N_IN_Conn_P_SrcIP | 100
+AR_P_Proto_P_Sport | 136207
+AR_P_Proto_P_Dport | 42237
+Pkts_P_State_P_Protocol_P_DestIP | 1595
+Pkts_P_State_P_Protocol_P_SrcIP | 1526
+attack | 2
+category | 5
+subcategory | 8
+
+Removing attributes that have only one (or zero) sampled value.
+
+Column | # of different values
+stime | 392259
+flgs | 9
+flgs_number | 9
+proto | 5
+proto_number | 5
+saddr | 21
+sport | 65541
+daddr | 84
+dport | 7698
+pkts | 123
+bytes | 1633
+state | 11
+state_number | 11
+ltime | 383624
+seq | 262212
+dur | 612509
+mean | 507089
+stddev | 421379
+sum | 934972
+min | 271147
+max | 594525
+spkts | 91
+dpkts | 62
+sbytes | 1052
+dbytes | 472
+rate | 139677
+srate | 119709
+drate | 20714
+TnBPSrcIP | 8639
+TnBPDstIP | 7631
+TnP_PSrcIP | 1522
+TnP_PDstIP | 1587
+TnP_PerProto | 1560
+TnP_Per_Dport | 1582
+AR_P_Proto_P_SrcIP | 46289
+AR_P_Proto_P_DstIP | 39186
+N_IN_Conn_P_DstIP | 100
+N_IN_Conn_P_SrcIP | 100
+AR_P_Proto_P_Sport | 136207
+AR_P_Proto_P_Dport | 42237
+Pkts_P_State_P_Protocol_P_DestIP | 1595
+Pkts_P_State_P_Protocol_P_SrcIP | 1526
+attack | 2
+category | 5
+subcategory | 8
+
+Removing redundant columns: ['state_number', 'proto_number', 'flgs_number']
+
+Column | NaN values
+stime                               0
+flgs                                0
+proto                               0
+saddr                               0
+sport                               0
+daddr                               0
+dport                               0
+pkts                                0
+bytes                               0
+state                               0
+ltime                               0
+seq                                 0
+dur                                 0
+mean                                0
+stddev                              0
+sum                                 0
+min                                 0
+max                                 0
+spkts                               0
+dpkts                               0
+sbytes                              0
+dbytes                              0
+rate                                0
+srate                               0
+drate                               0
+TnBPSrcIP                           0
+TnBPDstIP                           0
+TnP_PSrcIP                          0
+TnP_PDstIP                          0
+TnP_PerProto                        0
+TnP_Per_Dport                       0
+AR_P_Proto_P_SrcIP                  0
+AR_P_Proto_P_DstIP                  0
+N_IN_Conn_P_DstIP                   0
+N_IN_Conn_P_SrcIP                   0
+AR_P_Proto_P_Sport                  0
+AR_P_Proto_P_Dport                  0
+Pkts_P_State_P_Protocol_P_DestIP    0
+Pkts_P_State_P_Protocol_P_SrcIP     0
+attack                              0
+category                            0
+subcategory                         0
+dtype: int64
+Removing attributes with more than half NaN values.
+Dataframe contains NaN values: False
+
+Column | NaN values (after dropping columns)
+stime                               0
+flgs                                0
+proto                               0
+saddr                               0
+sport                               0
+daddr                               0
+dport                               0
+pkts                                0
+bytes                               0
+state                               0
+ltime                               0
+seq                                 0
+dur                                 0
+mean                                0
+stddev                              0
+sum                                 0
+min                                 0
+max                                 0
+spkts                               0
+dpkts                               0
+sbytes                              0
+dbytes                              0
+rate                                0
+srate                               0
+drate                               0
+TnBPSrcIP                           0
+TnBPDstIP                           0
+TnP_PSrcIP                          0
+TnP_PDstIP                          0
+TnP_PerProto                        0
+TnP_Per_Dport                       0
+AR_P_Proto_P_SrcIP                  0
+AR_P_Proto_P_DstIP                  0
+N_IN_Conn_P_DstIP                   0
+N_IN_Conn_P_SrcIP                   0
+AR_P_Proto_P_Sport                  0
+AR_P_Proto_P_Dport                  0
+Pkts_P_State_P_Protocol_P_DestIP    0
+Pkts_P_State_P_Protocol_P_SrcIP     0
+attack                              0
+category                            0
+subcategory                         0
+dtype: int642020-07-16 10:42:52.441381: W tensorflow/stream_executor/platform/default/dso_loader.cc:55] Could not load dynamic library 'libcuda.so.1'; dlerror: libcuda.so.1: cannot open shared object file: No such file or directory
+2020-07-16 10:42:52.441566: E tensorflow/stream_executor/cuda/cuda_driver.cc:313] failed call to cuInit: UNKNOWN ERROR (303)
+2020-07-16 10:42:52.441636: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:156] kernel driver does not appear to be running on this host (ponte): /proc/driver/nvidia/version does not exist
+2020-07-16 10:42:52.441812: I tensorflow/core/platform/cpu_feature_guard.cc:143] Your CPU supports instructions that this TensorFlow binary was not compiled to use: AVX2 FMA
+2020-07-16 10:42:52.445755: I tensorflow/core/platform/profile_utils/cpu_utils.cc:102] CPU Frequency: 3600000000 Hz
+2020-07-16 10:42:52.445908: I tensorflow/compiler/xla/service/service.cc:168] XLA service 0x562e60b248c0 initialized for platform Host (this does not guarantee that XLA will be used). Devices:
+2020-07-16 10:42:52.445977: I tensorflow/compiler/xla/service/service.cc:176]   StreamExecutor device (0): Host, Default Version
+
+stime unique values: 392259
+flgs unique values: 9
+proto unique values: 9
+saddr unique values: 5
+sport unique values: 5
+daddr unique values: 21
+dport unique values: 65541
+pkts unique values: 84
+bytes unique values: 7698
+state unique values: 123
+ltime unique values: 1633
+seq unique values: 11
+dur unique values: 11
+mean unique values: 383624
+stddev unique values: 262212
+sum unique values: 612509
+min unique values: 507089
+max unique values: 421379
+spkts unique values: 934972
+dpkts unique values: 271147
+sbytes unique values: 594525
+dbytes unique values: 91
+rate unique values: 62
+srate unique values: 1052
+drate unique values: 472
+TnBPSrcIP unique values: 139677
+TnBPDstIP unique values: 119709
+TnP_PSrcIP unique values: 20714
+TnP_PDstIP unique values: 8639
+TnP_PerProto unique values: 7631
+TnP_Per_Dport unique values: 1522
+AR_P_Proto_P_SrcIP unique values: 1587
+AR_P_Proto_P_DstIP unique values: 1560
+N_IN_Conn_P_DstIP unique values: 1582
+N_IN_Conn_P_SrcIP unique values: 46289
+AR_P_Proto_P_Sport unique values: 39186
+AR_P_Proto_P_Dport unique values: 100
+Pkts_P_State_P_Protocol_P_DestIP unique values: 100
+Pkts_P_State_P_Protocol_P_SrcIP unique values: 136207
+attack unique values: 42237
+category unique values: 1595
+subcategory unique values: 1526
+<class 'pandas.core.frame.DataFrame'>
+Int64Index: 3668522 entries, 1 to 3668522
+Columns: 42 entries, stime to subcategory
+dtypes: float64(15), int64(18), object(9)
+memory usage: 1.2+ GB
+
+Objects: ['flgs', 'proto', 'saddr', 'sport', 'daddr', 'dport', 'state', 'category', 'subcategory'] 
+
+
+Check for high cardinality.
+Column | # of different values | values
+flgs | 9 | ['e' 'e s' 'e d' 'e *' 'e g' 'eU' 'e &' 'e   t' 'e  D']
+proto | 5 | ['tcp' 'arp' 'udp' 'icmp' 'ipv6-icmp']
+saddr | 21 | ['192.168.100.147' '192.168.100.7' '192.168.100.148' '192.168.100.6'
+ '192.168.100.149' '192.168.100.150' '192.168.100.5' '192.168.100.3'
+ '192.168.100.1' '192.168.100.4' '192.168.100.27'
+ 'fe80::250:56ff:febe:254' '192.168.100.46' 'fe80::250:56ff:febe:26db'
+ 'fe80::250:56ff:febe:e9d9' 'fe80::c0c0:aa20:45b9:bdd9'
+ 'fe80::250:56ff:febe:89ee' 'fe80::2c6a:ff9b:7e14:166a'
+ 'fe80::250:56ff:febe:bf1a' 'fe80::250:56ff:febe:c038' '192.168.100.55']
+sport | 65540 | ['49960' nan '49962' ... '0x0008' '0x000d' '0x0011']
+daddr | 84 | ['192.168.100.7' '192.168.100.147' '192.168.100.6' '192.168.100.148'
+ '192.168.100.5' '192.168.100.3' '192.168.100.149' '192.168.100.150'
+ '192.168.100.4' '27.124.125.250' '192.168.100.1' '192.168.100.27'
+ '192.168.217.2' '192.168.100.255' '8.8.8.8' 'ff02::1' '255.255.255.255'
+ '13.55.154.73' '192.168.100.55' '184.85.248.65' '205.251.194.167'
+ '192.5.5.241' '192.35.51.30' '205.251.195.97' '205.251.196.236'
+ '199.7.91.13' '192.12.94.30' '52.35.35.13' '216.239.38.10' '199.7.83.42'
+ '192.42.93.30' '172.217.25.170' 'ff02::fb' '224.0.0.251' 'ff02::2'
+ '129.250.35.250' '91.189.91.157' '216.239.34.10' '192.52.178.30'
+ '224.0.0.252' '96.7.49.66' '205.251.193.2' '192.33.4.12' '192.41.162.30'
+ '192.36.148.17' '35.165.2.252' '52.11.124.117' '52.201.147.106'
+ '216.239.36.10' '192.112.36.4' '192.31.80.30' '91.189.92.40'
+ '128.63.2.53' '202.12.27.33' '192.203.230.10' '192.55.83.30'
+ '205.251.198.119' '192.33.14.30' '192.58.128.30' '205.251.196.160'
+ '205.251.199.148' '192.54.112.30' '156.154.100.3' '199.19.57.1'
+ '205.251.194.86' '205.251.199.194' '205.251.199.61' '205.251.195.185'
+ '205.251.194.201' '205.251.198.239' '205.251.193.205' '205.251.196.32'
+ '198.41.0.4' '192.48.79.30' '199.19.56.1' '156.154.101.3'
+ '205.251.197.206' '205.251.192.170' '205.251.195.59' '205.251.198.91'
+ '205.251.194.84' '192.26.92.30' '205.251.194.102' '205.251.194.154']
+dport | 7697 | ['80' nan '30551' ... '42052' '2660' '2664']
+state | 11 | ['RST' 'CON' 'REQ' 'INT' 'URP' 'FIN' 'ACC' 'NRS' 'ECO' 'TST' 'MAS']
+category | 5 | ['DoS' 'DDoS' 'Normal' 'Reconnaissance' 'Theft']
+subcategory | 8 | ['HTTP' 'TCP' 'UDP' 'Normal' 'OS_Fingerprint' 'Service_Scan'
+ 'Data_Exfiltration' 'Keylogging']
+
+Handling categorical attributes (label encoding).
+Objects: ['category', 'subcategory']
+
+Dropping category and subcategory.
+These are labels for other scenarios.
+
+Splitting dataset (test/train): 0.2
+
+Splitting dataset (validation/train): 0.25
+X_train_df shape: (2201112, 37)
+y_train_df shape: (2201112,)
+X_val_df shape: (733705, 37)
+y_val_df shape: (733705,)
+X_test_df shape: (733705, 37)
+y_test_df shape: (733705,)
+
+Converting dataframe to numpy array.
+X_train shape: (2201112, 37)
+y_train shape: (2201112,)
+X_val shape: (733705, 37)
+y_val shape: (733705,)
+X_test shape: (733705, 37)
+y_test shape: (733705,)
+
+Applying normalization.
+1.36376953125 to normalize data.
+7
+(2201112, 7, 7, 1)
+Model: "sequential"
+_________________________________________________________________
+Layer (type)                 Output Shape              Param #   
+=================================================================
+conv2d (Conv2D)              (None, 6, 6, 64)          320       
+_________________________________________________________________
+conv2d_1 (Conv2D)            (None, 5, 5, 64)          16448     
+_________________________________________________________________
+max_pooling2d (MaxPooling2D) (None, 2, 2, 64)          0         
+_________________________________________________________________
+flatten (Flatten)            (None, 256)               0         
+_________________________________________________________________
+dropout (Dropout)            (None, 256)               0         
+_________________________________________________________________
+dense (Dense)                (None, 64)                16448     
+_________________________________________________________________
+dense_1 (Dense)              (None, 1)                 65        
+=================================================================
+Total params: 33,281
+Trainable params: 33,281
+Non-trainable params: 0
+_________________________________________________________________
+
+Fitting the network.
+Epoch 1/10
+441/441 - 148s - binary_accuracy: 0.9991 - loss: 0.0213 - precision: 0.9999 - val_loss: 0.0014 - val_binary_accuracy: 0.9999 - val_precision: 0.9999
+Epoch 2/10
+441/441 - 145s - binary_accuracy: 0.9999 - loss: 8.6899e-04 - precision: 0.9999 - val_loss: 3.7312e-04 - val_binary_accuracy: 0.9999 - val_precision: 0.9999
+Epoch 3/10
+441/441 - 145s - binary_accuracy: 0.9999 - loss: 3.8207e-04 - precision: 0.9999 - val_loss: 1.7283e-04 - val_binary_accuracy: 1.0000 - val_precision: 1.0000
+Epoch 4/10
+441/441 - 145s - binary_accuracy: 0.9999 - loss: 2.4528e-04 - precision: 1.0000 - val_loss: 1.4768e-04 - val_binary_accuracy: 1.0000 - val_precision: 1.0000
+Epoch 5/10
+441/441 - 145s - binary_accuracy: 0.9999 - loss: 2.1116e-04 - precision: 1.0000 - val_loss: 1.3399e-04 - val_binary_accuracy: 1.0000 - val_precision: 1.0000
+Epoch 6/10
+441/441 - 145s - binary_accuracy: 1.0000 - loss: 1.0879e-04 - precision: 1.0000 - val_loss: 1.3189e-04 - val_binary_accuracy: 1.0000 - val_precision: 1.0000
+Epoch 7/10
+441/441 - 145s - binary_accuracy: 1.0000 - loss: 1.2130e-04 - precision: 1.0000 - val_loss: 6.6854e-05 - val_binary_accuracy: 1.0000 - val_precision: 1.0000
+Epoch 8/10
+441/441 - 145s - binary_accuracy: 1.0000 - loss: 1.0170e-04 - precision: 1.0000 - val_loss: 1.9964e-04 - val_binary_accuracy: 0.9999 - val_precision: 1.0000
+Epoch 9/10
+441/441 - 146s - binary_accuracy: 1.0000 - loss: 1.0777e-04 - precision: 1.0000 - val_loss: 1.1531e-04 - val_binary_accuracy: 1.0000 - val_precision: 1.0000
+Epoch 10/10
+441/441 - 144s - binary_accuracy: 1.0000 - loss: 1.0827e-04 - precision: 1.0000 - val_loss: 7.4023e-05 - val_binary_accuracy: 1.0000 - val_precision: 1.0000
+Using TensorFlow backend.
+1457.0703446865082 s to train model.
+
+Performance on TEST set:
+Traceback (most recent call last):
+  File "cnn_sample_based_2d_out-one.py", line 505, in <module>
+    y_pred = bestModel.predict (X_test)
+  File "/net/tijuca/lab/users/Miguel/kaylani/.local/share/virtualenvs/machineLearning-1nycamDU/lib/python3.5/site-packages/tensorflow/python/keras/engine/training.py", line 88, in _method_wrapper
+    return method(self, *args, **kwargs)
+  File "/net/tijuca/lab/users/Miguel/kaylani/.local/share/virtualenvs/machineLearning-1nycamDU/lib/python3.5/site-packages/tensorflow/python/keras/engine/training.py", line 1268, in predict
+    tmp_batch_outputs = predict_function(iterator)
+  File "/net/tijuca/lab/users/Miguel/kaylani/.local/share/virtualenvs/machineLearning-1nycamDU/lib/python3.5/site-packages/tensorflow/python/eager/def_function.py", line 580, in __call__
+    result = self._call(*args, **kwds)
+  File "/net/tijuca/lab/users/Miguel/kaylani/.local/share/virtualenvs/machineLearning-1nycamDU/lib/python3.5/site-packages/tensorflow/python/eager/def_function.py", line 627, in _call
+    self._initialize(args, kwds, add_initializers_to=initializers)
+  File "/net/tijuca/lab/users/Miguel/kaylani/.local/share/virtualenvs/machineLearning-1nycamDU/lib/python3.5/site-packages/tensorflow/python/eager/def_function.py", line 506, in _initialize
+    *args, **kwds))
+  File "/net/tijuca/lab/users/Miguel/kaylani/.local/share/virtualenvs/machineLearning-1nycamDU/lib/python3.5/site-packages/tensorflow/python/eager/function.py", line 2446, in _get_concrete_function_internal_garbage_collected
+    graph_function, _, _ = self._maybe_define_function(args, kwargs)
+  File "/net/tijuca/lab/users/Miguel/kaylani/.local/share/virtualenvs/machineLearning-1nycamDU/lib/python3.5/site-packages/tensorflow/python/eager/function.py", line 2777, in _maybe_define_function
+    graph_function = self._create_graph_function(args, kwargs)
+  File "/net/tijuca/lab/users/Miguel/kaylani/.local/share/virtualenvs/machineLearning-1nycamDU/lib/python3.5/site-packages/tensorflow/python/eager/function.py", line 2667, in _create_graph_function
+    capture_by_value=self._capture_by_value),
+  File "/net/tijuca/lab/users/Miguel/kaylani/.local/share/virtualenvs/machineLearning-1nycamDU/lib/python3.5/site-packages/tensorflow/python/framework/func_graph.py", line 981, in func_graph_from_py_func
+    func_outputs = python_func(*func_args, **func_kwargs)
+  File "/net/tijuca/lab/users/Miguel/kaylani/.local/share/virtualenvs/machineLearning-1nycamDU/lib/python3.5/site-packages/tensorflow/python/eager/def_function.py", line 441, in wrapped_fn
+    return weak_wrapped_fn().__wrapped__(*args, **kwds)
+  File "/net/tijuca/lab/users/Miguel/kaylani/.local/share/virtualenvs/machineLearning-1nycamDU/lib/python3.5/site-packages/tensorflow/python/framework/func_graph.py", line 968, in wrapper
+    raise e.ag_error_metadata.to_exception(e)
+ValueError: in user code:
+
+    /net/tijuca/lab/users/Miguel/kaylani/.local/share/virtualenvs/machineLearning-1nycamDU/lib/python3.5/site-packages/tensorflow/python/keras/engine/training.py:1147 predict_function  *
+        outputs = self.distribute_strategy.run(
+    /net/tijuca/lab/users/Miguel/kaylani/.local/share/virtualenvs/machineLearning-1nycamDU/lib/python3.5/site-packages/tensorflow/python/distribute/distribute_lib.py:951 run  **
+        return self._extended.call_for_each_replica(fn, args=args, kwargs=kwargs)
+    /net/tijuca/lab/users/Miguel/kaylani/.local/share/virtualenvs/machineLearning-1nycamDU/lib/python3.5/site-packages/tensorflow/python/distribute/distribute_lib.py:2290 call_for_each_replica
+        return self._call_for_each_replica(fn, args, kwargs)
+    /net/tijuca/lab/users/Miguel/kaylani/.local/share/virtualenvs/machineLearning-1nycamDU/lib/python3.5/site-packages/tensorflow/python/distribute/distribute_lib.py:2649 _call_for_each_replica
+        return fn(*args, **kwargs)
+    /net/tijuca/lab/users/Miguel/kaylani/.local/share/virtualenvs/machineLearning-1nycamDU/lib/python3.5/site-packages/tensorflow/python/keras/engine/training.py:1122 predict_step  **
+        return self(x, training=False)
+    /net/tijuca/lab/users/Miguel/kaylani/.local/share/virtualenvs/machineLearning-1nycamDU/lib/python3.5/site-packages/tensorflow/python/keras/engine/base_layer.py:886 __call__
+        self.name)
+    /net/tijuca/lab/users/Miguel/kaylani/.local/share/virtualenvs/machineLearning-1nycamDU/lib/python3.5/site-packages/tensorflow/python/keras/engine/input_spec.py:180 assert_input_compatibility
+        str(x.shape.as_list()))
+
+    ValueError: Input 0 of layer sequential is incompatible with the layer: expected ndim=4, found ndim=3. Full shape received: [None, 7, 7]
+

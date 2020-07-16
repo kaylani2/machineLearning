@@ -9,7 +9,7 @@ recall      = []
 f1          = []
 cohen_kappa = []
 
-with open ('logfile.2020-07-14-21_45_30.log') as f:
+with open ('logfile.2020-07-16-11_24_23.log') as f:
   for line in f:
     if (re.search ('Accuracy', line)):
       accuracy.append (float (line.split () [1]))
@@ -29,7 +29,7 @@ print ('Accuracy mean +/- stdv: {} +/- {}'.format (statistics.mean (accuracy), s
 print ('Precision mean +/- stdv: {} +/- {}'.format (statistics.mean (precision), statistics.stdev (precision)))
 print ('Recall mean +/- stdv: {} +/- {}'.format (statistics.mean (recall), statistics.stdev (recall)))
 print ('F1 mean +/- stdv: {} +/- {}'.format (statistics.mean (f1), statistics.stdev (f1)))
-print ('Cohen kappa mean +/- stdv: {} +/- {}'.format (statistics.mean (cohen_kappa), statistics.stdev (cohen_kappa)))
+#print ('Cohen kappa mean +/- stdv: {} +/- {}'.format (statistics.mean (cohen_kappa), statistics.stdev (cohen_kappa)))
 print ('Train time mean +/- stdv: {} +/- {}'.format (statistics.mean (train_time), statistics.stdev (train_time)))
 
 
@@ -41,14 +41,15 @@ mean_recall = str (round (statistics.mean (recall) * 100, 3))[:-1]
 stdev_recall = str (round (statistics.stdev (recall) * 100, 3))[:-1]
 mean_f1 = str (round (statistics.mean (f1) * 100, 3))[:-1]
 stdev_f1 = str (round (statistics.stdev (f1) * 100, 3))[:-1]
-mean_cohen_kappa = str (round (statistics.mean (cohen_kappa) * 100, 3))[:-1]
-stdev_cohen_kappa = str (round (statistics.stdev (cohen_kappa) * 100, 3))[:-1]
+#mean_cohen_kappa = str (round (statistics.mean (cohen_kappa) * 100, 3))[:-1]
+#stdev_cohen_kappa = str (round (statistics.stdev (cohen_kappa) * 100, 3))[:-1]
 mean_train_time = str (round (statistics.mean (train_time), 3))[:-1]
 stdev_train_time = str (round (statistics.stdev (train_time), 3))[:-1]
 
 
 
-output = '\n\n\\thead{MODELO} & \makecell{$(' + mean_accuracy + '\pm$ \\\\ $' + stdev_accuracy + ')\%$} & \makecell{$(' + mean_precision + '\pm$ \\\\ $' + stdev_precision + ')\%$} & \makecell{$(' + mean_recall + '\pm$ \\\\ $' + stdev_recall + ')\%$} & \makecell{$(' + mean_f1 + '\pm$ \\\\ $' + stdev_f1 + ')\%$} & \makecell{$(' + mean_cohen_kappa + '\pm$ \\\\ $' + stdev_cohen_kappa + ')\%$} & \makecell{$(' + mean_train_time + '\pm$ \\\\ $' + stdev_train_time + ')$ s} \\\\ \hline %'
+#output = '\n\n\\thead{MODELO} & \makecell{$(' + mean_accuracy + '\pm$ \\\\ $' + stdev_accuracy + ')\%$} & \makecell{$(' + mean_precision + '\pm$ \\\\ $' + stdev_precision + ')\%$} & \makecell{$(' + mean_recall + '\pm$ \\\\ $' + stdev_recall + ')\%$} & \makecell{$(' + mean_f1 + '\pm$ \\\\ $' + stdev_f1 + ')\%$} & \makecell{$(' + mean_cohen_kappa + '\pm$ \\\\ $' + stdev_cohen_kappa + ')\%$} & \makecell{$(' + mean_train_time + '\pm$ \\\\ $' + stdev_train_time + ')$ s} \\\\ \hline %'
+output = '\n\n\\thead{MODELO} & \makecell{$(' + mean_accuracy + '\pm$ \\\\ $' + stdev_accuracy + ')\%$} & \makecell{$(' + mean_precision + '\pm$ \\\\ $' + stdev_precision + ')\%$} & \makecell{$(' + mean_recall + '\pm$ \\\\ $' + stdev_recall + ')\%$} & \makecell{$(' + mean_f1 + '\pm$ \\\\ $' + stdev_f1 + ')\%$} & \makecell{$(' + mean_train_time + '\pm$ \\\\ $' + stdev_train_time + ')$ s} \\\\ \hline %'
 
 
 
