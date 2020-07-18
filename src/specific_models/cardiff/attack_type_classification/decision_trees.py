@@ -2,7 +2,7 @@
 # github.com/kaylani2
 # kaylani AT gta DOT ufrj DOT br
 
-### K: Model: Naive Bayes
+### K: Model: Decision Tree
 ### K: From the article:
 ## "Finally, for classifying the type of attack, the final sample size was set
 ## to acquire a sample of 50,000 packets (10,000 packets per attack) from a
@@ -198,7 +198,7 @@ df.drop (axis = 'columns', columns = 'class_is_malicious', inplace = True)
 ###############################################################################
 ## Encode Label
 ###############################################################################
-print ('Enconding label.')
+print ('Encoding label.')
 print ('Label types before conversion:', df ['class_attack_type'].unique ())
 #df ['class_attack_type'] = df ['class_attack_type'].replace ('N/A', 0)
 #df ['class_attack_type'] = df ['class_attack_type'].replace ('DoS', 1)
@@ -213,14 +213,25 @@ print ('Label types after conversion:', df ['class_attack_type'].unique ())
 ###############################################################################
 from sklearn.model_selection import train_test_split
 TEST_SIZE = 4/10
+VALIDATION_SIZE = 1/10
 print ('\nSplitting dataset (test/train):', TEST_SIZE)
 X_train_df, X_test_df, y_train_df, y_test_df = train_test_split (
                                                df.iloc [:, :-1],
                                                df.iloc [:, -1],
                                                test_size = TEST_SIZE,
                                                random_state = STATE)
+
+print ('\nSplitting dataset (validation/train):', VALIDATION_SIZE)
+X_train_df, X_val_df, y_train_df, y_val_df = train_test_split (
+                                             X_train_df,
+                                             y_train_df,
+                                             test_size = VALIDATION_SIZE,
+                                             random_state = STATE)
+
 print ('X_train_df shape:', X_train_df.shape)
 print ('y_train_df shape:', y_train_df.shape)
+print ('X_val_df shape:', X_val_df.shape)
+print ('y_val_df shape:', y_val_df.shape)
 print ('X_test_df shape:', X_test_df.shape)
 print ('y_test_df shape:', y_test_df.shape)
 
@@ -248,15 +259,19 @@ for myColumn, myStrategy in zip (columsWithMissingValues, imputingStrategies):
   myImputer = SimpleImputer (missing_values = np.nan, strategy = myStrategy)
   myImputer.fit (X_train_df [myColumn].values.reshape (-1, 1))
   X_train_df [myColumn] = myImputer.transform (X_train_df [myColumn].values.reshape (-1, 1))
+  X_val_df [myColumn] = myImputer.transform (X_val_df [myColumn].values.reshape (-1, 1))
   X_test_df [myColumn] = myImputer.transform (X_test_df [myColumn].values.reshape (-1, 1))
 
 # Round ip.ttl
 X_train_df ['ip.ttl'] = X_train_df ['ip.ttl'].round (decimals = 0)
+X_val_df ['ip.ttl'] = X_val_df ['ip.ttl'].round (decimals = 0)
 X_test_df ['ip.ttl'] = X_test_df ['ip.ttl'].round (decimals = 0)
 
 #print ('\n\nColumn | NaN values (before imputing)')
 #print ('\nTrain:')
 #print (X_train_df.isnull ().sum ())
+#print ('\nVal:')
+#print (X_val_df.isnull ().sum ())
 #print ('\nTest:')
 #print (X_test_df.isnull ().sum ())
 
@@ -265,11 +280,15 @@ X_test_df ['ip.ttl'] = X_test_df ['ip.ttl'].round (decimals = 0)
 ###############################################################################
 print ('\nConverting dataframe to numpy array.')
 X_train = X_train_df.values
-X_test = X_test_df.values
 y_train = y_train_df.values
+X_val = X_val_df.values
+y_val = y_val_df.values
+X_test = X_test_df.values
 y_test = y_test_df.values
 print ('X_train shape:', X_train.shape)
 print ('y_train shape:', y_train.shape)
+print ('X_val shape:', X_val.shape)
+print ('y_val shape:', y_val.shape)
 print ('X_test shape:', X_test.shape)
 print ('y_test shape:', y_test.shape)
 
@@ -277,12 +296,13 @@ print ('y_test shape:', y_test.shape)
 ###############################################################################
 ## Apply normalization
 ###############################################################################
-print ('Applying normalization (standard)')
+print ('Applying normalization (standard).')
 from sklearn.preprocessing import StandardScaler
 scaler = StandardScaler ()
 scaler.fit (X_train)
 X_train = scaler.transform (X_train)
 X_test = scaler.transform (X_test)
+X_val = scaler.transform (X_val)
 
 
 ###############################################################################
@@ -334,43 +354,68 @@ print ('Balanced:', Counter (y_bal))
 
 
 ###############################################################################
-## Create learning model (Naive Bayes)
+## Create learning model (Decision Tree) and tune hyperparameters
 ###############################################################################
-for myX, myY, sampling in zip ([X_train, X_over, X_under, X_bal],
-                               [y_train, y_over, y_under, y_bal],
-                               ['Real', 'Over', 'Under', 'Balanced']):
-  print ('Creating learning model.')
-  print ('Sampling:', sampling)
-  print ('X shape:', myX.shape)
-  from sklearn.naive_bayes import GaussianNB
-  model = GaussianNB ()
-  model.fit (myX, myY)
+from sklearn.model_selection import PredefinedSplit
+from sklearn.model_selection import GridSearchCV
+from sklearn.tree import DecisionTreeClassifier
+### -1 indices -> train
+### 0  indices -> validation
+test_fold = np.repeat ([-1, 0], [X_train.shape [0], X_val.shape [0]])
+myPreSplit = PredefinedSplit (test_fold)
+myPreSplit.get_n_splits ()
+myPreSplit.split ()
+for train_index, test_index in myPreSplit.split ():
+    print ("TRAIN:", train_index, "TEST:", test_index)
 
 
-  ###############################################################################
-  ## Analyze results
-  ###############################################################################
-  ### K: NOTE: Only look at test results when publishing...
-  from sklearn.metrics import confusion_matrix, precision_score, recall_score
-  from sklearn.metrics import f1_score, classification_report, accuracy_score
-  from sklearn.metrics import cohen_kappa_score
-  y_pred = model.predict (X_test)
+parameters = {'criterion' : ['gini', 'entropy'],
+              'splitter' : ['best', 'random'],
+              'max_depth' : [1, 10, 100, 1000, 10000, 100000, 1000000, None],
+              'min_samples_split' : [2, 3, 4]}
+clf = DecisionTreeClassifier ()
+model = GridSearchCV (estimator = clf,
+                      param_grid = parameters,
+                      scoring = 'f1_weighted',
+                      cv = myPreSplit,
+                      verbose = 1)
 
-  print ('Confusion matrix:')
-  print (confusion_matrix (y_test, y_pred,
-                           labels = df ['class_attack_type'].unique ()))
+model.fit (np.concatenate ( (X_train, X_val), axis = 0),
+           np.concatenate ( (y_train, y_val), axis = 0))
 
-  print ('Classification report:')
-  print (classification_report (y_test, y_pred,
-                                labels = df ['class_attack_type'].unique (),
-                                digits = 3))
+print (model.best_params_)
 
-  print ('\n\n')
-  print ('Accuracy:', accuracy_score (y_test, y_pred))
-  print ('Precision:', precision_score (y_test, y_pred, average = 'macro'))
-  print ('Recall:', recall_score (y_test, y_pred, average = 'macro'))
-  print ('F1:', f1_score (y_test, y_pred, average = 'macro'))
-  print ('Cohen Kappa:', cohen_kappa_score (y_test, y_pred,
+
+###############################################################################
+## Analyze results
+###############################################################################
+from sklearn.metrics import confusion_matrix, classification_report
+from sklearn.metrics import confusion_matrix, precision_score, recall_score
+from sklearn.metrics import f1_score, classification_report, accuracy_score
+from sklearn.metrics import cohen_kappa_score
+### K: NOTE: Only look at test results when publishing...
+# model.predict outputs one hot encoding
+y_pred = model.predict (X_test)
+#print ('y_pred shape:', y_pred.shape)
+#print ('y_test shape:', y_test.shape)
+#print (y_pred [:50])
+#print (y_pred [:50])
+#print (y_test [:50])
+#print (confusion_matrix (y_test, y_pred))
+#print (classification_report (y_test, y_pred, digits = 3))
+#scoreArray = model.evaluate (X_test, y_test, verbose = True)
+#print ('Test loss:', scoreArray [0])
+#print ('Test accuracy:', scoreArray [1])
+print ('Confusion matrix:')
+print (confusion_matrix (y_test, y_pred,
                          labels = df ['class_attack_type'].unique ()))
+print ('\n\n')
+print ('Accuracy:', accuracy_score (y_test, y_pred))
+print ('Precision:', precision_score (y_test, y_pred, average = 'macro'))
+print ('Recall:', recall_score (y_test, y_pred, average = 'macro'))
+print ('F1:', f1_score (y_test, y_pred, average = 'macro'))
+print ('Cohen Kappa:', cohen_kappa_score (y_test,
+                                          y_pred,
+                       labels = df ['class_attack_type'].unique ()))
 
 sys.exit ()

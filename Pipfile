@@ -17,6 +17,8 @@ sklearn = "*"
 Keras = "*"
 tensorflow = "*"
 imbalanced-learn = "*"
+graphviz = "*"
+pyod = "*"
 
 [requires]
 python_version = "3"

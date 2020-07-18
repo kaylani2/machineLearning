@@ -296,45 +296,61 @@ print ('y_test shape:', y_test.shape)
 ###############################################################################
 ## Apply normalization
 ###############################################################################
-print ('Applying normalization (standard)')
+print ('Applying normalization (standard).')
 from sklearn.preprocessing import StandardScaler
 scaler = StandardScaler ()
 scaler.fit (X_train)
-#print ('Mean before scalling:', scaler.mean_)
 X_train = scaler.transform (X_train)
-scaler.fit (X_train)
-#print ('Mean after scalling:', scaler.mean_)
-
-scaler.fit (X_test)
 X_test = scaler.transform (X_test)
-scaler.fit (X_val)
 X_val = scaler.transform (X_val)
-
-#### K: One hot encode the output.
-#import keras.utils
-#from keras.utils import to_categorical
-#numberOfClasses = len (df ['class_attack_type'].unique ())
-#y_train = keras.utils.to_categorical (y_train, numberOfClasses)
-#y_test = keras.utils.to_categorical (y_test, numberOfClasses)
 
 
 ###############################################################################
 ## Handle imbalanced data
 ###############################################################################
+### K: 10,000 samples per attack
 from collections import Counter
 from imblearn.over_sampling import RandomOverSampler
 from imblearn.under_sampling import RandomUnderSampler
 print ('\nHandling imbalanced label distribution.')
-print ('Real:', Counter (y_train))
+
+### Only oversample
 myOversampler = RandomOverSampler (sampling_strategy = 'not majority',
                                    random_state = STATE)
 X_over, y_over = myOversampler.fit_resample (X_train, y_train)
+
+### Only undersample
 myUndersampler = RandomUnderSampler (sampling_strategy = 'not minority',
                                      random_state = STATE)
 X_under, y_under = myUndersampler.fit_resample (X_train, y_train)
+
+### Balanced
+MAX_SAMPLES = int (1e4)
+labels = dict (Counter (y_train))
+sampleDictOver = {'N/A': max (labels ['N/A'], MAX_SAMPLES),
+                  'Scanning': max (labels ['Scanning'], MAX_SAMPLES),
+                  'DoS': max (labels ['DoS'], MAX_SAMPLES),
+                  'MITM': max (labels ['MITM'], MAX_SAMPLES),
+                  'iot-toolkit': max (labels ['iot-toolkit'], MAX_SAMPLES)
+                 }
+balancedOverSampler = RandomOverSampler (sampling_strategy = sampleDictOver,
+                                         random_state = STATE)
+X_bal, y_bal = balancedOverSampler.fit_resample (X_train, y_train)
+labels = dict (Counter (y_bal))
+sampleDictUnder = {'N/A': min (labels ['N/A'], MAX_SAMPLES),
+                   'Scanning': min (labels ['Scanning'], MAX_SAMPLES),
+                   'DoS': min (labels ['DoS'], MAX_SAMPLES),
+                   'MITM': min (labels ['MITM'], MAX_SAMPLES),
+                   'iot-toolkit': min (labels ['iot-toolkit'], MAX_SAMPLES)
+                  }
+balancedUnderSampler = RandomUnderSampler (sampling_strategy = sampleDictUnder,
+                                           random_state = STATE)
+X_bal, y_bal = balancedUnderSampler.fit_resample (X_bal, y_bal)
+
+print ('Real:', Counter (y_train))
 print ('Over:', Counter (y_over))
 print ('Under:', Counter (y_under))
-
+print ('Balanced:', Counter (y_bal))
 
 
 ###############################################################################
