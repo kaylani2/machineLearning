@@ -15,6 +15,18 @@ Full dataset. Labels are not balanced.
 
 Features file.
 
+## Directories:
+
+### attack_classification/:
+
+Multiclass classification.
+
+### attack_identification/:
+
+Binary classification.
+
 ## Note:
 
-No pipelines are used for model evaluation. No cross-validation, the data is processed manually after splitting the dataset.
+No pipelines are used for model evaluation. No cross-validation, the data is processed manually after splitting the dataset. **If pipelines are used and cross-validation is performed, the file will have a CV suffix.** Like: mlp_CV.py
+
+Unless specified otherwise, the code uses the 5% dataset.

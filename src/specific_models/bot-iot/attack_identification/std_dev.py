@@ -9,7 +9,7 @@ recall      = []
 f1          = []
 cohen_kappa = []
 
-with open ('logfile.2020-07-16-11_24_23.log') as f:
+with open ('LOGFILE.log') as f:
   for line in f:
     if (re.search ('Accuracy', line)):
       accuracy.append (float (line.split () [1]))
@@ -50,7 +50,5 @@ stdev_train_time = str (round (statistics.stdev (train_time), 3))[:-1]
 
 #output = '\n\n\\thead{MODELO} & \makecell{$(' + mean_accuracy + '\pm$ \\\\ $' + stdev_accuracy + ')\%$} & \makecell{$(' + mean_precision + '\pm$ \\\\ $' + stdev_precision + ')\%$} & \makecell{$(' + mean_recall + '\pm$ \\\\ $' + stdev_recall + ')\%$} & \makecell{$(' + mean_f1 + '\pm$ \\\\ $' + stdev_f1 + ')\%$} & \makecell{$(' + mean_cohen_kappa + '\pm$ \\\\ $' + stdev_cohen_kappa + ')\%$} & \makecell{$(' + mean_train_time + '\pm$ \\\\ $' + stdev_train_time + ')$ s} \\\\ \hline %'
 output = '\n\n\\thead{MODELO} & \makecell{$(' + mean_accuracy + '\pm$ \\\\ $' + stdev_accuracy + ')\%$} & \makecell{$(' + mean_precision + '\pm$ \\\\ $' + stdev_precision + ')\%$} & \makecell{$(' + mean_recall + '\pm$ \\\\ $' + stdev_recall + ')\%$} & \makecell{$(' + mean_f1 + '\pm$ \\\\ $' + stdev_f1 + ')\%$} & \makecell{$(' + mean_train_time + '\pm$ \\\\ $' + stdev_train_time + ')$ s} \\\\ \hline %'
-
-
 
 print (output.replace ('.', ',').replace ('0,', '0,00'))

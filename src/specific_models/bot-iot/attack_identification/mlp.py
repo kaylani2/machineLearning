@@ -2,22 +2,43 @@
 # github.com/kaylani2
 # kaylani AT gta DOT ufrj DOT br
 
-### K: Model: Multilayer Perceptron
+### K: Model: Multilayer perceptron
 
-import pandas as pd
-import numpy as np
 import sys
 import time
-
+import pandas as pd
+import numpy as np
+from collections import Counter
+from imblearn.over_sampling import RandomOverSampler, RandomUnderSampler
+from sklearn.impute import SimpleImputer
+from sklearn.svm import SVC, LinearSVC
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.naive_bayes import GaussianNB
+from sklearn.preprocessing import LabelEncoder
+from sklearn.preprocessing import StandardScaler, RobustScaler, MinMaxScaler
+from sklearn.metrics import confusion_matrix, precision_score, recall_score
+from sklearn.metrics import f1_score, classification_report, accuracy_score
+from sklearn.metrics import cohen_kappa_score, mean_squared_error
+from sklearn.metrics import classification_report
+from sklearn.model_selection import train_test_split, PredefinedSplit
+from sklearn.model_selection import GridSearchCV
+from sklearn.feature_selection import SelectKBest
+from sklearn.feature_selection import f_classif, chi2, mutual_info_classif
+import keras.utils
+from keras import metrics
+from keras.utils import to_categorical, class_weight
+from keras.models import Sequential, Dense, Dropout
+from keras.layers import Conv2D, MaxPooling2D, Flatten, LSTM
+from keras.optimizers import RMSprop, Adam
+from keras.constraints import maxnorm
 
 ###############################################################################
 ## Define constants
 ###############################################################################
 # Random state for reproducibility
 
-STATES = [0, 10, 100, 1000, 10000]
 STATE = 0
-#for STATE in STATES:
 np.random.seed (STATE)
 
 pd.set_option ('display.max_rows', None)
@@ -178,7 +199,6 @@ df.drop (axis = 'columns', columns = 'saddr', inplace = True)
 df.drop (axis = 'columns', columns = 'daddr', inplace = True)
 
 print ('\nHandling categorical attributes (label encoding).')
-from sklearn.preprocessing import LabelEncoder
 myLabelEncoder = LabelEncoder ()
 df ['flgs'] = myLabelEncoder.fit_transform (df ['flgs'])
 df ['proto'] = myLabelEncoder.fit_transform (df ['proto'])
@@ -211,7 +231,6 @@ df.drop (axis = 'columns', columns = 'subcategory', inplace = True)
 ###############################################################################
 ## Split dataset into train, validation and test sets
 ###############################################################################
-from sklearn.model_selection import train_test_split
 TEST_SIZE = 2/10
 VALIDATION_SIZE = 1/4
 print ('\nSplitting dataset (test/train):', TEST_SIZE)
@@ -248,7 +267,6 @@ print ('y_test_df shape:', y_test_df.shape)
 ###############################################################################
 ### K: NOTE: Only use derived information from the train set to avoid leakage.
 
-from sklearn.impute import SimpleImputer
 for myColumn, myStrategy in zip (columsWithMissingValues, imputingStrategies):
   myImputer = SimpleImputer (missing_values = np.nan, strategy = myStrategy)
   myImputer.fit (X_train_df [myColumn].values.reshape (-1, 1))
@@ -279,7 +297,6 @@ print ('y_test shape:', y_test.shape)
 ## Apply normalization
 ###############################################################################
 ### K: NOTE: Only use derived information from the train set to avoid leakage.
-from sklearn.preprocessing import StandardScaler, RobustScaler, MinMaxScaler
 print ('\nApplying normalization.')
 startTime = time.time ()
 scaler = StandardScaler ()
@@ -294,8 +311,6 @@ print (str (time.time () - startTime), 'to normalize data.')
 ###############################################################################
 ## Perform feature selection
 ###############################################################################
-from sklearn.feature_selection import SelectKBest
-from sklearn.feature_selection import f_classif, chi2, mutual_info_classif
 NUMBER_OF_FEATURES = 9 #'all'
 print ('\nSelecting top', NUMBER_OF_FEATURES, 'features.')
 startTime = time.time ()
@@ -332,9 +347,6 @@ for feature in bestFeatures:
 ###############################################################################
 """
 ### K: 10,000 samples per attack
-from collections import Counter
-from imblearn.over_sampling import RandomOverSampler
-from imblearn.under_sampling import RandomUnderSampler
 print ('\nHandling imbalanced label distribution.')
 
 ### Only oversample
@@ -375,8 +387,6 @@ print ('Balanced:', Counter (y_bal))
 ## Create learning model (Multilayer Perceptron) and tune hyperparameters
 ###############################################################################
 ### K: One hot encode the output.
-import keras.utils
-from keras.utils import to_categorical
 numberOfClasses = len (df [TARGET].unique ())
 print ('y_val:')
 print (y_val [:50])
@@ -385,10 +395,6 @@ y_train = keras.utils.to_categorical (y_train, numberOfClasses)
 y_val = keras.utils.to_categorical (y_val, numberOfClasses)
 y_test = keras.utils.to_categorical (y_test, numberOfClasses)
 
-from sklearn.model_selection import PredefinedSplit
-from sklearn.model_selection import GridSearchCV
-from sklearn.tree import DecisionTreeClassifier
-import time
 ### -1 indices -> train
 ### 0  indices -> validation
 test_fold = np.repeat ([-1, 0], [X_train.shape [0], X_val.shape [0]])
@@ -405,13 +411,6 @@ print (y_val.shape)
 #y_train = y_train.argmax (axis = 1)
 
 print ('\nCreating learning model.')
-from keras.models import Sequential
-from keras.layers import Dense, Dropout
-from keras.optimizers import RMSprop
-from keras.optimizers import Adam
-from keras.wrappers.scikit_learn import KerasClassifier
-from keras import metrics
-from keras.constraints import maxnorm
 #BATCH_SIZE = 64
 #NUMBER_OF_EPOCHS = 4
 #LEARNING_RATE = 0.001
@@ -457,13 +456,10 @@ from keras.constraints import maxnorm
 ##Best: 0.999957 using {'batch_size': 30, 'dropout_rate': 0.7, 'epochs': 3, 'learn_rate': 0.3, 'weight_constraint': 1}
 
 print ('\nCreating learning model.')
-from keras.models import Sequential
-from keras.layers import Dense, Dropout
 BATCH_SIZE = 30
 NUMBER_OF_EPOCHS = 3
 LEARNING_RATE = 0.001
 WEIGHT_CONSTRAINT = 1
-#from sklearn.utils import class_weight
 #class_weight = class_weight.compute_class_weight ('balanced',
 #                                                  np.unique (y_train),
 #                                                  y_train)
@@ -481,9 +477,6 @@ bestModel.summary ()
 ## Compile the network
 ###############################################################################
 print ('\nCompiling the network.')
-from keras.optimizers import RMSprop
-from keras.optimizers import Adam
-from keras import metrics
 bestModel.compile (loss = 'binary_crossentropy',
                    optimizer = Adam (lr = LEARNING_RATE),
                    metrics = ['binary_accuracy',
@@ -511,10 +504,6 @@ print (str (time.time () - startTime), 's to train model.')
 ###############################################################################
 ## Analyze results
 ###############################################################################
-from sklearn.metrics import confusion_matrix, classification_report
-from sklearn.metrics import confusion_matrix, precision_score, recall_score
-from sklearn.metrics import f1_score, classification_report, accuracy_score
-from sklearn.metrics import cohen_kappa_score
 #y_pred = bestModel.predict (X_val)
 #y_pred = y_pred.round ()
 #print ('\nPerformance on VALIDATION set:')
