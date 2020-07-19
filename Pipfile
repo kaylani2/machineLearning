@@ -20,6 +20,7 @@ tensorflow = "*"
 seaborn = "*"
 jupyter = "*"
 jupyter-notebooks = "*"
+imblearn = "*"
 
 [requires]
 python_version = "3.6"

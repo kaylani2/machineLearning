@@ -115,10 +115,6 @@ y = df.iloc [:, -1]
 print('Number of non-attacks: ', y.value_counts()[0])
 print('Number of attacks: ', y.value_counts()[1])
 
-# See Output, only available on jupyter-notebooks
-# X
-
-
 # ###############################################################################
 # ## Create artificial non-attacks samples using Random Oversampling
 # ###############################################################################
@@ -243,11 +239,8 @@ myPreSplit = PredefinedSplit (test_fold)
 #for train_index, test_index in myPreSplit.split ():
 #    print ("TRAIN:", train_index, "TEST:", test_index)
 
-# Best: {'C': 0.009, 'gamma': 1, 'kernel': 'linear'}
-
-
 parameters = {'C' : [0.001,.009,0.01,.09,1,5,10,25,50],
-              'kernel' : ['linear', 'rbf'],
+              'kernel' : ['linear'],
               'gamma' : [1, 0.1, 0.01]}
 clf = SVC()
 model = GridSearchCV (estimator = clf,

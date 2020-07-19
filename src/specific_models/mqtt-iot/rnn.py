@@ -22,8 +22,8 @@ except:
   STATE = 0
 np.random.seed(10)
 
-# LENGTH will be the length of the made step to reshape the input matrix 
-LENGTH = 200
+# STEPS will be the STEPS of the made step to reshape the input matrix 
+STEPS = 5
 
 
 ###############################################################################
@@ -101,12 +101,12 @@ df.replace (np.nan, 0, inplace = True)
 #     drop_indices = np.random.choice(df_to_be_dropped.index, remove_n, replace=False)
 #     df = df.drop(drop_indices)
 
-# The number of samples must be divisible by LENGTH to the implemented loops work
+# The number of samples must be divisible by STEPS to the implemented loops work
 TRAFFIC = 1  # Oversampling will be done
 # TRAFFIC = 1 # Undersampling will be done
 
 print('Number of non-attacks before dropping: ', int(df.is_attack.value_counts()[TRAFFIC]))
-remove_n = int(df.is_attack.value_counts()[TRAFFIC]) % LENGTH 
+remove_n = int(df.is_attack.value_counts()[TRAFFIC]) % STEPS 
 print('Removing ', remove_n, ' rows...')
 drop_indices = list(df.index[df.is_attack == TRAFFIC])
 drop_indices = drop_indices[0:remove_n]
@@ -251,9 +251,9 @@ print('y_test values: ', y_test.value_counts())
 #     samples = []
 
 #     # step over the X_train.shape[0] (samples) in jumps of 200 (time_steps)
-#     for i in range(0,n,LENGTH):
+#     for i in range(0,n,STEPS):
 #         # grab from i to i + 200
-#         sample = data[i:i+LENGTH]
+#         sample = data[i:i+STEPS]
 #         samples.append(sample)
 
 #     # convert list of arrays into 2d array
@@ -262,7 +262,7 @@ print('y_test values: ', y_test.value_counts())
 #     for i in range(len(samples)):
 #         new_data = np.append(new_data, samples[i])
         
-#     sets_list[index] = new_data.reshape(len(samples), LENGTH, data.shape[1])
+#     sets_list[index] = new_data.reshape(len(samples), STEPS, data.shape[1])
      
     
 # X_train = sets_list[0]
@@ -275,12 +275,12 @@ print('y_test values: ', y_test.value_counts())
 #     new_answer = list()
 #     new_answer = np.array(new_answer)
 #     answer = np.array(answer)
-#     for i in range (0, len(answer), LENGTH):
+#     for i in range (0, len(answer), STEPS):
 #         new_answer = np.append(new_answer, answer[i])
 #     answer_list[index] = new_answer
 
 
-# def window_stack(a, stepsize=LENGTH, width=3):
+# def window_stack(a, stepsize=STEPS, width=3):
 #     n = a.shape[0]
 #     return np.hstack( a[i:1+n+i-width:stepsize] for i in range(0,width) )
 
@@ -294,7 +294,6 @@ print('y_test values: ', y_test.value_counts())
 
 # pd.Series(y_train).value_counts()
 
-STEPS = 10
 FEATURES = X_train.shape [1]
 def window_stack (a, stride = 1, numberOfSteps = 3):
     return np.hstack ([ a [i:1+i-numberOfSteps or None:stride] for i in range (0,numberOfSteps) ])
@@ -313,21 +312,60 @@ print ('X_test shape:', X_test.shape)
 print ('y_test shape:', y_test.shape)
 
 
-
 # univariate lstm
 
 from keras.models import Sequential
 from keras.layers import LSTM
 from keras.layers import Dense
 
-# define model
-model = Sequential()
-model.add(LSTM(50, activation= 'relu' , input_shape=(X_train.shape[1], X_train.shape[2])))
-model.add(Dense(1))
-model.compile(optimizer= 'adam' , loss= 'mse' )
+###################
+
+print ('\nCreating learning model.')
+numberOfClasses = len (df [TARGET].unique ())
+BATCH_SIZE = 30
+NUMBER_OF_EPOCHS = 3
+LEARNING_RATE = 0.001
+WEIGHT_CONSTRAINT = 1
+bestModel = Sequential ()
+#bestModel.add (LSTM (100, activation = 'relu', return_sequences = True,
+#               input_shape = (X_train.shape [1], X_train.shape [2])))
+#bestModel.add (LSTM (100, activation = 'relu'))
+bestModel.add (LSTM (50, activation= 'relu' , input_shape= (X_train.shape [1], X_train.shape [2])))
+bestModel.add (Dense (1, activation = 'sigmoid'))
+
+print ('Model summary:')
+bestModel.summary ()
+
+###############################################################################
+## Compile the network
+###############################################################################
+print ('\nCompiling the network.')
+from keras.optimizers import RMSprop
+from keras.optimizers import Adam
+from keras import metrics
+bestModel.compile (optimizer = 'adam',
+                   loss = 'binary_crossentropy',
+                   )#metrics = ['binary_accuracy', metrics.Precision ()])
+#bestModel.compile (loss = 'binary_crossentropy',
+#                   optimizer = Adam (lr = LEARNING_RATE),
+#                   metrics = ['binary_accuracy',
+#                              #metrics.Recall (),
+#                              metrics.Precision ()])
 
 
-# In[20]:
+# # univariate lstm
+
+# from keras.models import Sequential
+# from keras.layers import LSTM
+# from keras.layers import Dense
+
+# # define model
+# model = Sequential()
+# model.add(LSTM(50, activation= 'relu' , input_shape=(X_train.shape[1], X_train.shape[2])))
+# model.add(Dense(1))
+# model.compile(optimizer= 'adam' , loss= 'mse' )
+
+
 
 
 import time
@@ -340,61 +378,17 @@ model.fit(X_train, y_train, epochs=50, verbose=0)
 
 print("--- %s seconds ---" % (time.time() - start_time))
 
-
-# In[21]:
-
-
 y_pred = model.predict(X_test, verbose=0)
-print(y_pred)
-
-
-# In[22]:
-
-
-pd.Series(y_train).value_counts()
-
-
-# In[31]:
-
 
 y_pred_rounded = np.round(y_pred, 0)
 
-
-# In[32]:
-
-
-y_pred_rounded.shape
-
-
-# In[24]:
-
-
 y_pred_rounded = abs(pd.Series(y_pred_rounded.reshape(y_pred.shape[0])))
-
-
-# In[30]:
-
-
-y_pred.shape
-
-
-# In[25]:
 
 
 import tensorflow as tf
 m = tf.keras.metrics.Precision()
 m.update_state([0, 1, 1, 1], [1, 0, 1, 1])
 m.result().numpy()
-
-
-# In[26]:
-
-
-np.array(y_test)
-
-
-# In[27]:
-
 
 import matplotlib.pyplot as plt
 from sklearn.metrics import confusion_matrix
