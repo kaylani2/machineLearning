@@ -9,7 +9,7 @@
 #------------------------------------------------------------------------------
 
 import pandas as pd
-dataframe = pd.read_excel('../data/iris.xlsx')
+dataframe = pd.read_excel('../../../datasets/iris.xlsx')
 
 #------------------------------------------------------------------------------
 #  Separar em dataframes distintos os atributos e o alvo

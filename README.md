@@ -6,6 +6,9 @@ This repository is used to teach and provide examples for basic and intermediate
 
 ![Overview (IT MAY CHANGE)](images/ml_repo_file_system.png?raw=true "Overview")
 
+### dataset_analysis:
+  Contains a few examples of common operations performed on almost every project, such as: data loading, statistical analysis, simple data pre-processing, visualization, scaling, feature selection, etc.
+
 ### simple_examples:
   Contains a few implementations of learning models that are classically used for didactic purposes, like neural networks on the MNIST dataset.
 
@@ -15,21 +18,21 @@ This repository is used to teach and provide examples for basic and intermediate
 ### model_mockups:
   Actual learning models applied to famous datasets used in computer networks (usually).
 
+### specific_models:
+  Scripts developed to analyse real, specific datasets.
+
 ## Files:
 
 ### download_datasets.py
-  Download the following datasets (csv file only): CICIDS, NSL-KDD and UNSW-NB15.
+  Download the following datasets (.csv files only): CICIDS, NSL-KDD and UNSW-NB15.
 
 ## Warning:
-  When downloading UNSW-NB15, "-1 / unknown" could be printed on terminal. This is **not** an error. Wait until the program stop running.
-
-### check_version.py
-  Self-explanatory.
+  When downloading UNSW-NB15, "-1 / unknown" could be printed on terminal. This is **not** an error, it is a result of wget not being able to estimate the remaining time for large files. Wait until the program stop running.
 
 ## Warning:
   Some files used as examples were taken directly from the examples in the corresponding library's documentation and may contain code that is not appropriate for hyperparameter tuning, specifically some [examples](https://github.com/keras-team/keras/blob/master/examples/cifar10_cnn.py#L80. "examples") from the keras documentation.
 
-  As pointed out is this [issue](https://github.com/keras-team/keras/issues/1753 "issue"). Some examples use a test set (named as such) for validation. Although the code is not being used for hyperparameter tuning, the mixed nomenclature between test and validation sets should have been avoided and are currently (as of May 7th, 2020). Be aware that in order to perform hyperparameter tuning there is the need to separate the test set for usage only after the model has been finely tuned.
+  As pointed out in this [issue](https://github.com/keras-team/keras/issues/1753 "issue"). Some examples use a test set (named as such) for validation. Although the code is not being used for hyperparameter tuning, the mixed nomenclature between test and validation sets should have been avoided and are currently (as of May 7th, 2020). Be aware that in order to perform hyperparameter tuning there is the need to separate the test set for usage only after the model has been finely tuned.
 
   ```python
   ## This sould be avoided:
