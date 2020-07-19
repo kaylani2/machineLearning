@@ -314,12 +314,12 @@ SAMPLE_2D_SIZE = math.ceil (math.sqrt (X_train.shape [1]))# 7x7
 SIZE = math.ceil (math.sqrt (X_train.shape [1]))# 7x7
 print (SAMPLE_2D_SIZE)
 
-X_train.resize ( (X_train.shape[0], SAMPLE_2D_SIZE, SAMPLE_2D_SIZE))
-X_train = X_train.reshape ( (X_train.shape[0], SIZE, SIZE, 1))
-X_val.resize ( (X_val.shape[0], SAMPLE_2D_SIZE, SAMPLE_2D_SIZE))
-X_val = X_val.reshape ( (X_val.shape[0], SIZE, SIZE, 1))
-X_test.resize ( (X_test.shape[0], SAMPLE_2D_SIZE, SAMPLE_2D_SIZE))
-X_test = X_test.reshape ( (X_test.shape[0], SIZE, SIZE, 1))
+X_train.resize ((X_train.shape[0], SAMPLE_2D_SIZE, SAMPLE_2D_SIZE))
+X_train = X_train.reshape ((X_train.shape[0], SIZE, SIZE, 1))
+X_val.resize ((X_val.shape[0], SAMPLE_2D_SIZE, SAMPLE_2D_SIZE))
+X_val = X_val.reshape ((X_val.shape[0], SIZE, SIZE, 1))
+X_test.resize ((X_test.shape[0], SAMPLE_2D_SIZE, SAMPLE_2D_SIZE))
+X_test = X_test.reshape ((X_test.shape[0], SIZE, SIZE, 1))
 print (X_train.shape)
 print (X_val.shape)
 print (X_test.shape)
@@ -335,7 +335,7 @@ print (X_test.shape)
 #  model.add (Conv2D (64, (filter_size, filter_size), activation = 'relu',
 #                     input_shape = (SIZE, SIZE, 1),))
 #  model.add (Conv2D (64, (filter_size, filter_size), activation = 'relu'))
-#  model.add (MaxPooling2D ( (filter_size, filter_size)))
+#  model.add (MaxPooling2D ((filter_size, filter_size)))
 #  model.add (Flatten ())
 #  model.add (Dense (64, activation = 'relu',))
 #  model.add (Dropout (dropout_rate))
@@ -364,8 +364,8 @@ print (X_test.shape)
 #                     scoring = 'f1_weighted', cv = myPreSplit, verbose = 2,
 #                     n_jobs = -1)
 #
-#grid_result = grid.fit (np.concatenate ( (X_train, X_val), axis = 0),
-#                        np.concatenate ( (y_train, y_val), axis = 0))
+#grid_result = grid.fit (np.concatenate ((X_train, X_val), axis = 0),
+#                        np.concatenate ((y_train, y_val), axis = 0))
 #print (grid_result.best_params_)
 #
 #print ("Best: %f using %s" % (grid_result.best_score_, grid_result.best_params_))
@@ -395,7 +395,7 @@ bestModel.add (Conv2D (64, (2, 2), activation = 'relu',
                    input_shape = (SIZE, SIZE, 1),
                    ))
 bestModel.add (Conv2D (64, (2, 2), activation = 'relu'))
-bestModel.add (MaxPooling2D ( (2, 2)))
+bestModel.add (MaxPooling2D ((2, 2)))
 bestModel.add (Flatten ())
 bestModel.add (Dropout (DROPOUT_RATE))
 bestModel.add (Dense (64, activation = 'relu',))
