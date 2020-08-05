@@ -19,6 +19,8 @@ tensorflow = "*"
 imbalanced-learn = "*"
 graphviz = "*"
 pyod = "*"
+jupyter = "*"
+jupyterlab = "*"
 
 [requires]
 python_version = "3"

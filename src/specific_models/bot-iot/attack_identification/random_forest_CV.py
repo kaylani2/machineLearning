@@ -2,7 +2,7 @@
 # github.com/kaylani2
 # kaylani AT gta DOT ufrj DOT br
 
-### K: Model: Decision trees
+### K: Model: Random forest
 import sys
 import time
 import pandas as pd
@@ -179,7 +179,7 @@ feature_selector_transformer = Pipeline (steps)
 
 ###############################################################################
 ### Assemble pipeline for grid search
-clf = DecisionTreeClassifier ()
+clf = RandomForestClassifier ()
 clf = Pipeline (steps = [ ('preprocessor', preprocessor),
                         ('feature_selector', feature_selector_transformer),
                         ('classifier', clf)],
@@ -193,9 +193,10 @@ print (sorted (clf.get_params ().keys ()))
 #sorted (sklearn.metrics.SCORERS.keys ())
 param_grid = {'feature_selector__feature_selector__score_func' : [f_classif],
               'feature_selector__feature_selector__k' : [9],
-              'classifier__criterion' : ['gini', 'entropy'],
-              'classifier__splitter' : ['best', 'random'],
-              'classifier__max_depth' : [2, 3, 5, 7, 10],
+              'classifier__criterion' : ['gini'],#, 'entropy'],
+              'classifier__bootstrap' : [False],#, True], Use entire dataset
+              'classifier__n_estimators' : [100],#, 200],
+              'classifier__max_depth' : [2, 5, 10],#, 20],
               'classifier__min_samples_split' : [2, 3, 5]}
 print ('param_grid:', param_grid)
 cv = RepeatedStratifiedKFold (n_splits = 5, n_repeats = 1, random_state = STATE)
@@ -217,7 +218,7 @@ for mean, stdev, param in zip (means, stds, params):
 ###############################################################################
 ###############################################################################
 ### standard_scaler ### K: Non object features
-object_features = (list (df.select_dtypes (['object']).columns))
+object_features = (list (df.select_dtypes ( ['object']).columns))
 remaining_features = list (df.columns)
 for feature in object_features:
   remaining_features.remove (feature)
@@ -245,8 +246,8 @@ feature_selector_transformer = Pipeline (steps)
 
 ###############################################################################
 ### Assemble pipeline for training
-clf = DecisionTreeClassifier (criterion = 'gini', splitter = 'best', max_depth = 7,
-                              min_samples_split = 5)
+clf = RandomForestClassifier (criterion = 'gini', bootstrap = False, max_depth = 10,
+                              min_samples_split = 3, n_estimators = 100)
 clf = Pipeline (steps = [ ('preprocessor', preprocessor),
                         ('feature_selector', feature_selector_transformer),
                         ('classifier', clf)],
@@ -297,3 +298,17 @@ print ('TP:', tp)
 print ('TN:', tn)
 print ('FP:', fp)
 print ('FN:', fn)
+
+
+#Best: 0.999994 using {'classifier__bootstrap': False, 'classifier__criterion': 'gini', 'classifier__max_depth': 10, 'classifier__min_samples_split': 3, 'classifier__n_estimators': 100, 'feature_selector__feature_selector__k': 9, 'feature_selector__feature_selector__score_func': <function f_classif at 0x7f011a142dc0>}
+#0.999983 (0.000003) with: {'classifier__bootstrap': False, 'classifier__criterion': 'gini', 'classifier__max_depth': 2, 'classifier__min_samples_split': 2, 'classifier__n_estimators': 100, 'feature_selector__feature_selector__k': 9, 'feature_selector__feature_selector__score_func': <function f_classif at 0x7f011a142dc0>}
+#0.999979 (0.000012) with: {'classifier__bootstrap': False, 'classifier__criterion': 'gini', 'classifier__max_depth': 2, 'classifier__min_samples_split': 3, 'classifier__n_estimators': 100, 'feature_selector__feature_selector__k': 9, 'feature_selector__feature_selector__score_func': <function f_classif at 0x7f011a142dc0>}
+#0.999976 (0.000015) with: {'classifier__bootstrap': False, 'classifier__criterion': 'gini', 'classifier__max_depth': 2, 'classifier__min_samples_split': 5, 'classifier__n_estimators': 100, 'feature_selector__feature_selector__k': 9, 'feature_selector__feature_selector__score_func': <function f_classif at 0x7f011a142dc0>}
+#0.999988 (0.000005) with: {'classifier__bootstrap': False, 'classifier__criterion': 'gini', 'classifier__max_depth': 5, 'classifier__min_samples_split': 2, 'classifier__n_estimators': 100, 'feature_selector__feature_selector__k': 9, 'feature_selector__feature_selector__score_func': <function f_classif at 0x7f011a142dc0>}
+#0.999988 (0.000005) with: {'classifier__bootstrap': False, 'classifier__criterion': 'gini', 'classifier__max_depth': 5, 'classifier__min_samples_split': 3, 'classifier__n_estimators': 100, 'feature_selector__feature_selector__k': 9, 'feature_selector__feature_selector__score_func': <function f_classif at 0x7f011a142dc0>}
+#0.999988 (0.000005) with: {'classifier__bootstrap': False, 'classifier__criterion': 'gini', 'classifier__max_depth': 5, 'classifier__min_samples_split': 5, 'classifier__n_estimators': 100, 'feature_selector__feature_selector__k': 9, 'feature_selector__feature_selector__score_func': <function f_classif at 0x7f011a142dc0>}
+#0.999994 (0.000003) with: {'classifier__bootstrap': False, 'classifier__criterion': 'gini', 'classifier__max_depth': 10, 'classifier__min_samples_split': 2, 'classifier__n_estimators': 100, 'feature_selector__feature_selector__k': 9, 'feature_selector__feature_selector__score_func': <function f_classif at 0x7f011a142dc0>}
+#0.999994 (0.000003) with: {'classifier__bootstrap': False, 'classifier__criterion': 'gini', 'classifier__max_depth': 10, 'classifier__min_samples_split': 3, 'classifier__n_estimators': 100, 'feature_selector__feature_selector__k': 9, 'feature_selector__feature_selector__score_func': <function f_classif at 0x7f011a142dc0>}
+#0.999993 (0.000003) with: {'classifier__bootstrap': False, 'classifier__criterion': 'gini', 'classifier__max_depth': 10, 'classifier__min_samples_split': 5, 'classifier__n_estimators': 100, 'feature_selector__feature_selector__k': 9, 'feature_selector__feature_selector__score_func': <function f_classif at 0x7f011a142dc0>}
+#(machineLearning) gta@ponte:~/kaylani/machineLearning/src/specific_models/bot-iot/attack_identification$ 
+

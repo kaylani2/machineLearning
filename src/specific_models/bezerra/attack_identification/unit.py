@@ -5,18 +5,11 @@
 import pandas as pd
 import numpy as np
 
-def load_dataset (file_schema, file_range, index_column, nan_values,
-                  verbose = True):
+def load_dataset (verbose = False):
   '''
   Parameters:
   -----------
-  file_schema: str
-
-  file_range: int
-
-  index_column: str
-
-  nan_values: list of str
+  verbose: bool, default = True
 
   Returns:
   --------
@@ -24,19 +17,40 @@ def load_dataset (file_schema, file_range, index_column, nan_values,
 
   Examples:
   ---------
-  >>> df = load_dataset ('IoT-File_{}.csv', 4, 'package_ID', ['?', 'UNDEFINED'])
+  >>> df = load_dataset (verbose = True)
   '''
-  df = pd.DataFrame ()
-  for file_number in range (1, file_range + 1):
-    if (verbose):
-      print ('Reading', file_schema.format (str (file_number)))
-    aux = pd.read_csv (file_schema.format (str (file_number)),
-                       index_col = index_column,
-                       dtype = {index_column: np.int32},
-                       na_values = nan_values,
-                       low_memory = False)
-    df = pd.concat ([df, aux])
+
+  DATASET_DIR = '../../../../datasets/Dataset-IoT/'
+  NETFLOW_DIRS = ['MC/NetFlow/', 'SC/NetFlow/', 'ST/NetFlow/']
+
+  # MC_I_FIRST: Has infected data by Hajime, Aidra and BashLite botnets'
+  # MC_I_SECOND: Has infected data from Mirai botnets
+  # MC_I_THIR: Has infected data from Mirai, Doflo, Tsunami and Wroba botnets
+  # MC_L: Has legitimate data, no infection
+
+  path_types = ['MC', 'SC', 'ST']
+  data_set_files = [[r'MC_I{}.csv'.format (index) for index in range (1, 4)],
+                   [r'SC_I{}.csv'.format (index) for index in range (1, 4)],
+                   [r'ST_I{}.csv'.format (index) for index in range (1, 4)] ]
+
+  for path, files in zip (path_types, data_set_files):
+    files.append (path + '_L.csv')
+
+  print ("Caminhos construidos")
+  ################
+  ##reading data##
+  ################
+
+  for n, (path, files) in enumerate (zip (NETFLOW_DIRS, data_set_files), start = 1):
+    for csvFile in files:
+        if n == 1:
+            df = pd.read_csv (DATASET_DIR + path + csvFile)
+        else:
+            aux_df = pd.read_csv (DATASET_DIR + path + csvFile)
+            df = pd.concat ( [df, aux_df], ignore_index = True)
+
   return df
+
 
 def display_general_information (df, verbose = True):
   '''
@@ -72,7 +86,7 @@ def display_general_information (df, verbose = True):
   for column in df.columns:
     nUnique = df [column].nunique ()
     nUniques.append (nUnique)
-    print('{:35s} {:15d}  '.format(column, nUnique))
+    print ('{:35s} {:15d}  '.format (column, nUnique))
     #print (column, '|', nUnique)
 
   print ()
@@ -82,7 +96,7 @@ def display_general_information (df, verbose = True):
       if (nUnique < 10):
         print (column, df [column].unique ())
       else:
-        print('{:35s} {:15d}  '.format(column, nUnique))
+        print ('{:35s} {:15d}  '.format (column, nUnique))
 
   my_objects = list (df.select_dtypes ( ['object']).columns)
   print ('\nObjects: (select encoding method)')
@@ -90,7 +104,7 @@ def display_general_information (df, verbose = True):
   print ('Column | # of different values | values')
   for column in my_objects:
     print (column, '|', df [column].nunique (), '|', df [column].unique ())
-  print ('Objects:', list (df.select_dtypes (['object']).columns), '\n')
+  print ('Objects:', list (df.select_dtypes ( ['object']).columns), '\n')
 
 def remove_columns_with_one_value (df, verbose = True):
   '''

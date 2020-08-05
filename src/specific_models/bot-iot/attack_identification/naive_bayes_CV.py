@@ -2,7 +2,7 @@
 # github.com/kaylani2
 # kaylani AT gta DOT ufrj DOT br
 
-### K: Model: Decision trees
+### K: Model: Naive Bayes
 import sys
 import time
 import pandas as pd
@@ -147,77 +147,12 @@ print ('X_test_df shape:', X_test_df.shape)
 print ('y_test_df shape:', y_test_df.shape)
 
 
-'''
-###############################################################################
-## Define processing pipeline for grid search
-###############################################################################
-###############################################################################
-### standard_scaler ### K: Non object features
-object_features = (list (df.select_dtypes ( ['object']).columns))
-remaining_features = list (df.columns)
-for feature in object_features:
-  remaining_features.remove (feature)
-remaining_features.remove (TARGET)
-
-standard_scaler_features = remaining_features
-my_scaler = StandardScaler ()
-steps = list ()
-steps.append (('scaler', my_scaler))
-standard_scaler_transformer = Pipeline (steps)
-
-###############################################################################
-### Assemble column transformer
-preprocessor = ColumnTransformer (transformers = [
-              ('sca', standard_scaler_transformer, standard_scaler_features)])
-
-###############################################################################
-### feature selector ### K: Non object features
-my_feature_selector = SelectKBest ()
-steps = list ()
-steps.append (('feature_selector', my_feature_selector))
-feature_selector_transformer = Pipeline (steps)
-
-###############################################################################
-### Assemble pipeline for grid search
-clf = DecisionTreeClassifier ()
-clf = Pipeline (steps = [ ('preprocessor', preprocessor),
-                        ('feature_selector', feature_selector_transformer),
-                        ('classifier', clf)],
-               verbose = True)
-#set_config (display = 'diagram')
-#clf
-print (sorted (clf.get_params ().keys ()))
-
-###############################################################################
-### Run grid search
-#sorted (sklearn.metrics.SCORERS.keys ())
-param_grid = {'feature_selector__feature_selector__score_func' : [f_classif],
-              'feature_selector__feature_selector__k' : [9],
-              'classifier__criterion' : ['gini', 'entropy'],
-              'classifier__splitter' : ['best', 'random'],
-              'classifier__max_depth' : [2, 3, 5, 7, 10],
-              'classifier__min_samples_split' : [2, 3, 5]}
-print ('param_grid:', param_grid)
-cv = RepeatedStratifiedKFold (n_splits = 5, n_repeats = 1, random_state = STATE)
-grid = GridSearchCV (estimator = clf, param_grid = param_grid, scoring = 'f1',
-                     verbose = 1, n_jobs = -1, cv = cv)
-grid_result = grid.fit (X_train_df, y_train_df)
-
-print ('Best: %f using %s' % (grid_result.best_score_, grid_result.best_params_))
-means = grid_result.cv_results_ ['mean_test_score']
-stds = grid_result.cv_results_ ['std_test_score']
-params = grid_result.cv_results_ ['params']
-for mean, stdev, param in zip (means, stds, params):
-  print ('%f (%f) with: %r' % (mean, stdev, param))
-'''
-
-
 ###############################################################################
 ## Define processing pipeline for training (hyperparameter are optimized)
 ###############################################################################
 ###############################################################################
 ### standard_scaler ### K: Non object features
-object_features = (list (df.select_dtypes (['object']).columns))
+object_features = (list (df.select_dtypes ( ['object']).columns))
 remaining_features = list (df.columns)
 for feature in object_features:
   remaining_features.remove (feature)
@@ -245,8 +180,7 @@ feature_selector_transformer = Pipeline (steps)
 
 ###############################################################################
 ### Assemble pipeline for training
-clf = DecisionTreeClassifier (criterion = 'gini', splitter = 'best', max_depth = 7,
-                              min_samples_split = 5)
+clf = GaussianNB ()
 clf = Pipeline (steps = [ ('preprocessor', preprocessor),
                         ('feature_selector', feature_selector_transformer),
                         ('classifier', clf)],

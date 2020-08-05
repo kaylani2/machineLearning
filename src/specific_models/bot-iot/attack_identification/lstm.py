@@ -2,7 +2,7 @@
 # github.com/kaylani2
 # kaylani AT gta DOT ufrj DOT br
 
-### K: Model: 2D CNN sample based
+### K: Model: LSTM
 import sys
 import time
 import pandas as pd
@@ -148,6 +148,12 @@ X_train_df, X_val_df, y_train_df, y_val_df = train_test_split (
                                              y_train_df,
                                              test_size = VALIDATION_SIZE,
                                              random_state = STATE,)
+X_train_df.sort_index (inplace = True)
+y_train_df.sort_index (inplace = True)
+X_val_df.sort_index (inplace = True)
+y_val_df.sort_index (inplace = True)
+X_test_df.sort_index (inplace = True)
+y_test_df.sort_index (inplace = True)
 print ('X_train_df shape:', X_train_df.shape)
 print ('y_train_df shape:', y_train_df.shape)
 print ('X_val_df shape:', X_val_df.shape)
@@ -188,82 +194,114 @@ X_val = scaler.transform (X_val)
 X_test = scaler.transform (X_test)
 print (str (time.time () - startTime), 'to normalize data.')
 
+
 ###############################################################################
 ## Perform feature selection
 ###############################################################################
-### K: The convolutional layers will handle it.
+NUMBER_OF_FEATURES = 9 #'all'
+print ('\nSelecting top', NUMBER_OF_FEATURES, 'features.')
+startTime = time.time ()
+#fs = SelectKBest (score_func = mutual_info_classif, k = NUMBER_OF_FEATURES)
+### K: ~30 minutes to FAIL fit mutual_info_classif to 5% bot-iot
+#fs = SelectKBest (score_func = chi2, k = NUMBER_OF_FEATURES) # X must be >= 0
+### K: ~4 seconds to fit chi2 to 5% bot-iot (MinMaxScaler (0, 1))
+fs = SelectKBest (score_func = f_classif, k = NUMBER_OF_FEATURES)
+### K: ~4 seconds to fit f_classif to 5% bot-iot
+fs.fit (X_train, y_train)
+X_train = fs.transform (X_train)
+X_val = fs.transform (X_val)
+X_test = fs.transform (X_test)
+print (str (time.time () - startTime), 'to select features.')
+print ('X_train shape:', X_train.shape)
+print ('y_train shape:', y_train.shape)
+print ('X_val shape:', X_val.shape)
+print ('y_val shape:', y_val.shape)
+print ('X_test shape:', X_test.shape)
+print ('y_test shape:', y_test.shape)
+bestFeatures = []
+for feature in range (len (fs.scores_)):
+  bestFeatures.append ({'f': feature, 's': fs.scores_ [feature]})
+bestFeatures = sorted (bestFeatures, key = lambda k: k ['s'])
+for feature in bestFeatures:
+  print ('Feature %d: %f' % (feature ['f'], feature ['s']))
 
 
 ###############################################################################
-## Create learning model (2D CNN) and tune hyperparameters
+## Rearrange samples for RNN
 ###############################################################################
+print ('\nRearranging dataset for the RNN.')
+print ('X_train shape:', X_train.shape)
+print ('y_train shape:', y_train.shape)
+print ('X_val shape:', X_val.shape)
+print ('y_val shape:', y_val.shape)
+print ('y_test shape:', y_test.shape)
+
+STEPS = 3
+FEATURES = X_train.shape [1]
+def window_stack (a, stride = 1, numberOfSteps = 3):
+    return np.hstack ( [ a [i:1+i-numberOfSteps or None:stride] for i in range (0,numberOfSteps) ])
+
+X_train = window_stack (X_train, stride = 1, numberOfSteps = STEPS)
+X_train = X_train.reshape (X_train.shape [0], STEPS, FEATURES)
+X_val = window_stack (X_val, stride = 1, numberOfSteps = STEPS)
+X_val = X_val.reshape (X_val.shape [0], STEPS, FEATURES)
+X_test = window_stack (X_test, stride = 1, numberOfSteps = STEPS)
+X_test = X_test.reshape (X_test.shape [0], STEPS, FEATURES)
+
+y_train = y_train [ (STEPS - 1):]
+y_val = y_val [ (STEPS - 1):]
+y_test = y_test [ (STEPS - 1):]
+
+print ('X_train shape:', X_train.shape)
+print ('y_train shape:', y_train.shape)
+print ('X_val shape:', X_val.shape)
+print ('y_val shape:', y_val.shape)
+print ('X_test shape:', X_test.shape)
+print ('y_test shape:', y_test.shape)
+
+
 ###############################################################################
-## Data reshaping
-SAMPLE_2D_SIZE = math.ceil (math.sqrt (X_train.shape [1]))# 7x7
-SIZE = math.ceil (math.sqrt (X_train.shape [1]))# 7x7
-print (SAMPLE_2D_SIZE)
+## Create learning model and tune hyperparameters
+###############################################################################
+### -1 indices -> train
+### 0  indices -> validation
+test_fold = np.repeat ( [-1, 0], [X_train.shape [0], X_val.shape [0]])
+myPreSplit = PredefinedSplit (test_fold)
 
-X_train.resize ((X_train.shape[0], SAMPLE_2D_SIZE, SAMPLE_2D_SIZE))
-X_train = X_train.reshape ((X_train.shape[0], SIZE, SIZE, 1))
-X_val.resize ((X_val.shape[0], SAMPLE_2D_SIZE, SAMPLE_2D_SIZE))
-X_val = X_val.reshape ((X_val.shape[0], SIZE, SIZE, 1))
-X_test.resize ((X_test.shape[0], SAMPLE_2D_SIZE, SAMPLE_2D_SIZE))
-X_test = X_test.reshape ((X_test.shape[0], SIZE, SIZE, 1))
-print (X_train.shape)
-print (X_val.shape)
-print (X_test.shape)
+'''
+def create_model (learn_rate = 0.01, dropout_rate = 0.0, weight_constraint = 0, units = 50):
+  model = Sequential ()
+  model.add (LSTM (units = units, activation = 'relu' , input_shape= (X_train.shape [1], X_train.shape [2])))
+  model.add (Dense (1, activation = 'sigmoid'))
+  model.compile (optimizer = 'adam', loss = 'binary_crossentropy',)
+  return model
 
-################################################################################
-### Hyperparameter tuning
-#test_fold = np.repeat ([-1, 0], [X_train.shape [0], X_val.shape [0]])
-#myPreSplit = PredefinedSplit (test_fold)
-#
-#def create_model (learn_rate = 0.01, dropout_rate = 0.0, weight_constraint = 0,
-#                  filter_size = 2):
-#  model = Sequential ()
-#  model.add (Conv2D (64, (filter_size, filter_size), activation = 'relu',
-#                     input_shape = (SIZE, SIZE, 1),))
-#  model.add (Conv2D (64, (filter_size, filter_size), activation = 'relu'))
-#  model.add (MaxPooling2D ((filter_size, filter_size)))
-#  model.add (Flatten ())
-#  model.add (Dense (64, activation = 'relu',))
-#  model.add (Dropout (dropout_rate))
-#  model.add (Dense (1, activation = 'sigmoid',))
-#  model.compile (optimizer = Adam (lr = learn_rate),
-#                 loss = 'binary_crossentropy',
-#                 metrics = ['binary_accuracy'])#, metrics.Precision ()])
-#  return model
-#
-#model = KerasClassifier (build_fn = create_model, verbose = 2)
-#batch_size = [2000, 5000]#, 2000]#10, 30, 50]
-#epochs = [5, 10]
-#learn_rate = [0.001]#, 0.01]#, 0.1, 0.2]
-#dropout_rate = [0.0, 0.2]#, 0.2]
-#weight_constraint = [0]#, 2, 3, 4, 5]
-#filter_size = [2]#, 3]
-## batch_size = [100, 1000, 2048, 3200]
-## epochs = [5, 20, 50, 100]
-## lr = [1e-3, 1e-2, 1e-1, 2e-1]
-## dropout_rate = [0.0, 0.2, 0.3]
-#param_grid = dict (batch_size = batch_size, epochs = epochs,
-#                   dropout_rate = dropout_rate, learn_rate = learn_rate,
-#                   weight_constraint = weight_constraint,
-#                   filter_size = filter_size)
-#grid = GridSearchCV (estimator = model, param_grid = param_grid,
-#                     scoring = 'f1_weighted', cv = myPreSplit, verbose = 2,
-#                     n_jobs = -1)
-#
-#grid_result = grid.fit (np.concatenate ((X_train, X_val), axis = 0),
-#                        np.concatenate ((y_train, y_val), axis = 0))
-#print (grid_result.best_params_)
-#
-#print ("Best: %f using %s" % (grid_result.best_score_, grid_result.best_params_))
-#means = grid_result.cv_results_['mean_test_score']
-#stds = grid_result.cv_results_['std_test_score']
-#params = grid_result.cv_results_['params']
-#for mean, stdev, param in zip (means, stds, params):
-#  print ("%f (%f) with: %r" % (mean, stdev, param))
-#sys.exit ()
+model = KerasClassifier (build_fn = create_model, verbose = 2)
+batch_size = [5000, 1000]#10, 30, 50]
+epochs = [5]#, 5, 10]
+learn_rate = [0.001, 0.01, 0.1]
+dropout_rate = [0.0]#, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]
+weight_constraint = [0]#, 2, 3, 4, 5]
+units = [10, 50, 100]
+param_grid = dict (batch_size = batch_size, epochs = epochs,
+                   dropout_rate = dropout_rate, learn_rate = learn_rate,
+                   weight_constraint = weight_constraint, units = units)
+grid = GridSearchCV (estimator = model, param_grid = param_grid,
+                     scoring = 'f1_weighted', cv = myPreSplit, verbose = 2,
+                     n_jobs = -1)
+
+grid_result = grid.fit (np.concatenate ( (X_train, X_val), axis = 0),
+                        np.concatenate ( (y_train, y_val), axis = 0))
+print (grid_result.best_params_)
+
+print ("Best: %f using %s" % (grid_result.best_score_, grid_result.best_params_))
+means = grid_result.cv_results_ ['mean_test_score']
+stds = grid_result.cv_results_ ['std_test_score']
+params = grid_result.cv_results_ ['params']
+for mean, stdev, param in zip (means, stds, params):
+  print ("%f (%f) with: %r" % (mean, stdev, param))
+sys.exit ()
+'''
 
 
 ###############################################################################
@@ -276,27 +314,27 @@ METRICS = [keras.metrics.TruePositives (name = 'TP'),
            keras.metrics.Precision (name = 'Prec.'),
            keras.metrics.Recall (name = 'Recall'),
            keras.metrics.AUC (name = 'AUC'),]
+BATCH_SIZE = 5000
+NUMBER_OF_EPOCHS = 3
+LEARNING_RATE = 0.1
 DROPOUT_RATE = 0.2
-NUMBER_OF_EPOCHS = 6
-BATCH_SIZE = 10000
-LEARNING_RATE = 0.001
 clf = Sequential ()
-clf.add (Conv2D (64, (2, 2), activation = 'relu',
-                  input_shape = (SIZE, SIZE, 1),))
-clf.add (Conv2D (64, (2, 2), activation = 'relu'))
-clf.add (MaxPooling2D ((2, 2)))
-clf.add (Flatten ())
+clf.add (LSTM (100, activation = 'relu', #return_sequences = True,
+               input_shape = (X_train.shape [1], X_train.shape [2])))
 clf.add (Dropout (DROPOUT_RATE))
-clf.add (Dense (64, activation = 'relu',))
-clf.add (Dense (1, activation = 'sigmoid',))
+#clf.add (LSTM (50, activation='relu'))
+clf.add (Dense (1, activation = 'sigmoid'))
+
+print ('Model summary:')
+clf.summary ()
 
 ###############################################################################
 ## Compile the network
 ###############################################################################
-clf.compile (optimizer = Adam (lr = LEARNING_RATE),
+print ('\nCompiling the network.')
+clf.compile (optimizer = 'adam',
              loss = 'binary_crossentropy',
              metrics = METRICS)
-clf.summary ()
 
 
 ###############################################################################
@@ -336,9 +374,10 @@ print ('TP:', tp)
 print ('TN:', tn)
 print ('FP:', fp)
 print ('FN:', fn)
-sys.exit ()
+
 
 ### K: Only before publishing... Don't peek.
+sys.exit ()
 print ('\nPerformance on TEST set:')
 y_pred = clf.predict (X_test)
 y_pred = y_pred.round ()

@@ -2,7 +2,7 @@
 # github.com/kaylani2
 # kaylani AT gta DOT ufrj DOT br
 
-### K: Model: 2D CNN sample based
+### K: Model: Multilayer perceptron
 import sys
 import time
 import pandas as pd
@@ -135,139 +135,137 @@ display_general_information (df)
 #                                  replace = False)
 # df = df.drop (drop_indices)
 TEST_SIZE = 3/10
-VALIDATION_SIZE = 1/4
 print ('Splitting dataset (test/train):', TEST_SIZE)
 X_train_df, X_test_df, y_train_df, y_test_df = train_test_split (
                                                df.loc [:, df.columns != TARGET],
                                                df [TARGET],
                                                test_size = TEST_SIZE,
                                                random_state = STATE,)
-print ('Splitting dataset (validation/train):', VALIDATION_SIZE)
-X_train_df, X_val_df, y_train_df, y_val_df = train_test_split (
-                                             X_train_df,
-                                             y_train_df,
-                                             test_size = VALIDATION_SIZE,
-                                             random_state = STATE,)
 print ('X_train_df shape:', X_train_df.shape)
 print ('y_train_df shape:', y_train_df.shape)
-print ('X_val_df shape:', X_val_df.shape)
-print ('y_val_df shape:', y_val_df.shape)
 print ('X_test_df shape:', X_test_df.shape)
 print ('y_test_df shape:', y_test_df.shape)
 
 
 ###############################################################################
-## Convert dataframe to a numpy array
+## Create wrapper function for keras
+## Usage: clf = KerasClassifier (build_fn = create_model, verbose = 2)
+## Parameters epochs and batch_size are standard from KerasClassifier
 ###############################################################################
-print ('\nConverting dataframe to numpy array.')
-X_train = X_train_df.values
-y_train = y_train_df.values
-X_val = X_val_df.values
-y_val = y_val_df.values
-X_test = X_test_df.values
-y_test = y_test_df.values
-print ('X_train shape:', X_train.shape)
-print ('y_train shape:', y_train.shape)
-print ('X_val shape:', X_val.shape)
-print ('y_val shape:', y_val.shape)
-print ('X_test shape:', X_test.shape)
-print ('y_test shape:', y_test.shape)
+def create_model (learn_rate = 0.01, dropout_rate = 0.0, weight_constraint = 0,
+                  input_shape = 9, metrics = ['accuracy']):
+  model = Sequential ()
+  model.add (Dense (units = 64, activation = 'relu',
+                   input_shape = (input_shape, )))
+  model.add (Dropout (dropout_rate))
+  model.add (Dense (32, activation = 'relu'))
+  model.add (Dense (1, activation = 'sigmoid'))
+  model.compile (loss = 'binary_crossentropy',
+                 optimizer = Adam (lr = learn_rate),
+                 metrics = metrics)
+  return model
+
+
+'''
+###############################################################################
+## Define processing pipeline for grid search
+###############################################################################
+###############################################################################
+### standard_scaler ### K: Non object features
+object_features = (list (df.select_dtypes ( ['object']).columns))
+remaining_features = list (df.columns)
+for feature in object_features:
+  remaining_features.remove (feature)
+remaining_features.remove (TARGET)
+
+standard_scaler_features = remaining_features
+my_scaler = StandardScaler ()
+steps = list ()
+steps.append (('scaler', my_scaler))
+standard_scaler_transformer = Pipeline (steps)
+
+###############################################################################
+### Assemble column transformer
+preprocessor = ColumnTransformer (transformers = [
+              ('sca', standard_scaler_transformer, standard_scaler_features)])
+
+###############################################################################
+### feature selector ### K: Non object features
+my_feature_selector = SelectKBest ()
+steps = list ()
+steps.append (('feature_selector', my_feature_selector))
+feature_selector_transformer = Pipeline (steps)
+
+###############################################################################
+### Assemble pipeline for grid search
+clf = KerasClassifier (build_fn = create_model, verbose = 2)
+clf = Pipeline (steps = [ ('preprocessor', preprocessor),
+                        ('feature_selector', feature_selector_transformer),
+                        ('classifier', clf)],
+               verbose = True)
+#set_config (display = 'diagram')
+#clf
+print (sorted (clf.get_params ().keys ()))
+
+###############################################################################
+### Run grid search
+#sorted (sklearn.metrics.SCORERS.keys ())
+### K: How to set classifier__input_shape to match feature_selector__k?
+param_grid = {'feature_selector__feature_selector__score_func' : [f_classif],
+              'feature_selector__feature_selector__k' : [9],
+              'classifier__input_shape' : [9],
+              'classifier__batch_size' : [50, 500, 5000],
+              'classifier__learn_rate' : [0.001, 0.01, 0.1],
+              'classifier__dropout_rate' : [0.0, 0.1],
+              'classifier__epochs' : [3, 5]}#, 7]}
+print ('param_grid:', param_grid)
+cv = RepeatedStratifiedKFold (n_splits = 5, n_repeats = 1, random_state = STATE)
+grid = GridSearchCV (estimator = clf, param_grid = param_grid, scoring = 'f1',
+                     verbose = 1, n_jobs = -1, cv = cv)
+grid_result = grid.fit (X_train_df, y_train_df)
+
+print ('Best: %f using %s' % (grid_result.best_score_, grid_result.best_params_))
+means = grid_result.cv_results_ ['mean_test_score']
+stds = grid_result.cv_results_ ['std_test_score']
+params = grid_result.cv_results_ ['params']
+for mean, stdev, param in zip (means, stds, params):
+  print ('%f (%f) with: %r' % (mean, stdev, param))
+'''
 
 
 ###############################################################################
-## Apply normalization
-###############################################################################
-### K: NOTE: Only use derived information from the train set to avoid leakage.
-print ('\nApplying normalization.')
-startTime = time.time ()
-scaler = StandardScaler ()
-#scaler = MinMaxScaler (feature_range = (0, 1))
-scaler.fit (X_train)
-X_train = scaler.transform (X_train)
-X_val = scaler.transform (X_val)
-X_test = scaler.transform (X_test)
-print (str (time.time () - startTime), 'to normalize data.')
-
-###############################################################################
-## Perform feature selection
-###############################################################################
-### K: The convolutional layers will handle it.
-
-
-###############################################################################
-## Create learning model (2D CNN) and tune hyperparameters
+## Define processing pipeline for training (hyperparameter are optimized)
 ###############################################################################
 ###############################################################################
-## Data reshaping
-SAMPLE_2D_SIZE = math.ceil (math.sqrt (X_train.shape [1]))# 7x7
-SIZE = math.ceil (math.sqrt (X_train.shape [1]))# 7x7
-print (SAMPLE_2D_SIZE)
+### standard_scaler ### K: Non object features
+object_features = (list (df.select_dtypes ( ['object']).columns))
+remaining_features = list (df.columns)
+for feature in object_features:
+  remaining_features.remove (feature)
+remaining_features.remove (TARGET)
 
-X_train.resize ((X_train.shape[0], SAMPLE_2D_SIZE, SAMPLE_2D_SIZE))
-X_train = X_train.reshape ((X_train.shape[0], SIZE, SIZE, 1))
-X_val.resize ((X_val.shape[0], SAMPLE_2D_SIZE, SAMPLE_2D_SIZE))
-X_val = X_val.reshape ((X_val.shape[0], SIZE, SIZE, 1))
-X_test.resize ((X_test.shape[0], SAMPLE_2D_SIZE, SAMPLE_2D_SIZE))
-X_test = X_test.reshape ((X_test.shape[0], SIZE, SIZE, 1))
-print (X_train.shape)
-print (X_val.shape)
-print (X_test.shape)
-
-################################################################################
-### Hyperparameter tuning
-#test_fold = np.repeat ([-1, 0], [X_train.shape [0], X_val.shape [0]])
-#myPreSplit = PredefinedSplit (test_fold)
-#
-#def create_model (learn_rate = 0.01, dropout_rate = 0.0, weight_constraint = 0,
-#                  filter_size = 2):
-#  model = Sequential ()
-#  model.add (Conv2D (64, (filter_size, filter_size), activation = 'relu',
-#                     input_shape = (SIZE, SIZE, 1),))
-#  model.add (Conv2D (64, (filter_size, filter_size), activation = 'relu'))
-#  model.add (MaxPooling2D ((filter_size, filter_size)))
-#  model.add (Flatten ())
-#  model.add (Dense (64, activation = 'relu',))
-#  model.add (Dropout (dropout_rate))
-#  model.add (Dense (1, activation = 'sigmoid',))
-#  model.compile (optimizer = Adam (lr = learn_rate),
-#                 loss = 'binary_crossentropy',
-#                 metrics = ['binary_accuracy'])#, metrics.Precision ()])
-#  return model
-#
-#model = KerasClassifier (build_fn = create_model, verbose = 2)
-#batch_size = [2000, 5000]#, 2000]#10, 30, 50]
-#epochs = [5, 10]
-#learn_rate = [0.001]#, 0.01]#, 0.1, 0.2]
-#dropout_rate = [0.0, 0.2]#, 0.2]
-#weight_constraint = [0]#, 2, 3, 4, 5]
-#filter_size = [2]#, 3]
-## batch_size = [100, 1000, 2048, 3200]
-## epochs = [5, 20, 50, 100]
-## lr = [1e-3, 1e-2, 1e-1, 2e-1]
-## dropout_rate = [0.0, 0.2, 0.3]
-#param_grid = dict (batch_size = batch_size, epochs = epochs,
-#                   dropout_rate = dropout_rate, learn_rate = learn_rate,
-#                   weight_constraint = weight_constraint,
-#                   filter_size = filter_size)
-#grid = GridSearchCV (estimator = model, param_grid = param_grid,
-#                     scoring = 'f1_weighted', cv = myPreSplit, verbose = 2,
-#                     n_jobs = -1)
-#
-#grid_result = grid.fit (np.concatenate ((X_train, X_val), axis = 0),
-#                        np.concatenate ((y_train, y_val), axis = 0))
-#print (grid_result.best_params_)
-#
-#print ("Best: %f using %s" % (grid_result.best_score_, grid_result.best_params_))
-#means = grid_result.cv_results_['mean_test_score']
-#stds = grid_result.cv_results_['std_test_score']
-#params = grid_result.cv_results_['params']
-#for mean, stdev, param in zip (means, stds, params):
-#  print ("%f (%f) with: %r" % (mean, stdev, param))
-#sys.exit ()
-
+standard_scaler_features = remaining_features
+my_scaler = StandardScaler ()
+steps = list ()
+steps.append (('scaler', my_scaler))
+standard_scaler_transformer = Pipeline (steps)
 
 ###############################################################################
-## Finished model
+### Assemble column transformer
+preprocessor = ColumnTransformer (transformers = [
+              ('sca', standard_scaler_transformer, standard_scaler_features)])
+
+###############################################################################
+### feature selector
+NUMBER_OF_FEATURES = 9
+SCORE_FUNCTION = f_classif
+my_feature_selector = SelectKBest (score_func = SCORE_FUNCTION, k = NUMBER_OF_FEATURES)
+steps = list ()
+steps.append (('feature_selector', my_feature_selector))
+feature_selector_transformer = Pipeline (steps)
+
+###############################################################################
+### Assemble pipeline for training
 METRICS = [keras.metrics.TruePositives (name = 'TP'),
            keras.metrics.FalsePositives (name = 'FP'),
            keras.metrics.TrueNegatives (name = 'TN'),
@@ -276,82 +274,64 @@ METRICS = [keras.metrics.TruePositives (name = 'TP'),
            keras.metrics.Precision (name = 'Prec.'),
            keras.metrics.Recall (name = 'Recall'),
            keras.metrics.AUC (name = 'AUC'),]
-DROPOUT_RATE = 0.2
-NUMBER_OF_EPOCHS = 6
-BATCH_SIZE = 10000
-LEARNING_RATE = 0.001
-clf = Sequential ()
-clf.add (Conv2D (64, (2, 2), activation = 'relu',
-                  input_shape = (SIZE, SIZE, 1),))
-clf.add (Conv2D (64, (2, 2), activation = 'relu'))
-clf.add (MaxPooling2D ((2, 2)))
-clf.add (Flatten ())
-clf.add (Dropout (DROPOUT_RATE))
-clf.add (Dense (64, activation = 'relu',))
-clf.add (Dense (1, activation = 'sigmoid',))
+BATCH_SIZE = 5000
+DROPOUT_RATE = 0.0
+NUMBER_OF_EPOCHS = 70
+LEARN_RATE = 0.001
+WEIGHT_CONSTRAINT = 0
+NUMBER_OF_FEATURES = 9
+clf = KerasClassifier (build_fn = create_model, learn_rate = LEARN_RATE,
+                       dropout_rate = DROPOUT_RATE,
+                       weight_constraint = WEIGHT_CONSTRAINT,
+                       input_shape = NUMBER_OF_FEATURES,
+                       epochs = NUMBER_OF_EPOCHS, batch_size = BATCH_SIZE,
+                       verbose = 2, metrics = METRICS, workers = 0,
+                       use_multiprocessing = True)
+clf = Pipeline (steps = [ ('preprocessor', preprocessor),
+                        ('feature_selector', feature_selector_transformer),
+                        ('classifier', clf)],
+                verbose = True)
 
 ###############################################################################
-## Compile the network
-###############################################################################
-clf.compile (optimizer = Adam (lr = LEARNING_RATE),
-             loss = 'binary_crossentropy',
-             metrics = METRICS)
-clf.summary ()
-
-
-###############################################################################
-## Fit the network
-###############################################################################
-print ('\nFitting the network.')
+### Train
 startTime = time.time ()
-history = clf.fit (X_train, y_train,
-                   batch_size = BATCH_SIZE,
-                   epochs = NUMBER_OF_EPOCHS,
-                   verbose = 2, #1 = progress bar, not useful for logging
-                   workers = 0,
-                   use_multiprocessing = True,
-                   #class_weight = 'auto',
-                   validation_data = (X_val, y_val))
+clf = clf.fit (X_train_df, y_train_df)
 print (str (time.time () - startTime), 's to train model.')
 
 
 ###############################################################################
-## Analyze results
+## Evaluate performance
 ###############################################################################
 print ('\nPerformance on TRAIN set:')
-y_pred = clf.predict (X_train)
-y_pred = y_pred.round ()
-my_confusion_matrix = confusion_matrix (y_train, y_pred,
-                                        labels = df [TARGET].unique ())
+y_pred = clf.predict (X_train_df)
+my_confusion_matrix = confusion_matrix (y_train_df, y_pred, labels = df [TARGET].unique ())
 tn, fp, fn, tp = my_confusion_matrix.ravel ()
 print ('Confusion matrix:')
 print (my_confusion_matrix)
-print ('Accuracy:', accuracy_score (y_train, y_pred))
-print ('Precision:', precision_score (y_train, y_pred, average = 'macro'))
-print ('Recall:', recall_score (y_train, y_pred, average = 'macro'))
-print ('F1:', f1_score (y_train, y_pred, average = 'macro'))
-print ('Cohen Kappa:', cohen_kappa_score (y_train, y_pred,
+print ('Accuracy:', accuracy_score (y_train_df, y_pred))
+print ('Precision:', precision_score (y_train_df, y_pred, average = 'macro'))
+print ('Recall:', recall_score (y_train_df, y_pred, average = 'macro'))
+print ('F1:', f1_score (y_train_df, y_pred, average = 'macro'))
+print ('Cohen Kappa:', cohen_kappa_score (y_train_df, y_pred,
                        labels = df [TARGET].unique ()))
 print ('TP:', tp)
 print ('TN:', tn)
 print ('FP:', fp)
 print ('FN:', fn)
-sys.exit ()
 
 ### K: Only before publishing... Don't peek.
+sys.exit ()
 print ('\nPerformance on TEST set:')
-y_pred = clf.predict (X_test)
-y_pred = y_pred.round ()
-my_confusion_matrix = confusion_matrix (y_test, y_pred,
-                                        labels = df [TARGET].unique ())
+y_pred = clf.predict (X_test_df)
+my_confusion_matrix = confusion_matrix (y_test_df, y_pred, labels = df [TARGET].unique ())
 tn, fp, fn, tp = my_confusion_matrix.ravel ()
 print ('Confusion matrix:')
 print (my_confusion_matrix)
-print ('Accuracy:', accuracy_score (y_test, y_pred))
-print ('Precision:', precision_score (y_test, y_pred, average = 'macro'))
-print ('Recall:', recall_score (y_test, y_pred, average = 'macro'))
-print ('F1:', f1_score (y_test, y_pred, average = 'macro'))
-print ('Cohen Kappa:', cohen_kappa_score (y_test, y_pred,
+print ('Accuracy:', accuracy_score (y_test_df, y_pred))
+print ('Precision:', precision_score (y_test_df, y_pred, average = 'macro'))
+print ('Recall:', recall_score (y_test_df, y_pred, average = 'macro'))
+print ('F1:', f1_score (y_test_df, y_pred, average = 'macro'))
+print ('Cohen Kappa:', cohen_kappa_score (y_test_df, y_pred,
                        labels = df [TARGET].unique ()))
 print ('TP:', tp)
 print ('TN:', tn)

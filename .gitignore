@@ -24,3 +24,4 @@ datasets/Dataset-IoT/
 diamonds.py
 logs/
 src/plot_functions/*.png
+**/*.ipynb_checkpoints/

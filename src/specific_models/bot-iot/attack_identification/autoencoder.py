@@ -3,49 +3,56 @@
 # kaylani AT gta DOT ufrj DOT br
 
 ### K: Model: Autoencoder
-
 import sys
 import time
 import pandas as pd
+import os
+import math
 import numpy as np
+from numpy import mean, std
+from unit import remove_columns_with_one_value, remove_nan_columns, load_dataset
+from unit import display_general_information, display_feature_distribution
 from collections import Counter
-from imblearn.over_sampling import RandomOverSampler, RandomUnderSampler
+#from imblearn.over_sampling import RandomOverSampler, RandomUnderSampler
+import sklearn
+from sklearn import set_config
 from sklearn.impute import SimpleImputer
 from sklearn.svm import SVC, LinearSVC
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.ensemble import RandomForestClassifier
+from sklearn.linear_model import LinearRegression
 from sklearn.naive_bayes import GaussianNB
-from sklearn.preprocessing import LabelEncoder
+from sklearn.preprocessing import LabelEncoder, OneHotEncoder, OrdinalEncoder
 from sklearn.preprocessing import StandardScaler, RobustScaler, MinMaxScaler
 from sklearn.metrics import confusion_matrix, precision_score, recall_score
 from sklearn.metrics import f1_score, classification_report, accuracy_score
 from sklearn.metrics import cohen_kappa_score, mean_squared_error
 from sklearn.metrics import classification_report
-from sklearn.model_selection import train_test_split, PredefinedSplit
-from sklearn.model_selection import GridSearchCV
+from sklearn.model_selection import train_test_split, PredefinedSplit, RandomizedSearchCV
+from sklearn.model_selection import GridSearchCV, RepeatedStratifiedKFold
+from sklearn.model_selection import cross_val_score
+from sklearn.decomposition import PCA
 from sklearn.feature_selection import SelectKBest
 from sklearn.feature_selection import f_classif, chi2, mutual_info_classif
+from sklearn.utils import class_weight
+from sklearn.pipeline import Pipeline
+from sklearn.compose import ColumnTransformer
+from tensorflow.keras.wrappers.scikit_learn import KerasClassifier, KerasRegressor
 import keras.utils
 from keras import metrics
-from keras.utils import to_categorical, class_weight
-from keras.models import Sequential, Dense, Dropout
+from keras.utils import to_categorical
+from keras.models import Sequential
+from keras.layers import Dense, Dropout
 from keras.layers import Conv2D, MaxPooling2D, Flatten, LSTM
 from keras.optimizers import RMSprop, Adam
 from keras.constraints import maxnorm
-from keras.wrappers.scikit_learn import KerasClassifier, KerasRegressor
+
 
 ###############################################################################
 ## Define constants
 ###############################################################################
-# Random state for reproducibility
-
-STATE = 0
-print ('STATE:', STATE)
-np.random.seed (STATE)
-
 pd.set_option ('display.max_rows', None)
 pd.set_option ('display.max_columns', 5)
-
 BOT_IOT_DIRECTORY = '../../../../datasets/bot-iot/'
 BOT_IOT_FEATURE_NAMES = 'UNSW_2018_IoT_Botnet_Dataset_Feature_Names.csv'
 BOT_IOT_FILE_5_PERCENT_SCHEMA = 'UNSW_2018_IoT_Botnet_Full5pc_{}.csv' # 1 - 4
@@ -56,173 +63,78 @@ FILE_NAME = BOT_IOT_DIRECTORY + BOT_IOT_FILE_5_PERCENT_SCHEMA
 FEATURES = BOT_IOT_DIRECTORY + BOT_IOT_FEATURE_NAMES
 NAN_VALUES = ['?', '.']
 TARGET = 'attack'
+INDEX_COLUMN = 'pkSeqID'
+LABELS = ['attack', 'category', 'subcategory']
+STATE = 0
+try:
+  STATE = int (sys.argv [1])
+except:
+  pass
+#for STATE in [1, 2, 3, 4, 5]:
+np.random.seed (STATE)
+print ('STATE:', STATE)
+
 
 ###############################################################################
 ## Load dataset
 ###############################################################################
-df = pd.DataFrame ()
-for fileNumber in range (1, FIVE_PERCENT_FILES + 1):
-  print ('Reading', FILE_NAME.format (str (fileNumber)))
-  aux = pd.read_csv (FILE_NAME.format (str (fileNumber)),
-                     #names = featureColumns,
-                     index_col = 'pkSeqID',
-                     dtype = {'pkSeqID' : np.int32}, na_values = NAN_VALUES,
-                     low_memory = False)
-  df = pd.concat ( [df, aux])
+df = load_dataset (FILE_NAME, FIVE_PERCENT_FILES, INDEX_COLUMN, NAN_VALUES)
 
 
 ###############################################################################
-## Display generic (dataset independent) information
+## Clean dataset
 ###############################################################################
-print ('Dataframe shape (lines, columns):', df.shape, '\n')
-print ('First 5 entries:\n', df [:5], '\n')
-df.info (verbose = True)
-
-print ('\nDataframe contains NaN values:', df.isnull ().values.any ())
-nanColumns = [i for i in df.columns if df [i].isnull ().any ()]
-print ('Number of NaN columns:', len (nanColumns))
-print ('NaN columns:', nanColumns, '\n')
-
-
-###############################################################################
-## Display specific (dataset dependent) information
-###############################################################################
-print ('\nAttack types:', df ['attack'].unique ())
-print ('Attack distribution:')
-print (df ['attack'].value_counts ())
-print ('\nCateogry types:', df ['category'].unique ())
-print ('Cateogry distribution:')
-print (df ['category'].value_counts ())
-print ('\nSubcategory types:', df ['subcategory'].unique ())
-print ('Subcategory distribution:')
-print (df ['subcategory'].value_counts ())
-
-
-###############################################################################
-## Data pre-processing
-###############################################################################
-df.replace ( ['NaN', 'NaT'], np.nan, inplace = True)
-df.replace ('?', np.nan, inplace = True)
-df.replace ('Infinity', np.nan, inplace = True)
-
 ###############################################################################
 ### Remove columns with only one value
-print ('\nColumn | # of different values')
-# nUniques = df.nunique () ### K: Takes too long. WHY?
-nUniques = []
-for column in df.columns:
-  nUnique = df [column].nunique ()
-  nUniques.append (nUnique)
-  print (column, '|', nUnique)
+df, log = remove_columns_with_one_value (df, verbose = False)
+print (log)
 
-print ('\nRemoving attributes that have only one (or zero) sampled value.')
-for column, nUnique in zip (df.columns, nUniques):
-  if (nUnique <= 1): # Only one value: DROP.
-    df.drop (axis = 'columns', columns = column, inplace = True)
-
-print ('\nColumn | # of different values')
-for column in df.columns:
-  nUnique = df [column].nunique ()
-  print (column, '|', nUnique)
 
 ###############################################################################
-### Remove redundant columns
-### K: These columns are numerical representations of other existing columns.
-redundantColumns = ['state_number', 'proto_number', 'flgs_number']
-print ('\nRemoving redundant columns:', redundantColumns)
-df.drop (axis = 'columns', columns = redundantColumns, inplace = True)
+### Remove redundant columns, useless columns and unused targets
+### K: _number columns are numerical representations of other existing columns.
+### K: category and subcategory are other labels.
+### K: saddr and daddr may specialize the model to a single network
+redundant_columns = ['state_number', 'proto_number', 'flgs_number']
+other_targets = ['category', 'subcategory']
+misc_columns = ['saddr', 'daddr']
+print ('Removing redundant columns:', redundant_columns)
+print ('Removing useless targets:', other_targets)
+print ('Removing misc columns:', misc_columns)
+columns_to_remove = redundant_columns + other_targets + misc_columns
+df.drop (axis = 'columns', columns = columns_to_remove, inplace = True)
 
 ###############################################################################
 ### Remove NaN columns (with a lot of NaN values)
-print ('\nColumn | NaN values')
-print (df.isnull ().sum ())
-print ('Removing attributes with more than half NaN values.')
-df = df.dropna (axis = 'columns', thresh = df.shape [0] // 2)
-print ('Dataframe contains NaN values:', df.isnull ().values.any ())
-print ('\nColumn | NaN values (after dropping columns)')
-print (df.isnull ().sum ())
+df, log = remove_nan_columns (df, 1/2, verbose = False)
+print (log)
 
 ###############################################################################
-### Input missing values
-### K: Look into each attribute to define the best inputing strategy.
-### K: NOTE: This must be done after splitting to dataset to avoid data leakge.
-df ['sport'].replace ('-1', np.nan, inplace = True)
-df ['dport'].replace ('-1', np.nan, inplace = True)
-### K: Negative port values are invalid.
-columsWithMissingValues = ['sport', 'dport']
-### K: Examine values.
-for column in df.columns:
-  nUnique = df [column].nunique ()
-for column, nUnique in zip (df.columns, nUniques):
-    if (nUnique < 5):
-      print (column, df [column].unique ())
-    else:
-      print (column, 'unique values:', nUnique)
-
-# sport  unique values: 91168     # most_frequent?
-# dport  unique values: 115949    # most_frequent?
-imputingStrategies = ['most_frequent', 'most_frequent']
-
-
-###############################################################################
-### Handle categorical values
-### K: Look into each attribute to define the best encoding strategy.
-df.info (verbose = False)
-### K: dtypes: float64 (11), int64 (8), object (9)
-myObjects = list (df.select_dtypes ( ['object']).columns)
-print ('\nObjects:', myObjects, '\n')
-### K: Objects:
-  # 'flgs',
-  # 'proto',
-  # 'saddr',
-  # 'sport',
-  # 'daddr',
-  # 'dport',
-  # 'state',
-# LABELS:
-  # TARGET,
-  # 'subcategory'
-
-print ('\nCheck for high cardinality.')
-print ('Column | # of different values | values')
-for column in myObjects:
-  print (column, '|', df [column].nunique (), '|', df [column].unique ())
-
-### K: NOTE: saddr and daddr (source address and destination address) may incur
-### into overfitting for a particular scenario of computer network. Since the
-### classifier will use these IPs and MACs to aid in classifying the traffic.
-### We may want to drop these attributes to guarantee IDS generalization.
-df.drop (axis = 'columns', columns = 'saddr', inplace = True)
-df.drop (axis = 'columns', columns = 'daddr', inplace = True)
-
-print ('\nHandling categorical attributes (label encoding).')
-myLabelEncoder = LabelEncoder ()
-df ['flgs'] = myLabelEncoder.fit_transform (df ['flgs'])
-df ['proto'] = myLabelEncoder.fit_transform (df ['proto'])
-df ['sport'] = myLabelEncoder.fit_transform (df ['sport'].astype (str))
-df ['dport'] = myLabelEncoder.fit_transform (df ['dport'].astype (str))
-df ['state'] = myLabelEncoder.fit_transform (df ['state'])
+### Encode categorical features
+print ('Encoding categorical features (ordinal encoding).')
+my_encoder = OrdinalEncoder ()
+df ['flgs'] = my_encoder.fit_transform (df ['flgs'].values.reshape (-1, 1))
+df ['proto'] = my_encoder.fit_transform (df ['proto'].values.reshape (-1, 1))
+df ['sport'] = my_encoder.fit_transform (df ['sport'].astype (str).values.reshape (-1, 1))
+df ['dport'] = my_encoder.fit_transform (df ['dport'].astype (str).values.reshape (-1, 1))
+df ['state'] = my_encoder.fit_transform (df ['state'].values.reshape (-1, 1))
 print ('Objects:', list (df.select_dtypes ( ['object']).columns))
 
-###############################################################################
-### Drop unused targets
-### K: NOTE: category and subcategory are labels for different
-### applications, not attributes. They must not be used to aid classification.
-print ('\nDropping category and subcategory.')
-print ('These are labels for other scenarios.')
-df.drop (axis = 'columns', columns = 'category', inplace = True)
-df.drop (axis = 'columns', columns = 'subcategory', inplace = True)
-
 
 ###############################################################################
-## Encode Label
+## Quick sanity check
 ###############################################################################
-### K: Binary classification. Already encoded.
+display_general_information (df)
+
 
 ###############################################################################
 ## Split dataset into train, validation and test sets
 ###############################################################################
 ### Isolate attack and normal samples
+## K: Dataset is too big? Drop.
+#drop_indices = np.random.choice (df.index, int (df.shape [0] * 0.5),
+#                                 replace = False)
+#df = df.drop (drop_indices)
 mask = df [TARGET] == 0
 # 0 == normal
 df_normal = df [mask]
@@ -248,14 +160,12 @@ X_test_df = df_test.iloc [:, :-1]
 y_test_df = df_test.iloc [:, -1]
 ### K: y_test is required to plot the roc curve in the end
 
-
-
 df_train = df_attack
 VALIDATION_SIZE = 1/4
 print ('\nSplitting dataset (validation/train):', VALIDATION_SIZE)
 X_train_df, X_val_df, y_train_df, y_val_df = train_test_split (
-                                             df_train.iloc [:, :-1],
-                                             df_train.iloc [:, -1],
+                                             df.loc [:, df.columns != TARGET],
+                                             df [TARGET],
                                              test_size = VALIDATION_SIZE,
                                              random_state = STATE,)
 
@@ -266,19 +176,6 @@ print ('X_val_df shape:', X_val_df.shape)
 print ('y_val_df shape:', y_val_df.shape)
 print ('X_test_df shape:', X_test_df.shape)
 print ('y_test_df shape:', y_test_df.shape)
-
-
-###############################################################################
-## Imput missing data
-###############################################################################
-### K: NOTE: Only use derived information from the train set to avoid leakage.
-
-for myColumn, myStrategy in zip (columsWithMissingValues, imputingStrategies):
-  myImputer = SimpleImputer (missing_values = np.nan, strategy = myStrategy)
-  myImputer.fit (X_train_df [myColumn].values.reshape (-1, 1))
-  X_train_df [myColumn] = myImputer.transform (X_train_df [myColumn].values.reshape (-1, 1))
-  X_val_df [myColumn] = myImputer.transform (X_val_df [myColumn].values.reshape (-1, 1))
-  X_test_df [myColumn] = myImputer.transform (X_test_df [myColumn].values.reshape (-1, 1))
 
 
 ###############################################################################
@@ -317,81 +214,112 @@ print (str (time.time () - startTime), 'to normalize data.')
 ## Perform feature selection
 ###############################################################################
 ### K: Let the autoencoder reconstruct the data.
+###############################################################################
+NUMBER_OF_FEATURES = 9 #'all'
+print ('\nSelecting top', NUMBER_OF_FEATURES, 'features.')
+startTime = time.time ()
+#fs = SelectKBest (score_func = mutual_info_classif, k = NUMBER_OF_FEATURES)
+### K: ~30 minutes to FAIL fit mutual_info_classif to 5% bot-iot
+#fs = SelectKBest (score_func = chi2, k = NUMBER_OF_FEATURES) # X must be >= 0
+### K: ~4 seconds to fit chi2 to 5% bot-iot (MinMaxScaler (0, 1))
+fs = SelectKBest (score_func = f_classif, k = NUMBER_OF_FEATURES)
+### K: ~4 seconds to fit f_classif to 5% bot-iot
+fs.fit (X_train, y_train)
+X_train = fs.transform (X_train)
+X_val = fs.transform (X_val)
+X_test = fs.transform (X_test)
+print (str (time.time () - startTime), 'to select features.')
+print ('X_train shape:', X_train.shape)
+print ('y_train shape:', y_train.shape)
+print ('X_val shape:', X_val.shape)
+print ('y_val shape:', y_val.shape)
+print ('X_test shape:', X_test.shape)
+print ('y_test shape:', y_test.shape)
+bestFeatures = []
+for feature in range (len (fs.scores_)):
+  bestFeatures.append ({'f': feature, 's': fs.scores_ [feature]})
+  bestFeatures = sorted (bestFeatures, key = lambda k: k ['s'])
+for feature in bestFeatures:
+  print ('Feature %d: %f' % (feature ['f'], feature ['s']))
 
 
 ###############################################################################
 ## Create learning model (Autoencoder) and tune hyperparameters
 ###############################################################################
-
+'''
 ###############################################################################
-# Hyperparameter tuning
-#test_fold = np.repeat ( [-1, 0], [X_train.shape [0], X_val.shape [0]])
-#myPreSplit = PredefinedSplit (test_fold)
-#def create_model (learn_rate = 0.01, dropout_rate = 0.0, weight_constraint = 0):
-#  model = Sequential ()
-#  model.add (Dense (X_train.shape [1], activation = 'relu',
-#                    input_shape = (X_train.shape [1], )))
-#  model.add (Dense (32, activation = 'relu'))
-#  model.add (Dense (8,  activation = 'relu'))
-#  model.add (Dense (32, activation = 'relu'))
-#  model.add (Dense (X_train.shape [1], activation = None))
-#  model.compile (loss = 'mean_squared_error',
-#                 optimizer = 'adam',
-#                 metrics = ['mse'])
-#  return model
-#
-#model = KerasRegressor (build_fn = create_model, verbose = 2)
-#batch_size = [30]#, 50]
-#epochs = [5]#, 5, 10]
-#learn_rate = [0.01, 0.1]#, 0.2, 0.3]
-#dropout_rate = [0.0, 0.2]#, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]
-#weight_constraint = [0]#1, 2, 3, 4, 5]
-#param_grid = dict (batch_size = batch_size, epochs = epochs,
-#                   dropout_rate = dropout_rate, learn_rate = learn_rate,
-#                   weight_constraint = weight_constraint)
-#grid = GridSearchCV (estimator = model, param_grid = param_grid,
-#                     scoring = 'neg_mean_squared_error', cv = myPreSplit,
-#                     verbose = 2, n_jobs = 16)
-#
-#grid_result = grid.fit (np.vstack ( (X_train, X_val)),#, axis = 1),
-#                        np.vstack ( (X_train, X_val)))#, axis = 1))
-#print (grid_result.best_params_)
-#
-#print ("Best: %f using %s" % (grid_result.best_score_, grid_result.best_params_))
-#means = grid_result.cv_results_ ['mean_test_score']
-#stds = grid_result.cv_results_ ['std_test_score']
-#params = grid_result.cv_results_ ['params']
-#for mean, stdev, param in zip (means, stds, params):
-#  print ("%f (%f) with: %r" % (mean, stdev, param))
-#
-## Best: -0.129429 using {'batch_size': 30, 'dropout_rate': 0.0, 'epochs': 5, 'learn_rate': 0.1, 'weight_constraint': 0}
+#Hyperparameter tuning
+test_fold = np.repeat ([-1, 0], [X_train.shape [0], X_val.shape [0]])
+myPreSplit = PredefinedSplit (test_fold)
+def create_model (learn_rate = 0.01, dropout_rate = 0.0, weight_constraint = 0,
+                  metrics = ['mse']):
+ model = Sequential ()
+ model.add (Dense (X_train.shape [1], activation = 'relu',
+                   input_shape = (X_train.shape [1], )))
+ model.add (Dense (32, activation = 'relu'))
+ model.add (Dense (8,  activation = 'relu'))
+ model.add (Dense (32, activation = 'relu'))
+ model.add (Dense (X_train.shape [1], activation = None))
+ model.compile (loss = 'mean_squared_error',
+                optimizer = 'adam',
+                metrics = metrics)
+ return model
+
+
+model = KerasRegressor (build_fn = create_model, verbose = 2)
+batch_size = [5000, 10000]#, 50]
+epochs = [10]#, 5, 10]
+learn_rate = [0.001, 0.01, 0.1]#, 0.2, 0.3]
+dropout_rate = [0.0]#, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]
+weight_constraint = [0]#1, 2, 3, 4, 5]
+param_grid = dict (batch_size = batch_size, epochs = epochs,
+                   dropout_rate = dropout_rate, learn_rate = learn_rate,
+                   weight_constraint = weight_constraint)
+grid = GridSearchCV (estimator = model, param_grid = param_grid,
+                     scoring = 'neg_mean_squared_error', cv = myPreSplit,
+                     verbose = 2, n_jobs = 1)
+grid_result = grid.fit (np.vstack ( (X_train, X_val)),#, axis = 1),
+                       np.vstack ( (X_train, X_val)))#, axis = 1))
+print (grid_result.best_params_)
+
+print ("Best: %f using %s" % (grid_result.best_score_, grid_result.best_params_))
+means = grid_result.cv_results_ ['mean_test_score']
+stds = grid_result.cv_results_ ['std_test_score']
+params = grid_result.cv_results_ ['params']
+for mean, stdev, param in zip (means, stds, params):
+  print ("%f (%f) with: %r" % (mean, stdev, param))
+
+'''
 
 
 ###############################################################################
 ## Finished model
-NUMBER_OF_EPOCHS = 5
-BATCH_SIZE = 30
-LEARNING_RATE = 0.1
+METRICS = [keras.metrics.MeanSquaredError (name = 'MSE'),
+           keras.metrics.RootMeanSquaredError (name = 'RMSE'),
+           keras.metrics.MeanAbsoluteError (name = 'MAE'),]
+NUMBER_OF_EPOCHS = 25
+BATCH_SIZE = 5000
+LEARNING_RATE = 0.001
 
 print ('\nCreating learning model.')
-bestModel = Sequential ()
-bestModel.add (Dense (X_train.shape [1], activation = 'relu',
+clf = Sequential ()
+clf.add (Dense (X_train.shape [1], activation = 'relu',
                       input_shape = (X_train.shape [1], )))
-bestModel.add (Dense (32, activation = 'relu'))
-bestModel.add (Dense (8,  activation = 'relu'))
-bestModel.add (Dense (32, activation = 'relu'))
-bestModel.add (Dense (X_train.shape [1], activation = None))
+clf.add (Dense (32, activation = 'relu'))
+clf.add (Dense (8,  activation = 'relu'))
+clf.add (Dense (32, activation = 'relu'))
+clf.add (Dense (X_train.shape [1], activation = None))
 
 
 ###############################################################################
 ## Compile the network
 ###############################################################################
 print ('\nCompiling the network.')
-bestModel.compile (loss = 'mean_squared_error',
-                   optimizer = Adam (lr = LEARNING_RATE),
-                   metrics = ['mse'])#,metrics.Precision ()])
+clf.compile (loss = 'mean_squared_error',
+             optimizer = Adam (lr = LEARNING_RATE),
+             metrics = METRICS)
 print ('Model summary:')
-bestModel.summary ()
+clf.summary ()
 
 
 ###############################################################################
@@ -399,7 +327,7 @@ bestModel.summary ()
 ###############################################################################
 print ('\nFitting the network.')
 startTime = time.time ()
-history = bestModel.fit (X_train, X_train,
+history = clf.fit (X_train, X_train,
                          batch_size = BATCH_SIZE,
                          epochs = NUMBER_OF_EPOCHS,
                          verbose = 2, #1 = progress bar, not useful for logging
@@ -413,16 +341,10 @@ print (str (time.time () - startTime), 's to train model.')
 ###############################################################################
 ## Analyze results
 ###############################################################################
-X_val_pred   = bestModel.predict (X_val)
-X_train_pred = bestModel.predict (X_train)
+X_val_pred   = clf.predict (X_val)
+X_train_pred = clf.predict (X_train)
 print ('Train error:'     , mean_squared_error (X_train_pred, X_train))
 print ('Validation error:', mean_squared_error (X_val_pred, X_val))
-
-#SAMPLES = 50
-#print ('Error on first', SAMPLES, 'samples:')
-#print ('MSE (pred, real)')
-#for pred_sample, real_sample in zip (X_val_pred [:SAMPLES], X_val [:SAMPLES]):
-#  print (mean_squared_error (pred_sample, real_sample))
 
 ### K: This looks like another hyperparameter to be adjusted by using a
 ### separate validation set that contains normal and anomaly samples.
@@ -460,35 +382,19 @@ print ('Thresh val:', threshold)
 
 ### K: NOTE: Only look at test results when publishing...
 sys.exit ()
-X_test_pred = bestModel.predict (X_test)
+X_test_pred = clf.predict (X_test)
 print (X_test_pred.shape)
 print ('Test error:', mean_squared_error (X_test_pred, X_test))
 
-
 y_pred = np.mean (np.square (X_test_pred - X_test), axis = 1)
-#y_pred = []
-#for pred_sample, real_sample, label in zip (X_test_pred, X_test, y_test):
-#  y_pred.append (mean_squared_error (pred_sample, real_sample))
-
-#print ('\nLabel | MSE (pred, real)')
-#for label, pred in zip (y_test, y_pred):
-#  print (label, '|', pred)
-
 y_test, y_pred = zip (*sorted (zip (y_test, y_pred)))
-#print ('\nLabel | MSE (pred, real) (ordered)')
-#for label, pred in zip (y_test, y_pred):
-#  print (label, '|', pred)
 
 # 0 == normal
 # 1 == attack
+print ('\nPerformance on TEST set:')
 print ('\nMSE (pred, real) | Label (ordered)')
 tp, tn, fp, fn = 0, 0, 0, 0
 for label, pred in zip (y_test, y_pred):
-#  if (pred >= threshold):
-#    print ('Classified as anomaly     (NORMAL):', label)
-#  else:
-#    print ('Classified as not anomaly (ATTACK):', label)
-
   if ((pred >= threshold) and (label == 0)):
     print ('True negative.')
     tn += 1
@@ -507,3 +413,8 @@ print ('tp | fp')
 print ('fn | tn')
 print (tp, '|', fp)
 print (fn, '|', tn)
+print ('TP:', tp)
+print ('TN:', tn)
+print ('FP:', fp)
+print ('FN:', fn)
+
