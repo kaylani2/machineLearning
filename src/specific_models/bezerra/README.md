@@ -3,11 +3,11 @@
 
 ### \_I{1, 2, 3}.csv
 
-Flows refering the scenarios 1, 2 and 3, where there was botnets being executed.
+Flows refering to scenarios 1, 2 and 3, where botnets were being executed.
 
 ### \_L.csv
 
-Flows with no botnet infection.
+Flows with no botnet infections.
 
 
 ## Directories:
