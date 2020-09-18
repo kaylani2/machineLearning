@@ -21,6 +21,7 @@ graphviz = "*"
 pyod = "*"
 jupyter = "*"
 jupyterlab = "*"
+minisom = "*"
 
 [requires]
 python_version = "3"
