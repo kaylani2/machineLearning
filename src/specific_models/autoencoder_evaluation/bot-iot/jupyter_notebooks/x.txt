@@ -1,0 +1,15 @@
+NUMBER_OF_FEATURES = 15 #X_train.shape [-1]
+print ('
+fs = PCA (n_components = NUMBER_OF_FEATURES)
+fs.fit (X_train)
+print (fs.explained_variance_ratio_)
+print (fs.singular_values_)
+X_train = fs.transform (X_train)
+X_val = fs.transform (X_val)
+X_test = fs.transform (X_test)
+print ('X_train shape:', X_train.shape)
+print ('y_train shape:', y_train.shape)
+print ('X_val shape:', X_val.shape)
+print ('y_val shape:', y_val.shape)
+print ('X_test shape:', X_test.shape)
+print ('y_test shape:', y_test.shape)
