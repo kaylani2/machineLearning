@@ -23,6 +23,7 @@ jupyter = "*"
 jupyterlab = "*"
 minisom = "*"
 susi = "*"
+seaborn = "*"
 
 [requires]
 python_version = "3"

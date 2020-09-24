@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "b9103e14852dbb662272e251ba9c06dd8a5ad04a568285a89858d7aefddf4af7"
+            "sha256": "ad35d3554609595f88a000741de80cee9e4ab9f7593901039d7de6b8e593f6c3"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -191,11 +191,11 @@
         },
         "google-auth": {
             "hashes": [
-                "sha256:7084c50c03f7a8a5696ef4500e65df0c525a0f6909f3c70b9ee65900a230c755",
-                "sha256:dcf86c5adc3a8a7659be190b12bb8912ae019cfd9ee2a571ea881e289fafbe39"
+                "sha256:31941bf019fb242c04d0de32845da10180788bfddb0de87d78c4bdf55555dda1",
+                "sha256:873051a6317294b083795cffc467bcd05b6df483ef542bfe0069ddbfbac0a096"
             ],
             "markers": "python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3'",
-            "version": "==1.21.2"
+            "version": "==1.21.3"
         },
         "google-auth-oauthlib": {
             "hashes": [
@@ -609,11 +609,11 @@
         },
         "nbconvert": {
             "hashes": [
-                "sha256:1539c838acc1b5d3227f72fa03d39ca2b9ad9489d7a0e3083e04dbe5f3e1237c",
-                "sha256:73b3cff6090a16bb8ce2bfb84a6f8654802104e81da71d8a42297f5660a9ecea"
+                "sha256:68335477288aab8a9b9ec03002dce59b4eb1ca967116741ec218a4e78c129efd",
+                "sha256:d8549f62e739a4d51f275c2932b1783ee5039dde07a2b71de70c0296a42c8394"
             ],
             "markers": "python_version >= '3.6'",
-            "version": "==6.0.4"
+            "version": "==6.0.6"
         },
         "nbformat": {
             "hashes": [
@@ -1077,6 +1077,14 @@
             ],
             "index": "pypi",
             "version": "==1.4.1"
+        },
+        "seaborn": {
+            "hashes": [
+                "sha256:390f8437b14f5ce845062f2865ad51656464c306d09bb97d7764c6cba1dd607c",
+                "sha256:62439a38482decdb263a8339f54ecb9823995ad8716abc830e91ca0753201e70"
+            ],
+            "index": "pypi",
+            "version": "==0.11.0"
         },
         "send2trash": {
             "hashes": [
