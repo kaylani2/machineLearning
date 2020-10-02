@@ -4,14 +4,15 @@ import statistics
 
 
 files = [
-  {'name': 'OUT_2DCNN.log', 'model': 'twod_cnn'},
-  {'name': 'OUT_AUTOENCODER.log', 'model': 'autoencoder'},
-  {'name': 'OUT_DECISION_TREES.log', 'model': 'decision_tree'},
-  {'name': 'OUT_LSTM.log', 'model': 'rnn'},
-  {'name': 'OUT_MLP.log', 'model': 'mlp'},
-  {'name': 'OUT_NAIVE_BAYES.log', 'model': 'naive'},
-  {'name': 'OUT_RANDOM_FOREST.log', 'model': 'random_forest'},
-  {'name': 'OUT_SVC.log', 'model': 'svm'},
+  {'name': 'kmeans.log', 'model': 'kmeans'},
+  #{'name': 'OUT_2DCNN.log', 'model': 'twod_cnn'},
+  #{'name': 'OUT_AUTOENCODER.log', 'model': 'autoencoder'},
+  #{'name': 'OUT_DECISION_TREES.log', 'model': 'decision_tree'},
+  #{'name': 'OUT_LSTM.log', 'model': 'rnn'},
+  #{'name': 'OUT_MLP.log', 'model': 'mlp'},
+  #{'name': 'OUT_NAIVE_BAYES.log', 'model': 'naive'},
+  #{'name': 'OUT_RANDOM_FOREST.log', 'model': 'random_forest'},
+  #{'name': 'OUT_SVC.log', 'model': 'svm'},
 ]
 
 try:

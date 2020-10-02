@@ -4,36 +4,41 @@ import numpy as np
 
 
 # Bezerra2018 results (Value),(Standard Error)
+#naive, naive_std = (32.22, 9.81, 46.2, 16.19), (1.02, 2.23, 1.99, 3.30) #kmeans
+naive, naive_std = (27.73, 14.13, 18.94, 16.18), (21.48, 13.22, 13.71, 12.9)
+decision_tree, decision_tree_std = (97.08, 96.61, 96.15, 96.38), (0.2, 1.91, 2.23, 0.82)
 
 
 
+#decision_tree, decision_tree_std = (99.95, 96.08, 93.7, 94.88), (0.0, 0.39, 1.51, 0.9)
+
+random_forest, random_forest_std = (99.99, 99.27, 91.69, 93.51), (0.01, 0.82, 2.75, 1.40)
+mlp, mlp_std = (99.99, 96.01, 87.37, 91.45), (0.01, 1.74, 2.64, 1.10)
+twod_cnn, twod_cnn_std = (99.99, 94.26, 66.39, 76.93), (0.01, 6.41, 12.94, 7.25)
+#autoencoder, autoencoder_std = (82.21, 79.19, 95.89, 85.69), (17.51, 16.25, 6.74, 10.96)
+autoencoder, autoencoder_std = (89.44, 99.44, 79.31, 88.10) , (3.26, 0.41, 6.42, 3.97)
+rnn, rnn_std = (99.9, 100.00, 74.21, 85.15), (0.01, 0.00, 3.87, 2.55)
 
 
-twod_cnn, twod_cnn_std = (99.8, 78.86, 79.03, 78.68), (0.03, 5.94, 5.13, 2.5)
-autoencoder, autoencoder_std = (82.21, 79.19, 95.89, 85.69), (17.51, 16.25, 6.74, 10.96)
-decision_tree, decision_tree_std = (99.95, 96.08, 93.7, 94.88), (0.0, 0.39, 1.51, 0.9)
-rnn, rnn_std = (99.6, 82.66, 39.72, 53.27), (0.01, 4.61, 6.01, 5.14)
-mlp, mlp_std = (99.78, 78.61, 72.7, 75.13), (0.0, 4.4, 8.43, 2.49)
-naive, naive_std = (97.81, 9.81, 46.2, 16.19), (0.02, 0.43, 1.99, 0.0)
-random_forest, random_forest_std = (99.81, 95.3, 62.99, 75.84), (0.0, 0.21, 1.15, 0.81)
+
 svm, svm_std = (94.7, 3.87, 39.13, 7.01), (2.06, 1.06, 2.75, 1.83)
 
 
 # # Bot-IoT results
-# naive, naive_std = (99.9, 63.78, 87.31, 70.00, 74.65) , (0.01, 1.41, 1.91, 1.72, 3.83)
-# decision_tree, decision_tree_std = (99.99, 99.99, 100.0, 99.99, 91.02) , (0.01, 0.01, 0.01, 0.01, 2.27)
-# random_forest, random_forest_std = (99.99, 99.99, 100.0, 99.99, 91.69) , (0.01, 0.01, 0.01, 0.01, 2.75)
-# svm, svm_std = (99.99, 99.99, 100.0, 99.99, 74.65) , (0.01, 0.01, 0.01, 0.01, 3.83)
-# mlp, mlp_std = (99.99, 99.99, 100.0, 99.99, 87.37) , (0.01, 0.01, 0.01, 0.01, 2.64)
-# twod_cnn, twod_cnn_std = (99.99, 99.99, 99.99, 99.99, 66.39) , (0.01, 0.01, 0.01, 0.01, 12.94)
-# autoencoder, autoencoder_std = (89.44, 82.99, 99.56, 90.00, 79.31) , (3.26, 4.61, 0.03, 2.74, 6.42)
-# rnn, rnn_std = (99.99, 99.99, 100.0, 99.99, 74.21) , (0.01, 0.00, 0.01, 0.01, 3.87)
+#naive, naive_std = (99.9, 63.78, 87.31, 70.00, 74.65) , (0.01, 1.41, 1.91, 1.72, 3.83)
+#decision_tree, decision_tree_std = (99.99, 99.99, 100.0, 99.99, 91.02) , (0.01, 0.01, 0.01, 0.01, 2.27)
+#random_forest, random_forest_std = (99.99, 99.99, 100.0, 99.99, 91.69) , (0.01, 0.01, 0.01, 0.01, 2.75)
+#svm, svm_std = (99.99, 99.99, 100.0, 99.99, 74.65) , (0.01, 0.01, 0.01, 0.01, 3.83)
+#mlp, mlp_std = (99.99, 99.99, 100.0, 99.99, 87.37) , (0.01, 0.01, 0.01, 0.01, 2.64)
+#twod_cnn, twod_cnn_std = (99.99, 99.99, 99.99, 99.99, 66.39) , (0.01, 0.01, 0.01, 0.01, 12.94)
+#autoencoder, autoencoder_std = (89.44, 82.99, 99.56, 90.00, 79.31) , (3.26, 4.61, 0.03, 2.74, 6.42)
+#rnn, rnn_std = (99.99, 99.99, 100.0, 99.99, 74.21) , (0.01, 0.00, 0.01, 0.01, 3.87)
 
 
 
-minimum_value = min(min(naive), min(decision_tree), min(random_forest), min(svm), min(mlp), 
+minimum_value = min(min(naive), min(decision_tree), min(random_forest), min(svm), min(mlp),
                     min(twod_cnn), min(autoencoder), min(rnn))
-maximum_value = max(max(naive), max(decision_tree), max(random_forest), max(svm), max(mlp), 
+maximum_value = max(max(naive), max(decision_tree), max(random_forest), max(svm), max(mlp),
                     max(twod_cnn), max(autoencoder), max(rnn))
 
 # Chart's bottom (use left on plt.barh if necessary), start from almost the minimum value
@@ -63,7 +68,7 @@ error_list = [naive_std, decision_tree_std, random_forest_std, mlp_std, twod_cnn
 
 # label_list = ['Naïve Bayes', 'Árvore de decisão', 'Floresta aleatória', 'SVM linear', 'MLP', '2DCNN',
 #                  'Autoencoders', 'LSTM']
-label_list = ['Naïve Bayes', 'Árvore de decisão', 'Floresta aleatória', 'MLP', '2DCNN',
+label_list = ['K-Means', 'SOM', 'Floresta aleatória', 'MLP', '2DCNN',
                  'Autoencoders', 'LSTM']
 
 
@@ -130,4 +135,4 @@ plt.savefig("histograma_bezerra2018_nattack.eps", # file name
             format = 'eps',
            )
 
-plt.show()
+plt.savefig('output.png')
