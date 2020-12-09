@@ -13,7 +13,7 @@ import sys
 # Random state for eproducibility
 STATE = 0
 ## Hard to not go over 80 columns
-CICIDS_DIRECTORY = '../../datasets/cicids/MachineLearningCVE/'
+CICIDS_DIRECTORY = './MachineLearningCVE/'
 CICIDS_MONDAY_FILENAME = 'Monday-WorkingHours.pcap_ISCX.csv'
 CICIDS_WEDNESDAY_FILENAME = 'Wednesday-workingHours.pcap_ISCX.csv'
 CICIDS_MONDAY = CICIDS_DIRECTORY + CICIDS_MONDAY_FILENAME
@@ -165,20 +165,10 @@ print ('Test loss:', scoreArray [0])
 print ('Test accuracy:', scoreArray [1])
 
 import matplotlib.pyplot as plt
-plt.plot (history.history ['accuracy'])
-plt.plot (history.history ['val_accuracy'])
-plt.title ('Model accuracy')
-plt.ylabel ('Accuracy')
-plt.xlabel ('Epoch')
-plt.legend (['Train', 'Test'], loc = 'upper left')
-plt.show ()
-
 plt.plot (history.history ['loss'])
 plt.plot (history.history ['val_loss'])
 plt.title ('Model loss')
 plt.ylabel ('Loss')
 plt.xlabel ('Epoch')
 plt.legend (['Train', 'Test'], loc = 'upper left')
-plt.show ()
-
-sys.exit ()
+plt.savefig ('loss.png')
