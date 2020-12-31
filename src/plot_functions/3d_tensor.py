@@ -1,11 +1,14 @@
+#import tkinter
+import matplotlib.pyplot as plt
 import numpy as np
+from mpl_toolkits.mplot3d import Axes3D
+
+#plt.use('TkAgg')
 xyz = np.array (np.random.random ( (100,3)))
 x = xyz[:,0]
 y = xyz[:,1]
 z = xyz[:,2]*100
 
-import matplotlib.pyplot as plt
-from mpl_toolkits.mplot3d import Axes3D
 
 fig = plt.figure (figsize = (10, 10))
 ax = fig.add_subplot (111, projection = '3d')

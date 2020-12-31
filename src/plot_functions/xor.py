@@ -19,5 +19,5 @@ for i in range (len (X)):
 
 
 plt.tight_layout ()
-#plt.show ()
+plt.show ()
 plt.savefig ('xor.png')

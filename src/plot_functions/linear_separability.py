@@ -21,5 +21,5 @@ plt.legend (['y = x'], loc = 2, fontsize = 16)
 
 
 plt.tight_layout ()
-#plt.show ()
+plt.show ()
 plt.savefig ('linear.png')

@@ -32,7 +32,7 @@ print ('Using fractured dataframe.')
 ###############################################################################
 ## Display generic (dataset independent) information
 ###############################################################################
-print ('Dataframe shape (lines, collumns):', df.shape, '\n')
+print ('Dataframe shape (lines, columns):', df.shape, '\n')
 print ('First 5 entries:\n', df [:5], '\n')
 print ('Dataframe attributes:\n', df.keys (), '\n')
 ## Note the pesky spaces before ALMOST all attributes
