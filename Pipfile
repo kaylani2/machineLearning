@@ -8,7 +8,7 @@ verify_ssl = true
 [packages]
 pandas = "*"
 matplotlib = "*"
-numpy = "==1.16.4"
+numpy = "*"
 mglearn = "*"
 tflearn = "*"
 scipy = "*"
@@ -24,6 +24,7 @@ jupyterlab = "*"
 minisom = "*"
 susi = "*"
 seaborn = "*"
+requests = "*"
 
 [requires]
 python_version = "3"
