@@ -25,6 +25,11 @@ minisom = "*"
 susi = "*"
 seaborn = "*"
 requests = "*"
+tensorflow-federated = "*"
+nest-asyncio = "*"
+gast = "*"
+tensorboard = "*"
+flwr = "*"
 
 [requires]
 python_version = "3"
