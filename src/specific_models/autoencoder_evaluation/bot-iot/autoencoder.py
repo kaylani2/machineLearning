@@ -1,14 +1,10 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[1]:
-
-
 # Author: Kaylani Bochie
 # github.com/kaylani2
 # kaylani AT gta DOT ufrj DOT br
 
 ### K: Model: Autoencoder
+import os
+os.environ['TF_FORCE_GPU_ALLOW_GROWTH'] = 'true'
 import sys
 import time
 import pandas as pd
@@ -63,7 +59,7 @@ from keras.constraints import maxnorm
 ###############################################################################
 pd.set_option ('display.max_rows', None)
 pd.set_option ('display.max_columns', 5)
-BOT_IOT_DIRECTORY = '../../../../../datasets/bot-iot/'
+BOT_IOT_DIRECTORY = '../../../../datasets/bot-iot/'
 BOT_IOT_FEATURE_NAMES = 'UNSW_2018_IoT_Botnet_Dataset_Feature_Names.csv'
 BOT_IOT_FILE_5_PERCENT_SCHEMA = 'UNSW_2018_IoT_Botnet_Full5pc_{}.csv' # 1 - 4
 FIVE_PERCENT_FILES = 4
@@ -302,11 +298,13 @@ print ('y_test shape:', y_test.shape)
 # Hyperparameter tuning
 test_fold = np.repeat ([-1, 0], [X_train.shape [0], X_val.shape [0]])
 myPreSplit = PredefinedSplit (test_fold)
-def create_model (learn_rate = 0.01, dropout_rate = 0.0, weight_constraint = 0,
-                  metrics = ['mse'], input_layer_neurons,
+def create_model (input_layer_neurons, learn_rate = 0.01, dropout_rate = 0.0, weight_constraint = 0,
+                  metrics = ['mse'],
                   neurons_on_first_layer = 32,
+                  neurons_on_second_layer = 16,
                   second_layer_boolean = False,
-                  neurons_on_chokehold_layer = 8):
+                  neurons_on_chokehold_layer = 8,
+                  ):
   model = Sequential ()
   model.add (Dense (input_layer_neurons, activation = 'relu',
                    input_shape = (input_layer_neurons, )))
@@ -325,15 +323,15 @@ def create_model (learn_rate = 0.01, dropout_rate = 0.0, weight_constraint = 0,
 
 
 model = KerasRegressor (build_fn = create_model, verbose = 2)
-input_layer_neurons = X_train.shape [1]
-batch_size = [5000, 10000]
+input_layer_neurons = [X_train.shape [1]]
+batch_size = [500000]#, 10000]
 epochs = [200]
-learn_rate = [0.0001, 0.001]
+learn_rate = [0.0001]#, 0.001]
 dropout_rate = [0.0]
 weight_constraint = [0]
-neurons_on_first_layer = [32, 64]
-neurons_on_chokehold_layer = [4, 8]
-second_layer_boolean = [False, True] # Is there another layer?
+neurons_on_first_layer = [32]#, 64]
+neurons_on_chokehold_layer = [4]#, 8]
+second_layer_boolean = [False]#, True] # Is there another layer?
 param_grid = dict (batch_size = batch_size, epochs = epochs,
                    dropout_rate = dropout_rate, learn_rate = learn_rate,
                    weight_constraint = weight_constraint,
@@ -343,7 +341,7 @@ param_grid = dict (batch_size = batch_size, epochs = epochs,
                    neurons_on_chokehold_layer = neurons_on_chokehold_layer)
 grid = GridSearchCV (estimator = model, param_grid = param_grid,
                     scoring = 'neg_mean_squared_error', cv = myPreSplit,
-                    verbose = 2, n_jobs = 1)
+                    verbose = 2, n_jobs = -1)
 startTime = time.time ()
 grid_result = grid.fit (np.vstack ( (X_train, X_val)),#, axis = 1),
                        np.vstack ( (X_train, X_val)))#, axis = 1))
@@ -389,7 +387,7 @@ METRICS = [keras.metrics.MeanSquaredError (name = 'MSE'),
 ### K: learning rate foi alterado manualmente ao olhar os valores do erro na
 ### validacao ao longo das epochs...
 NUMBER_OF_EPOCHS = 700
-BATCH_SIZE = 10000
+BATCH_SIZE = 100000
 LEARNING_RATE = 0.0001
 
 print ('\nCreating learning model.')
