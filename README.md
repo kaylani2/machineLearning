@@ -1,5 +1,24 @@
 # machineLearning
 
+
+## BibTeX:
+
+If you find this code useful in your research, please consider citing:
+
+Se este código foi útil para sua pesquisa, considere citar:
+
+```
+@inproceedings{bochie2020_deep,
+    author = {Bochie, K. and Gilbert, M. S. and Gantert, L. and Barbosa, M. S. M. and Medeiros, D. S. V. and Campista, M. E. M.},
+    booktitle = {Minicursos do XXXVIII Simpósio Brasileiro de Redes de Computadores e Sistemas Distribuídos (SBRC)},
+    month = {12},
+    chapter = {4},
+    title = {Aprendizado Profundo em Redes Desafiadoras: Conceitos e Aplicações},
+    year = {2020},
+    pages = {140--189},
+}
+```
+
 This repository is used to teach and provide examples for basic and intermediate concepts regarding Machine Learning and Deep Learning.
 
 ## Note on file structure:
