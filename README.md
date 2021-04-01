@@ -16,6 +16,7 @@ Se este código foi útil para sua pesquisa, considere citar:
     title = {Aprendizado Profundo em Redes Desafiadoras: Conceitos e Aplicações},
     year = {2020},
     pages = {140--189},
+    doi = {10.5753/sbc.5033.7.4}
 }
 ```
 
