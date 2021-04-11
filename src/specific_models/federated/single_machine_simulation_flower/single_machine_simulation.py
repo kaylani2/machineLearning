@@ -10,6 +10,10 @@ from flwr.server.strategy import FedAvg
 
 import dataset
 
+# generate random integer values
+from random import seed
+from random import randint
+
 # Make TensorFlow log less verbose
 os.environ["TF_CPP_MIN_LOG_LEVEL"] = "3"
 
@@ -44,7 +48,8 @@ def start_client(dataset: DATASET) -> None:
         tf.keras.layers.Dense(10, activation="softmax"),
     ]
     )
-    model.compile("adam", "sparse_categorical_crossentropy", metrics=["accuracy"])
+    model.compile("adam", "sparse_categorical_crossentropy", metrics=[tf.keras.metrics.CategoricalAccuracy(), tf.keras.metrics.MeanSquaredError()])
+    ### @TODO: check if "accuracy" and tf.keras.metrics.CategoricalAccuracy() return the same results
 
     # Unpack the CIFAR-10 dataset partition
     (x_train, y_train), (x_test, y_test) = dataset
@@ -61,14 +66,17 @@ def start_client(dataset: DATASET) -> None:
             model.set_weights(parameters)
             # Remove steps_per_epoch if you want to train over the full dataset
             # https://keras.io/api/models/model_training_apis/#fit-method
+            #nap_time = randint (0, 5)
+            #time.sleep (nap_time)
+            #print ("Slept for", nap_time,  "seconds.")
             model.fit(x_train, y_train, epochs=10, batch_size=256, steps_per_epoch=10)
             return model.get_weights(), len(x_train), {}
 
         def evaluate(self, parameters, config):
             """Evaluate using provided parameters."""
             model.set_weights(parameters)
-            loss, accuracy = model.evaluate(x_test, y_test)
-            print ('"Loss:', loss, ". Accuracy:", accuracy)
+            loss, accuracy, mse = model.evaluate(x_test, y_test)
+            print ('"Loss:', loss, ". Accuracy:", accuracy, ". MSE:", mse, ".")
             return loss, len(x_test), {"accuracy": accuracy}
 
     # Start Flower client
@@ -106,5 +114,4 @@ def run_simulation(num_rounds: int, num_clients: int, fraction_fit: float):
 
 
 if __name__ == "__main__":
-    run_simulation(num_rounds=3, num_clients=5, fraction_fit=0.5)
-
+    run_simulation(num_rounds=100, num_clients=5, fraction_fit=0.5)
