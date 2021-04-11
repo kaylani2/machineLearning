@@ -32,6 +32,7 @@ def shuffle(x: np.ndarray, y: np.ndarray) -> XY:
 
 def partition(x: np.ndarray, y: np.ndarray, num_partitions: int) -> XYList:
     """Split x and y into a number of partitions."""
+    #@TODO: partition by user index (if available)
     return list(zip(np.split(x, num_partitions), np.split(y, num_partitions)))
 
 
@@ -51,6 +52,7 @@ def load(
     num_partitions: int,
 ) -> PartitionedDataset:
     """Create partitioned version of CIFAR-10."""
+    #@TODO: load CICIDS
     xy_train, xy_test = tf.keras.datasets.cifar10.load_data()
 
     xy_train_partitions = create_partitions(xy_train, num_partitions)
