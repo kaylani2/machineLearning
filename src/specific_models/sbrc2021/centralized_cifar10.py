@@ -33,9 +33,9 @@ print ('Splitting dataset (validation/train):', VALIDATION_SIZE)
 X_train, X_val, y_train, y_val = train_test_split (X_train,
                                                    y_train,
                                                    test_size = VALIDATION_SIZE)
-#y_train = to_categorical(y_train)
-#y_val = to_categorical(y_val)
-#y_test = to_categorical(y_test)
+y_train = to_categorical(y_train)
+y_val = to_categorical(y_val)
+y_test = to_categorical(y_test)
 print ('X_train shape:', X_train.shape)
 print ('y_train shape:', y_train.shape)
 print ('X_val shape:', X_val.shape)
@@ -44,6 +44,7 @@ print ('X_test shape:', X_test.shape)
 print ('y_test shape:', y_test.shape)
 
 
+'''
 ###############################################################################
 ## Hyperparameter tuning
 test_fold = np.repeat ([-1, 0], [X_train.shape [0], X_val.shape [0]])
@@ -75,3 +76,43 @@ stds = grid_result.cv_results_['std_test_score']
 params = grid_result.cv_results_['params']
 for mean, stdev, param in zip (means, stds, params):
     print ("%f (%f) with: %r" % (mean, stdev, param))
+'''
+
+###############################################################################
+## Finished model
+METRICS = [tf.keras.metrics.TruePositives (name = 'TP'),
+           tf.keras.metrics.FalsePositives (name = 'FP'),
+           tf.keras.metrics.TrueNegatives (name = 'TN'),
+           tf.keras.metrics.FalseNegatives (name = 'FN'),
+           tf.keras.metrics.BinaryAccuracy (name = 'Acc.'),
+           tf.keras.metrics.Precision (name = 'Prec.'),
+           tf.keras.metrics.Recall (name = 'Recall'),
+           tf.keras.metrics.AUC (name = 'AUC'),]
+BATCH_SIZE = 10000
+LEARNING_RATE = 0.001
+NUMBER_OF_EPOCHS = 5
+clf = create_model ()
+
+###############################################################################
+## Compile the network
+###############################################################################
+clf.compile (optimizer = 'adam',
+             loss = 'binary_crossentropy',
+             metrics = METRICS)
+clf.summary ()
+
+
+###############################################################################
+## Fit the network
+###############################################################################
+print ('\nFitting the network.')
+startTime = time.time ()
+history = clf.fit (X_train, y_train,
+                   batch_size = BATCH_SIZE,
+                   epochs = NUMBER_OF_EPOCHS,
+                   verbose = 2, #1 = progress bar, not useful for logging
+                   workers = 0,
+                   use_multiprocessing = True,
+                   #class_weight = 'auto',
+                   validation_data = (X_val, y_val))
+print (str (time.time () - startTime), 's to train model.')
