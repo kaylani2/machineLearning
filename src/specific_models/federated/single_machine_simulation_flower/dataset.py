@@ -33,6 +33,13 @@ def shuffle(x: np.ndarray, y: np.ndarray) -> XY:
 def partition(x: np.ndarray, y: np.ndarray, num_partitions: int) -> XYList:
     """Split x and y into a number of partitions."""
     #@TODO: partition by user index (if available)
+    ## if not available, we can "introduce" non-iidness by following Kairouz et al.:
+    ## Feature distribution skew (covariate shift):
+    ## Label distribution skew (prior probability shift)
+    ## Same label, different features (concept drift):
+    ## Same features, different label (concept shift):
+    ## Quantity skew or unbalancedness:
+## However, some of these alterations may compromise the original meaning of the data
     return list(zip(np.split(x, num_partitions), np.split(y, num_partitions)))
 
 

@@ -1,3 +1,4 @@
+import sys
 import os
 import time
 from multiprocessing import Process
@@ -49,7 +50,6 @@ def start_client(dataset: DATASET) -> None:
     ]
     )
     model.compile("adam", "sparse_categorical_crossentropy", metrics=[tf.keras.metrics.CategoricalAccuracy(), tf.keras.metrics.MeanSquaredError()])
-    ### @TODO: check if "accuracy" and tf.keras.metrics.CategoricalAccuracy() return the same results
 
     # Unpack the CIFAR-10 dataset partition
     (x_train, y_train), (x_test, y_test) = dataset
@@ -69,7 +69,7 @@ def start_client(dataset: DATASET) -> None:
             #nap_time = randint (0, 5)
             #time.sleep (nap_time)
             #print ("Slept for", nap_time,  "seconds.")
-            model.fit(x_train, y_train, epochs=10, batch_size=256, steps_per_epoch=10)
+            model.fit(x_train, y_train, epochs=epochs, batch_size=batch_size, steps_per_epoch=steps_per_epoch)
             return model.get_weights(), len(x_train), {}
 
         def evaluate(self, parameters, config):
@@ -114,4 +114,25 @@ def run_simulation(num_rounds: int, num_clients: int, fraction_fit: float):
 
 
 if __name__ == "__main__":
-    run_simulation(num_rounds=100, num_clients=5, fraction_fit=0.5)
+    try:
+        num_rounds = int (sys.argv [1])
+        num_clients = int (sys.argv [2])
+        fraction_fit = int (sys.argv [3])
+        epochs = int (sys.argv [4])
+        batch_size = int (sys.argv [5])
+        steps_per_epoch = int (sys.argv [6])
+    except:
+        num_rounds = 1
+        num_clients = 2
+        fraction_fit = 1
+        epochs = 5
+        batch_size = 64
+        steps_per_epoch = 5
+
+    start_time = time.time ()
+    run_simulation(num_rounds=num_rounds, num_clients=num_clients,
+                   fraction_fit=fraction_fit)
+    print (str (time.time () - start_time), 'seconds to run', num_rounds,
+                                            'rounds with', num_clients,
+                                            'clients, fractioned:',
+                                            fraction_fit, '.')
