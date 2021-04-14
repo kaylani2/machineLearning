@@ -1,12 +1,12 @@
-#import sys
-#import os
-#import time
-#import flwr as fl
-#import numpy as np
-#import tensorflow as tf
-#from sklearn.model_selection import train_test_split, PredefinedSplit, GridSearchCV
-#from keras.utils import to_categorical
-#from tensorflow.keras.wrappers.scikit_learn import KerasClassifier
+import sys
+import os
+import time
+import flwr as fl
+import numpy as np
+import tensorflow as tf
+from sklearn.model_selection import train_test_split, PredefinedSplit, GridSearchCV
+from keras.utils import to_categorical
+from tensorflow.keras.wrappers.scikit_learn import KerasClassifier
 #
 #def create_model (learn_rate = 0.01, dropout_rate = 0.0, weight_constraint = 0,
 #                  filter_size = 2):
@@ -151,22 +151,37 @@ def prep_pixels(train, test):
 
 # define cnn model
 def define_model():
-  model = Sequential()
-  model.add(Conv2D(32, (3, 3), activation='relu', kernel_initializer='he_uniform', padding='same', input_shape=(32, 32, 3)))
-  model.add(Conv2D(32, (3, 3), activation='relu', kernel_initializer='he_uniform', padding='same'))
-  model.add(MaxPooling2D((2, 2)))
-  model.add(Conv2D(64, (3, 3), activation='relu', kernel_initializer='he_uniform', padding='same'))
-  model.add(Conv2D(64, (3, 3), activation='relu', kernel_initializer='he_uniform', padding='same'))
-  model.add(MaxPooling2D((2, 2)))
-  model.add(Conv2D(128, (3, 3), activation='relu', kernel_initializer='he_uniform', padding='same'))
-  model.add(Conv2D(128, (3, 3), activation='relu', kernel_initializer='he_uniform', padding='same'))
-  model.add(MaxPooling2D((2, 2)))
-  model.add(Flatten())
-  model.add(Dense(128, activation='relu', kernel_initializer='he_uniform'))
-  model.add(Dense(10, activation='softmax'))
+  #model = Sequential()
+  #model.add(Conv2D(32, (3, 3), activation='relu', kernel_initializer='he_uniform', padding='same', input_shape=(32, 32, 3)))
+  #model.add(Conv2D(32, (3, 3), activation='relu', kernel_initializer='he_uniform', padding='same'))
+  #model.add(MaxPooling2D((2, 2)))
+  #model.add(Conv2D(64, (3, 3), activation='relu', kernel_initializer='he_uniform', padding='same'))
+  #model.add(Conv2D(64, (3, 3), activation='relu', kernel_initializer='he_uniform', padding='same'))
+  #model.add(MaxPooling2D((2, 2)))
+  #model.add(Conv2D(128, (3, 3), activation='relu', kernel_initializer='he_uniform', padding='same'))
+  #model.add(Conv2D(128, (3, 3), activation='relu', kernel_initializer='he_uniform', padding='same'))
+  #model.add(MaxPooling2D((2, 2)))
+  #model.add(Flatten())
+  #model.add(Dense(128, activation='relu', kernel_initializer='he_uniform'))
+  #model.add(Dense(10, activation='softmax'))
+  model = tf.keras.Sequential(
+  [
+  tf.keras.Input(shape=(32, 32, 3)),
+  tf.keras.layers.Conv2D(32, kernel_size=(3, 3), activation="relu"),
+  tf.keras.layers.MaxPooling2D(pool_size=(2, 2)),
+  tf.keras.layers.Conv2D(64, kernel_size=(3, 3), activation="relu"),
+  tf.keras.layers.MaxPooling2D(pool_size=(2, 2)),
+  tf.keras.layers.Flatten(),
+  tf.keras.layers.Dropout(0.5),
+  tf.keras.layers.Dense(10, activation="softmax"),
+  ])
+  model.compile(SGD (lr=0.0001), "sparse_categorical_crossentropy",
+                metrics=[tf.keras.metrics.CategoricalAccuracy()])
   # compile model
-  opt = SGD(lr=0.001, momentum=0.9)
+  opt = SGD(lr=0.0001)#, momentum=0.9)
+  #model.compile(optimizer=opt, loss='categorical_crossentropy', metrics=['accuracy'])
   model.compile(optimizer=opt, loss='categorical_crossentropy', metrics=['accuracy'])
+  model.summary ()
   return model
 
 # run the test harness for evaluating a model
@@ -174,13 +189,13 @@ def run_test_harness():
   # load dataset
   trainX, trainY, testX, testY = load_dataset()
   # prepare pixel data
-  trainX, testX = prep_pixels(trainX, testX)
+  #trainX, testX = prep_pixels(trainX, testX)
   # define model
   model = define_model()
   # fit model
-  model.fit(trainX, trainY, epochs=100, batch_size=64, verbose=0)
+  #model.fit(trainX, trainY, epochs=100, batch_size=1024, verbose=1)
   # save model
-  model.save('final_model.h5')
+  model.save('kb.h5')
 
 # entry point, run the test harness
 run_test_harness()
