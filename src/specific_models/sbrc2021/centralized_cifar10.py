@@ -51,20 +51,20 @@ def main ():
   EPOCH_BATCHES = 4
   X_train, y_train, X_test, y_test = load_dataset ()
   try:
-    model = load_model ('cnn.h5')
+    model = load_model ('./models/cnn.h5')
     print ('Model loaded from disk.')
   except:
     model = get_larger_model ()
     print ('New model.')
   for _ in range (EPOCH_BATCHES):
     history = model.fit (X_train, y_train, epochs=25, batch_size=128, validation_split=0.2, verbose=1)
-    #model.save ('cnn.h5')
+    model.save ('./models/cnn.h5')
 
   summarize_diagnostics (history)
 
 def test ():
   _, _, X_test, y_test = load_dataset ()
-  model = load_model ('cnn.h5')
+  model = load_model ('./models/cnn.h5')
   print ('Model loaded from disk.')
   _, acc = model.evaluate (X_test, y_test, verbose=0)
   print ('Accuracy: %.3f' % (acc * 100.0))
