@@ -1,13 +1,34 @@
 import sys
 import os
 import time
+import flwr as fl
+import numpy as np
+import tensorflow as tf
+from keras.models import load_model
+from sklearn.model_selection import train_test_split, PredefinedSplit, GridSearchCV
+from keras.utils import to_categorical
+from tensorflow.keras.wrappers.scikit_learn import KerasClassifier
+from keras.datasets import cifar10
+from keras.utils import to_categorical
+from keras.models import Sequential
+from keras.layers import Conv2D
+from keras.layers import MaxPooling2D
+from keras.layers import Dense
+from keras.layers import Flatten
+from keras.optimizers import SGD
+from keras.optimizers import Adam
+import sys
+import os
+import time
 from multiprocessing import Process
 from typing import Tuple
+from keras.optimizers import SGD
 
 import flwr as fl
 import numpy as np
 import tensorflow as tf
 from flwr.server.strategy import FedAvg
+from model import get_smaller_model
 
 import dataset
 
@@ -35,21 +56,46 @@ def start_server(num_rounds: int, num_clients: int, fraction_fit: float):
 def start_client(dataset: DATASET) -> None:
     """Start a single client with the provided dataset."""
 
+
+    model = Sequential()
+    model.add(Conv2D(32, (3, 3), activation='relu', kernel_initializer='he_uniform', padding='same', input_shape=(32, 32, 3)))
+    model.add(Conv2D(32, (3, 3), activation='relu', kernel_initializer='he_uniform', padding='same'))
+    model.add(MaxPooling2D((2, 2)))
+    model.add(tf.keras.layers.Dropout(0.1))
+    model.add(Conv2D(64, (3, 3), activation='relu', kernel_initializer='he_uniform', padding='same'))
+    model.add(Conv2D(64, (3, 3), activation='relu', kernel_initializer='he_uniform', padding='same'))
+    model.add(MaxPooling2D((2, 2)))
+    model.add(tf.keras.layers.Dropout(0.2))
+    model.add(Conv2D(128, (3, 3), activation='relu', kernel_initializer='he_uniform', padding='same'))
+    model.add(Conv2D(128, (3, 3), activation='relu', kernel_initializer='he_uniform', padding='same'))
+    model.add(MaxPooling2D((2, 2)))
+    model.add(tf.keras.layers.Dropout(0.1))
+    model.add(Flatten())
+    model.add(Dense(128, activation='relu', kernel_initializer='he_uniform'))
+    model.add(tf.keras.layers.Dropout(0.2))
+    model.add(Dense(10, activation='softmax'))
+
     # Load and compile a Keras model for CIFAR-10
     #model = tf.keras.applications.MobileNetV2((32, 32, 3), classes=10, weights=None)
-    model = tf.keras.Sequential(
-    [
-        tf.keras.Input(shape=(32, 32, 3)),
-        tf.keras.layers.Conv2D(32, kernel_size=(3, 3), activation="relu"),
-        tf.keras.layers.MaxPooling2D(pool_size=(2, 2)),
-        tf.keras.layers.Conv2D(64, kernel_size=(3, 3), activation="relu"),
-        tf.keras.layers.MaxPooling2D(pool_size=(2, 2)),
-        tf.keras.layers.Flatten(),
-        tf.keras.layers.Dropout(0.5),
-        tf.keras.layers.Dense(10, activation="softmax"),
-    ]
-    )
-    model.compile("adam", "sparse_categorical_crossentropy", metrics=[tf.keras.metrics.CategoricalAccuracy(), tf.keras.metrics.MeanSquaredError()])
+    #model = tf.keras.Sequential(
+    #[
+    #    tf.keras.Input(shape=(32, 32, 3)),
+    #    tf.keras.layers.Conv2D(32, kernel_size=(3, 3), activation="relu"),
+    #    tf.keras.layers.MaxPooling2D(pool_size=(2, 2)),
+    #    tf.keras.layers.Conv2D(64, kernel_size=(3, 3), activation="relu"),
+    #    tf.keras.layers.MaxPooling2D(pool_size=(2, 2)),
+    #    tf.keras.layers.Flatten(),
+    #    tf.keras.layers.Dropout(0.5),
+    #    tf.keras.layers.Dense(10, activation="softmax"),
+    #]
+    #)
+    optimizer = SGD(lr=0.0001, momentum=0.9)
+    model.compile(optimizer, "sparse_categorical_crossentropy", metrics=[tf.keras.metrics.CategoricalAccuracy(), tf.keras.metrics.MeanSquaredError()])
+    #model = get_smaller_model()
+    #print ('sumaaaaaaario')
+    #model.summary ()
+    #opt = SGD(lr=0.0001, momentum=0.9)
+    #model.compile(optimizer=opt, loss='categorical_crossentropy', metrics=['accuracy'])
 
     # Unpack the CIFAR-10 dataset partition
     (x_train, y_train), (x_test, y_test) = dataset
