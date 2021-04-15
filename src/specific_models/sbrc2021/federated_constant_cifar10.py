@@ -167,18 +167,19 @@ def run_simulation(num_rounds: int, num_clients: int, fraction_fit: float):
 if __name__ == "__main__":
     try:
         num_rounds = int (sys.argv [1])
-        num_clients = int (sys.argv [2])
-        fraction_fit = int (sys.argv [3])
-        epochs = int (sys.argv [4])
-        batch_size = int (sys.argv [5])
-        STEPS_PER_EPOCH = int (sys.argv [6])
+        #num_clients = int (sys.argv [2])
+        #fraction_fit = int (sys.argv [3])
+        #epochs = int (sys.argv [4])
+        #batch_size = int (sys.argv [5])
+        #STEPS_PER_EPOCH = int (sys.argv [6])
     except:
         num_rounds = 10
-        num_clients = 10
-        fraction_fit = 1
-        epochs = 10
-        batch_size = 64
-        STEPS_PER_EPOCH = 10
+
+    num_clients = 10
+    fraction_fit = 1
+    epochs = 10
+    batch_size = 64
+    STEPS_PER_EPOCH = 10
 
     start_time = time.time ()
     print ('Number of clients:', num_clients)
