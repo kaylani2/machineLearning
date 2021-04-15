@@ -67,8 +67,8 @@ class SaveModelStrategy(fl.server.strategy.FedAvg):
 
 def start_server(num_rounds: int, num_clients: int, fraction_fit: float):
     """Start the server with a slightly adjusted FedAvg strategy."""
-    strategy = SaveModelStrategy(min_available_clients=num_clients, fraction_fit=fraction_fit)
-    #strategy = FedAvg(min_available_clients=num_clients, fraction_fit=fraction_fit)
+    #strategy = SaveModelStrategy(min_available_clients=num_clients, fraction_fit=fraction_fit)
+    strategy = FedAvg(min_available_clients=num_clients, fraction_fit=fraction_fit)
     # Exposes the server by default on port 8080
     fl.server.start_server(strategy=strategy, config={"num_rounds": num_rounds})
 
@@ -173,12 +173,12 @@ if __name__ == "__main__":
         batch_size = int (sys.argv [5])
         STEPS_PER_EPOCH = int (sys.argv [6])
     except:
-        num_rounds = 1
+        num_rounds = 10
         num_clients = 10
         fraction_fit = 1
-        epochs = 5
+        epochs = 10
         batch_size = 64
-        STEPS_PER_EPOCH = 5
+        STEPS_PER_EPOCH = 10
 
     start_time = time.time ()
     print ('Number of clients:', num_clients)
