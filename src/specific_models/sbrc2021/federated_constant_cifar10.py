@@ -177,9 +177,9 @@ if __name__ == "__main__":
 
     num_clients = 5
     fraction_fit = 1
-    epochs = 10
+    epochs = 20
     batch_size = 64
-    STEPS_PER_EPOCH = 10
+    STEPS_PER_EPOCH = 20
 
     start_time = time.time ()
     print ('Number of clients:', num_clients)
