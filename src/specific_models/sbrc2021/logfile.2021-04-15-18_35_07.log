@@ -1,2280 +1,0 @@
-2021-04-15 18:35:07.615961: I tensorflow/stream_executor/platform/default/dso_loader.cc:49] Successfully opened dynamic library libcudart.so.11.0
-Number of clients: 10
-Fraction of clients: 1
-Number of rounds: 10
-Epochs: 10
-Batch size: 64
-Steps per epoch: 10
-INFO flower 2021-04-15 18:35:08,694 | app.py:73 | Flower server running (insecure, 10 rounds)
-INFO flower 2021-04-15 18:35:08,694 | server.py:73 | Getting initial parameters
-2021-04-15 18:35:11.254015: I tensorflow/compiler/jit/xla_cpu_device.cc:41] Not creating XLA devices, tf_xla_enable_xla_devices not set
-2021-04-15 18:35:11.254872: I tensorflow/stream_executor/platform/default/dso_loader.cc:49] Successfully opened dynamic library libcuda.so.1
-2021-04-15 18:35:11.257552: I tensorflow/compiler/jit/xla_cpu_device.cc:41] Not creating XLA devices, tf_xla_enable_xla_devices not set
-2021-04-15 18:35:11.258418: I tensorflow/stream_executor/platform/default/dso_loader.cc:49] Successfully opened dynamic library libcuda.so.1
-2021-04-15 18:35:11.261580: I tensorflow/compiler/jit/xla_cpu_device.cc:41] Not creating XLA devices, tf_xla_enable_xla_devices not set
-2021-04-15 18:35:11.262315: E tensorflow/stream_executor/cuda/cuda_driver.cc:328] failed call to cuInit: CUDA_ERROR_NO_DEVICE: no CUDA-capable device is detected
-2021-04-15 18:35:11.262363: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:169] retrieving CUDA diagnostic information for host: tdagger
-2021-04-15 18:35:11.262367: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:176] hostname: tdagger
-2021-04-15 18:35:11.262448: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:200] libcuda reported version is: 460.32.3
-2021-04-15 18:35:11.262459: I tensorflow/stream_executor/platform/default/dso_loader.cc:49] Successfully opened dynamic library libcuda.so.1
-2021-04-15 18:35:11.262480: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:204] kernel reported version is: 460.32.3
-2021-04-15 18:35:11.262490: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:310] kernel version seems to match DSO: 460.32.3
-2021-04-15 18:35:11.262833: I tensorflow/core/platform/cpu_feature_guard.cc:142] This TensorFlow binary is optimized with oneAPI Deep Neural Network Library (oneDNN) to use the following CPU instructions in performance-critical operations:  AVX2 FMA
-To enable them in other operations, rebuild TensorFlow with the appropriate compiler flags.
-2021-04-15 18:35:11.263160: I tensorflow/compiler/jit/xla_gpu_device.cc:99] Not creating XLA devices, tf_xla_enable_xla_devices not set
-2021-04-15 18:35:11.265639: I tensorflow/compiler/jit/xla_cpu_device.cc:41] Not creating XLA devices, tf_xla_enable_xla_devices not set
-2021-04-15 18:35:11.266413: E tensorflow/stream_executor/cuda/cuda_driver.cc:328] failed call to cuInit: CUDA_ERROR_NO_DEVICE: no CUDA-capable device is detected
-2021-04-15 18:35:11.266433: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:169] retrieving CUDA diagnostic information for host: tdagger
-2021-04-15 18:35:11.266438: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:176] hostname: tdagger
-2021-04-15 18:35:11.266486: I tensorflow/stream_executor/platform/default/dso_loader.cc:49] Successfully opened dynamic library libcuda.so.1
-2021-04-15 18:35:11.266528: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:200] libcuda reported version is: 460.32.3
-2021-04-15 18:35:11.266561: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:204] kernel reported version is: 460.32.3
-2021-04-15 18:35:11.266570: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:310] kernel version seems to match DSO: 460.32.3
-2021-04-15 18:35:11.266919: I tensorflow/core/platform/cpu_feature_guard.cc:142] This TensorFlow binary is optimized with oneAPI Deep Neural Network Library (oneDNN) to use the following CPU instructions in performance-critical operations:  AVX2 FMA
-To enable them in other operations, rebuild TensorFlow with the appropriate compiler flags.
-2021-04-15 18:35:11.267253: I tensorflow/compiler/jit/xla_gpu_device.cc:99] Not creating XLA devices, tf_xla_enable_xla_devices not set
-2021-04-15 18:35:11.270106: I tensorflow/compiler/jit/xla_cpu_device.cc:41] Not creating XLA devices, tf_xla_enable_xla_devices not set
-2021-04-15 18:35:11.270490: E tensorflow/stream_executor/cuda/cuda_driver.cc:328] failed call to cuInit: CUDA_ERROR_NO_DEVICE: no CUDA-capable device is detected
-2021-04-15 18:35:11.270511: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:169] retrieving CUDA diagnostic information for host: tdagger
-2021-04-15 18:35:11.270518: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:176] hostname: tdagger
-2021-04-15 18:35:11.270613: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:200] libcuda reported version is: 460.32.3
-2021-04-15 18:35:11.270645: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:204] kernel reported version is: 460.32.3
-2021-04-15 18:35:11.270652: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:310] kernel version seems to match DSO: 460.32.3
-2021-04-15 18:35:11.271013: I tensorflow/core/platform/cpu_feature_guard.cc:142] This TensorFlow binary is optimized with oneAPI Deep Neural Network Library (oneDNN) to use the following CPU instructions in performance-critical operations:  AVX2 FMA
-To enable them in other operations, rebuild TensorFlow with the appropriate compiler flags.
-2021-04-15 18:35:11.271049: I tensorflow/stream_executor/platform/default/dso_loader.cc:49] Successfully opened dynamic library libcuda.so.1
-2021-04-15 18:35:11.271390: I tensorflow/compiler/jit/xla_gpu_device.cc:99] Not creating XLA devices, tf_xla_enable_xla_devices not set
-2021-04-15 18:35:11.274588: I tensorflow/compiler/jit/xla_cpu_device.cc:41] Not creating XLA devices, tf_xla_enable_xla_devices not set
-2021-04-15 18:35:11.275056: E tensorflow/stream_executor/cuda/cuda_driver.cc:328] failed call to cuInit: CUDA_ERROR_NO_DEVICE: no CUDA-capable device is detected
-2021-04-15 18:35:11.275081: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:169] retrieving CUDA diagnostic information for host: tdagger
-2021-04-15 18:35:11.275088: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:176] hostname: tdagger
-2021-04-15 18:35:11.275181: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:200] libcuda reported version is: 460.32.3
-2021-04-15 18:35:11.275217: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:204] kernel reported version is: 460.32.3
-2021-04-15 18:35:11.275226: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:310] kernel version seems to match DSO: 460.32.3
-2021-04-15 18:35:11.275562: I tensorflow/core/platform/cpu_feature_guard.cc:142] This TensorFlow binary is optimized with oneAPI Deep Neural Network Library (oneDNN) to use the following CPU instructions in performance-critical operations:  AVX2 FMA
-To enable them in other operations, rebuild TensorFlow with the appropriate compiler flags.
-2021-04-15 18:35:11.275602: I tensorflow/stream_executor/platform/default/dso_loader.cc:49] Successfully opened dynamic library libcuda.so.1
-2021-04-15 18:35:11.275940: I tensorflow/compiler/jit/xla_gpu_device.cc:99] Not creating XLA devices, tf_xla_enable_xla_devices not set
-2021-04-15 18:35:11.279997: I tensorflow/compiler/jit/xla_cpu_device.cc:41] Not creating XLA devices, tf_xla_enable_xla_devices not set
-2021-04-15 18:35:11.280737: E tensorflow/stream_executor/cuda/cuda_driver.cc:328] failed call to cuInit: CUDA_ERROR_NO_DEVICE: no CUDA-capable device is detected
-2021-04-15 18:35:11.280741: E tensorflow/stream_executor/cuda/cuda_driver.cc:328] failed call to cuInit: CUDA_ERROR_NO_DEVICE: no CUDA-capable device is detected
-2021-04-15 18:35:11.280763: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:169] retrieving CUDA diagnostic information for host: tdagger
-2021-04-15 18:35:11.280763: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:169] retrieving CUDA diagnostic information for host: tdagger
-2021-04-15 18:35:11.280770: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:176] hostname: tdagger
-2021-04-15 18:35:11.280770: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:176] hostname: tdagger
-2021-04-15 18:35:11.280874: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:200] libcuda reported version is: 460.32.3
-2021-04-15 18:35:11.280874: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:200] libcuda reported version is: 460.32.3
-2021-04-15 18:35:11.280912: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:204] kernel reported version is: 460.32.3
-2021-04-15 18:35:11.280913: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:204] kernel reported version is: 460.32.3
-2021-04-15 18:35:11.280921: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:310] kernel version seems to match DSO: 460.32.3
-2021-04-15 18:35:11.280946: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:310] kernel version seems to match DSO: 460.32.3
-2021-04-15 18:35:11.281002: I tensorflow/stream_executor/platform/default/dso_loader.cc:49] Successfully opened dynamic library libcuda.so.1
-2021-04-15 18:35:11.281293: I tensorflow/core/platform/cpu_feature_guard.cc:142] This TensorFlow binary is optimized with oneAPI Deep Neural Network Library (oneDNN) to use the following CPU instructions in performance-critical operations:  AVX2 FMA
-To enable them in other operations, rebuild TensorFlow with the appropriate compiler flags.
-2021-04-15 18:35:11.281315: I tensorflow/core/platform/cpu_feature_guard.cc:142] This TensorFlow binary is optimized with oneAPI Deep Neural Network Library (oneDNN) to use the following CPU instructions in performance-critical operations:  AVX2 FMA
-To enable them in other operations, rebuild TensorFlow with the appropriate compiler flags.
-2021-04-15 18:35:11.281670: I tensorflow/compiler/jit/xla_gpu_device.cc:99] Not creating XLA devices, tf_xla_enable_xla_devices not set
-2021-04-15 18:35:11.281674: I tensorflow/compiler/jit/xla_gpu_device.cc:99] Not creating XLA devices, tf_xla_enable_xla_devices not set
-2021-04-15 18:35:11.285873: E tensorflow/stream_executor/cuda/cuda_driver.cc:328] failed call to cuInit: CUDA_ERROR_NO_DEVICE: no CUDA-capable device is detected
-2021-04-15 18:35:11.285915: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:169] retrieving CUDA diagnostic information for host: tdagger
-2021-04-15 18:35:11.285923: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:176] hostname: tdagger
-2021-04-15 18:35:11.286135: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:200] libcuda reported version is: 460.32.3
-2021-04-15 18:35:11.286185: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:204] kernel reported version is: 460.32.3
-2021-04-15 18:35:11.286193: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:310] kernel version seems to match DSO: 460.32.3
-2021-04-15 18:35:11.286614: I tensorflow/core/platform/cpu_feature_guard.cc:142] This TensorFlow binary is optimized with oneAPI Deep Neural Network Library (oneDNN) to use the following CPU instructions in performance-critical operations:  AVX2 FMA
-To enable them in other operations, rebuild TensorFlow with the appropriate compiler flags.
-2021-04-15 18:35:11.287027: I tensorflow/compiler/jit/xla_gpu_device.cc:99] Not creating XLA devices, tf_xla_enable_xla_devices not set
-2021-04-15 18:35:11.287939: I tensorflow/compiler/jit/xla_cpu_device.cc:41] Not creating XLA devices, tf_xla_enable_xla_devices not set
-2021-04-15 18:35:11.289072: I tensorflow/stream_executor/platform/default/dso_loader.cc:49] Successfully opened dynamic library libcuda.so.1
-2021-04-15 18:35:11.294464: E tensorflow/stream_executor/cuda/cuda_driver.cc:328] failed call to cuInit: CUDA_ERROR_NO_DEVICE: no CUDA-capable device is detected
-2021-04-15 18:35:11.294508: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:169] retrieving CUDA diagnostic information for host: tdagger
-2021-04-15 18:35:11.294515: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:176] hostname: tdagger
-2021-04-15 18:35:11.294643: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:200] libcuda reported version is: 460.32.3
-2021-04-15 18:35:11.294697: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:204] kernel reported version is: 460.32.3
-2021-04-15 18:35:11.294705: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:310] kernel version seems to match DSO: 460.32.3
-2021-04-15 18:35:11.295123: I tensorflow/core/platform/cpu_feature_guard.cc:142] This TensorFlow binary is optimized with oneAPI Deep Neural Network Library (oneDNN) to use the following CPU instructions in performance-critical operations:  AVX2 FMA
-To enable them in other operations, rebuild TensorFlow with the appropriate compiler flags.
-2021-04-15 18:35:11.295655: I tensorflow/compiler/jit/xla_gpu_device.cc:99] Not creating XLA devices, tf_xla_enable_xla_devices not set
-2021-04-15 18:35:11.295832: I tensorflow/compiler/jit/xla_cpu_device.cc:41] Not creating XLA devices, tf_xla_enable_xla_devices not set
-2021-04-15 18:35:11.297051: I tensorflow/stream_executor/platform/default/dso_loader.cc:49] Successfully opened dynamic library libcuda.so.1
-2021-04-15 18:35:11.299881: I tensorflow/compiler/jit/xla_cpu_device.cc:41] Not creating XLA devices, tf_xla_enable_xla_devices not set
-2021-04-15 18:35:11.300983: I tensorflow/stream_executor/platform/default/dso_loader.cc:49] Successfully opened dynamic library libcuda.so.1
-2021-04-15 18:35:11.302424: E tensorflow/stream_executor/cuda/cuda_driver.cc:328] failed call to cuInit: CUDA_ERROR_NO_DEVICE: no CUDA-capable device is detected
-2021-04-15 18:35:11.302495: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:169] retrieving CUDA diagnostic information for host: tdagger
-2021-04-15 18:35:11.302521: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:176] hostname: tdagger
-2021-04-15 18:35:11.302642: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:200] libcuda reported version is: 460.32.3
-2021-04-15 18:35:11.302699: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:204] kernel reported version is: 460.32.3
-2021-04-15 18:35:11.302727: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:310] kernel version seems to match DSO: 460.32.3
-2021-04-15 18:35:11.303131: I tensorflow/core/platform/cpu_feature_guard.cc:142] This TensorFlow binary is optimized with oneAPI Deep Neural Network Library (oneDNN) to use the following CPU instructions in performance-critical operations:  AVX2 FMA
-To enable them in other operations, rebuild TensorFlow with the appropriate compiler flags.
-2021-04-15 18:35:11.303533: I tensorflow/compiler/jit/xla_gpu_device.cc:99] Not creating XLA devices, tf_xla_enable_xla_devices not set
-2021-04-15 18:35:11.306181: E tensorflow/stream_executor/cuda/cuda_driver.cc:328] failed call to cuInit: CUDA_ERROR_NO_DEVICE: no CUDA-capable device is detected
-2021-04-15 18:35:11.306282: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:169] retrieving CUDA diagnostic information for host: tdagger
-2021-04-15 18:35:11.306331: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:176] hostname: tdagger
-2021-04-15 18:35:11.306488: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:200] libcuda reported version is: 460.32.3
-2021-04-15 18:35:11.306536: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:204] kernel reported version is: 460.32.3
-2021-04-15 18:35:11.306582: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:310] kernel version seems to match DSO: 460.32.3
-2021-04-15 18:35:11.306988: I tensorflow/core/platform/cpu_feature_guard.cc:142] This TensorFlow binary is optimized with oneAPI Deep Neural Network Library (oneDNN) to use the following CPU instructions in performance-critical operations:  AVX2 FMA
-To enable them in other operations, rebuild TensorFlow with the appropriate compiler flags.
-2021-04-15 18:35:11.307384: I tensorflow/compiler/jit/xla_gpu_device.cc:99] Not creating XLA devices, tf_xla_enable_xla_devices not set
-DEBUG flower 2021-04-15 18:35:11,382 | connection.py:36 | ChannelConnectivity.IDLE
-DEBUG flower 2021-04-15 18:35:11,383 | connection.py:36 | ChannelConnectivity.READY
-INFO flower 2021-04-15 18:35:11,383 | app.py:61 | Opened (insecure) gRPC connection
-DEBUG flower 2021-04-15 18:35:11,384 | connection.py:36 | ChannelConnectivity.IDLE
-DEBUG flower 2021-04-15 18:35:11,385 | connection.py:36 | ChannelConnectivity.IDLE
-DEBUG flower 2021-04-15 18:35:11,385 | connection.py:36 | ChannelConnectivity.CONNECTING
-DEBUG flower 2021-04-15 18:35:11,385 | connection.py:36 | ChannelConnectivity.READY
-INFO flower 2021-04-15 18:35:11,386 | app.py:61 | Opened (insecure) gRPC connection
-DEBUG flower 2021-04-15 18:35:11,386 | connection.py:36 | ChannelConnectivity.IDLE
-DEBUG flower 2021-04-15 18:35:11,387 | connection.py:36 | ChannelConnectivity.CONNECTING
-DEBUG flower 2021-04-15 18:35:11,387 | connection.py:36 | ChannelConnectivity.READY
-DEBUG flower 2021-04-15 18:35:11,387 | connection.py:36 | ChannelConnectivity.READY
-INFO flower 2021-04-15 18:35:11,387 | app.py:61 | Opened (insecure) gRPC connection
-INFO flower 2021-04-15 18:35:11,390 | app.py:61 | Opened (insecure) gRPC connection
-DEBUG flower 2021-04-15 18:35:11,392 | connection.py:36 | ChannelConnectivity.IDLE
-DEBUG flower 2021-04-15 18:35:11,393 | connection.py:36 | ChannelConnectivity.CONNECTING
-DEBUG flower 2021-04-15 18:35:11,393 | connection.py:36 | ChannelConnectivity.READY
-INFO flower 2021-04-15 18:35:11,393 | app.py:61 | Opened (insecure) gRPC connection
-DEBUG flower 2021-04-15 18:35:11,405 | connection.py:36 | ChannelConnectivity.IDLE
-DEBUG flower 2021-04-15 18:35:11,405 | connection.py:36 | ChannelConnectivity.IDLE
-DEBUG flower 2021-04-15 18:35:11,406 | connection.py:36 | ChannelConnectivity.CONNECTING
-DEBUG flower 2021-04-15 18:35:11,406 | connection.py:36 | ChannelConnectivity.CONNECTING
-INFO flower 2021-04-15 18:35:11,406 | app.py:61 | Opened (insecure) gRPC connection
-DEBUG flower 2021-04-15 18:35:11,406 | connection.py:36 | ChannelConnectivity.READY
-DEBUG flower 2021-04-15 18:35:11,406 | connection.py:36 | ChannelConnectivity.READY
-INFO flower 2021-04-15 18:35:11,406 | app.py:61 | Opened (insecure) gRPC connection
-INFO flower 2021-04-15 18:35:11,408 | server.py:204 | Received initial parameters from one random client
-INFO flower 2021-04-15 18:35:11,408 | server.py:75 | Evaluating initial parameters
-INFO flower 2021-04-15 18:35:11,408 | server.py:88 | [TIME] FL starting
-DEBUG flower 2021-04-15 18:35:11,412 | connection.py:36 | ChannelConnectivity.IDLE
-DEBUG flower 2021-04-15 18:35:11,412 | connection.py:36 | ChannelConnectivity.CONNECTING
-DEBUG flower 2021-04-15 18:35:11,413 | connection.py:36 | ChannelConnectivity.READY
-INFO flower 2021-04-15 18:35:11,413 | app.py:61 | Opened (insecure) gRPC connection
-DEBUG flower 2021-04-15 18:35:11,424 | connection.py:36 | ChannelConnectivity.IDLE
-INFO flower 2021-04-15 18:35:11,425 | app.py:61 | Opened (insecure) gRPC connection
-DEBUG flower 2021-04-15 18:35:11,425 | connection.py:36 | ChannelConnectivity.READY
-DEBUG flower 2021-04-15 18:35:11,426 | connection.py:36 | ChannelConnectivity.IDLE
-DEBUG flower 2021-04-15 18:35:11,426 | connection.py:36 | ChannelConnectivity.CONNECTING
-DEBUG flower 2021-04-15 18:35:11,426 | connection.py:36 | ChannelConnectivity.READY
-INFO flower 2021-04-15 18:35:11,427 | app.py:61 | Opened (insecure) gRPC connection
-DEBUG flower 2021-04-15 18:35:11,427 | server.py:162 | fit_round: strategy sampled 7 clients (out of 10)
-2021-04-15 18:35:11.508496: I tensorflow/compiler/mlir/mlir_graph_optimization_pass.cc:116] None of the MLIR optimization passes are enabled (registered 2)
-2021-04-15 18:35:11.508981: I tensorflow/core/platform/profile_utils/cpu_utils.cc:112] CPU Frequency: 2899885000 Hz
-2021-04-15 18:35:11.519057: I tensorflow/compiler/mlir/mlir_graph_optimization_pass.cc:116] None of the MLIR optimization passes are enabled (registered 2)
-2021-04-15 18:35:11.519564: I tensorflow/core/platform/profile_utils/cpu_utils.cc:112] CPU Frequency: 2899885000 Hz
-2021-04-15 18:35:11.522674: I tensorflow/compiler/mlir/mlir_graph_optimization_pass.cc:116] None of the MLIR optimization passes are enabled (registered 2)
-2021-04-15 18:35:11.523109: I tensorflow/core/platform/profile_utils/cpu_utils.cc:112] CPU Frequency: 2899885000 Hz
-2021-04-15 18:35:11.523344: I tensorflow/compiler/mlir/mlir_graph_optimization_pass.cc:116] None of the MLIR optimization passes are enabled (registered 2)
-2021-04-15 18:35:11.523344: I tensorflow/compiler/mlir/mlir_graph_optimization_pass.cc:116] None of the MLIR optimization passes are enabled (registered 2)
-2021-04-15 18:35:11.523703: I tensorflow/core/platform/profile_utils/cpu_utils.cc:112] CPU Frequency: 2899885000 Hz
-2021-04-15 18:35:11.523703: I tensorflow/core/platform/profile_utils/cpu_utils.cc:112] CPU Frequency: 2899885000 Hz
-2021-04-15 18:35:11.529967: I tensorflow/compiler/mlir/mlir_graph_optimization_pass.cc:116] None of the MLIR optimization passes are enabled (registered 2)
-2021-04-15 18:35:11.530374: I tensorflow/core/platform/profile_utils/cpu_utils.cc:112] CPU Frequency: 2899885000 Hz
-2021-04-15 18:35:11.535980: I tensorflow/compiler/mlir/mlir_graph_optimization_pass.cc:116] None of the MLIR optimization passes are enabled (registered 2)
-2021-04-15 18:35:11.536343: I tensorflow/core/platform/profile_utils/cpu_utils.cc:112] CPU Frequency: 2899885000 Hz
-Epoch 1/10
-10/10 - 6s - loss: 197.7351 - accuracy: 0.1016 - val_loss: 2.7951 - val_accuracy: 0.0990
-Epoch 1/10
-10/10 - 6s - loss: 155.1386 - accuracy: 0.1078 - val_loss: 3.7586 - val_accuracy: 0.1270
-Epoch 1/10
-10/10 - 6s - loss: 141.4826 - accuracy: 0.0938 - val_loss: 3.5932 - val_accuracy: 0.0970
-Epoch 1/10
-10/10 - 6s - loss: 139.2944 - accuracy: 0.0859 - val_loss: 3.2688 - val_accuracy: 0.1040
-Epoch 1/10
-10/10 - 6s - loss: 159.6442 - accuracy: 0.0984 - val_loss: 3.7589 - val_accuracy: 0.0930
-Epoch 1/10
-10/10 - 6s - loss: 177.5766 - accuracy: 0.1109 - val_loss: 4.1888 - val_accuracy: 0.1060
-Epoch 1/10
-10/10 - 6s - loss: 148.4258 - accuracy: 0.0906 - val_loss: 4.0845 - val_accuracy: 0.1020
-Epoch 2/10
-10/10 - 5s - loss: 2.5772 - accuracy: 0.1016 - val_loss: 2.3861 - val_accuracy: 0.0920
-Epoch 2/10
-10/10 - 5s - loss: 2.9297 - accuracy: 0.1141 - val_loss: 2.4359 - val_accuracy: 0.0790
-Epoch 2/10
-10/10 - 5s - loss: 3.0228 - accuracy: 0.1125 - val_loss: 2.3917 - val_accuracy: 0.1070
-Epoch 2/10
-10/10 - 5s - loss: 2.7494 - accuracy: 0.0891 - val_loss: 2.4025 - val_accuracy: 0.1070
-Epoch 2/10
-10/10 - 5s - loss: 2.9643 - accuracy: 0.0812 - val_loss: 2.4104 - val_accuracy: 0.0720
-Epoch 2/10
-10/10 - 5s - loss: 3.2183 - accuracy: 0.0812 - val_loss: 2.4097 - val_accuracy: 0.1190
-Epoch 2/10
-10/10 - 5s - loss: 3.3996 - accuracy: 0.0875 - val_loss: 2.3902 - val_accuracy: 0.1050
-Epoch 3/10
-10/10 - 5s - loss: 2.3988 - accuracy: 0.1125 - val_loss: 2.3358 - val_accuracy: 0.0940
-Epoch 3/10
-10/10 - 5s - loss: 2.4158 - accuracy: 0.0984 - val_loss: 2.3608 - val_accuracy: 0.0810
-Epoch 3/10
-10/10 - 5s - loss: 2.3606 - accuracy: 0.0891 - val_loss: 2.3388 - val_accuracy: 0.1070
-Epoch 3/10
-10/10 - 5s - loss: 2.4055 - accuracy: 0.0984 - val_loss: 2.3614 - val_accuracy: 0.0930
-Epoch 3/10
-10/10 - 5s - loss: 2.4067 - accuracy: 0.0703 - val_loss: 2.3439 - val_accuracy: 0.0940
-Epoch 3/10
-10/10 - 5s - loss: 2.3942 - accuracy: 0.0734 - val_loss: 2.3575 - val_accuracy: 0.1180
-Epoch 3/10
-10/10 - 5s - loss: 2.4199 - accuracy: 0.0766 - val_loss: 2.3274 - val_accuracy: 0.0950
-Epoch 4/10
-10/10 - 5s - loss: 2.4131 - accuracy: 0.0859 - val_loss: 2.3197 - val_accuracy: 0.1000
-Epoch 4/10
-10/10 - 5s - loss: 2.3347 - accuracy: 0.1234 - val_loss: 2.3434 - val_accuracy: 0.0900
-Epoch 4/10
-10/10 - 5s - loss: 2.3341 - accuracy: 0.1141 - val_loss: 2.3277 - val_accuracy: 0.1010
-Epoch 4/10
-10/10 - 5s - loss: 2.3546 - accuracy: 0.0953 - val_loss: 2.3313 - val_accuracy: 0.0950
-Epoch 4/10
-10/10 - 5s - loss: 2.3549 - accuracy: 0.0859 - val_loss: 2.3458 - val_accuracy: 0.0920
-Epoch 4/10
-10/10 - 5s - loss: 2.3305 - accuracy: 0.0875 - val_loss: 2.3416 - val_accuracy: 0.1090
-Epoch 4/10
-10/10 - 5s - loss: 2.3377 - accuracy: 0.1047 - val_loss: 2.3173 - val_accuracy: 0.1020
-Epoch 5/10
-10/10 - 5s - loss: 2.3361 - accuracy: 0.0938 - val_loss: 2.3119 - val_accuracy: 0.0980
-Epoch 5/10
-10/10 - 5s - loss: 2.3630 - accuracy: 0.0875 - val_loss: 2.3224 - val_accuracy: 0.1000
-Epoch 5/10
-10/10 - 5s - loss: 2.3725 - accuracy: 0.0984 - val_loss: 2.3353 - val_accuracy: 0.0830
-Epoch 5/10
-10/10 - 5s - loss: 2.3587 - accuracy: 0.0781 - val_loss: 2.3388 - val_accuracy: 0.0940
-Epoch 5/10
-10/10 - 5s - loss: 2.3331 - accuracy: 0.0859 - val_loss: 2.3265 - val_accuracy: 0.0950
-Epoch 5/10
-10/10 - 5s - loss: 2.3365 - accuracy: 0.1078 - val_loss: 2.3347 - val_accuracy: 0.1100
-Epoch 5/10
-10/10 - 5s - loss: 2.3356 - accuracy: 0.0719 - val_loss: 2.3134 - val_accuracy: 0.1050
-Epoch 6/10
-10/10 - 5s - loss: 2.3641 - accuracy: 0.0891 - val_loss: 2.3077 - val_accuracy: 0.0980
-Epoch 6/10
-10/10 - 5s - loss: 2.3352 - accuracy: 0.0812 - val_loss: 2.3194 - val_accuracy: 0.1010
-Epoch 6/10
-10/10 - 5s - loss: 2.3288 - accuracy: 0.0891 - val_loss: 2.3339 - val_accuracy: 0.0920
-Epoch 6/10
-10/10 - 5s - loss: 2.3084 - accuracy: 0.0953 - val_loss: 2.3306 - val_accuracy: 0.0820
-Epoch 6/10
-10/10 - 5s - loss: 2.3429 - accuracy: 0.1016 - val_loss: 2.3299 - val_accuracy: 0.1060
-Epoch 6/10
-10/10 - 5s - loss: 2.3441 - accuracy: 0.0922 - val_loss: 2.3230 - val_accuracy: 0.0960
-Epoch 6/10
-10/10 - 5s - loss: 2.3319 - accuracy: 0.0828 - val_loss: 2.3116 - val_accuracy: 0.1080
-Epoch 7/10
-10/10 - 5s - loss: 2.3634 - accuracy: 0.1102 - val_loss: 2.3050 - val_accuracy: 0.0980
-Epoch 7/10
-10/10 - 5s - loss: 2.3243 - accuracy: 0.1003 - val_loss: 2.3177 - val_accuracy: 0.1030
-Epoch 7/10
-10/10 - 5s - loss: 2.3343 - accuracy: 0.1003 - val_loss: 2.3309 - val_accuracy: 0.0940
-Epoch 7/10
-10/10 - 5s - loss: 2.3181 - accuracy: 0.1003 - val_loss: 2.3210 - val_accuracy: 0.0970
-Epoch 7/10
-10/10 - 5s - loss: 2.3268 - accuracy: 0.0954 - val_loss: 2.3266 - val_accuracy: 0.1070
-Epoch 7/10
-10/10 - 5s - loss: 2.3236 - accuracy: 0.1151 - val_loss: 2.3279 - val_accuracy: 0.0830
-Epoch 7/10
-10/10 - 5s - loss: 2.3395 - accuracy: 0.0872 - val_loss: 2.3102 - val_accuracy: 0.1050
-Epoch 8/10
-10/10 - 5s - loss: 2.3515 - accuracy: 0.1047 - val_loss: 2.3037 - val_accuracy: 0.0980
-Epoch 8/10
-10/10 - 5s - loss: 2.3064 - accuracy: 0.0938 - val_loss: 2.3168 - val_accuracy: 0.1020
-Epoch 8/10
-10/10 - 5s - loss: 2.3281 - accuracy: 0.0922 - val_loss: 2.3286 - val_accuracy: 0.0940
-Epoch 8/10
-10/10 - 5s - loss: 2.3078 - accuracy: 0.0859 - val_loss: 2.3245 - val_accuracy: 0.1070
-Epoch 8/10
-10/10 - 5s - loss: 2.3127 - accuracy: 0.0750 - val_loss: 2.3195 - val_accuracy: 0.0970
-Epoch 8/10
-10/10 - 5s - loss: 2.3202 - accuracy: 0.1125 - val_loss: 2.3265 - val_accuracy: 0.0820
-Epoch 8/10
-10/10 - 5s - loss: 2.3122 - accuracy: 0.1031 - val_loss: 2.3093 - val_accuracy: 0.1040
-Epoch 9/10
-10/10 - 5s - loss: 2.3347 - accuracy: 0.0984 - val_loss: 2.3156 - val_accuracy: 0.1020
-Epoch 9/10
-10/10 - 5s - loss: 2.3242 - accuracy: 0.0984 - val_loss: 2.3023 - val_accuracy: 0.0990
-Epoch 9/10
-10/10 - 5s - loss: 2.3262 - accuracy: 0.1125 - val_loss: 2.3266 - val_accuracy: 0.0930
-Epoch 9/10
-10/10 - 5s - loss: 2.3304 - accuracy: 0.0891 - val_loss: 2.3185 - val_accuracy: 0.0960
-Epoch 9/10
-10/10 - 5s - loss: 2.3353 - accuracy: 0.1078 - val_loss: 2.3249 - val_accuracy: 0.0820
-Epoch 9/10
-10/10 - 5s - loss: 2.3168 - accuracy: 0.1078 - val_loss: 2.3232 - val_accuracy: 0.1060
-Epoch 9/10
-10/10 - 5s - loss: 2.3184 - accuracy: 0.0906 - val_loss: 2.3085 - val_accuracy: 0.1020
-Epoch 10/10
-10/10 - 5s - loss: 2.3343 - accuracy: 0.0953 - val_loss: 2.3014 - val_accuracy: 0.1060
-Epoch 10/10
-10/10 - 5s - loss: 2.3461 - accuracy: 0.0859 - val_loss: 2.3141 - val_accuracy: 0.1000
-Epoch 10/10
-10/10 - 5s - loss: 2.3284 - accuracy: 0.0750 - val_loss: 2.3247 - val_accuracy: 0.0950
-Epoch 10/10
-10/10 - 5s - loss: 2.3348 - accuracy: 0.1172 - val_loss: 2.3216 - val_accuracy: 0.1050
-Epoch 10/10
-10/10 - 5s - loss: 2.3292 - accuracy: 0.1187 - val_loss: 2.3175 - val_accuracy: 0.0950
-Epoch 10/10
-10/10 - 5s - loss: 2.3316 - accuracy: 0.0953 - val_loss: 2.3231 - val_accuracy: 0.0830
-Epoch 10/10
-10/10 - 5s - loss: 2.3364 - accuracy: 0.0625 - val_loss: 2.3076 - val_accuracy: 0.1000
-DEBUG flower 2021-04-15 18:36:03,651 | server.py:174 | fit_round received 7 results and 0 failures
-DEBUG flower 2021-04-15 18:36:03,684 | server.py:137 | evaluate: strategy sampled 2 clients
- 1/32 [..............................] - ETA: 0s - loss: 2.3010 - accuracy: 0.15622021-04-15 18:36:03.745340: I tensorflow/compiler/mlir/mlir_graph_optimization_pass.cc:116] None of the MLIR optimization passes are enabled (registered 2)
-2021-04-15 18:36:03.762782: I tensorflow/core/platform/profile_utils/cpu_utils.cc:112] CPU Frequency: 2899885000 Hz
- 8/32 [======>.......................] - ETA: 0s - loss: 2.3085 - accuracy: 0.078116/32 [==============>...............] - ETA: 0s - loss: 2.3067 - accuracy: 0.087924/32 [=====================>........] - ETA: 0s - loss: 2.3038 - accuracy: 0.087232/32 [==============================] - ETA: 0s - loss: 2.3046 - accuracy: 0.085032/32 [==============================] - 0s 7ms/step - loss: 2.3046 - accuracy: 0.0850
- 1/32 [..............................] - ETA: 8s - loss: 2.3195 - accuracy: 0.0312 9/32 [=======>......................] - ETA: 0s - loss: 2.3125 - accuracy: 0.065717/32 [==============>...............] - ETA: 0s - loss: 2.3119 - accuracy: 0.072625/32 [======================>.......] - ETA: 0s - loss: 2.3129 - accuracy: 0.075832/32 [==============================] - 0s 7ms/step - loss: 2.3137 - accuracy: 0.0770
-DEBUG flower 2021-04-15 18:36:04,214 | server.py:146 | evaluate received 2 results and 0 failures
-DEBUG flower 2021-04-15 18:36:04,216 | server.py:162 | fit_round: strategy sampled 10 clients (out of 10)
-2021-04-15 18:36:04.317794: I tensorflow/compiler/mlir/mlir_graph_optimization_pass.cc:116] None of the MLIR optimization passes are enabled (registered 2)
-2021-04-15 18:36:04.318355: I tensorflow/core/platform/profile_utils/cpu_utils.cc:112] CPU Frequency: 2899885000 Hz
-2021-04-15 18:36:04.345399: I tensorflow/compiler/mlir/mlir_graph_optimization_pass.cc:116] None of the MLIR optimization passes are enabled (registered 2)
-2021-04-15 18:36:04.345889: I tensorflow/core/platform/profile_utils/cpu_utils.cc:112] CPU Frequency: 2899885000 Hz
-Epoch 1/10
-10/10 - 7s - loss: 2.3046 - accuracy: 0.0859 - val_loss: 2.3111 - val_accuracy: 0.0940
------------ID: 140206932379440
------------Loss: 2.3045599460601807 . Accuracy: 0.08500000089406967 .
-Epoch 1/10
-10/10 - 7s - loss: 2.3140 - accuracy: 0.0859 - val_loss: 2.3137 - val_accuracy: 0.0810
-Epoch 1/10
-10/10 - 7s - loss: 2.3146 - accuracy: 0.0875 - val_loss: 2.3083 - val_accuracy: 0.0960
-Epoch 1/10
-10/10 - 7s - loss: 2.3246 - accuracy: 0.0750 - val_loss: 2.3041 - val_accuracy: 0.0890
-Epoch 1/10
-10/10 - 7s - loss: 2.2999 - accuracy: 0.0672 - val_loss: 2.3098 - val_accuracy: 0.0980
-Epoch 1/10
-10/10 - 7s - loss: 2.3092 - accuracy: 0.0828 - val_loss: 2.3114 - val_accuracy: 0.0980
-Epoch 1/10
-10/10 - 7s - loss: 2.3164 - accuracy: 0.0891 - val_loss: 2.3057 - val_accuracy: 0.0970
------------ID: 140206932383584
------------Loss: 2.3174002170562744 . Accuracy: 0.0820000022649765 .
-Epoch 1/10
-10/10 - 10s - loss: 2.3074 - accuracy: 0.1109 - val_loss: 2.3113 - val_accuracy: 0.0900
-Epoch 1/10
-10/10 - 12s - loss: 2.3068 - accuracy: 0.1156 - val_loss: 2.3134 - val_accuracy: 0.0850
-Epoch 1/10
-10/10 - 13s - loss: 2.3104 - accuracy: 0.0797 - val_loss: 2.3109 - val_accuracy: 0.1150
-Epoch 2/10
-10/10 - 7s - loss: 2.3169 - accuracy: 0.1125 - val_loss: 2.3133 - val_accuracy: 0.0810
-Epoch 2/10
-10/10 - 7s - loss: 2.3127 - accuracy: 0.0781 - val_loss: 2.3040 - val_accuracy: 0.0890
-Epoch 2/10
-10/10 - 7s - loss: 2.3093 - accuracy: 0.1016 - val_loss: 2.3108 - val_accuracy: 0.0940
-Epoch 2/10
-10/10 - 7s - loss: 2.3057 - accuracy: 0.0906 - val_loss: 2.3081 - val_accuracy: 0.0940
-Epoch 2/10
-10/10 - 7s - loss: 2.3224 - accuracy: 0.0969 - val_loss: 2.3095 - val_accuracy: 0.0960
-Epoch 2/10
-10/10 - 7s - loss: 2.3094 - accuracy: 0.0922 - val_loss: 2.3112 - val_accuracy: 0.0980
-Epoch 2/10
-10/10 - 7s - loss: 2.3089 - accuracy: 0.0953 - val_loss: 2.3054 - val_accuracy: 0.0970
-Epoch 2/10
-10/10 - 8s - loss: 2.3104 - accuracy: 0.1063 - val_loss: 2.3112 - val_accuracy: 0.0900
-Epoch 2/10
-10/10 - 8s - loss: 2.3063 - accuracy: 0.0703 - val_loss: 2.3131 - val_accuracy: 0.0870
-Epoch 2/10
-10/10 - 8s - loss: 2.3150 - accuracy: 0.1047 - val_loss: 2.3107 - val_accuracy: 0.1140
-Epoch 3/10
-10/10 - 7s - loss: 2.3141 - accuracy: 0.0766 - val_loss: 2.3128 - val_accuracy: 0.0820
-Epoch 3/10
-10/10 - 7s - loss: 2.3050 - accuracy: 0.1063 - val_loss: 2.3093 - val_accuracy: 0.0950
-Epoch 3/10
-10/10 - 7s - loss: 2.3048 - accuracy: 0.0906 - val_loss: 2.3106 - val_accuracy: 0.0950
-Epoch 3/10
-10/10 - 7s - loss: 2.3061 - accuracy: 0.0906 - val_loss: 2.3079 - val_accuracy: 0.0940
-Epoch 3/10
-10/10 - 8s - loss: 2.3104 - accuracy: 0.0844 - val_loss: 2.3039 - val_accuracy: 0.0890
-Epoch 3/10
-10/10 - 7s - loss: 2.3187 - accuracy: 0.0906 - val_loss: 2.3051 - val_accuracy: 0.0980
-Epoch 3/10
-10/10 - 7s - loss: 2.3053 - accuracy: 0.0938 - val_loss: 2.3110 - val_accuracy: 0.0980
-Epoch 3/10
-10/10 - 8s - loss: 2.3059 - accuracy: 0.0953 - val_loss: 2.3111 - val_accuracy: 0.0890
-Epoch 3/10
-10/10 - 7s - loss: 2.3233 - accuracy: 0.0953 - val_loss: 2.3128 - val_accuracy: 0.0880
-Epoch 4/10
-10/10 - 7s - loss: 2.3189 - accuracy: 0.1047 - val_loss: 2.3125 - val_accuracy: 0.0810
-Epoch 3/10
-10/10 - 8s - loss: 2.3219 - accuracy: 0.0781 - val_loss: 2.3105 - val_accuracy: 0.1140
-Epoch 4/10
-10/10 - 8s - loss: 2.3120 - accuracy: 0.1047 - val_loss: 2.3103 - val_accuracy: 0.0940
-Epoch 4/10
-10/10 - 7s - loss: 2.3151 - accuracy: 0.0859 - val_loss: 2.3038 - val_accuracy: 0.0890
-Epoch 4/10
-10/10 - 7s - loss: 2.3130 - accuracy: 0.1078 - val_loss: 2.3048 - val_accuracy: 0.0980
-Epoch 4/10
-10/10 - 7s - loss: 2.3254 - accuracy: 0.0969 - val_loss: 2.3106 - val_accuracy: 0.0980
-Epoch 4/10
-10/10 - 8s - loss: 2.3022 - accuracy: 0.0922 - val_loss: 2.3092 - val_accuracy: 0.0960
-Epoch 4/10
-10/10 - 8s - loss: 2.3174 - accuracy: 0.1078 - val_loss: 2.3076 - val_accuracy: 0.0950
-Epoch 4/10
-10/10 - 7s - loss: 2.3037 - accuracy: 0.1063 - val_loss: 2.3109 - val_accuracy: 0.0880
-Epoch 4/10
-10/10 - 7s - loss: 2.3108 - accuracy: 0.1109 - val_loss: 2.3125 - val_accuracy: 0.0880
-Epoch 4/10
-10/10 - 7s - loss: 2.3118 - accuracy: 0.1016 - val_loss: 2.3103 - val_accuracy: 0.1130
-Epoch 5/10
-10/10 - 8s - loss: 2.3156 - accuracy: 0.0844 - val_loss: 2.3121 - val_accuracy: 0.0820
-Epoch 5/10
-10/10 - 7s - loss: 2.3077 - accuracy: 0.0906 - val_loss: 2.3090 - val_accuracy: 0.0960
-Epoch 5/10
-10/10 - 7s - loss: 2.3071 - accuracy: 0.1047 - val_loss: 2.3046 - val_accuracy: 0.0990
-Epoch 5/10
-10/10 - 8s - loss: 2.3055 - accuracy: 0.0812 - val_loss: 2.3101 - val_accuracy: 0.0940
-Epoch 5/10
-10/10 - 8s - loss: 2.3163 - accuracy: 0.0797 - val_loss: 2.3103 - val_accuracy: 0.0990
-Epoch 5/10
-10/10 - 8s - loss: 2.3020 - accuracy: 0.0984 - val_loss: 2.3037 - val_accuracy: 0.0880
-Epoch 5/10
-10/10 - 8s - loss: 2.3144 - accuracy: 0.0766 - val_loss: 2.3073 - val_accuracy: 0.0970
-Epoch 5/10
-10/10 - 7s - loss: 2.3087 - accuracy: 0.0797 - val_loss: 2.3108 - val_accuracy: 0.0880
-Epoch 5/10
-10/10 - 7s - loss: 2.2993 - accuracy: 0.0953 - val_loss: 2.3123 - val_accuracy: 0.0870
-Epoch 6/10
-10/10 - 7s - loss: 2.3109 - accuracy: 0.1000 - val_loss: 2.3118 - val_accuracy: 0.0830
-Epoch 5/10
-10/10 - 8s - loss: 2.3043 - accuracy: 0.0891 - val_loss: 2.3101 - val_accuracy: 0.1130
-Epoch 6/10
-10/10 - 7s - loss: 2.3053 - accuracy: 0.0766 - val_loss: 2.3045 - val_accuracy: 0.0990
-Epoch 6/10
-10/10 - 8s - loss: 2.3226 - accuracy: 0.0906 - val_loss: 2.3087 - val_accuracy: 0.0960
-Epoch 6/10
-10/10 - 8s - loss: 2.3116 - accuracy: 0.0875 - val_loss: 2.3099 - val_accuracy: 0.0940
-Epoch 6/10
-10/10 - 8s - loss: 2.3164 - accuracy: 0.1078 - val_loss: 2.3070 - val_accuracy: 0.0970
-Epoch 6/10
-10/10 - 8s - loss: 2.3165 - accuracy: 0.1109 - val_loss: 2.3101 - val_accuracy: 0.0980
-Epoch 6/10
-10/10 - 8s - loss: 2.3127 - accuracy: 0.1312 - val_loss: 2.3037 - val_accuracy: 0.0880
-Epoch 6/10
-10/10 - 7s - loss: 2.3159 - accuracy: 0.1187 - val_loss: 2.3106 - val_accuracy: 0.0870
-Epoch 6/10
-10/10 - 7s - loss: 2.3105 - accuracy: 0.0906 - val_loss: 2.3121 - val_accuracy: 0.0870
-Epoch 7/10
-10/10 - 7s - loss: 2.3037 - accuracy: 0.0921 - val_loss: 2.3115 - val_accuracy: 0.0840
-Epoch 6/10
-10/10 - 7s - loss: 2.3127 - accuracy: 0.0984 - val_loss: 2.3100 - val_accuracy: 0.1130
-Epoch 7/10
-10/10 - 7s - loss: 2.3093 - accuracy: 0.1053 - val_loss: 2.3044 - val_accuracy: 0.0990
-Epoch 7/10
-10/10 - 7s - loss: 2.3079 - accuracy: 0.1036 - val_loss: 2.3097 - val_accuracy: 0.0930
-Epoch 7/10
-10/10 - 7s - loss: 2.3081 - accuracy: 0.1118 - val_loss: 2.3086 - val_accuracy: 0.0960
-Epoch 7/10
-10/10 - 7s - loss: 2.3231 - accuracy: 0.1135 - val_loss: 2.3097 - val_accuracy: 0.0960
-Epoch 7/10
-10/10 - 7s - loss: 2.3078 - accuracy: 0.0954 - val_loss: 2.3069 - val_accuracy: 0.0980
-Epoch 7/10
-10/10 - 7s - loss: 2.3122 - accuracy: 0.0921 - val_loss: 2.3036 - val_accuracy: 0.0880
-Epoch 7/10
-10/10 - 7s - loss: 2.3051 - accuracy: 0.0954 - val_loss: 2.3105 - val_accuracy: 0.0870
-Epoch 7/10
-10/10 - 7s - loss: 2.3108 - accuracy: 0.0921 - val_loss: 2.3119 - val_accuracy: 0.0860
-Epoch 8/10
-10/10 - 7s - loss: 2.3117 - accuracy: 0.0797 - val_loss: 2.3113 - val_accuracy: 0.0840
-Epoch 7/10
-10/10 - 8s - loss: 2.3103 - accuracy: 0.1086 - val_loss: 2.3098 - val_accuracy: 0.1140
-Epoch 8/10
-10/10 - 7s - loss: 2.3081 - accuracy: 0.0906 - val_loss: 2.3084 - val_accuracy: 0.0970
-Epoch 8/10
-10/10 - 8s - loss: 2.3157 - accuracy: 0.0750 - val_loss: 2.3043 - val_accuracy: 0.1000
-Epoch 8/10
-10/10 - 8s - loss: 2.3159 - accuracy: 0.0969 - val_loss: 2.3095 - val_accuracy: 0.0940
-Epoch 8/10
-10/10 - 8s - loss: 2.3114 - accuracy: 0.0953 - val_loss: 2.3095 - val_accuracy: 0.0950
-Epoch 8/10
-10/10 - 7s - loss: 2.3103 - accuracy: 0.0844 - val_loss: 2.3036 - val_accuracy: 0.1090
-Epoch 8/10
-10/10 - 8s - loss: 2.3089 - accuracy: 0.0906 - val_loss: 2.3067 - val_accuracy: 0.0980
-Epoch 8/10
-10/10 - 7s - loss: 2.3130 - accuracy: 0.0922 - val_loss: 2.3103 - val_accuracy: 0.0870
-Epoch 8/10
-10/10 - 8s - loss: 2.3027 - accuracy: 0.1141 - val_loss: 2.3117 - val_accuracy: 0.0860
-Epoch 9/10
-10/10 - 7s - loss: 2.3094 - accuracy: 0.1078 - val_loss: 2.3112 - val_accuracy: 0.0840
-Epoch 8/10
-10/10 - 7s - loss: 2.3083 - accuracy: 0.0984 - val_loss: 2.3096 - val_accuracy: 0.1150
-Epoch 9/10
-10/10 - 7s - loss: 2.3171 - accuracy: 0.0953 - val_loss: 2.3083 - val_accuracy: 0.0970
-Epoch 9/10
-10/10 - 8s - loss: 2.3131 - accuracy: 0.0906 - val_loss: 2.3041 - val_accuracy: 0.1020
-Epoch 9/10
-10/10 - 7s - loss: 2.3058 - accuracy: 0.1016 - val_loss: 2.3093 - val_accuracy: 0.0950
-Epoch 9/10
-10/10 - 8s - loss: 2.3064 - accuracy: 0.1094 - val_loss: 2.3094 - val_accuracy: 0.0960
-Epoch 9/10
-10/10 - 7s - loss: 2.3056 - accuracy: 0.1109 - val_loss: 2.3066 - val_accuracy: 0.0990
-Epoch 9/10
-10/10 - 8s - loss: 2.3147 - accuracy: 0.0906 - val_loss: 2.3035 - val_accuracy: 0.1090
-Epoch 9/10
-10/10 - 8s - loss: 2.3121 - accuracy: 0.0984 - val_loss: 2.3102 - val_accuracy: 0.0860
-Epoch 9/10
-10/10 - 7s - loss: 2.3002 - accuracy: 0.1000 - val_loss: 2.3116 - val_accuracy: 0.0860
-Epoch 10/10
-10/10 - 8s - loss: 2.3111 - accuracy: 0.0953 - val_loss: 2.3110 - val_accuracy: 0.0840
-Epoch 9/10
-10/10 - 8s - loss: 2.3127 - accuracy: 0.0938 - val_loss: 2.3095 - val_accuracy: 0.1170
-Epoch 10/10
-10/10 - 7s - loss: 2.3045 - accuracy: 0.1047 - val_loss: 2.3081 - val_accuracy: 0.0970
-Epoch 10/10
-10/10 - 7s - loss: 2.3068 - accuracy: 0.0906 - val_loss: 2.3091 - val_accuracy: 0.0950
-Epoch 10/10
-10/10 - 7s - loss: 2.3072 - accuracy: 0.0969 - val_loss: 2.3039 - val_accuracy: 0.1020
-Epoch 10/10
-10/10 - 7s - loss: 2.3038 - accuracy: 0.1187 - val_loss: 2.3034 - val_accuracy: 0.1090
-Epoch 10/10
-10/10 - 7s - loss: 2.3083 - accuracy: 0.1094 - val_loss: 2.3065 - val_accuracy: 0.0990
-Epoch 10/10
-10/10 - 7s - loss: 2.3145 - accuracy: 0.1063 - val_loss: 2.3091 - val_accuracy: 0.0960
-Epoch 10/10
-10/10 - 6s - loss: 2.3046 - accuracy: 0.0875 - val_loss: 2.3101 - val_accuracy: 0.0860
-Epoch 10/10
-10/10 - 4s - loss: 2.3081 - accuracy: 0.0953 - val_loss: 2.3114 - val_accuracy: 0.0860
-Epoch 10/10
-10/10 - 2s - loss: 2.3142 - accuracy: 0.0781 - val_loss: 2.3093 - val_accuracy: 0.1170
-DEBUG flower 2021-04-15 18:37:19,282 | server.py:174 | fit_round received 10 results and 0 failures
-DEBUG flower 2021-04-15 18:37:19,318 | server.py:137 | evaluate: strategy sampled 2 clients
- 1/32 [..............................] - ETA: 0s - loss: 2.3225 - accuracy: 0.0938 1/32 [..............................] - ETA: 0s - loss: 2.3027 - accuracy: 0.0938 6/32 [====>.........................] - ETA: 0s - loss: 2.3090 - accuracy: 0.0729 6/32 [====>.........................] - ETA: 0s - loss: 2.3043 - accuracy: 0.119811/32 [=========>....................] - ETA: 0s - loss: 2.3043 - accuracy: 0.105111/32 [=========>....................] - ETA: 0s - loss: 2.3069 - accuracy: 0.073916/32 [==============>...............] - ETA: 0s - loss: 2.3106 - accuracy: 0.097716/32 [==============>...............] - ETA: 0s - loss: 2.3061 - accuracy: 0.082021/32 [==================>...........] - ETA: 0s - loss: 2.3099 - accuracy: 0.105721/32 [==================>...........] - ETA: 0s - loss: 2.3055 - accuracy: 0.081825/32 [======================>.......] - ETA: 0s - loss: 2.3106 - accuracy: 0.101326/32 [=======================>......] - ETA: 0s - loss: 2.3050 - accuracy: 0.085330/32 [===========================>..] - ETA: 0s - loss: 2.3106 - accuracy: 0.105230/32 [===========================>..] - ETA: 0s - loss: 2.3046 - accuracy: 0.084432/32 [==============================] - 0s 12ms/step - loss: 2.3105 - accuracy: 0.1030
-32/32 [==============================] - 0s 12ms/step - loss: 2.3055 - accuracy: 0.0840
-DEBUG flower 2021-04-15 18:37:19,730 | server.py:146 | evaluate received 2 results and 0 failures
-DEBUG flower 2021-04-15 18:37:19,733 | server.py:162 | fit_round: strategy sampled 10 clients (out of 10)
-Epoch 1/10
-10/10 - 7s - loss: 2.3072 - accuracy: 0.1000 - val_loss: 2.3087 - val_accuracy: 0.0930
-Epoch 1/10
-10/10 - 8s - loss: 2.3105 - accuracy: 0.0938 - val_loss: 2.3104 - val_accuracy: 0.0860
------------ID: 140206932426272
------------Loss: 2.3054559230804443 . Accuracy: 0.08399999886751175 .
-Epoch 1/10
-10/10 - 8s - loss: 2.3076 - accuracy: 0.1094 - val_loss: 2.3080 - val_accuracy: 0.0960
-Epoch 1/10
-10/10 - 8s - loss: 2.3114 - accuracy: 0.0922 - val_loss: 2.3091 - val_accuracy: 0.1160
-Epoch 1/10
-10/10 - 8s - loss: 2.3091 - accuracy: 0.1031 - val_loss: 2.3094 - val_accuracy: 0.0970
-Epoch 1/10
-10/10 - 8s - loss: 2.3113 - accuracy: 0.0750 - val_loss: 2.3067 - val_accuracy: 0.0980
-Epoch 1/10
-10/10 - 8s - loss: 2.3100 - accuracy: 0.0766 - val_loss: 2.3038 - val_accuracy: 0.1010
------------ID: 140206932455280
------------Loss: 2.3104641437530518 . Accuracy: 0.10300000011920929 .
-Epoch 1/10
-10/10 - 8s - loss: 2.3159 - accuracy: 0.0859 - val_loss: 2.3033 - val_accuracy: 0.0890
-Epoch 1/10
-10/10 - 8s - loss: 2.3039 - accuracy: 0.1125 - val_loss: 2.3094 - val_accuracy: 0.0860
-Epoch 1/10
-10/10 - 8s - loss: 2.3154 - accuracy: 0.0891 - val_loss: 2.3112 - val_accuracy: 0.0840
-Epoch 2/10
-10/10 - 8s - loss: 2.3039 - accuracy: 0.0906 - val_loss: 2.3086 - val_accuracy: 0.0930
-Epoch 2/10
-10/10 - 8s - loss: 2.3012 - accuracy: 0.0953 - val_loss: 2.3103 - val_accuracy: 0.0860
-Epoch 2/10
-10/10 - 8s - loss: 2.3131 - accuracy: 0.0781 - val_loss: 2.3079 - val_accuracy: 0.0960
-Epoch 2/10
-10/10 - 8s - loss: 2.3153 - accuracy: 0.0828 - val_loss: 2.3031 - val_accuracy: 0.0860
-Epoch 2/10
-10/10 - 8s - loss: 2.3155 - accuracy: 0.0938 - val_loss: 2.3036 - val_accuracy: 0.1010
-Epoch 2/10
-10/10 - 8s - loss: 2.3166 - accuracy: 0.0734 - val_loss: 2.3090 - val_accuracy: 0.1180
-Epoch 2/10
-10/10 - 8s - loss: 2.3135 - accuracy: 0.1063 - val_loss: 2.3065 - val_accuracy: 0.1010
-Epoch 2/10
-10/10 - 8s - loss: 2.3077 - accuracy: 0.0969 - val_loss: 2.3092 - val_accuracy: 0.0950
-Epoch 2/10
-10/10 - 8s - loss: 2.3098 - accuracy: 0.0984 - val_loss: 2.3093 - val_accuracy: 0.0860
-Epoch 2/10
-10/10 - 8s - loss: 2.3132 - accuracy: 0.0859 - val_loss: 2.3109 - val_accuracy: 0.0850
-Epoch 3/10
-10/10 - 8s - loss: 2.3095 - accuracy: 0.1016 - val_loss: 2.3085 - val_accuracy: 0.0930
-Epoch 3/10
-10/10 - 8s - loss: 2.3027 - accuracy: 0.0875 - val_loss: 2.3102 - val_accuracy: 0.0860
-Epoch 3/10
-10/10 - 8s - loss: 2.3212 - accuracy: 0.0984 - val_loss: 2.3088 - val_accuracy: 0.1180
-Epoch 3/10
-10/10 - 8s - loss: 2.3040 - accuracy: 0.1125 - val_loss: 2.3093 - val_accuracy: 0.0860
-Epoch 3/10
-10/10 - 8s - loss: 2.3118 - accuracy: 0.1094 - val_loss: 2.3030 - val_accuracy: 0.0860
-Epoch 3/10
-10/10 - 8s - loss: 2.3123 - accuracy: 0.0953 - val_loss: 2.3035 - val_accuracy: 0.1030
-Epoch 3/10
-10/10 - 8s - loss: 2.3167 - accuracy: 0.0828 - val_loss: 2.3064 - val_accuracy: 0.0990
-Epoch 3/10
-10/10 - 8s - loss: 2.3079 - accuracy: 0.1125 - val_loss: 2.3108 - val_accuracy: 0.0860
-Epoch 3/10
-10/10 - 8s - loss: 2.3154 - accuracy: 0.0906 - val_loss: 2.3090 - val_accuracy: 0.0950
-Epoch 3/10
-10/10 - 8s - loss: 2.3067 - accuracy: 0.0875 - val_loss: 2.3077 - val_accuracy: 0.0960
-Epoch 4/10
-10/10 - 7s - loss: 2.3092 - accuracy: 0.0984 - val_loss: 2.3100 - val_accuracy: 0.0850
-Epoch 4/10
-10/10 - 7s - loss: 2.3145 - accuracy: 0.0828 - val_loss: 2.3083 - val_accuracy: 0.0930
-Epoch 4/10
-10/10 - 8s - loss: 2.3080 - accuracy: 0.0922 - val_loss: 2.3086 - val_accuracy: 0.1190
-Epoch 4/10
-10/10 - 8s - loss: 2.3107 - accuracy: 0.1047 - val_loss: 2.3034 - val_accuracy: 0.1030
-Epoch 4/10
-10/10 - 8s - loss: 2.3149 - accuracy: 0.0750 - val_loss: 2.3106 - val_accuracy: 0.0860
-Epoch 4/10
-10/10 - 8s - loss: 2.3086 - accuracy: 0.0812 - val_loss: 2.3093 - val_accuracy: 0.0860
-Epoch 4/10
-10/10 - 7s - loss: 2.3082 - accuracy: 0.0828 - val_loss: 2.3076 - val_accuracy: 0.0950
-Epoch 4/10
-10/10 - 8s - loss: 2.3129 - accuracy: 0.0688 - val_loss: 2.3029 - val_accuracy: 0.0870
-Epoch 4/10
-10/10 - 8s - loss: 2.3116 - accuracy: 0.1109 - val_loss: 2.3089 - val_accuracy: 0.0950
-Epoch 4/10
-10/10 - 8s - loss: 2.3148 - accuracy: 0.0875 - val_loss: 2.3062 - val_accuracy: 0.0990
-Epoch 5/10
-10/10 - 7s - loss: 2.3105 - accuracy: 0.0953 - val_loss: 2.3099 - val_accuracy: 0.0860
-Epoch 5/10
-10/10 - 8s - loss: 2.3027 - accuracy: 0.1156 - val_loss: 2.3082 - val_accuracy: 0.0930
-Epoch 5/10
-10/10 - 7s - loss: 2.3049 - accuracy: 0.1016 - val_loss: 2.3076 - val_accuracy: 0.0950
-Epoch 5/10
-10/10 - 8s - loss: 2.3132 - accuracy: 0.1000 - val_loss: 2.3104 - val_accuracy: 0.0850
-Epoch 5/10
-10/10 - 8s - loss: 2.3080 - accuracy: 0.1172 - val_loss: 2.3034 - val_accuracy: 0.1030
-Epoch 5/10
-10/10 - 8s - loss: 2.3119 - accuracy: 0.1016 - val_loss: 2.3092 - val_accuracy: 0.0850
-Epoch 5/10
-10/10 - 7s - loss: 2.3063 - accuracy: 0.0891 - val_loss: 2.3029 - val_accuracy: 0.0870
-Epoch 5/10
-10/10 - 8s - loss: 2.3025 - accuracy: 0.0953 - val_loss: 2.3085 - val_accuracy: 0.1170
-Epoch 5/10
-10/10 - 8s - loss: 2.3110 - accuracy: 0.1016 - val_loss: 2.3088 - val_accuracy: 0.0940
-Epoch 5/10
-10/10 - 8s - loss: 2.3006 - accuracy: 0.1016 - val_loss: 2.3061 - val_accuracy: 0.0980
-Epoch 6/10
-10/10 - 7s - loss: 2.3062 - accuracy: 0.0844 - val_loss: 2.3098 - val_accuracy: 0.0860
-Epoch 6/10
-10/10 - 7s - loss: 2.3083 - accuracy: 0.0844 - val_loss: 2.3081 - val_accuracy: 0.0930
-Epoch 6/10
-10/10 - 7s - loss: 2.3062 - accuracy: 0.0953 - val_loss: 2.3091 - val_accuracy: 0.0850
-Epoch 6/10
-10/10 - 7s - loss: 2.3103 - accuracy: 0.0938 - val_loss: 2.3028 - val_accuracy: 0.1080
-Epoch 6/10
-10/10 - 7s - loss: 2.3140 - accuracy: 0.0766 - val_loss: 2.3086 - val_accuracy: 0.0940
-Epoch 6/10
-10/10 - 8s - loss: 2.3097 - accuracy: 0.0984 - val_loss: 2.3075 - val_accuracy: 0.0960
-Epoch 6/10
-10/10 - 8s - loss: 2.3018 - accuracy: 0.0797 - val_loss: 2.3033 - val_accuracy: 0.1030
-Epoch 6/10
-10/10 - 8s - loss: 2.3028 - accuracy: 0.1047 - val_loss: 2.3103 - val_accuracy: 0.0850
-Epoch 6/10
-10/10 - 7s - loss: 2.3016 - accuracy: 0.0922 - val_loss: 2.3060 - val_accuracy: 0.0980
-Epoch 6/10
-10/10 - 8s - loss: 2.3078 - accuracy: 0.0969 - val_loss: 2.3084 - val_accuracy: 0.1150
-Epoch 7/10
-10/10 - 7s - loss: 2.3077 - accuracy: 0.1053 - val_loss: 2.3096 - val_accuracy: 0.0860
-Epoch 7/10
-10/10 - 7s - loss: 2.3136 - accuracy: 0.0724 - val_loss: 2.3079 - val_accuracy: 0.0930
-Epoch 7/10
-10/10 - 7s - loss: 2.3065 - accuracy: 0.1168 - val_loss: 2.3091 - val_accuracy: 0.0850
-Epoch 7/10
-10/10 - 7s - loss: 2.3110 - accuracy: 0.1053 - val_loss: 2.3028 - val_accuracy: 0.1070
-Epoch 7/10
-10/10 - 7s - loss: 2.3014 - accuracy: 0.1003 - val_loss: 2.3085 - val_accuracy: 0.0940
-Epoch 7/10
-10/10 - 7s - loss: 2.3052 - accuracy: 0.1250 - val_loss: 2.3074 - val_accuracy: 0.0950
-Epoch 7/10
-10/10 - 7s - loss: 2.3074 - accuracy: 0.1069 - val_loss: 2.3059 - val_accuracy: 0.0980
-Epoch 7/10
-10/10 - 7s - loss: 2.3125 - accuracy: 0.0855 - val_loss: 2.3102 - val_accuracy: 0.0850
-Epoch 7/10
-10/10 - 8s - loss: 2.3127 - accuracy: 0.1003 - val_loss: 2.3033 - val_accuracy: 0.1030
-Epoch 7/10
-10/10 - 8s - loss: 2.3071 - accuracy: 0.0954 - val_loss: 2.3083 - val_accuracy: 0.1160
-Epoch 8/10
-10/10 - 8s - loss: 2.3130 - accuracy: 0.0797 - val_loss: 2.3095 - val_accuracy: 0.0860
-Epoch 8/10
-10/10 - 8s - loss: 2.2997 - accuracy: 0.0906 - val_loss: 2.3078 - val_accuracy: 0.0930
-Epoch 8/10
-10/10 - 8s - loss: 2.3138 - accuracy: 0.1000 - val_loss: 2.3090 - val_accuracy: 0.0840
-Epoch 8/10
-10/10 - 7s - loss: 2.3069 - accuracy: 0.1047 - val_loss: 2.3085 - val_accuracy: 0.0940
-Epoch 8/10
-10/10 - 8s - loss: 2.3036 - accuracy: 0.1078 - val_loss: 2.3027 - val_accuracy: 0.1070
-Epoch 8/10
-10/10 - 7s - loss: 2.3094 - accuracy: 0.0891 - val_loss: 2.3073 - val_accuracy: 0.0950
-Epoch 8/10
-10/10 - 8s - loss: 2.3133 - accuracy: 0.0734 - val_loss: 2.3058 - val_accuracy: 0.0980
-Epoch 8/10
-10/10 - 7s - loss: 2.3047 - accuracy: 0.1109 - val_loss: 2.3101 - val_accuracy: 0.0850
-Epoch 8/10
-10/10 - 7s - loss: 2.3079 - accuracy: 0.0984 - val_loss: 2.3033 - val_accuracy: 0.1020
-Epoch 8/10
-10/10 - 8s - loss: 2.3141 - accuracy: 0.0984 - val_loss: 2.3082 - val_accuracy: 0.1150
-Epoch 9/10
-10/10 - 8s - loss: 2.3134 - accuracy: 0.0797 - val_loss: 2.3093 - val_accuracy: 0.0860
-Epoch 9/10
-10/10 - 8s - loss: 2.3027 - accuracy: 0.1063 - val_loss: 2.3078 - val_accuracy: 0.0960
-Epoch 9/10
-10/10 - 8s - loss: 2.3017 - accuracy: 0.0984 - val_loss: 2.3090 - val_accuracy: 0.0840
-Epoch 9/10
-10/10 - 7s - loss: 2.3096 - accuracy: 0.0906 - val_loss: 2.3072 - val_accuracy: 0.0960
-Epoch 9/10
-10/10 - 7s - loss: 2.3097 - accuracy: 0.0875 - val_loss: 2.3027 - val_accuracy: 0.0870
-Epoch 9/10
-10/10 - 8s - loss: 2.3060 - accuracy: 0.0922 - val_loss: 2.3084 - val_accuracy: 0.0940
-Epoch 9/10
-10/10 - 7s - loss: 2.3078 - accuracy: 0.0828 - val_loss: 2.3033 - val_accuracy: 0.1020
-Epoch 9/10
-10/10 - 8s - loss: 2.3061 - accuracy: 0.1078 - val_loss: 2.3056 - val_accuracy: 0.0980
-Epoch 9/10
-10/10 - 8s - loss: 2.3124 - accuracy: 0.1016 - val_loss: 2.3100 - val_accuracy: 0.0850
-Epoch 9/10
-10/10 - 7s - loss: 2.3064 - accuracy: 0.0734 - val_loss: 2.3080 - val_accuracy: 0.1150
-Epoch 10/10
-10/10 - 7s - loss: 2.3079 - accuracy: 0.0938 - val_loss: 2.3091 - val_accuracy: 0.0870
-Epoch 10/10
-10/10 - 8s - loss: 2.3021 - accuracy: 0.1047 - val_loss: 2.3077 - val_accuracy: 0.0960
-Epoch 10/10
-10/10 - 7s - loss: 2.3055 - accuracy: 0.0875 - val_loss: 2.3089 - val_accuracy: 0.0840
-Epoch 10/10
-10/10 - 7s - loss: 2.3143 - accuracy: 0.1000 - val_loss: 2.3026 - val_accuracy: 0.1070
-Epoch 10/10
-10/10 - 7s - loss: 2.3079 - accuracy: 0.0766 - val_loss: 2.3032 - val_accuracy: 0.1020
-Epoch 10/10
-10/10 - 7s - loss: 2.3083 - accuracy: 0.0906 - val_loss: 2.3083 - val_accuracy: 0.0940
-Epoch 10/10
-10/10 - 7s - loss: 2.3067 - accuracy: 0.0969 - val_loss: 2.3071 - val_accuracy: 0.0960
-Epoch 10/10
-10/10 - 7s - loss: 2.3071 - accuracy: 0.0672 - val_loss: 2.3055 - val_accuracy: 0.0990
-Epoch 10/10
-10/10 - 7s - loss: 2.3150 - accuracy: 0.0938 - val_loss: 2.3098 - val_accuracy: 0.0850
-Epoch 10/10
-10/10 - 6s - loss: 2.3157 - accuracy: 0.0953 - val_loss: 2.3079 - val_accuracy: 0.1150
-DEBUG flower 2021-04-15 18:38:35,680 | server.py:174 | fit_round received 10 results and 0 failures
-DEBUG flower 2021-04-15 18:38:35,717 | server.py:137 | evaluate: strategy sampled 2 clients
- 1/32 [..............................] - ETA: 0s - loss: 2.3121 - accuracy: 0.0312 1/32 [..............................] - ETA: 0s - loss: 2.3092 - accuracy: 0.0000e+00 6/32 [====>.........................] - ETA: 0s - loss: 2.3079 - accuracy: 0.0573 6/32 [====>.........................] - ETA: 0s - loss: 2.3075 - accuracy: 0.0781    11/32 [=========>....................] - ETA: 0s - loss: 2.3075 - accuracy: 0.065311/32 [=========>....................] - ETA: 0s - loss: 2.3072 - accuracy: 0.090916/32 [==============>...............] - ETA: 0s - loss: 2.3109 - accuracy: 0.084016/32 [==============>...............] - ETA: 0s - loss: 2.3053 - accuracy: 0.085920/32 [=================>............] - ETA: 0s - loss: 2.3099 - accuracy: 0.085920/32 [=================>............] - ETA: 0s - loss: 2.3044 - accuracy: 0.085924/32 [=====================>........] - ETA: 0s - loss: 2.3102 - accuracy: 0.079425/32 [======================>.......] - ETA: 0s - loss: 2.3052 - accuracy: 0.088729/32 [==========================>...] - ETA: 0s - loss: 2.3108 - accuracy: 0.078730/32 [===========================>..] - ETA: 0s - loss: 2.3062 - accuracy: 0.085432/32 [==============================] - 0s 12ms/step - loss: 2.3122 - accuracy: 0.0820
-32/32 [==============================] - 0s 12ms/step - loss: 2.3059 - accuracy: 0.0870
-DEBUG flower 2021-04-15 18:38:36,129 | server.py:146 | evaluate received 2 results and 0 failures
-DEBUG flower 2021-04-15 18:38:36,131 | server.py:162 | fit_round: strategy sampled 10 clients (out of 10)
-Epoch 1/10
-10/10 - 8s - loss: 2.3219 - accuracy: 0.1063 - val_loss: 2.3082 - val_accuracy: 0.0930
-Epoch 1/10
-10/10 - 8s - loss: 2.3078 - accuracy: 0.1031 - val_loss: 2.3027 - val_accuracy: 0.0880
-Epoch 1/10
-10/10 - 8s - loss: 2.3063 - accuracy: 0.0844 - val_loss: 2.3082 - val_accuracy: 0.1150
------------ID: 140206932430032
------------Loss: 2.305891513824463 . Accuracy: 0.08699999749660492 .
-Epoch 1/10
-10/10 - 8s - loss: 2.3056 - accuracy: 0.1078 - val_loss: 2.3090 - val_accuracy: 0.0880
-Epoch 1/10
-10/10 - 8s - loss: 2.3132 - accuracy: 0.0906 - val_loss: 2.3069 - val_accuracy: 0.0970
-Epoch 1/10
-10/10 - 8s - loss: 2.3090 - accuracy: 0.0828 - val_loss: 2.3073 - val_accuracy: 0.0950
-Epoch 1/10
-10/10 - 8s - loss: 2.3057 - accuracy: 0.0953 - val_loss: 2.3031 - val_accuracy: 0.1030
------------ID: 140206932383584
------------Loss: 2.312206268310547 . Accuracy: 0.0820000022649765 .
-Epoch 1/10
-10/10 - 8s - loss: 2.3067 - accuracy: 0.0891 - val_loss: 2.3085 - val_accuracy: 0.0850
-Epoch 1/10
-10/10 - 8s - loss: 2.3146 - accuracy: 0.0953 - val_loss: 2.3099 - val_accuracy: 0.0850
-Epoch 1/10
-10/10 - 8s - loss: 2.3068 - accuracy: 0.0969 - val_loss: 2.3057 - val_accuracy: 0.0980
-Epoch 2/10
-10/10 - 8s - loss: 2.3061 - accuracy: 0.1078 - val_loss: 2.3081 - val_accuracy: 0.0920
-Epoch 2/10
-10/10 - 8s - loss: 2.3066 - accuracy: 0.0656 - val_loss: 2.3026 - val_accuracy: 0.0880
-Epoch 2/10
-10/10 - 7s - loss: 2.3054 - accuracy: 0.1031 - val_loss: 2.3085 - val_accuracy: 0.0850
-Epoch 2/10
-10/10 - 8s - loss: 2.3109 - accuracy: 0.0938 - val_loss: 2.3068 - val_accuracy: 0.0980
-Epoch 2/10
-10/10 - 8s - loss: 2.3082 - accuracy: 0.0891 - val_loss: 2.3081 - val_accuracy: 0.1150
-Epoch 2/10
-10/10 - 8s - loss: 2.3144 - accuracy: 0.0781 - val_loss: 2.3056 - val_accuracy: 0.0980
-Epoch 2/10
-10/10 - 8s - loss: 2.3008 - accuracy: 0.1031 - val_loss: 2.3089 - val_accuracy: 0.0860
-Epoch 2/10
-10/10 - 8s - loss: 2.3059 - accuracy: 0.1000 - val_loss: 2.3073 - val_accuracy: 0.0950
-Epoch 2/10
-10/10 - 8s - loss: 2.3050 - accuracy: 0.1047 - val_loss: 2.3030 - val_accuracy: 0.1020
-Epoch 2/10
-10/10 - 8s - loss: 2.3089 - accuracy: 0.0906 - val_loss: 2.3097 - val_accuracy: 0.0850
-Epoch 3/10
-10/10 - 7s - loss: 2.3065 - accuracy: 0.0922 - val_loss: 2.3068 - val_accuracy: 0.0990
-Epoch 3/10
-10/10 - 8s - loss: 2.3032 - accuracy: 0.0844 - val_loss: 2.3085 - val_accuracy: 0.0850
-Epoch 3/10
-10/10 - 8s - loss: 2.3061 - accuracy: 0.1000 - val_loss: 2.3080 - val_accuracy: 0.0920
-Epoch 3/10
-10/10 - 7s - loss: 2.3067 - accuracy: 0.0969 - val_loss: 2.3072 - val_accuracy: 0.0950
-Epoch 3/10
-10/10 - 8s - loss: 2.3012 - accuracy: 0.0953 - val_loss: 2.3026 - val_accuracy: 0.0880
-Epoch 3/10
-10/10 - 8s - loss: 2.3101 - accuracy: 0.0984 - val_loss: 2.3054 - val_accuracy: 0.0980
-Epoch 3/10
-10/10 - 8s - loss: 2.3115 - accuracy: 0.0734 - val_loss: 2.3080 - val_accuracy: 0.1140
-Epoch 3/10
-10/10 - 8s - loss: 2.3113 - accuracy: 0.1000 - val_loss: 2.3030 - val_accuracy: 0.1020
-Epoch 3/10
-10/10 - 8s - loss: 2.3077 - accuracy: 0.0922 - val_loss: 2.3088 - val_accuracy: 0.0860
-Epoch 3/10
-10/10 - 8s - loss: 2.3090 - accuracy: 0.1063 - val_loss: 2.3096 - val_accuracy: 0.0850
-Epoch 4/10
-10/10 - 8s - loss: 2.3056 - accuracy: 0.0828 - val_loss: 2.3067 - val_accuracy: 0.0980
-Epoch 4/10
-10/10 - 8s - loss: 2.3009 - accuracy: 0.0875 - val_loss: 2.3071 - val_accuracy: 0.0950
-Epoch 4/10
-10/10 - 8s - loss: 2.3021 - accuracy: 0.1125 - val_loss: 2.3054 - val_accuracy: 0.0980
-Epoch 4/10
-10/10 - 8s - loss: 2.3043 - accuracy: 0.0875 - val_loss: 2.3085 - val_accuracy: 0.0850
-Epoch 4/10
-10/10 - 7s - loss: 2.3114 - accuracy: 0.0828 - val_loss: 2.3079 - val_accuracy: 0.1160
-Epoch 4/10
-10/10 - 8s - loss: 2.3124 - accuracy: 0.0969 - val_loss: 2.3025 - val_accuracy: 0.1060
-Epoch 4/10
-10/10 - 8s - loss: 2.3107 - accuracy: 0.0812 - val_loss: 2.3079 - val_accuracy: 0.0920
-Epoch 4/10
-10/10 - 8s - loss: 2.3125 - accuracy: 0.0859 - val_loss: 2.3087 - val_accuracy: 0.0870
-Epoch 4/10
-10/10 - 8s - loss: 2.3081 - accuracy: 0.0875 - val_loss: 2.3029 - val_accuracy: 0.1020
-Epoch 4/10
-10/10 - 8s - loss: 2.3093 - accuracy: 0.0828 - val_loss: 2.3095 - val_accuracy: 0.0850
-Epoch 5/10
-10/10 - 7s - loss: 2.3086 - accuracy: 0.0797 - val_loss: 2.3053 - val_accuracy: 0.0990
-Epoch 5/10
-10/10 - 8s - loss: 2.3053 - accuracy: 0.1000 - val_loss: 2.3067 - val_accuracy: 0.0980
-Epoch 5/10
-10/10 - 7s - loss: 2.3110 - accuracy: 0.1016 - val_loss: 2.3070 - val_accuracy: 0.0950
-Epoch 5/10
-10/10 - 8s - loss: 2.3121 - accuracy: 0.1250 - val_loss: 2.3084 - val_accuracy: 0.0840
-Epoch 5/10
-10/10 - 8s - loss: 2.3094 - accuracy: 0.1016 - val_loss: 2.3078 - val_accuracy: 0.1160
-Epoch 5/10
-10/10 - 8s - loss: 2.3099 - accuracy: 0.0891 - val_loss: 2.3025 - val_accuracy: 0.0870
-Epoch 5/10
-10/10 - 8s - loss: 2.3073 - accuracy: 0.0922 - val_loss: 2.3085 - val_accuracy: 0.0870
-Epoch 5/10
-10/10 - 8s - loss: 2.3100 - accuracy: 0.0984 - val_loss: 2.3029 - val_accuracy: 0.1030
-Epoch 5/10
-10/10 - 8s - loss: 2.3034 - accuracy: 0.1047 - val_loss: 2.3078 - val_accuracy: 0.0930
-Epoch 5/10
-10/10 - 8s - loss: 2.3087 - accuracy: 0.1063 - val_loss: 2.3093 - val_accuracy: 0.0850
-Epoch 6/10
-10/10 - 7s - loss: 2.3171 - accuracy: 0.1031 - val_loss: 2.3024 - val_accuracy: 0.0870
-Epoch 6/10
-10/10 - 8s - loss: 2.3066 - accuracy: 0.0734 - val_loss: 2.3052 - val_accuracy: 0.0990
-Epoch 6/10
-10/10 - 8s - loss: 2.3012 - accuracy: 0.1047 - val_loss: 2.3066 - val_accuracy: 0.0980
-Epoch 6/10
-10/10 - 8s - loss: 2.3047 - accuracy: 0.0969 - val_loss: 2.3070 - val_accuracy: 0.0960
-Epoch 6/10
-10/10 - 8s - loss: 2.3071 - accuracy: 0.1047 - val_loss: 2.3084 - val_accuracy: 0.0840
-Epoch 6/10
-10/10 - 8s - loss: 2.3120 - accuracy: 0.0828 - val_loss: 2.3077 - val_accuracy: 0.1160
-Epoch 6/10
-10/10 - 8s - loss: 2.3131 - accuracy: 0.0797 - val_loss: 2.3028 - val_accuracy: 0.1050
-Epoch 6/10
-10/10 - 8s - loss: 2.3070 - accuracy: 0.1078 - val_loss: 2.3085 - val_accuracy: 0.0880
-Epoch 6/10
-10/10 - 8s - loss: 2.3077 - accuracy: 0.1000 - val_loss: 2.3077 - val_accuracy: 0.0930
-Epoch 6/10
-10/10 - 8s - loss: 2.3109 - accuracy: 0.0875 - val_loss: 2.3092 - val_accuracy: 0.0860
-Epoch 7/10
-10/10 - 7s - loss: 2.3054 - accuracy: 0.0938 - val_loss: 2.3023 - val_accuracy: 0.1060
-Epoch 7/10
-10/10 - 7s - loss: 2.3090 - accuracy: 0.1036 - val_loss: 2.3052 - val_accuracy: 0.0990
-Epoch 7/10
-10/10 - 7s - loss: 2.3033 - accuracy: 0.1003 - val_loss: 2.3066 - val_accuracy: 0.0980
-Epoch 7/10
-10/10 - 7s - loss: 2.3045 - accuracy: 0.0970 - val_loss: 2.3069 - val_accuracy: 0.0960
-Epoch 7/10
-10/10 - 7s - loss: 2.2965 - accuracy: 0.1135 - val_loss: 2.3084 - val_accuracy: 0.0840
-Epoch 7/10
-10/10 - 7s - loss: 2.3068 - accuracy: 0.0872 - val_loss: 2.3076 - val_accuracy: 0.1170
-Epoch 7/10
-10/10 - 7s - loss: 2.3067 - accuracy: 0.0905 - val_loss: 2.3084 - val_accuracy: 0.0880
-Epoch 7/10
-10/10 - 7s - loss: 2.3087 - accuracy: 0.0822 - val_loss: 2.3028 - val_accuracy: 0.1050
-Epoch 7/10
-10/10 - 7s - loss: 2.3094 - accuracy: 0.0855 - val_loss: 2.3076 - val_accuracy: 0.0940
-Epoch 7/10
-10/10 - 7s - loss: 2.3101 - accuracy: 0.0938 - val_loss: 2.3090 - val_accuracy: 0.0850
-Epoch 8/10
-10/10 - 7s - loss: 2.3089 - accuracy: 0.1078 - val_loss: 2.3023 - val_accuracy: 0.1060
-Epoch 8/10
-10/10 - 8s - loss: 2.3076 - accuracy: 0.0891 - val_loss: 2.3051 - val_accuracy: 0.0990
-Epoch 8/10
-10/10 - 8s - loss: 2.3066 - accuracy: 0.0969 - val_loss: 2.3069 - val_accuracy: 0.0970
-Epoch 8/10
-10/10 - 8s - loss: 2.3167 - accuracy: 0.1078 - val_loss: 2.3065 - val_accuracy: 0.0980
-Epoch 8/10
-10/10 - 8s - loss: 2.3022 - accuracy: 0.0922 - val_loss: 2.3083 - val_accuracy: 0.0830
-Epoch 8/10
-10/10 - 7s - loss: 2.3060 - accuracy: 0.0875 - val_loss: 2.3028 - val_accuracy: 0.1040
-Epoch 8/10
-10/10 - 8s - loss: 2.3049 - accuracy: 0.1141 - val_loss: 2.3084 - val_accuracy: 0.0860
-Epoch 8/10
-10/10 - 8s - loss: 2.3069 - accuracy: 0.0844 - val_loss: 2.3076 - val_accuracy: 0.0930
-Epoch 8/10
-10/10 - 8s - loss: 2.3114 - accuracy: 0.1063 - val_loss: 2.3075 - val_accuracy: 0.1160
-Epoch 8/10
-10/10 - 8s - loss: 2.3101 - accuracy: 0.0875 - val_loss: 2.3089 - val_accuracy: 0.0850
-Epoch 9/10
-10/10 - 7s - loss: 2.3074 - accuracy: 0.0938 - val_loss: 2.3022 - val_accuracy: 0.1060
-Epoch 9/10
-10/10 - 8s - loss: 2.3116 - accuracy: 0.0766 - val_loss: 2.3051 - val_accuracy: 0.0990
-Epoch 9/10
-10/10 - 7s - loss: 2.3129 - accuracy: 0.1016 - val_loss: 2.3083 - val_accuracy: 0.0870
-Epoch 9/10
-10/10 - 8s - loss: 2.3130 - accuracy: 0.1172 - val_loss: 2.3083 - val_accuracy: 0.0830
-Epoch 9/10
-10/10 - 8s - loss: 2.3073 - accuracy: 0.1031 - val_loss: 2.3068 - val_accuracy: 0.0990
-Epoch 9/10
-10/10 - 8s - loss: 2.3036 - accuracy: 0.1156 - val_loss: 2.3064 - val_accuracy: 0.0950
-Epoch 9/10
-10/10 - 8s - loss: 2.3084 - accuracy: 0.1078 - val_loss: 2.3027 - val_accuracy: 0.1040
-Epoch 9/10
-10/10 - 8s - loss: 2.3075 - accuracy: 0.1125 - val_loss: 2.3074 - val_accuracy: 0.1160
-Epoch 9/10
-10/10 - 8s - loss: 2.3043 - accuracy: 0.1031 - val_loss: 2.3075 - val_accuracy: 0.0930
-Epoch 9/10
-10/10 - 7s - loss: 2.3087 - accuracy: 0.0969 - val_loss: 2.3087 - val_accuracy: 0.0860
-Epoch 10/10
-10/10 - 8s - loss: 2.3149 - accuracy: 0.1078 - val_loss: 2.3022 - val_accuracy: 0.1060
-Epoch 10/10
-10/10 - 7s - loss: 2.3055 - accuracy: 0.0891 - val_loss: 2.3050 - val_accuracy: 0.0990
-Epoch 10/10
-10/10 - 7s - loss: 2.3144 - accuracy: 0.1016 - val_loss: 2.3027 - val_accuracy: 0.1040
-Epoch 10/10
-10/10 - 7s - loss: 2.3087 - accuracy: 0.1047 - val_loss: 2.3067 - val_accuracy: 0.0990
-Epoch 10/10
-10/10 - 8s - loss: 2.3056 - accuracy: 0.1109 - val_loss: 2.3082 - val_accuracy: 0.0820
-Epoch 10/10
-10/10 - 8s - loss: 2.3022 - accuracy: 0.1016 - val_loss: 2.3082 - val_accuracy: 0.0880
-Epoch 10/10
-10/10 - 7s - loss: 2.3067 - accuracy: 0.0953 - val_loss: 2.3074 - val_accuracy: 0.0930
-Epoch 10/10
-10/10 - 7s - loss: 2.3057 - accuracy: 0.0875 - val_loss: 2.3064 - val_accuracy: 0.0950
-Epoch 10/10
-10/10 - 7s - loss: 2.3093 - accuracy: 0.0844 - val_loss: 2.3073 - val_accuracy: 0.1170
-Epoch 10/10
-10/10 - 7s - loss: 2.3006 - accuracy: 0.1063 - val_loss: 2.3087 - val_accuracy: 0.0860
-DEBUG flower 2021-04-15 18:39:52,313 | server.py:174 | fit_round received 10 results and 0 failures
-DEBUG flower 2021-04-15 18:39:52,349 | server.py:137 | evaluate: strategy sampled 2 clients
- 1/32 [..............................] - ETA: 0s - loss: 2.3221 - accuracy: 0.0625 1/32 [..............................] - ETA: 0s - loss: 2.3004 - accuracy: 0.0938 5/32 [===>..........................] - ETA: 0s - loss: 2.3137 - accuracy: 0.0938 7/32 [=====>........................] - ETA: 0s - loss: 2.3076 - accuracy: 0.093810/32 [========>.....................] - ETA: 0s - loss: 2.3068 - accuracy: 0.118711/32 [=========>....................] - ETA: 0s - loss: 2.3061 - accuracy: 0.090915/32 [=============>................] - ETA: 0s - loss: 2.3056 - accuracy: 0.112516/32 [==============>...............] - ETA: 0s - loss: 2.3078 - accuracy: 0.093820/32 [=================>............] - ETA: 0s - loss: 2.3038 - accuracy: 0.106321/32 [==================>...........] - ETA: 0s - loss: 2.3067 - accuracy: 0.089324/32 [=====================>........] - ETA: 0s - loss: 2.3024 - accuracy: 0.109426/32 [=======================>......] - ETA: 0s - loss: 2.3063 - accuracy: 0.087729/32 [==========================>...] - ETA: 0s - loss: 2.3043 - accuracy: 0.112132/32 [==============================] - 0s 12ms/step - loss: 2.3048 - accuracy: 0.1120
-31/32 [============================>.] - ETA: 0s - loss: 2.3073 - accuracy: 0.090732/32 [==============================] - 0s 12ms/step - loss: 2.3072 - accuracy: 0.0900
-DEBUG flower 2021-04-15 18:39:52,768 | server.py:146 | evaluate received 2 results and 0 failures
-DEBUG flower 2021-04-15 18:39:52,771 | server.py:162 | fit_round: strategy sampled 10 clients (out of 10)
-Epoch 1/10
-10/10 - 7s - loss: 2.3056 - accuracy: 0.0984 - val_loss: 2.3080 - val_accuracy: 0.0870
-Epoch 1/10
-10/10 - 8s - loss: 2.3060 - accuracy: 0.0891 - val_loss: 2.3023 - val_accuracy: 0.0900
-Epoch 1/10
-10/10 - 8s - loss: 2.3078 - accuracy: 0.1094 - val_loss: 2.3074 - val_accuracy: 0.0930
-Epoch 1/10
-10/10 - 8s - loss: 2.3106 - accuracy: 0.1094 - val_loss: 2.3079 - val_accuracy: 0.0870
------------ID: 140206932422368
------------Loss: 2.3047821521759033 . Accuracy: 0.1120000034570694 .
-Epoch 1/10
-10/10 - 8s - loss: 2.3065 - accuracy: 0.0891 - val_loss: 2.3065 - val_accuracy: 0.0970
-Epoch 1/10
-10/10 - 8s - loss: 2.3113 - accuracy: 0.0953 - val_loss: 2.3061 - val_accuracy: 0.0940
-Epoch 1/10
-10/10 - 8s - loss: 2.3072 - accuracy: 0.1000 - val_loss: 2.3027 - val_accuracy: 0.1040
-Epoch 1/10
-10/10 - 8s - loss: 2.3085 - accuracy: 0.0875 - val_loss: 2.3049 - val_accuracy: 0.0980
------------ID: 140206932387152
------------Loss: 2.307220697402954 . Accuracy: 0.09000000357627869 .
-Epoch 1/10
-10/10 - 8s - loss: 2.3087 - accuracy: 0.0875 - val_loss: 2.3075 - val_accuracy: 0.1160
-Epoch 1/10
-10/10 - 8s - loss: 2.3072 - accuracy: 0.1047 - val_loss: 2.3090 - val_accuracy: 0.0850
-Epoch 2/10
-10/10 - 7s - loss: 2.3033 - accuracy: 0.1063 - val_loss: 2.3080 - val_accuracy: 0.0880
-Epoch 2/10
-10/10 - 7s - loss: 2.3068 - accuracy: 0.1000 - val_loss: 2.3064 - val_accuracy: 0.0960
-Epoch 2/10
-10/10 - 8s - loss: 2.3111 - accuracy: 0.0797 - val_loss: 2.3022 - val_accuracy: 0.0900
-Epoch 2/10
-10/10 - 8s - loss: 2.3110 - accuracy: 0.0875 - val_loss: 2.3079 - val_accuracy: 0.0860
-Epoch 2/10
-10/10 - 7s - loss: 2.3090 - accuracy: 0.1141 - val_loss: 2.3027 - val_accuracy: 0.1050
-Epoch 2/10
-10/10 - 7s - loss: 2.3050 - accuracy: 0.1000 - val_loss: 2.3049 - val_accuracy: 0.0990
-Epoch 2/10
-10/10 - 8s - loss: 2.3078 - accuracy: 0.0859 - val_loss: 2.3073 - val_accuracy: 0.0930
-Epoch 2/10
-10/10 - 8s - loss: 2.3073 - accuracy: 0.0906 - val_loss: 2.3061 - val_accuracy: 0.0940
-Epoch 2/10
-10/10 - 8s - loss: 2.3110 - accuracy: 0.0922 - val_loss: 2.3074 - val_accuracy: 0.1160
-Epoch 2/10
-10/10 - 8s - loss: 2.3134 - accuracy: 0.0906 - val_loss: 2.3089 - val_accuracy: 0.0850
-Epoch 3/10
-10/10 - 7s - loss: 2.3032 - accuracy: 0.0922 - val_loss: 2.3080 - val_accuracy: 0.0870
-Epoch 3/10
-10/10 - 8s - loss: 2.3042 - accuracy: 0.1063 - val_loss: 2.3078 - val_accuracy: 0.0860
-Epoch 3/10
-10/10 - 8s - loss: 2.3080 - accuracy: 0.1031 - val_loss: 2.3022 - val_accuracy: 0.0890
-Epoch 3/10
-10/10 - 8s - loss: 2.3106 - accuracy: 0.0875 - val_loss: 2.3064 - val_accuracy: 0.0960
-Epoch 3/10
-10/10 - 7s - loss: 2.3130 - accuracy: 0.0938 - val_loss: 2.3072 - val_accuracy: 0.0930
-Epoch 3/10
-10/10 - 8s - loss: 2.3047 - accuracy: 0.0891 - val_loss: 2.3048 - val_accuracy: 0.1000
-Epoch 3/10
-10/10 - 8s - loss: 2.3118 - accuracy: 0.0750 - val_loss: 2.3027 - val_accuracy: 0.1060
-Epoch 3/10
-10/10 - 8s - loss: 2.3061 - accuracy: 0.1187 - val_loss: 2.3060 - val_accuracy: 0.0940
-Epoch 3/10
-10/10 - 7s - loss: 2.3069 - accuracy: 0.1219 - val_loss: 2.3088 - val_accuracy: 0.0850
-Epoch 3/10
-10/10 - 8s - loss: 2.3066 - accuracy: 0.1016 - val_loss: 2.3073 - val_accuracy: 0.1160
-Epoch 4/10
-10/10 - 7s - loss: 2.3106 - accuracy: 0.1078 - val_loss: 2.3079 - val_accuracy: 0.0870
-Epoch 4/10
-10/10 - 7s - loss: 2.3002 - accuracy: 0.0906 - val_loss: 2.3063 - val_accuracy: 0.0960
-Epoch 4/10
-10/10 - 7s - loss: 2.3044 - accuracy: 0.0812 - val_loss: 2.3027 - val_accuracy: 0.1060
-Epoch 4/10
-10/10 - 8s - loss: 2.3045 - accuracy: 0.1063 - val_loss: 2.3072 - val_accuracy: 0.0930
-Epoch 4/10
-10/10 - 8s - loss: 2.3013 - accuracy: 0.0938 - val_loss: 2.3078 - val_accuracy: 0.0860
-Epoch 4/10
-10/10 - 7s - loss: 2.3064 - accuracy: 0.1000 - val_loss: 2.3087 - val_accuracy: 0.0860
-Epoch 4/10
-10/10 - 8s - loss: 2.3038 - accuracy: 0.0953 - val_loss: 2.3021 - val_accuracy: 0.0890
-Epoch 4/10
-10/10 - 7s - loss: 2.3016 - accuracy: 0.0797 - val_loss: 2.3072 - val_accuracy: 0.1160
-Epoch 4/10
-10/10 - 8s - loss: 2.3095 - accuracy: 0.0969 - val_loss: 2.3048 - val_accuracy: 0.0990
-Epoch 4/10
-10/10 - 8s - loss: 2.3115 - accuracy: 0.0984 - val_loss: 2.3060 - val_accuracy: 0.0940
-Epoch 5/10
-10/10 - 7s - loss: 2.3068 - accuracy: 0.0719 - val_loss: 2.3078 - val_accuracy: 0.0870
-Epoch 5/10
-10/10 - 8s - loss: 2.3031 - accuracy: 0.0781 - val_loss: 2.3063 - val_accuracy: 0.0960
-Epoch 5/10
-10/10 - 7s - loss: 2.3030 - accuracy: 0.1031 - val_loss: 2.3078 - val_accuracy: 0.0860
-Epoch 5/10
-10/10 - 7s - loss: 2.3124 - accuracy: 0.0828 - val_loss: 2.3086 - val_accuracy: 0.0860
-Epoch 5/10
-10/10 - 8s - loss: 2.3073 - accuracy: 0.0984 - val_loss: 2.3072 - val_accuracy: 0.0930
-Epoch 5/10
-10/10 - 8s - loss: 2.3112 - accuracy: 0.0969 - val_loss: 2.3026 - val_accuracy: 0.1060
-Epoch 5/10
-10/10 - 8s - loss: 2.3080 - accuracy: 0.0719 - val_loss: 2.3072 - val_accuracy: 0.1160
-Epoch 5/10
-10/10 - 8s - loss: 2.3136 - accuracy: 0.0875 - val_loss: 2.3047 - val_accuracy: 0.1000
-Epoch 5/10
-10/10 - 8s - loss: 2.3080 - accuracy: 0.0969 - val_loss: 2.3020 - val_accuracy: 0.0890
-Epoch 5/10
-10/10 - 7s - loss: 2.3042 - accuracy: 0.1078 - val_loss: 2.3059 - val_accuracy: 0.0930
-Epoch 6/10
-10/10 - 7s - loss: 2.3057 - accuracy: 0.0859 - val_loss: 2.3077 - val_accuracy: 0.0870
-Epoch 6/10
-10/10 - 8s - loss: 2.3042 - accuracy: 0.0984 - val_loss: 2.3062 - val_accuracy: 0.0960
-Epoch 6/10
-10/10 - 8s - loss: 2.3078 - accuracy: 0.0797 - val_loss: 2.3084 - val_accuracy: 0.0860
-Epoch 6/10
-10/10 - 8s - loss: 2.3126 - accuracy: 0.1156 - val_loss: 2.3071 - val_accuracy: 0.0930
-Epoch 6/10
-10/10 - 7s - loss: 2.3043 - accuracy: 0.0938 - val_loss: 2.3046 - val_accuracy: 0.1000
-Epoch 6/10
-10/10 - 8s - loss: 2.3048 - accuracy: 0.0734 - val_loss: 2.3078 - val_accuracy: 0.0860
-Epoch 6/10
-10/10 - 7s - loss: 2.3129 - accuracy: 0.0969 - val_loss: 2.3020 - val_accuracy: 0.1080
-Epoch 6/10
-10/10 - 7s - loss: 2.3031 - accuracy: 0.0938 - val_loss: 2.3059 - val_accuracy: 0.0930
-Epoch 6/10
-10/10 - 8s - loss: 2.3094 - accuracy: 0.1016 - val_loss: 2.3072 - val_accuracy: 0.1160
-Epoch 6/10
-10/10 - 8s - loss: 2.3024 - accuracy: 0.1031 - val_loss: 2.3026 - val_accuracy: 0.1060
-Epoch 7/10
-10/10 - 7s - loss: 2.3002 - accuracy: 0.1036 - val_loss: 2.3077 - val_accuracy: 0.0870
-Epoch 7/10
-10/10 - 7s - loss: 2.3150 - accuracy: 0.0938 - val_loss: 2.3061 - val_accuracy: 0.0960
-Epoch 7/10
-10/10 - 7s - loss: 2.3000 - accuracy: 0.1020 - val_loss: 2.3070 - val_accuracy: 0.0940
-Epoch 7/10
-10/10 - 7s - loss: 2.3043 - accuracy: 0.0855 - val_loss: 2.3083 - val_accuracy: 0.0860
-Epoch 7/10
-10/10 - 7s - loss: 2.3051 - accuracy: 0.0855 - val_loss: 2.3078 - val_accuracy: 0.0850
-Epoch 7/10
-10/10 - 7s - loss: 2.3080 - accuracy: 0.1069 - val_loss: 2.3058 - val_accuracy: 0.0930
-Epoch 7/10
-10/10 - 8s - loss: 2.3055 - accuracy: 0.0921 - val_loss: 2.3046 - val_accuracy: 0.1000
-Epoch 7/10
-10/10 - 7s - loss: 2.3092 - accuracy: 0.0905 - val_loss: 2.3020 - val_accuracy: 0.1070
-Epoch 7/10
-10/10 - 7s - loss: 2.3075 - accuracy: 0.1053 - val_loss: 2.3026 - val_accuracy: 0.1060
-Epoch 7/10
-10/10 - 7s - loss: 2.3089 - accuracy: 0.0872 - val_loss: 2.3071 - val_accuracy: 0.1160
-Epoch 8/10
-10/10 - 7s - loss: 2.3037 - accuracy: 0.0922 - val_loss: 2.3077 - val_accuracy: 0.0890
-Epoch 8/10
-10/10 - 7s - loss: 2.3068 - accuracy: 0.1172 - val_loss: 2.3060 - val_accuracy: 0.0960
-Epoch 8/10
-10/10 - 8s - loss: 2.3177 - accuracy: 0.1031 - val_loss: 2.3082 - val_accuracy: 0.0860
-Epoch 8/10
-10/10 - 8s - loss: 2.2990 - accuracy: 0.1141 - val_loss: 2.3078 - val_accuracy: 0.0860
-Epoch 8/10
-10/10 - 7s - loss: 2.3052 - accuracy: 0.0969 - val_loss: 2.3058 - val_accuracy: 0.0950
-Epoch 8/10
-10/10 - 8s - loss: 2.3093 - accuracy: 0.1000 - val_loss: 2.3070 - val_accuracy: 0.0940
-Epoch 8/10
-10/10 - 8s - loss: 2.3107 - accuracy: 0.0875 - val_loss: 2.3045 - val_accuracy: 0.0990
-Epoch 8/10
-10/10 - 8s - loss: 2.3056 - accuracy: 0.1000 - val_loss: 2.3019 - val_accuracy: 0.1070
-Epoch 8/10
-10/10 - 8s - loss: 2.3023 - accuracy: 0.0875 - val_loss: 2.3026 - val_accuracy: 0.1060
-Epoch 8/10
-10/10 - 8s - loss: 2.3104 - accuracy: 0.0938 - val_loss: 2.3070 - val_accuracy: 0.1160
-Epoch 9/10
-10/10 - 7s - loss: 2.3047 - accuracy: 0.0906 - val_loss: 2.3077 - val_accuracy: 0.0890
-Epoch 9/10
-10/10 - 7s - loss: 2.3031 - accuracy: 0.0953 - val_loss: 2.3060 - val_accuracy: 0.1000
-Epoch 9/10
-10/10 - 7s - loss: 2.3029 - accuracy: 0.1063 - val_loss: 2.3081 - val_accuracy: 0.0860
-Epoch 9/10
-10/10 - 8s - loss: 2.3068 - accuracy: 0.1063 - val_loss: 2.3078 - val_accuracy: 0.0850
-Epoch 9/10
-10/10 - 8s - loss: 2.3094 - accuracy: 0.1016 - val_loss: 2.3069 - val_accuracy: 0.0940
-Epoch 9/10
-10/10 - 7s - loss: 2.3049 - accuracy: 0.1219 - val_loss: 2.3019 - val_accuracy: 0.1070
-Epoch 9/10
-10/10 - 7s - loss: 2.3050 - accuracy: 0.0938 - val_loss: 2.3069 - val_accuracy: 0.1160
-Epoch 9/10
-10/10 - 8s - loss: 2.3085 - accuracy: 0.1031 - val_loss: 2.3058 - val_accuracy: 0.0950
-Epoch 9/10
-10/10 - 8s - loss: 2.3044 - accuracy: 0.0953 - val_loss: 2.3026 - val_accuracy: 0.1050
-Epoch 9/10
-10/10 - 8s - loss: 2.3081 - accuracy: 0.1078 - val_loss: 2.3044 - val_accuracy: 0.0980
-Epoch 10/10
-10/10 - 7s - loss: 2.3075 - accuracy: 0.0906 - val_loss: 2.3076 - val_accuracy: 0.0880
-Epoch 10/10
-10/10 - 8s - loss: 2.3065 - accuracy: 0.1047 - val_loss: 2.3060 - val_accuracy: 0.1000
-Epoch 10/10
-10/10 - 7s - loss: 2.3058 - accuracy: 0.0859 - val_loss: 2.3080 - val_accuracy: 0.0860
-Epoch 10/10
-10/10 - 7s - loss: 2.3053 - accuracy: 0.0812 - val_loss: 2.3068 - val_accuracy: 0.0930
-Epoch 10/10
-10/10 - 7s - loss: 2.3056 - accuracy: 0.0969 - val_loss: 2.3078 - val_accuracy: 0.0850
-Epoch 10/10
-10/10 - 7s - loss: 2.3084 - accuracy: 0.1000 - val_loss: 2.3019 - val_accuracy: 0.1070
-Epoch 10/10
-10/10 - 7s - loss: 2.3050 - accuracy: 0.1016 - val_loss: 2.3069 - val_accuracy: 0.1160
-Epoch 10/10
-10/10 - 7s - loss: 2.3046 - accuracy: 0.0766 - val_loss: 2.3026 - val_accuracy: 0.1050
-Epoch 10/10
-10/10 - 7s - loss: 2.3050 - accuracy: 0.0984 - val_loss: 2.3057 - val_accuracy: 0.0930
-Epoch 10/10
-10/10 - 7s - loss: 2.3016 - accuracy: 0.1047 - val_loss: 2.3044 - val_accuracy: 0.0990
-DEBUG flower 2021-04-15 18:41:08,467 | server.py:174 | fit_round received 10 results and 0 failures
-DEBUG flower 2021-04-15 18:41:08,502 | server.py:137 | evaluate: strategy sampled 2 clients
- 1/32 [..............................] - ETA: 0s - loss: 2.3216 - accuracy: 0.0625 1/32 [..............................] - ETA: 0s - loss: 2.3086 - accuracy: 0.0000e+00 6/32 [====>.........................] - ETA: 0s - loss: 2.3068 - accuracy: 0.0781     6/32 [====>.........................] - ETA: 0s - loss: 2.3081 - accuracy: 0.067711/32 [=========>....................] - ETA: 0s - loss: 2.3061 - accuracy: 0.090911/32 [=========>....................] - ETA: 0s - loss: 2.3053 - accuracy: 0.071015/32 [=============>................] - ETA: 0s - loss: 2.3053 - accuracy: 0.068816/32 [==============>...............] - ETA: 0s - loss: 2.3045 - accuracy: 0.087919/32 [================>.............] - ETA: 0s - loss: 2.3042 - accuracy: 0.087220/32 [=================>............] - ETA: 0s - loss: 2.3053 - accuracy: 0.079724/32 [=====================>........] - ETA: 0s - loss: 2.3043 - accuracy: 0.085925/32 [======================>.......] - ETA: 0s - loss: 2.3045 - accuracy: 0.083828/32 [=========================>....] - ETA: 0s - loss: 2.3036 - accuracy: 0.084830/32 [===========================>..] - ETA: 0s - loss: 2.3040 - accuracy: 0.082332/32 [==============================] - 0s 12ms/step - loss: 2.3045 - accuracy: 0.0820
-32/32 [==============================] - 0s 12ms/step - loss: 2.3051 - accuracy: 0.0870
-DEBUG flower 2021-04-15 18:41:08,917 | server.py:146 | evaluate received 2 results and 0 failures
-DEBUG flower 2021-04-15 18:41:08,920 | server.py:162 | fit_round: strategy sampled 10 clients (out of 10)
-Epoch 1/10
-10/10 - 8s - loss: 2.3042 - accuracy: 0.1063 - val_loss: 2.3068 - val_accuracy: 0.0950
-Epoch 1/10
-10/10 - 8s - loss: 2.3043 - accuracy: 0.0844 - val_loss: 2.3026 - val_accuracy: 0.1050
-Epoch 1/10
-10/10 - 8s - loss: 2.3061 - accuracy: 0.0812 - val_loss: 2.3045 - val_accuracy: 0.1000
-Epoch 1/10
-10/10 - 8s - loss: 2.3065 - accuracy: 0.0984 - val_loss: 2.3075 - val_accuracy: 0.0850
-Epoch 1/10
-10/10 - 8s - loss: 2.3038 - accuracy: 0.0984 - val_loss: 2.3019 - val_accuracy: 0.0910
------------ID: 140206932430032
------------Loss: 2.305091142654419 . Accuracy: 0.08699999749660492 .
-Epoch 1/10
-10/10 - 8s - loss: 2.3051 - accuracy: 0.1187 - val_loss: 2.3073 - val_accuracy: 0.0880
-Epoch 1/10
-10/10 - 8s - loss: 2.3079 - accuracy: 0.0906 - val_loss: 2.3070 - val_accuracy: 0.1150
-Epoch 1/10
-10/10 - 8s - loss: 2.3176 - accuracy: 0.0891 - val_loss: 2.3081 - val_accuracy: 0.0860
------------ID: 140206932426272
------------Loss: 2.3045248985290527 . Accuracy: 0.0820000022649765 .
-Epoch 1/10
-10/10 - 8s - loss: 2.3071 - accuracy: 0.1047 - val_loss: 2.3056 - val_accuracy: 0.0930
-Epoch 1/10
-10/10 - 8s - loss: 2.3075 - accuracy: 0.0844 - val_loss: 2.3059 - val_accuracy: 0.0960
-Epoch 2/10
-10/10 - 7s - loss: 2.3063 - accuracy: 0.0953 - val_loss: 2.3068 - val_accuracy: 0.0950
-Epoch 2/10
-10/10 - 8s - loss: 2.3120 - accuracy: 0.0938 - val_loss: 2.3026 - val_accuracy: 0.1050
-Epoch 2/10
-10/10 - 8s - loss: 2.3031 - accuracy: 0.0797 - val_loss: 2.3045 - val_accuracy: 0.1000
-Epoch 2/10
-10/10 - 8s - loss: 2.3184 - accuracy: 0.0922 - val_loss: 2.3019 - val_accuracy: 0.0910
-Epoch 2/10
-10/10 - 8s - loss: 2.2996 - accuracy: 0.1016 - val_loss: 2.3075 - val_accuracy: 0.0850
-Epoch 2/10
-10/10 - 8s - loss: 2.3062 - accuracy: 0.1031 - val_loss: 2.3069 - val_accuracy: 0.1150
-Epoch 2/10
-10/10 - 8s - loss: 2.3066 - accuracy: 0.0953 - val_loss: 2.3059 - val_accuracy: 0.0950
-Epoch 2/10
-10/10 - 8s - loss: 2.3054 - accuracy: 0.0906 - val_loss: 2.3056 - val_accuracy: 0.0930
-Epoch 2/10
-10/10 - 8s - loss: 2.3113 - accuracy: 0.0938 - val_loss: 2.3080 - val_accuracy: 0.0860
-Epoch 2/10
-10/10 - 8s - loss: 2.3076 - accuracy: 0.0938 - val_loss: 2.3072 - val_accuracy: 0.0880
-Epoch 3/10
-10/10 - 8s - loss: 2.3102 - accuracy: 0.1125 - val_loss: 2.3067 - val_accuracy: 0.0940
-Epoch 3/10
-10/10 - 8s - loss: 2.3050 - accuracy: 0.0828 - val_loss: 2.3019 - val_accuracy: 0.0900
-Epoch 3/10
-10/10 - 8s - loss: 2.3083 - accuracy: 0.1016 - val_loss: 2.3068 - val_accuracy: 0.1150
-Epoch 3/10
-10/10 - 8s - loss: 2.3074 - accuracy: 0.0844 - val_loss: 2.3058 - val_accuracy: 0.0950
-Epoch 3/10
-10/10 - 8s - loss: 2.3052 - accuracy: 0.1000 - val_loss: 2.3079 - val_accuracy: 0.0860
-Epoch 3/10
-10/10 - 9s - loss: 2.3050 - accuracy: 0.0938 - val_loss: 2.3075 - val_accuracy: 0.0850
-Epoch 3/10
-10/10 - 9s - loss: 2.3124 - accuracy: 0.0891 - val_loss: 2.3044 - val_accuracy: 0.1000
-Epoch 3/10
-10/10 - 8s - loss: 2.3106 - accuracy: 0.0891 - val_loss: 2.3055 - val_accuracy: 0.0930
-Epoch 3/10
-10/10 - 9s - loss: 2.3040 - accuracy: 0.1047 - val_loss: 2.3026 - val_accuracy: 0.1050
-Epoch 3/10
-10/10 - 9s - loss: 2.3051 - accuracy: 0.0844 - val_loss: 2.3072 - val_accuracy: 0.0880
-Epoch 4/10
-10/10 - 7s - loss: 2.3028 - accuracy: 0.0906 - val_loss: 2.3067 - val_accuracy: 0.0940
-Epoch 4/10
-10/10 - 8s - loss: 2.3048 - accuracy: 0.0719 - val_loss: 2.3018 - val_accuracy: 0.0900
-Epoch 4/10
-10/10 - 8s - loss: 2.3041 - accuracy: 0.0688 - val_loss: 2.3057 - val_accuracy: 0.0960
-Epoch 4/10
-10/10 - 8s - loss: 2.3069 - accuracy: 0.0797 - val_loss: 2.3068 - val_accuracy: 0.1150
-Epoch 4/10
-10/10 - 7s - loss: 2.3029 - accuracy: 0.1016 - val_loss: 2.3044 - val_accuracy: 0.1000
-Epoch 4/10
-10/10 - 8s - loss: 2.3044 - accuracy: 0.1141 - val_loss: 2.3074 - val_accuracy: 0.0850
-Epoch 4/10
-10/10 - 8s - loss: 2.3073 - accuracy: 0.1016 - val_loss: 2.3055 - val_accuracy: 0.0930
-Epoch 4/10
-10/10 - 8s - loss: 2.3009 - accuracy: 0.0938 - val_loss: 2.3078 - val_accuracy: 0.0860
-Epoch 4/10
-10/10 - 8s - loss: 2.3083 - accuracy: 0.0891 - val_loss: 2.3026 - val_accuracy: 0.1050
-Epoch 4/10
-10/10 - 8s - loss: 2.3043 - accuracy: 0.0953 - val_loss: 2.3071 - val_accuracy: 0.0870
-Epoch 5/10
-10/10 - 7s - loss: 2.3101 - accuracy: 0.1078 - val_loss: 2.3066 - val_accuracy: 0.0940
-Epoch 5/10
-10/10 - 8s - loss: 2.3111 - accuracy: 0.0938 - val_loss: 2.3018 - val_accuracy: 0.0910
-Epoch 5/10
-10/10 - 8s - loss: 2.3029 - accuracy: 0.0859 - val_loss: 2.3057 - val_accuracy: 0.0950
-Epoch 5/10
-10/10 - 8s - loss: 2.3082 - accuracy: 0.1172 - val_loss: 2.3067 - val_accuracy: 0.1150
-Epoch 5/10
-10/10 - 8s - loss: 2.3017 - accuracy: 0.1125 - val_loss: 2.3044 - val_accuracy: 0.1000
-Epoch 5/10
-10/10 - 7s - loss: 2.3118 - accuracy: 0.1063 - val_loss: 2.3026 - val_accuracy: 0.1040
-Epoch 5/10
-10/10 - 8s - loss: 2.3015 - accuracy: 0.0875 - val_loss: 2.3055 - val_accuracy: 0.0930
-Epoch 5/10
-10/10 - 8s - loss: 2.3064 - accuracy: 0.0828 - val_loss: 2.3074 - val_accuracy: 0.0850
-Epoch 5/10
-10/10 - 8s - loss: 2.3075 - accuracy: 0.1109 - val_loss: 2.3078 - val_accuracy: 0.0860
-Epoch 5/10
-10/10 - 8s - loss: 2.3049 - accuracy: 0.0906 - val_loss: 2.3071 - val_accuracy: 0.0870
-Epoch 6/10
-10/10 - 7s - loss: 2.3082 - accuracy: 0.0875 - val_loss: 2.3065 - val_accuracy: 0.0940
-Epoch 6/10
-10/10 - 8s - loss: 2.3054 - accuracy: 0.1047 - val_loss: 2.3057 - val_accuracy: 0.0950
-Epoch 6/10
-10/10 - 7s - loss: 2.3102 - accuracy: 0.0812 - val_loss: 2.3066 - val_accuracy: 0.1160
-Epoch 6/10
-10/10 - 8s - loss: 2.3048 - accuracy: 0.1125 - val_loss: 2.3018 - val_accuracy: 0.0900
-Epoch 6/10
-10/10 - 7s - loss: 2.3106 - accuracy: 0.1047 - val_loss: 2.3043 - val_accuracy: 0.1000
-Epoch 6/10
-10/10 - 8s - loss: 2.3070 - accuracy: 0.1078 - val_loss: 2.3025 - val_accuracy: 0.1040
-Epoch 6/10
-10/10 - 7s - loss: 2.3093 - accuracy: 0.0906 - val_loss: 2.3074 - val_accuracy: 0.0850
-Epoch 6/10
-10/10 - 7s - loss: 2.3079 - accuracy: 0.1016 - val_loss: 2.3077 - val_accuracy: 0.0870
-Epoch 6/10
-10/10 - 8s - loss: 2.3109 - accuracy: 0.0703 - val_loss: 2.3054 - val_accuracy: 0.0930
-Epoch 6/10
-10/10 - 7s - loss: 2.3061 - accuracy: 0.1016 - val_loss: 2.3070 - val_accuracy: 0.0880
-Epoch 7/10
-10/10 - 7s - loss: 2.3156 - accuracy: 0.0707 - val_loss: 2.3064 - val_accuracy: 0.0940
-Epoch 7/10
-10/10 - 7s - loss: 2.3051 - accuracy: 0.1003 - val_loss: 2.3057 - val_accuracy: 0.0950
-Epoch 7/10
-10/10 - 7s - loss: 2.3025 - accuracy: 0.0970 - val_loss: 2.3066 - val_accuracy: 0.1160
-Epoch 7/10
-10/10 - 7s - loss: 2.3133 - accuracy: 0.1036 - val_loss: 2.3043 - val_accuracy: 0.0980
-Epoch 7/10
-10/10 - 7s - loss: 2.3068 - accuracy: 0.0954 - val_loss: 2.3025 - val_accuracy: 0.1040
-Epoch 7/10
-10/10 - 7s - loss: 2.3069 - accuracy: 0.1102 - val_loss: 2.3018 - val_accuracy: 0.1090
-Epoch 7/10
-10/10 - 7s - loss: 2.3081 - accuracy: 0.0707 - val_loss: 2.3076 - val_accuracy: 0.0860
-Epoch 7/10
-10/10 - 7s - loss: 2.3000 - accuracy: 0.1151 - val_loss: 2.3074 - val_accuracy: 0.0850
-Epoch 7/10
-10/10 - 8s - loss: 2.3034 - accuracy: 0.0970 - val_loss: 2.3054 - val_accuracy: 0.0930
-Epoch 7/10
-10/10 - 7s - loss: 2.3041 - accuracy: 0.0806 - val_loss: 2.3070 - val_accuracy: 0.0880
-Epoch 8/10
-10/10 - 8s - loss: 2.3006 - accuracy: 0.1047 - val_loss: 2.3064 - val_accuracy: 0.0940
-Epoch 8/10
-10/10 - 8s - loss: 2.3060 - accuracy: 0.1000 - val_loss: 2.3057 - val_accuracy: 0.0950
-Epoch 8/10
-10/10 - 8s - loss: 2.3025 - accuracy: 0.0984 - val_loss: 2.3066 - val_accuracy: 0.1160
-Epoch 8/10
-10/10 - 8s - loss: 2.3100 - accuracy: 0.1141 - val_loss: 2.3025 - val_accuracy: 0.1040
-Epoch 8/10
-10/10 - 7s - loss: 2.3059 - accuracy: 0.0766 - val_loss: 2.3017 - val_accuracy: 0.1090
-Epoch 8/10
-10/10 - 7s - loss: 2.3155 - accuracy: 0.0984 - val_loss: 2.3075 - val_accuracy: 0.0860
-Epoch 8/10
-10/10 - 8s - loss: 2.3057 - accuracy: 0.1109 - val_loss: 2.3042 - val_accuracy: 0.0970
-Epoch 8/10
-10/10 - 8s - loss: 2.3026 - accuracy: 0.1109 - val_loss: 2.3074 - val_accuracy: 0.0850
-Epoch 8/10
-10/10 - 7s - loss: 2.3071 - accuracy: 0.0828 - val_loss: 2.3070 - val_accuracy: 0.0890
-Epoch 8/10
-10/10 - 8s - loss: 2.3094 - accuracy: 0.0984 - val_loss: 2.3054 - val_accuracy: 0.0930
-Epoch 9/10
-10/10 - 7s - loss: 2.3114 - accuracy: 0.0906 - val_loss: 2.3063 - val_accuracy: 0.0940
-Epoch 9/10
-10/10 - 7s - loss: 2.3056 - accuracy: 0.1063 - val_loss: 2.3065 - val_accuracy: 0.1160
-Epoch 9/10
-10/10 - 8s - loss: 2.3094 - accuracy: 0.1000 - val_loss: 2.3056 - val_accuracy: 0.0950
-Epoch 9/10
-10/10 - 8s - loss: 2.3103 - accuracy: 0.1016 - val_loss: 2.3073 - val_accuracy: 0.0860
-Epoch 9/10
-10/10 - 8s - loss: 2.3030 - accuracy: 0.0891 - val_loss: 2.3025 - val_accuracy: 0.1030
-Epoch 9/10
-10/10 - 8s - loss: 2.3010 - accuracy: 0.0906 - val_loss: 2.3042 - val_accuracy: 0.0980
-Epoch 9/10
-10/10 - 8s - loss: 2.3062 - accuracy: 0.1016 - val_loss: 2.3017 - val_accuracy: 0.1090
-Epoch 9/10
-10/10 - 8s - loss: 2.3002 - accuracy: 0.1078 - val_loss: 2.3069 - val_accuracy: 0.0890
-Epoch 9/10
-10/10 - 8s - loss: 2.3012 - accuracy: 0.1047 - val_loss: 2.3074 - val_accuracy: 0.0850
-Epoch 9/10
-10/10 - 8s - loss: 2.3058 - accuracy: 0.1078 - val_loss: 2.3053 - val_accuracy: 0.0940
-Epoch 10/10
-10/10 - 8s - loss: 2.3071 - accuracy: 0.1031 - val_loss: 2.3062 - val_accuracy: 0.0950
-Epoch 10/10
-10/10 - 7s - loss: 2.3089 - accuracy: 0.0828 - val_loss: 2.3065 - val_accuracy: 0.1170
-Epoch 10/10
-10/10 - 7s - loss: 2.2998 - accuracy: 0.1031 - val_loss: 2.3056 - val_accuracy: 0.0950
-Epoch 10/10
-10/10 - 7s - loss: 2.3019 - accuracy: 0.0953 - val_loss: 2.3072 - val_accuracy: 0.0870
-Epoch 10/10
-10/10 - 7s - loss: 2.3047 - accuracy: 0.0875 - val_loss: 2.3017 - val_accuracy: 0.1070
-Epoch 10/10
-10/10 - 7s - loss: 2.3051 - accuracy: 0.1000 - val_loss: 2.3042 - val_accuracy: 0.0980
-Epoch 10/10
-10/10 - 7s - loss: 2.3026 - accuracy: 0.1063 - val_loss: 2.3025 - val_accuracy: 0.1030
-Epoch 10/10
-10/10 - 7s - loss: 2.3018 - accuracy: 0.1047 - val_loss: 2.3053 - val_accuracy: 0.0940
-Epoch 10/10
-10/10 - 7s - loss: 2.3051 - accuracy: 0.0969 - val_loss: 2.3069 - val_accuracy: 0.0890
-Epoch 10/10
-10/10 - 7s - loss: 2.3048 - accuracy: 0.1000 - val_loss: 2.3074 - val_accuracy: 0.0850
-DEBUG flower 2021-04-15 18:42:25,869 | server.py:174 | fit_round received 10 results and 0 failures
-DEBUG flower 2021-04-15 18:42:25,905 | server.py:137 | evaluate: strategy sampled 2 clients
- 1/32 [..............................] - ETA: 0s - loss: 2.3007 - accuracy: 0.0938 1/32 [..............................] - ETA: 0s - loss: 2.3212 - accuracy: 0.0625 6/32 [====>.........................] - ETA: 0s - loss: 2.3073 - accuracy: 0.1094 6/32 [====>.........................] - ETA: 0s - loss: 2.3079 - accuracy: 0.067711/32 [=========>....................] - ETA: 0s - loss: 2.3050 - accuracy: 0.090911/32 [=========>....................] - ETA: 0s - loss: 2.3050 - accuracy: 0.071015/32 [=============>................] - ETA: 0s - loss: 2.3067 - accuracy: 0.095816/32 [==============>...............] - ETA: 0s - loss: 2.3049 - accuracy: 0.074220/32 [=================>............] - ETA: 0s - loss: 2.3056 - accuracy: 0.089120/32 [=================>............] - ETA: 0s - loss: 2.3050 - accuracy: 0.078124/32 [=====================>........] - ETA: 0s - loss: 2.3043 - accuracy: 0.080725/32 [======================>.......] - ETA: 0s - loss: 2.3056 - accuracy: 0.091329/32 [==========================>...] - ETA: 0s - loss: 2.3036 - accuracy: 0.084129/32 [==========================>...] - ETA: 0s - loss: 2.3067 - accuracy: 0.087332/32 [==============================] - 0s 12ms/step - loss: 2.3044 - accuracy: 0.0810
-32/32 [==============================] - 0s 12ms/step - loss: 2.3063 - accuracy: 0.0900
-DEBUG flower 2021-04-15 18:42:26,319 | server.py:146 | evaluate received 2 results and 0 failures
-DEBUG flower 2021-04-15 18:42:26,322 | server.py:162 | fit_round: strategy sampled 10 clients (out of 10)
-Epoch 1/10
-10/10 - 8s - loss: 2.3091 - accuracy: 0.0875 - val_loss: 2.3063 - val_accuracy: 0.0950
-Epoch 1/10
-10/10 - 8s - loss: 2.3018 - accuracy: 0.1016 - val_loss: 2.3055 - val_accuracy: 0.0960
-Epoch 1/10
-10/10 - 8s - loss: 2.3091 - accuracy: 0.1172 - val_loss: 2.3074 - val_accuracy: 0.0850
-Epoch 1/10
-10/10 - 8s - loss: 2.3087 - accuracy: 0.1172 - val_loss: 2.3041 - val_accuracy: 0.0990
------------ID: 140206932426272
------------Loss: 2.3043854236602783 . Accuracy: 0.08100000023841858 .
-Epoch 1/10
-10/10 - 8s - loss: 2.3063 - accuracy: 0.0859 - val_loss: 2.3052 - val_accuracy: 0.0930
-Epoch 1/10
-10/10 - 8s - loss: 2.3095 - accuracy: 0.0828 - val_loss: 2.3025 - val_accuracy: 0.1040
-Epoch 1/10
-10/10 - 8s - loss: 2.3068 - accuracy: 0.1047 - val_loss: 2.3068 - val_accuracy: 0.0880
------------ID: 140206932387152
------------Loss: 2.3063366413116455 . Accuracy: 0.09000000357627869 .
-Epoch 1/10
-10/10 - 8s - loss: 2.3070 - accuracy: 0.0875 - val_loss: 2.3065 - val_accuracy: 0.1170
-Epoch 1/10
-10/10 - 8s - loss: 2.3030 - accuracy: 0.0984 - val_loss: 2.3017 - val_accuracy: 0.0920
-Epoch 1/10
-10/10 - 8s - loss: 2.3081 - accuracy: 0.1094 - val_loss: 2.3071 - val_accuracy: 0.0850
-Epoch 2/10
-10/10 - 8s - loss: 2.3050 - accuracy: 0.0953 - val_loss: 2.3062 - val_accuracy: 0.0950
-Epoch 2/10
-10/10 - 8s - loss: 2.3131 - accuracy: 0.1063 - val_loss: 2.3074 - val_accuracy: 0.0860
-Epoch 2/10
-10/10 - 8s - loss: 2.3073 - accuracy: 0.0953 - val_loss: 2.3041 - val_accuracy: 0.0990
-Epoch 2/10
-10/10 - 8s - loss: 2.3060 - accuracy: 0.0938 - val_loss: 2.3055 - val_accuracy: 0.0960
-Epoch 2/10
-10/10 - 7s - loss: 2.3063 - accuracy: 0.0781 - val_loss: 2.3064 - val_accuracy: 0.1180
-Epoch 2/10
-10/10 - 8s - loss: 2.3130 - accuracy: 0.1078 - val_loss: 2.3052 - val_accuracy: 0.0940
-Epoch 2/10
-10/10 - 8s - loss: 2.3028 - accuracy: 0.0969 - val_loss: 2.3067 - val_accuracy: 0.0880
-Epoch 2/10
-10/10 - 8s - loss: 2.3012 - accuracy: 0.1000 - val_loss: 2.3017 - val_accuracy: 0.0920
-Epoch 2/10
-10/10 - 8s - loss: 2.3097 - accuracy: 0.0953 - val_loss: 2.3025 - val_accuracy: 0.1040
-Epoch 2/10
-10/10 - 8s - loss: 2.3044 - accuracy: 0.1078 - val_loss: 2.3070 - val_accuracy: 0.0850
-Epoch 3/10
-10/10 - 7s - loss: 2.3101 - accuracy: 0.0875 - val_loss: 2.3062 - val_accuracy: 0.0950
-Epoch 3/10
-10/10 - 8s - loss: 2.3085 - accuracy: 0.0922 - val_loss: 2.3064 - val_accuracy: 0.1170
-Epoch 3/10
-10/10 - 7s - loss: 2.3012 - accuracy: 0.0953 - val_loss: 2.3070 - val_accuracy: 0.0850
-Epoch 3/10
-10/10 - 8s - loss: 2.3053 - accuracy: 0.1109 - val_loss: 2.3067 - val_accuracy: 0.0880
-Epoch 3/10
-10/10 - 8s - loss: 2.3049 - accuracy: 0.0797 - val_loss: 2.3052 - val_accuracy: 0.0940
-Epoch 3/10
-10/10 - 8s - loss: 2.3093 - accuracy: 0.0891 - val_loss: 2.3017 - val_accuracy: 0.0910
-Epoch 3/10
-10/10 - 8s - loss: 2.3132 - accuracy: 0.0703 - val_loss: 2.3041 - val_accuracy: 0.0980
-Epoch 3/10
-10/10 - 8s - loss: 2.3012 - accuracy: 0.0844 - val_loss: 2.3073 - val_accuracy: 0.0870
-Epoch 3/10
-10/10 - 8s - loss: 2.3072 - accuracy: 0.0875 - val_loss: 2.3055 - val_accuracy: 0.0960
-Epoch 3/10
-10/10 - 8s - loss: 2.3062 - accuracy: 0.1031 - val_loss: 2.3024 - val_accuracy: 0.1040
-Epoch 4/10
-10/10 - 8s - loss: 2.3059 - accuracy: 0.0969 - val_loss: 2.3061 - val_accuracy: 0.0950
-Epoch 4/10
-10/10 - 7s - loss: 2.3074 - accuracy: 0.1000 - val_loss: 2.3063 - val_accuracy: 0.1180
-Epoch 4/10
-10/10 - 7s - loss: 2.3066 - accuracy: 0.0797 - val_loss: 2.3070 - val_accuracy: 0.0850
-Epoch 4/10
-10/10 - 8s - loss: 2.3062 - accuracy: 0.1031 - val_loss: 2.3066 - val_accuracy: 0.0880
-Epoch 4/10
-10/10 - 8s - loss: 2.2997 - accuracy: 0.1156 - val_loss: 2.3040 - val_accuracy: 0.0980
-Epoch 4/10
-10/10 - 8s - loss: 2.2981 - accuracy: 0.1125 - val_loss: 2.3051 - val_accuracy: 0.0940
-Epoch 4/10
-10/10 - 8s - loss: 2.3100 - accuracy: 0.0906 - val_loss: 2.3017 - val_accuracy: 0.0920
-Epoch 4/10
-10/10 - 8s - loss: 2.3065 - accuracy: 0.0891 - val_loss: 2.3072 - val_accuracy: 0.0870
-Epoch 4/10
-10/10 - 8s - loss: 2.3051 - accuracy: 0.0969 - val_loss: 2.3054 - val_accuracy: 0.0990
-Epoch 4/10
-10/10 - 8s - loss: 2.3019 - accuracy: 0.0812 - val_loss: 2.3024 - val_accuracy: 0.1030
-Epoch 5/10
-10/10 - 7s - loss: 2.3062 - accuracy: 0.1078 - val_loss: 2.3063 - val_accuracy: 0.1180
-Epoch 5/10
-10/10 - 7s - loss: 2.3054 - accuracy: 0.1141 - val_loss: 2.3070 - val_accuracy: 0.0850
-Epoch 5/10
-10/10 - 8s - loss: 2.3068 - accuracy: 0.1000 - val_loss: 2.3061 - val_accuracy: 0.0950
-Epoch 5/10
-10/10 - 7s - loss: 2.3035 - accuracy: 0.1000 - val_loss: 2.3066 - val_accuracy: 0.0880
-Epoch 5/10
-10/10 - 8s - loss: 2.3127 - accuracy: 0.1078 - val_loss: 2.3051 - val_accuracy: 0.0940
-Epoch 5/10
-10/10 - 8s - loss: 2.3036 - accuracy: 0.1063 - val_loss: 2.3024 - val_accuracy: 0.1030
-Epoch 5/10
-10/10 - 8s - loss: 2.3052 - accuracy: 0.1000 - val_loss: 2.3040 - val_accuracy: 0.0980
-Epoch 5/10
-10/10 - 8s - loss: 2.3049 - accuracy: 0.1063 - val_loss: 2.3072 - val_accuracy: 0.0880
-Epoch 5/10
-10/10 - 8s - loss: 2.3097 - accuracy: 0.0938 - val_loss: 2.3054 - val_accuracy: 0.0990
-Epoch 5/10
-10/10 - 8s - loss: 2.3125 - accuracy: 0.1000 - val_loss: 2.3016 - val_accuracy: 0.0930
-Epoch 6/10
-10/10 - 8s - loss: 2.3032 - accuracy: 0.0781 - val_loss: 2.3070 - val_accuracy: 0.0850
-Epoch 6/10
-10/10 - 8s - loss: 2.3073 - accuracy: 0.0672 - val_loss: 2.3063 - val_accuracy: 0.1180
-Epoch 6/10
-10/10 - 8s - loss: 2.3050 - accuracy: 0.0984 - val_loss: 2.3061 - val_accuracy: 0.0950
-Epoch 6/10
-10/10 - 8s - loss: 2.3013 - accuracy: 0.0875 - val_loss: 2.3065 - val_accuracy: 0.0880
-Epoch 6/10
-10/10 - 7s - loss: 2.2986 - accuracy: 0.0828 - val_loss: 2.3051 - val_accuracy: 0.0940
-Epoch 6/10
-10/10 - 7s - loss: 2.3060 - accuracy: 0.1109 - val_loss: 2.3024 - val_accuracy: 0.1030
-Epoch 6/10
-10/10 - 7s - loss: 2.3006 - accuracy: 0.0750 - val_loss: 2.3040 - val_accuracy: 0.0980
-Epoch 6/10
-10/10 - 7s - loss: 2.3072 - accuracy: 0.0906 - val_loss: 2.3071 - val_accuracy: 0.0880
-Epoch 6/10
-10/10 - 8s - loss: 2.3045 - accuracy: 0.0938 - val_loss: 2.3054 - val_accuracy: 0.0990
-Epoch 6/10
-10/10 - 7s - loss: 2.3097 - accuracy: 0.1172 - val_loss: 2.3016 - val_accuracy: 0.0930
-Epoch 7/10
-10/10 - 7s - loss: 2.3079 - accuracy: 0.0938 - val_loss: 2.3062 - val_accuracy: 0.1180
-Epoch 7/10
-10/10 - 7s - loss: 2.3064 - accuracy: 0.0855 - val_loss: 2.3070 - val_accuracy: 0.0850
-Epoch 7/10
-10/10 - 8s - loss: 2.3145 - accuracy: 0.1151 - val_loss: 2.3060 - val_accuracy: 0.0950
-Epoch 7/10
-10/10 - 7s - loss: 2.3018 - accuracy: 0.1151 - val_loss: 2.3051 - val_accuracy: 0.0940
-Epoch 7/10
-10/10 - 8s - loss: 2.3047 - accuracy: 0.0888 - val_loss: 2.3065 - val_accuracy: 0.0880
-Epoch 7/10
-10/10 - 8s - loss: 2.3105 - accuracy: 0.1003 - val_loss: 2.3024 - val_accuracy: 0.1050
-Epoch 7/10
-10/10 - 7s - loss: 2.3062 - accuracy: 0.0773 - val_loss: 2.3040 - val_accuracy: 0.0970
-Epoch 7/10
-10/10 - 7s - loss: 2.3040 - accuracy: 0.1102 - val_loss: 2.3070 - val_accuracy: 0.0880
-Epoch 7/10
-10/10 - 7s - loss: 2.3025 - accuracy: 0.1168 - val_loss: 2.3053 - val_accuracy: 0.0960
-Epoch 7/10
-10/10 - 8s - loss: 2.3007 - accuracy: 0.0855 - val_loss: 2.3016 - val_accuracy: 0.1100
-Epoch 8/10
-10/10 - 7s - loss: 2.3075 - accuracy: 0.0953 - val_loss: 2.3062 - val_accuracy: 0.1180
-Epoch 8/10
-10/10 - 8s - loss: 2.3047 - accuracy: 0.1141 - val_loss: 2.3070 - val_accuracy: 0.0850
-Epoch 8/10
-10/10 - 8s - loss: 2.3046 - accuracy: 0.0891 - val_loss: 2.3050 - val_accuracy: 0.0940
-Epoch 8/10
-10/10 - 8s - loss: 2.3062 - accuracy: 0.0875 - val_loss: 2.3024 - val_accuracy: 0.1050
-Epoch 8/10
-10/10 - 7s - loss: 2.3047 - accuracy: 0.0984 - val_loss: 2.3053 - val_accuracy: 0.0990
-Epoch 8/10
-10/10 - 8s - loss: 2.3016 - accuracy: 0.1094 - val_loss: 2.3065 - val_accuracy: 0.0880
-Epoch 8/10
-10/10 - 8s - loss: 2.3064 - accuracy: 0.1031 - val_loss: 2.3040 - val_accuracy: 0.0970
-Epoch 8/10
-10/10 - 8s - loss: 2.3013 - accuracy: 0.1063 - val_loss: 2.3060 - val_accuracy: 0.0950
-Epoch 8/10
-10/10 - 8s - loss: 2.3077 - accuracy: 0.0812 - val_loss: 2.3069 - val_accuracy: 0.0880
-Epoch 8/10
-10/10 - 8s - loss: 2.3075 - accuracy: 0.0953 - val_loss: 2.3016 - val_accuracy: 0.1100
-Epoch 9/10
-10/10 - 8s - loss: 2.3054 - accuracy: 0.0953 - val_loss: 2.3062 - val_accuracy: 0.1170
-Epoch 9/10
-10/10 - 7s - loss: 2.3056 - accuracy: 0.0953 - val_loss: 2.3069 - val_accuracy: 0.0850
-Epoch 9/10
-10/10 - 7s - loss: 2.3052 - accuracy: 0.0984 - val_loss: 2.3053 - val_accuracy: 0.0990
-Epoch 9/10
-10/10 - 8s - loss: 2.3134 - accuracy: 0.1047 - val_loss: 2.3050 - val_accuracy: 0.0940
-Epoch 9/10
-10/10 - 8s - loss: 2.3112 - accuracy: 0.0875 - val_loss: 2.3024 - val_accuracy: 0.1050
-Epoch 9/10
-10/10 - 8s - loss: 2.3053 - accuracy: 0.1047 - val_loss: 2.3069 - val_accuracy: 0.0880
-Epoch 9/10
-10/10 - 8s - loss: 2.3062 - accuracy: 0.0984 - val_loss: 2.3039 - val_accuracy: 0.0970
-Epoch 9/10
-10/10 - 8s - loss: 2.3034 - accuracy: 0.0859 - val_loss: 2.3059 - val_accuracy: 0.0950
-Epoch 9/10
-10/10 - 8s - loss: 2.3055 - accuracy: 0.0875 - val_loss: 2.3064 - val_accuracy: 0.0890
-Epoch 9/10
-10/10 - 8s - loss: 2.3072 - accuracy: 0.0969 - val_loss: 2.3015 - val_accuracy: 0.1100
-Epoch 10/10
-10/10 - 7s - loss: 2.3077 - accuracy: 0.0703 - val_loss: 2.3061 - val_accuracy: 0.1170
-Epoch 10/10
-10/10 - 8s - loss: 2.3021 - accuracy: 0.1000 - val_loss: 2.3069 - val_accuracy: 0.0850
-Epoch 10/10
-10/10 - 8s - loss: 2.3033 - accuracy: 0.0984 - val_loss: 2.3053 - val_accuracy: 0.0970
-Epoch 10/10
-10/10 - 7s - loss: 2.3081 - accuracy: 0.1016 - val_loss: 2.3059 - val_accuracy: 0.0950
-Epoch 10/10
-10/10 - 8s - loss: 2.3017 - accuracy: 0.0953 - val_loss: 2.3050 - val_accuracy: 0.0940
-Epoch 10/10
-10/10 - 7s - loss: 2.3070 - accuracy: 0.0797 - val_loss: 2.3064 - val_accuracy: 0.0890
-Epoch 10/10
-10/10 - 7s - loss: 2.3096 - accuracy: 0.1063 - val_loss: 2.3024 - val_accuracy: 0.1060
-Epoch 10/10
-10/10 - 7s - loss: 2.3018 - accuracy: 0.1141 - val_loss: 2.3068 - val_accuracy: 0.0880
-Epoch 10/10
-10/10 - 7s - loss: 2.3063 - accuracy: 0.1016 - val_loss: 2.3039 - val_accuracy: 0.0980
-Epoch 10/10
-10/10 - 7s - loss: 2.3036 - accuracy: 0.1172 - val_loss: 2.3015 - val_accuracy: 0.1110
-DEBUG flower 2021-04-15 18:43:42,989 | server.py:174 | fit_round received 10 results and 0 failures
-DEBUG flower 2021-04-15 18:43:43,025 | server.py:137 | evaluate: strategy sampled 2 clients
- 1/32 [..............................] - ETA: 0s - loss: 2.3033 - accuracy: 0.0312 1/32 [..............................] - ETA: 0s - loss: 2.3067 - accuracy: 0.0312 6/32 [====>.........................] - ETA: 0s - loss: 2.3037 - accuracy: 0.0781 6/32 [====>.........................] - ETA: 0s - loss: 2.3055 - accuracy: 0.067711/32 [=========>....................] - ETA: 0s - loss: 2.3033 - accuracy: 0.085211/32 [=========>....................] - ETA: 0s - loss: 2.3056 - accuracy: 0.068216/32 [==============>...............] - ETA: 0s - loss: 2.3046 - accuracy: 0.080116/32 [==============>...............] - ETA: 0s - loss: 2.3076 - accuracy: 0.085921/32 [==================>...........] - ETA: 0s - loss: 2.3037 - accuracy: 0.086321/32 [==================>...........] - ETA: 0s - loss: 2.3068 - accuracy: 0.089326/32 [=======================>......] - ETA: 0s - loss: 2.3036 - accuracy: 0.097426/32 [=======================>......] - ETA: 0s - loss: 2.3081 - accuracy: 0.085331/32 [============================>.] - ETA: 0s - loss: 2.3044 - accuracy: 0.099832/32 [==============================] - 0s 12ms/step - loss: 2.3042 - accuracy: 0.1000
-31/32 [============================>.] - ETA: 0s - loss: 2.3091 - accuracy: 0.084732/32 [==============================] - 0s 12ms/step - loss: 2.3088 - accuracy: 0.0850
-DEBUG flower 2021-04-15 18:43:43,435 | server.py:146 | evaluate received 2 results and 0 failures
-DEBUG flower 2021-04-15 18:43:43,437 | server.py:162 | fit_round: strategy sampled 10 clients (out of 10)
------------ID: 140206932383872
------------Loss: 2.3041727542877197 . Accuracy: 0.10000000149011612 .
-Epoch 1/10
-10/10 - 7s - loss: 2.3045 - accuracy: 0.1031 - val_loss: 2.3059 - val_accuracy: 0.0950
-Epoch 1/10
-10/10 - 7s - loss: 2.3031 - accuracy: 0.1141 - val_loss: 2.3024 - val_accuracy: 0.1060
-Epoch 1/10
-10/10 - 8s - loss: 2.3071 - accuracy: 0.0797 - val_loss: 2.3061 - val_accuracy: 0.1180
-Epoch 1/10
-10/10 - 8s - loss: 2.3065 - accuracy: 0.1016 - val_loss: 2.3063 - val_accuracy: 0.0880
-Epoch 1/10
-10/10 - 8s - loss: 2.3128 - accuracy: 0.1250 - val_loss: 2.3070 - val_accuracy: 0.0880
------------ID: 140206932383584
------------Loss: 2.308831214904785 . Accuracy: 0.08500000089406967 .
-Epoch 1/10
-10/10 - 8s - loss: 2.3004 - accuracy: 0.1063 - val_loss: 2.3068 - val_accuracy: 0.0850
-Epoch 1/10
-10/10 - 8s - loss: 2.3024 - accuracy: 0.0969 - val_loss: 2.3052 - val_accuracy: 0.0970
-Epoch 1/10
-10/10 - 8s - loss: 2.3101 - accuracy: 0.0875 - val_loss: 2.3016 - val_accuracy: 0.0920
-Epoch 1/10
-10/10 - 8s - loss: 2.3043 - accuracy: 0.1125 - val_loss: 2.3039 - val_accuracy: 0.0980
-Epoch 1/10
-10/10 - 8s - loss: 2.3079 - accuracy: 0.1125 - val_loss: 2.3049 - val_accuracy: 0.0940
-Epoch 2/10
-10/10 - 7s - loss: 2.2982 - accuracy: 0.0938 - val_loss: 2.3063 - val_accuracy: 0.0880
-Epoch 2/10
-10/10 - 8s - loss: 2.3012 - accuracy: 0.1016 - val_loss: 2.3059 - val_accuracy: 0.0950
-Epoch 2/10
-10/10 - 7s - loss: 2.3074 - accuracy: 0.0828 - val_loss: 2.3068 - val_accuracy: 0.0850
-Epoch 2/10
-10/10 - 8s - loss: 2.3073 - accuracy: 0.0859 - val_loss: 2.3024 - val_accuracy: 0.1060
-Epoch 2/10
-10/10 - 8s - loss: 2.3067 - accuracy: 0.0969 - val_loss: 2.3061 - val_accuracy: 0.1180
-Epoch 2/10
-10/10 - 7s - loss: 2.3090 - accuracy: 0.0844 - val_loss: 2.3052 - val_accuracy: 0.0960
-Epoch 2/10
-10/10 - 7s - loss: 2.3060 - accuracy: 0.1094 - val_loss: 2.3039 - val_accuracy: 0.0990
-Epoch 2/10
-10/10 - 8s - loss: 2.3073 - accuracy: 0.0953 - val_loss: 2.3069 - val_accuracy: 0.0880
-Epoch 2/10
-10/10 - 8s - loss: 2.3047 - accuracy: 0.0938 - val_loss: 2.3016 - val_accuracy: 0.0920
-Epoch 2/10
-10/10 - 8s - loss: 2.3048 - accuracy: 0.1031 - val_loss: 2.3049 - val_accuracy: 0.0940
-Epoch 3/10
-10/10 - 7s - loss: 2.3048 - accuracy: 0.0953 - val_loss: 2.3063 - val_accuracy: 0.0890
-Epoch 3/10
-10/10 - 8s - loss: 2.3100 - accuracy: 0.1125 - val_loss: 2.3059 - val_accuracy: 0.0950
-Epoch 3/10
-10/10 - 8s - loss: 2.3002 - accuracy: 0.1094 - val_loss: 2.3067 - val_accuracy: 0.0850
-Epoch 3/10
-10/10 - 8s - loss: 2.3071 - accuracy: 0.0766 - val_loss: 2.3061 - val_accuracy: 0.1180
-Epoch 3/10
-10/10 - 7s - loss: 2.3006 - accuracy: 0.1000 - val_loss: 2.3039 - val_accuracy: 0.0990
-Epoch 3/10
-10/10 - 8s - loss: 2.3112 - accuracy: 0.0859 - val_loss: 2.3051 - val_accuracy: 0.0950
-Epoch 3/10
-10/10 - 8s - loss: 2.3071 - accuracy: 0.0938 - val_loss: 2.3024 - val_accuracy: 0.1060
-Epoch 3/10
-10/10 - 7s - loss: 2.3050 - accuracy: 0.0906 - val_loss: 2.3015 - val_accuracy: 0.0920
-Epoch 3/10
-10/10 - 8s - loss: 2.3024 - accuracy: 0.1063 - val_loss: 2.3068 - val_accuracy: 0.0880
-Epoch 3/10
-10/10 - 8s - loss: 2.3105 - accuracy: 0.0906 - val_loss: 2.3049 - val_accuracy: 0.0940
-Epoch 4/10
-10/10 - 7s - loss: 2.3092 - accuracy: 0.0750 - val_loss: 2.3060 - val_accuracy: 0.1180
-Epoch 4/10
-10/10 - 8s - loss: 2.3042 - accuracy: 0.1094 - val_loss: 2.3063 - val_accuracy: 0.0890
-Epoch 4/10
-10/10 - 8s - loss: 2.3061 - accuracy: 0.0922 - val_loss: 2.3058 - val_accuracy: 0.0950
-Epoch 4/10
-10/10 - 8s - loss: 2.3159 - accuracy: 0.0969 - val_loss: 2.3038 - val_accuracy: 0.0980
-Epoch 4/10
-10/10 - 8s - loss: 2.3094 - accuracy: 0.0969 - val_loss: 2.3067 - val_accuracy: 0.0850
-Epoch 4/10
-10/10 - 8s - loss: 2.2977 - accuracy: 0.1109 - val_loss: 2.3051 - val_accuracy: 0.0950
-Epoch 4/10
-10/10 - 7s - loss: 2.3060 - accuracy: 0.1094 - val_loss: 2.3024 - val_accuracy: 0.1060
-Epoch 4/10
-10/10 - 7s - loss: 2.3024 - accuracy: 0.1000 - val_loss: 2.3068 - val_accuracy: 0.0880
-Epoch 4/10
-10/10 - 8s - loss: 2.3037 - accuracy: 0.0812 - val_loss: 2.3015 - val_accuracy: 0.0930
-Epoch 4/10
-10/10 - 7s - loss: 2.3001 - accuracy: 0.0938 - val_loss: 2.3048 - val_accuracy: 0.0940
-Epoch 5/10
-10/10 - 7s - loss: 2.3099 - accuracy: 0.1031 - val_loss: 2.3058 - val_accuracy: 0.0950
-Epoch 5/10
-10/10 - 8s - loss: 2.3042 - accuracy: 0.0922 - val_loss: 2.3038 - val_accuracy: 0.0980
-Epoch 5/10
-10/10 - 8s - loss: 2.3035 - accuracy: 0.0875 - val_loss: 2.3062 - val_accuracy: 0.0890
-Epoch 5/10
-10/10 - 8s - loss: 2.3053 - accuracy: 0.0969 - val_loss: 2.3060 - val_accuracy: 0.1180
-Epoch 5/10
-10/10 - 8s - loss: 2.3043 - accuracy: 0.1031 - val_loss: 2.3050 - val_accuracy: 0.0950
-Epoch 5/10
-10/10 - 8s - loss: 2.3080 - accuracy: 0.0906 - val_loss: 2.3024 - val_accuracy: 0.1060
-Epoch 5/10
-10/10 - 7s - loss: 2.3041 - accuracy: 0.0781 - val_loss: 2.3068 - val_accuracy: 0.0880
-Epoch 5/10
-10/10 - 8s - loss: 2.3049 - accuracy: 0.1234 - val_loss: 2.3067 - val_accuracy: 0.0850
-Epoch 5/10
-10/10 - 8s - loss: 2.3089 - accuracy: 0.1078 - val_loss: 2.3048 - val_accuracy: 0.0940
-Epoch 5/10
-10/10 - 8s - loss: 2.3074 - accuracy: 0.1203 - val_loss: 2.3015 - val_accuracy: 0.0930
-Epoch 6/10
-10/10 - 8s - loss: 2.3040 - accuracy: 0.1031 - val_loss: 2.3058 - val_accuracy: 0.0950
-Epoch 6/10
-10/10 - 8s - loss: 2.3059 - accuracy: 0.0938 - val_loss: 2.3062 - val_accuracy: 0.0890
-Epoch 6/10
-10/10 - 8s - loss: 2.3028 - accuracy: 0.0906 - val_loss: 2.3038 - val_accuracy: 0.0980
-Epoch 6/10
-10/10 - 8s - loss: 2.3033 - accuracy: 0.1172 - val_loss: 2.3050 - val_accuracy: 0.0970
-Epoch 6/10
-10/10 - 8s - loss: 2.3064 - accuracy: 0.0906 - val_loss: 2.3024 - val_accuracy: 0.1060
-Epoch 6/10
-10/10 - 8s - loss: 2.3052 - accuracy: 0.1016 - val_loss: 2.3060 - val_accuracy: 0.1180
-Epoch 6/10
-10/10 - 8s - loss: 2.3083 - accuracy: 0.1000 - val_loss: 2.3067 - val_accuracy: 0.0880
-Epoch 6/10
-10/10 - 8s - loss: 2.3087 - accuracy: 0.1109 - val_loss: 2.3015 - val_accuracy: 0.0930
-Epoch 6/10
-10/10 - 8s - loss: 2.3044 - accuracy: 0.0922 - val_loss: 2.3067 - val_accuracy: 0.0850
-Epoch 6/10
-10/10 - 8s - loss: 2.3052 - accuracy: 0.0859 - val_loss: 2.3048 - val_accuracy: 0.0940
-Epoch 7/10
-10/10 - 7s - loss: 2.3045 - accuracy: 0.0872 - val_loss: 2.3057 - val_accuracy: 0.0950
-Epoch 7/10
-10/10 - 7s - loss: 2.3023 - accuracy: 0.1069 - val_loss: 2.3050 - val_accuracy: 0.0950
-Epoch 7/10
-10/10 - 8s - loss: 2.3041 - accuracy: 0.0987 - val_loss: 2.3038 - val_accuracy: 0.0980
-Epoch 7/10
-10/10 - 8s - loss: 2.3077 - accuracy: 0.0954 - val_loss: 2.3061 - val_accuracy: 0.0890
-Epoch 7/10
-10/10 - 8s - loss: 2.3118 - accuracy: 0.0905 - val_loss: 2.3059 - val_accuracy: 0.1180
-Epoch 7/10
-10/10 - 8s - loss: 2.3124 - accuracy: 0.0954 - val_loss: 2.3023 - val_accuracy: 0.1060
-Epoch 7/10
-10/10 - 7s - loss: 2.3054 - accuracy: 0.1003 - val_loss: 2.3014 - val_accuracy: 0.1110
-Epoch 7/10
-10/10 - 8s - loss: 2.3117 - accuracy: 0.0674 - val_loss: 2.3066 - val_accuracy: 0.0890
-Epoch 7/10
-10/10 - 7s - loss: 2.3122 - accuracy: 0.0938 - val_loss: 2.3048 - val_accuracy: 0.0940
-Epoch 7/10
-10/10 - 7s - loss: 2.3049 - accuracy: 0.0789 - val_loss: 2.3067 - val_accuracy: 0.0850
-Epoch 8/10
-10/10 - 8s - loss: 2.3077 - accuracy: 0.0750 - val_loss: 2.3057 - val_accuracy: 0.0950
-Epoch 8/10
-10/10 - 7s - loss: 2.3057 - accuracy: 0.1125 - val_loss: 2.3066 - val_accuracy: 0.0900
-Epoch 8/10
-10/10 - 8s - loss: 2.3025 - accuracy: 0.0734 - val_loss: 2.3059 - val_accuracy: 0.1180
-Epoch 8/10
-10/10 - 8s - loss: 2.3047 - accuracy: 0.1047 - val_loss: 2.3037 - val_accuracy: 0.0980
-Epoch 8/10
-10/10 - 8s - loss: 2.3035 - accuracy: 0.1125 - val_loss: 2.3023 - val_accuracy: 0.1050
-Epoch 8/10
-10/10 - 8s - loss: 2.3037 - accuracy: 0.1156 - val_loss: 2.3050 - val_accuracy: 0.0970
-Epoch 8/10
-10/10 - 8s - loss: 2.3092 - accuracy: 0.1172 - val_loss: 2.3067 - val_accuracy: 0.0850
-Epoch 8/10
-10/10 - 8s - loss: 2.3096 - accuracy: 0.1125 - val_loss: 2.3061 - val_accuracy: 0.0900
-Epoch 8/10
-10/10 - 8s - loss: 2.3004 - accuracy: 0.1031 - val_loss: 2.3048 - val_accuracy: 0.0940
-Epoch 8/10
-10/10 - 8s - loss: 2.3056 - accuracy: 0.1109 - val_loss: 2.3014 - val_accuracy: 0.1110
-Epoch 9/10
-10/10 - 8s - loss: 2.3108 - accuracy: 0.1187 - val_loss: 2.3057 - val_accuracy: 0.0950
-Epoch 9/10
-10/10 - 7s - loss: 2.3064 - accuracy: 0.0922 - val_loss: 2.3059 - val_accuracy: 0.1180
-Epoch 9/10
-10/10 - 8s - loss: 2.3073 - accuracy: 0.0891 - val_loss: 2.3065 - val_accuracy: 0.0900
-Epoch 9/10
-10/10 - 8s - loss: 2.3026 - accuracy: 0.1016 - val_loss: 2.3066 - val_accuracy: 0.0850
-Epoch 9/10
-10/10 - 8s - loss: 2.2995 - accuracy: 0.0828 - val_loss: 2.3037 - val_accuracy: 0.0980
-Epoch 9/10
-10/10 - 8s - loss: 2.3112 - accuracy: 0.1000 - val_loss: 2.3023 - val_accuracy: 0.1070
-Epoch 9/10
-10/10 - 7s - loss: 2.3035 - accuracy: 0.1063 - val_loss: 2.3060 - val_accuracy: 0.0890
-Epoch 9/10
-10/10 - 8s - loss: 2.3045 - accuracy: 0.0891 - val_loss: 2.3050 - val_accuracy: 0.0980
-Epoch 9/10
-10/10 - 8s - loss: 2.3070 - accuracy: 0.1047 - val_loss: 2.3014 - val_accuracy: 0.1110
-Epoch 9/10
-10/10 - 8s - loss: 2.3077 - accuracy: 0.0812 - val_loss: 2.3047 - val_accuracy: 0.1030
-Epoch 10/10
-10/10 - 8s - loss: 2.3049 - accuracy: 0.0844 - val_loss: 2.3056 - val_accuracy: 0.0950
-Epoch 10/10
-10/10 - 8s - loss: 2.3036 - accuracy: 0.0906 - val_loss: 2.3058 - val_accuracy: 0.1180
-Epoch 10/10
-10/10 - 7s - loss: 2.3019 - accuracy: 0.0812 - val_loss: 2.3050 - val_accuracy: 0.0980
-Epoch 10/10
-10/10 - 8s - loss: 2.3028 - accuracy: 0.1063 - val_loss: 2.3065 - val_accuracy: 0.0900
-Epoch 10/10
-10/10 - 7s - loss: 2.3023 - accuracy: 0.1219 - val_loss: 2.3060 - val_accuracy: 0.0890
-Epoch 10/10
-10/10 - 8s - loss: 2.3049 - accuracy: 0.0938 - val_loss: 2.3066 - val_accuracy: 0.0850
-Epoch 10/10
-10/10 - 8s - loss: 2.3098 - accuracy: 0.1063 - val_loss: 2.3037 - val_accuracy: 0.0980
-Epoch 10/10
-10/10 - 8s - loss: 2.3045 - accuracy: 0.0875 - val_loss: 2.3023 - val_accuracy: 0.1070
-Epoch 10/10
-10/10 - 7s - loss: 2.3057 - accuracy: 0.1031 - val_loss: 2.3014 - val_accuracy: 0.1110
-Epoch 10/10
-10/10 - 7s - loss: 2.3028 - accuracy: 0.0922 - val_loss: 2.3047 - val_accuracy: 0.0940
-DEBUG flower 2021-04-15 18:44:59,938 | server.py:174 | fit_round received 10 results and 0 failures
-DEBUG flower 2021-04-15 18:44:59,972 | server.py:137 | evaluate: strategy sampled 2 clients
- 1/32 [..............................] - ETA: 0s - loss: 2.3033 - accuracy: 0.0312 1/32 [..............................] - ETA: 0s - loss: 2.3179 - accuracy: 0.0625 6/32 [====>.........................] - ETA: 0s - loss: 2.3072 - accuracy: 0.0885 6/32 [====>.........................] - ETA: 0s - loss: 2.3036 - accuracy: 0.078111/32 [=========>....................] - ETA: 0s - loss: 2.3043 - accuracy: 0.119310/32 [========>.....................] - ETA: 0s - loss: 2.3025 - accuracy: 0.078116/32 [==============>...............] - ETA: 0s - loss: 2.3033 - accuracy: 0.109415/32 [=============>................] - ETA: 0s - loss: 2.3040 - accuracy: 0.081220/32 [=================>............] - ETA: 0s - loss: 2.3029 - accuracy: 0.103120/32 [=================>............] - ETA: 0s - loss: 2.3036 - accuracy: 0.084424/32 [=====================>........] - ETA: 0s - loss: 2.3019 - accuracy: 0.104225/32 [======================>.......] - ETA: 0s - loss: 2.3034 - accuracy: 0.098829/32 [==========================>...] - ETA: 0s - loss: 2.3031 - accuracy: 0.106730/32 [===========================>..] - ETA: 0s - loss: 2.3034 - accuracy: 0.099032/32 [==============================] - 0s 12ms/step - loss: 2.3035 - accuracy: 0.1070
-32/32 [==============================] - 0s 12ms/step - loss: 2.3040 - accuracy: 0.1000
-DEBUG flower 2021-04-15 18:45:00,384 | server.py:146 | evaluate received 2 results and 0 failures
-DEBUG flower 2021-04-15 18:45:00,386 | server.py:162 | fit_round: strategy sampled 10 clients (out of 10)
------------ID: 140206932422368
------------Loss: 2.303530693054199 . Accuracy: 0.10700000077486038 .
-Epoch 1/10
-10/10 - 8s - loss: 2.3017 - accuracy: 0.0938 - val_loss: 2.3049 - val_accuracy: 0.0960
-Epoch 1/10
-10/10 - 8s - loss: 2.3062 - accuracy: 0.0781 - val_loss: 2.3059 - val_accuracy: 0.1170
-Epoch 1/10
-10/10 - 8s - loss: 2.3045 - accuracy: 0.1031 - val_loss: 2.3066 - val_accuracy: 0.0890
-Epoch 1/10
-10/10 - 8s - loss: 2.3047 - accuracy: 0.1063 - val_loss: 2.3023 - val_accuracy: 0.1060
-Epoch 1/10
-10/10 - 8s - loss: 2.3074 - accuracy: 0.1000 - val_loss: 2.3037 - val_accuracy: 0.0980
-Epoch 1/10
-10/10 - 8s - loss: 2.3042 - accuracy: 0.0828 - val_loss: 2.3060 - val_accuracy: 0.0890
------------ID: 140206932383872
------------Loss: 2.3039538860321045 . Accuracy: 0.10000000149011612 .
-Epoch 1/10
-10/10 - 8s - loss: 2.3119 - accuracy: 0.0766 - val_loss: 2.3056 - val_accuracy: 0.0960
-Epoch 1/10
-10/10 - 8s - loss: 2.3027 - accuracy: 0.0844 - val_loss: 2.3014 - val_accuracy: 0.0920
-Epoch 1/10
-10/10 - 8s - loss: 2.3100 - accuracy: 0.0797 - val_loss: 2.3047 - val_accuracy: 0.0940
-Epoch 1/10
-10/10 - 8s - loss: 2.3024 - accuracy: 0.0984 - val_loss: 2.3066 - val_accuracy: 0.0840
-Epoch 2/10
-10/10 - 7s - loss: 2.3054 - accuracy: 0.0969 - val_loss: 2.3049 - val_accuracy: 0.0970
-Epoch 2/10
-10/10 - 8s - loss: 2.3020 - accuracy: 0.0984 - val_loss: 2.3060 - val_accuracy: 0.0890
-Epoch 2/10
-10/10 - 8s - loss: 2.3085 - accuracy: 0.0828 - val_loss: 2.3059 - val_accuracy: 0.1180
-Epoch 2/10
-10/10 - 8s - loss: 2.3056 - accuracy: 0.0953 - val_loss: 2.3037 - val_accuracy: 0.0980
-Epoch 2/10
-10/10 - 8s - loss: 2.3112 - accuracy: 0.0938 - val_loss: 2.3065 - val_accuracy: 0.0890
-Epoch 2/10
-10/10 - 8s - loss: 2.3038 - accuracy: 0.1187 - val_loss: 2.3055 - val_accuracy: 0.0960
-Epoch 2/10
-10/10 - 8s - loss: 2.3014 - accuracy: 0.1078 - val_loss: 2.3046 - val_accuracy: 0.0940
-Epoch 2/10
-10/10 - 8s - loss: 2.3072 - accuracy: 0.1172 - val_loss: 2.3023 - val_accuracy: 0.1060
-Epoch 2/10
-10/10 - 8s - loss: 2.3122 - accuracy: 0.0984 - val_loss: 2.3014 - val_accuracy: 0.0920
-Epoch 2/10
-10/10 - 8s - loss: 2.3042 - accuracy: 0.0922 - val_loss: 2.3065 - val_accuracy: 0.0840
-Epoch 3/10
-10/10 - 7s - loss: 2.3056 - accuracy: 0.1031 - val_loss: 2.3049 - val_accuracy: 0.0970
-Epoch 3/10
-10/10 - 7s - loss: 2.3087 - accuracy: 0.0969 - val_loss: 2.3055 - val_accuracy: 0.0960
-Epoch 3/10
-10/10 - 8s - loss: 2.3006 - accuracy: 0.0953 - val_loss: 2.3060 - val_accuracy: 0.0890
-Epoch 3/10
-10/10 - 8s - loss: 2.3031 - accuracy: 0.1063 - val_loss: 2.3058 - val_accuracy: 0.1180
-Epoch 3/10
-10/10 - 8s - loss: 2.2995 - accuracy: 0.0969 - val_loss: 2.3037 - val_accuracy: 0.0980
-Epoch 3/10
-10/10 - 8s - loss: 2.3108 - accuracy: 0.1125 - val_loss: 2.3014 - val_accuracy: 0.0910
-Epoch 3/10
-10/10 - 8s - loss: 2.3069 - accuracy: 0.1063 - val_loss: 2.3046 - val_accuracy: 0.0940
-Epoch 3/10
-10/10 - 8s - loss: 2.3092 - accuracy: 0.1047 - val_loss: 2.3065 - val_accuracy: 0.0890
-Epoch 3/10
-10/10 - 8s - loss: 2.3057 - accuracy: 0.1016 - val_loss: 2.3023 - val_accuracy: 0.1060
-Epoch 3/10
-10/10 - 8s - loss: 2.3008 - accuracy: 0.1094 - val_loss: 2.3065 - val_accuracy: 0.0850
-Epoch 4/10
-10/10 - 8s - loss: 2.3048 - accuracy: 0.0734 - val_loss: 2.3049 - val_accuracy: 0.0980
-Epoch 4/10
-10/10 - 8s - loss: 2.3032 - accuracy: 0.0984 - val_loss: 2.3054 - val_accuracy: 0.0960
-Epoch 4/10
-10/10 - 8s - loss: 2.3049 - accuracy: 0.0781 - val_loss: 2.3060 - val_accuracy: 0.0890
-Epoch 4/10
-10/10 - 8s - loss: 2.3052 - accuracy: 0.1063 - val_loss: 2.3058 - val_accuracy: 0.1180
-Epoch 4/10
-10/10 - 8s - loss: 2.3028 - accuracy: 0.0875 - val_loss: 2.3037 - val_accuracy: 0.0980
-Epoch 4/10
-10/10 - 8s - loss: 2.3050 - accuracy: 0.0953 - val_loss: 2.3014 - val_accuracy: 0.0910
-Epoch 4/10
-10/10 - 8s - loss: 2.3073 - accuracy: 0.1047 - val_loss: 2.3023 - val_accuracy: 0.1070
-Epoch 4/10
-10/10 - 8s - loss: 2.3072 - accuracy: 0.0812 - val_loss: 2.3064 - val_accuracy: 0.0900
-Epoch 4/10
-10/10 - 8s - loss: 2.3063 - accuracy: 0.0828 - val_loss: 2.3065 - val_accuracy: 0.0850
-Epoch 4/10
-10/10 - 8s - loss: 2.3083 - accuracy: 0.0984 - val_loss: 2.3046 - val_accuracy: 0.0940
-Epoch 5/10
-10/10 - 8s - loss: 2.3089 - accuracy: 0.0922 - val_loss: 2.3048 - val_accuracy: 0.0980
-Epoch 5/10
-10/10 - 7s - loss: 2.3063 - accuracy: 0.1000 - val_loss: 2.3054 - val_accuracy: 0.0960
-Epoch 5/10
-10/10 - 7s - loss: 2.3065 - accuracy: 0.0938 - val_loss: 2.3058 - val_accuracy: 0.1180
-Epoch 5/10
-10/10 - 8s - loss: 2.3084 - accuracy: 0.0984 - val_loss: 2.3036 - val_accuracy: 0.0980
-Epoch 5/10
-10/10 - 7s - loss: 2.3040 - accuracy: 0.0719 - val_loss: 2.3023 - val_accuracy: 0.1070
-Epoch 5/10
-10/10 - 8s - loss: 2.3047 - accuracy: 0.0953 - val_loss: 2.3014 - val_accuracy: 0.0920
-Epoch 5/10
-10/10 - 8s - loss: 2.3045 - accuracy: 0.1047 - val_loss: 2.3059 - val_accuracy: 0.0890
-Epoch 5/10
-10/10 - 8s - loss: 2.3032 - accuracy: 0.1312 - val_loss: 2.3063 - val_accuracy: 0.0900
-Epoch 5/10
-10/10 - 8s - loss: 2.3083 - accuracy: 0.0828 - val_loss: 2.3065 - val_accuracy: 0.0850
-Epoch 5/10
-10/10 - 8s - loss: 2.3045 - accuracy: 0.0859 - val_loss: 2.3046 - val_accuracy: 0.0930
-Epoch 6/10
-10/10 - 7s - loss: 2.3027 - accuracy: 0.1250 - val_loss: 2.3048 - val_accuracy: 0.0980
-Epoch 6/10
-10/10 - 8s - loss: 2.3061 - accuracy: 0.1016 - val_loss: 2.3054 - val_accuracy: 0.0960
-Epoch 6/10
-10/10 - 8s - loss: 2.3100 - accuracy: 0.1063 - val_loss: 2.3057 - val_accuracy: 0.1190
-Epoch 6/10
-10/10 - 7s - loss: 2.3051 - accuracy: 0.0953 - val_loss: 2.3023 - val_accuracy: 0.1070
-Epoch 6/10
-10/10 - 8s - loss: 2.3074 - accuracy: 0.1219 - val_loss: 2.3036 - val_accuracy: 0.0980
-Epoch 6/10
-10/10 - 7s - loss: 2.3059 - accuracy: 0.1063 - val_loss: 2.3059 - val_accuracy: 0.0880
-Epoch 6/10
-10/10 - 8s - loss: 2.3050 - accuracy: 0.1016 - val_loss: 2.3013 - val_accuracy: 0.0920
-Epoch 6/10
-10/10 - 7s - loss: 2.3070 - accuracy: 0.0969 - val_loss: 2.3065 - val_accuracy: 0.0850
-Epoch 6/10
-10/10 - 8s - loss: 2.3065 - accuracy: 0.0750 - val_loss: 2.3063 - val_accuracy: 0.0900
-Epoch 6/10
-10/10 - 8s - loss: 2.2989 - accuracy: 0.1016 - val_loss: 2.3046 - val_accuracy: 0.0920
-Epoch 7/10
-10/10 - 7s - loss: 2.3049 - accuracy: 0.0954 - val_loss: 2.3048 - val_accuracy: 0.0980
-Epoch 7/10
-10/10 - 7s - loss: 2.3071 - accuracy: 0.0905 - val_loss: 2.3057 - val_accuracy: 0.1180
-Epoch 7/10
-10/10 - 7s - loss: 2.3051 - accuracy: 0.0806 - val_loss: 2.3054 - val_accuracy: 0.0960
-Epoch 7/10
-10/10 - 7s - loss: 2.3026 - accuracy: 0.0921 - val_loss: 2.3036 - val_accuracy: 0.0990
-Epoch 7/10
-10/10 - 7s - loss: 2.3086 - accuracy: 0.1118 - val_loss: 2.3023 - val_accuracy: 0.1070
-Epoch 7/10
-10/10 - 7s - loss: 2.3011 - accuracy: 0.0954 - val_loss: 2.3065 - val_accuracy: 0.0850
-Epoch 7/10
-10/10 - 8s - loss: 2.3056 - accuracy: 0.1003 - val_loss: 2.3058 - val_accuracy: 0.0880
-Epoch 7/10
-10/10 - 8s - loss: 2.3043 - accuracy: 0.0839 - val_loss: 2.3013 - val_accuracy: 0.1100
-Epoch 7/10
-10/10 - 7s - loss: 2.3008 - accuracy: 0.1135 - val_loss: 2.3063 - val_accuracy: 0.0900
-Epoch 7/10
-10/10 - 7s - loss: 2.3009 - accuracy: 0.1102 - val_loss: 2.3046 - val_accuracy: 0.0920
-Epoch 8/10
-10/10 - 8s - loss: 2.3051 - accuracy: 0.0891 - val_loss: 2.3048 - val_accuracy: 0.0980
-Epoch 8/10
-10/10 - 7s - loss: 2.3068 - accuracy: 0.1000 - val_loss: 2.3053 - val_accuracy: 0.0960
-Epoch 8/10
-10/10 - 8s - loss: 2.3067 - accuracy: 0.0938 - val_loss: 2.3057 - val_accuracy: 0.1190
-Epoch 8/10
-10/10 - 8s - loss: 2.3009 - accuracy: 0.0906 - val_loss: 2.3023 - val_accuracy: 0.1070
-Epoch 8/10
-10/10 - 8s - loss: 2.3082 - accuracy: 0.1031 - val_loss: 2.3036 - val_accuracy: 0.0990
-Epoch 8/10
-10/10 - 7s - loss: 2.3053 - accuracy: 0.1016 - val_loss: 2.3065 - val_accuracy: 0.0840
-Epoch 8/10
-10/10 - 8s - loss: 2.3023 - accuracy: 0.0875 - val_loss: 2.3058 - val_accuracy: 0.0880
-Epoch 8/10
-10/10 - 7s - loss: 2.3033 - accuracy: 0.0875 - val_loss: 2.3063 - val_accuracy: 0.0900
-Epoch 8/10
-10/10 - 8s - loss: 2.3059 - accuracy: 0.1187 - val_loss: 2.3013 - val_accuracy: 0.1100
-Epoch 8/10
-10/10 - 8s - loss: 2.3011 - accuracy: 0.1078 - val_loss: 2.3046 - val_accuracy: 0.0930
-Epoch 9/10
-10/10 - 8s - loss: 2.3046 - accuracy: 0.1031 - val_loss: 2.3048 - val_accuracy: 0.0980
-Epoch 9/10
-10/10 - 7s - loss: 2.3050 - accuracy: 0.1078 - val_loss: 2.3053 - val_accuracy: 0.0960
-Epoch 9/10
-10/10 - 7s - loss: 2.3089 - accuracy: 0.0922 - val_loss: 2.3023 - val_accuracy: 0.1070
-Epoch 9/10
-10/10 - 8s - loss: 2.3053 - accuracy: 0.0984 - val_loss: 2.3056 - val_accuracy: 0.1200
-Epoch 9/10
-10/10 - 8s - loss: 2.3064 - accuracy: 0.0781 - val_loss: 2.3036 - val_accuracy: 0.0990
-Epoch 9/10
-10/10 - 8s - loss: 2.3033 - accuracy: 0.0938 - val_loss: 2.3065 - val_accuracy: 0.0840
-Epoch 9/10
-10/10 - 7s - loss: 2.3034 - accuracy: 0.1047 - val_loss: 2.3057 - val_accuracy: 0.0880
-Epoch 9/10
-10/10 - 7s - loss: 2.3043 - accuracy: 0.1125 - val_loss: 2.3013 - val_accuracy: 0.1110
-Epoch 9/10
-10/10 - 8s - loss: 2.3077 - accuracy: 0.0828 - val_loss: 2.3062 - val_accuracy: 0.0900
-Epoch 9/10
-10/10 - 7s - loss: 2.3046 - accuracy: 0.0875 - val_loss: 2.3046 - val_accuracy: 0.0930
-Epoch 10/10
-10/10 - 7s - loss: 2.3033 - accuracy: 0.0719 - val_loss: 2.3048 - val_accuracy: 0.0980
-Epoch 10/10
-10/10 - 8s - loss: 2.3123 - accuracy: 0.1156 - val_loss: 2.3053 - val_accuracy: 0.0980
-Epoch 10/10
-10/10 - 7s - loss: 2.3064 - accuracy: 0.1219 - val_loss: 2.3056 - val_accuracy: 0.1200
-Epoch 10/10
-10/10 - 8s - loss: 2.3037 - accuracy: 0.0906 - val_loss: 2.3023 - val_accuracy: 0.1070
-Epoch 10/10
-10/10 - 7s - loss: 2.3031 - accuracy: 0.1078 - val_loss: 2.3036 - val_accuracy: 0.0990
-Epoch 10/10
-10/10 - 7s - loss: 2.3054 - accuracy: 0.1078 - val_loss: 2.3065 - val_accuracy: 0.0840
-Epoch 10/10
-10/10 - 7s - loss: 2.3091 - accuracy: 0.1078 - val_loss: 2.3013 - val_accuracy: 0.1110
-Epoch 10/10
-10/10 - 7s - loss: 2.3047 - accuracy: 0.0609 - val_loss: 2.3057 - val_accuracy: 0.0880
-Epoch 10/10
-10/10 - 7s - loss: 2.3062 - accuracy: 0.1125 - val_loss: 2.3062 - val_accuracy: 0.0900
-Epoch 10/10
-10/10 - 7s - loss: 2.3079 - accuracy: 0.1078 - val_loss: 2.3045 - val_accuracy: 0.0930
-DEBUG flower 2021-04-15 18:46:16,808 | server.py:174 | fit_round received 10 results and 0 failures
-DEBUG flower 2021-04-15 18:46:16,844 | server.py:137 | evaluate: strategy sampled 2 clients
- 1/32 [..............................] - ETA: 0s - loss: 2.3015 - accuracy: 0.0938 1/32 [..............................] - ETA: 0s - loss: 2.3023 - accuracy: 0.1562 6/32 [====>.........................] - ETA: 0s - loss: 2.3056 - accuracy: 0.1094 6/32 [====>.........................] - ETA: 0s - loss: 2.3046 - accuracy: 0.067711/32 [=========>....................] - ETA: 0s - loss: 2.3041 - accuracy: 0.090911/32 [=========>....................] - ETA: 0s - loss: 2.3031 - accuracy: 0.082415/32 [=============>................] - ETA: 0s - loss: 2.3032 - accuracy: 0.087516/32 [==============>...............] - ETA: 0s - loss: 2.3054 - accuracy: 0.091821/32 [==================>...........] - ETA: 0s - loss: 2.3047 - accuracy: 0.089320/32 [=================>............] - ETA: 0s - loss: 2.3035 - accuracy: 0.085924/32 [=====================>........] - ETA: 0s - loss: 2.3028 - accuracy: 0.084626/32 [=======================>......] - ETA: 0s - loss: 2.3046 - accuracy: 0.087728/32 [=========================>....] - ETA: 0s - loss: 2.3028 - accuracy: 0.084831/32 [============================>.] - ETA: 0s - loss: 2.3056 - accuracy: 0.089732/32 [==============================] - 0s 11ms/step - loss: 2.3055 - accuracy: 0.0890
-32/32 [==============================] - 0s 12ms/step - loss: 2.3033 - accuracy: 0.0830
-DEBUG flower 2021-04-15 18:46:17,257 | server.py:146 | evaluate received 2 results and 0 failures
-DEBUG flower 2021-04-15 18:46:17,259 | server.py:162 | fit_round: strategy sampled 10 clients (out of 10)
-Epoch 1/10
-10/10 - 8s - loss: 2.3078 - accuracy: 0.1047 - val_loss: 2.3013 - val_accuracy: 0.0920
-Epoch 1/10
-10/10 - 8s - loss: 2.3053 - accuracy: 0.1016 - val_loss: 2.3035 - val_accuracy: 0.0980
-Epoch 1/10
-10/10 - 8s - loss: 2.3007 - accuracy: 0.1016 - val_loss: 2.3057 - val_accuracy: 0.0880
-Epoch 1/10
-10/10 - 8s - loss: 2.3027 - accuracy: 0.0938 - val_loss: 2.3023 - val_accuracy: 0.1080
------------ID: 140206932387152
------------Loss: 2.30554461479187 . Accuracy: 0.08900000154972076 .
-Epoch 1/10
-10/10 - 8s - loss: 2.3111 - accuracy: 0.0969 - val_loss: 2.3056 - val_accuracy: 0.1190
------------ID: 140206932379440
------------Loss: 2.3032824993133545 . Accuracy: 0.08299999684095383 .
-Epoch 1/10
-10/10 - 8s - loss: 2.3039 - accuracy: 0.0781 - val_loss: 2.3063 - val_accuracy: 0.0890
-Epoch 1/10
-10/10 - 8s - loss: 2.3054 - accuracy: 0.1141 - val_loss: 2.3053 - val_accuracy: 0.0970
-Epoch 1/10
-10/10 - 8s - loss: 2.3001 - accuracy: 0.1234 - val_loss: 2.3064 - val_accuracy: 0.0840
-Epoch 1/10
-10/10 - 8s - loss: 2.3088 - accuracy: 0.0938 - val_loss: 2.3047 - val_accuracy: 0.0990
-Epoch 1/10
-10/10 - 8s - loss: 2.3035 - accuracy: 0.0891 - val_loss: 2.3045 - val_accuracy: 0.0920
-Epoch 2/10
-10/10 - 8s - loss: 2.3027 - accuracy: 0.1172 - val_loss: 2.3013 - val_accuracy: 0.1120
-Epoch 2/10
-10/10 - 7s - loss: 2.3022 - accuracy: 0.0891 - val_loss: 2.3046 - val_accuracy: 0.0990
-Epoch 2/10
-10/10 - 8s - loss: 2.3049 - accuracy: 0.0953 - val_loss: 2.3053 - val_accuracy: 0.0980
-Epoch 2/10
-10/10 - 8s - loss: 2.3054 - accuracy: 0.0906 - val_loss: 2.3062 - val_accuracy: 0.0890
-Epoch 2/10
-10/10 - 8s - loss: 2.3040 - accuracy: 0.1109 - val_loss: 2.3064 - val_accuracy: 0.0840
-Epoch 2/10
-10/10 - 8s - loss: 2.3090 - accuracy: 0.1031 - val_loss: 2.3056 - val_accuracy: 0.1190
-Epoch 2/10
-10/10 - 8s - loss: 2.2996 - accuracy: 0.0828 - val_loss: 2.3057 - val_accuracy: 0.0880
-Epoch 2/10
-10/10 - 8s - loss: 2.3045 - accuracy: 0.0984 - val_loss: 2.3023 - val_accuracy: 0.1080
-Epoch 2/10
-10/10 - 8s - loss: 2.3060 - accuracy: 0.1000 - val_loss: 2.3035 - val_accuracy: 0.0980
-Epoch 2/10
-10/10 - 8s - loss: 2.3047 - accuracy: 0.1109 - val_loss: 2.3045 - val_accuracy: 0.0920
-Epoch 3/10
-10/10 - 8s - loss: 2.3053 - accuracy: 0.0938 - val_loss: 2.3046 - val_accuracy: 0.0990
-Epoch 3/10
-10/10 - 8s - loss: 2.3083 - accuracy: 0.0969 - val_loss: 2.3062 - val_accuracy: 0.0890
-Epoch 3/10
-10/10 - 7s - loss: 2.3059 - accuracy: 0.1172 - val_loss: 2.3023 - val_accuracy: 0.1080
-Epoch 3/10
-10/10 - 8s - loss: 2.3068 - accuracy: 0.0719 - val_loss: 2.3057 - val_accuracy: 0.0880
-Epoch 3/10
-10/10 - 7s - loss: 2.3102 - accuracy: 0.1063 - val_loss: 2.3045 - val_accuracy: 0.1010
-Epoch 3/10
-10/10 - 8s - loss: 2.3098 - accuracy: 0.0734 - val_loss: 2.3013 - val_accuracy: 0.1110
-Epoch 3/10
-10/10 - 8s - loss: 2.3029 - accuracy: 0.0906 - val_loss: 2.3063 - val_accuracy: 0.0840
-Epoch 3/10
-10/10 - 8s - loss: 2.3024 - accuracy: 0.1031 - val_loss: 2.3035 - val_accuracy: 0.0980
-Epoch 3/10
-10/10 - 8s - loss: 2.3064 - accuracy: 0.0953 - val_loss: 2.3052 - val_accuracy: 0.0980
-Epoch 3/10
-10/10 - 8s - loss: 2.3042 - accuracy: 0.0969 - val_loss: 2.3056 - val_accuracy: 0.1180
-Epoch 4/10
-10/10 - 8s - loss: 2.3014 - accuracy: 0.1266 - val_loss: 2.3046 - val_accuracy: 0.0990
-Epoch 4/10
-10/10 - 8s - loss: 2.3066 - accuracy: 0.1016 - val_loss: 2.3061 - val_accuracy: 0.0890
-Epoch 4/10
-10/10 - 7s - loss: 2.3083 - accuracy: 0.1000 - val_loss: 2.3044 - val_accuracy: 0.1010
-Epoch 4/10
-10/10 - 7s - loss: 2.3036 - accuracy: 0.0844 - val_loss: 2.3023 - val_accuracy: 0.1080
-Epoch 4/10
-10/10 - 8s - loss: 2.3070 - accuracy: 0.0938 - val_loss: 2.3012 - val_accuracy: 0.1110
-Epoch 4/10
-10/10 - 8s - loss: 2.3024 - accuracy: 0.0859 - val_loss: 2.3035 - val_accuracy: 0.0980
-Epoch 4/10
-10/10 - 8s - loss: 2.3035 - accuracy: 0.1094 - val_loss: 2.3057 - val_accuracy: 0.0880
-Epoch 4/10
-10/10 - 8s - loss: 2.3007 - accuracy: 0.0938 - val_loss: 2.3064 - val_accuracy: 0.0840
-Epoch 4/10
-10/10 - 8s - loss: 2.3036 - accuracy: 0.0938 - val_loss: 2.3052 - val_accuracy: 0.0990
-Epoch 4/10
-10/10 - 8s - loss: 2.3053 - accuracy: 0.0844 - val_loss: 2.3056 - val_accuracy: 0.1180
-Epoch 5/10
-10/10 - 7s - loss: 2.3033 - accuracy: 0.0953 - val_loss: 2.3046 - val_accuracy: 0.0990
-Epoch 5/10
-10/10 - 8s - loss: 2.3068 - accuracy: 0.0938 - val_loss: 2.3061 - val_accuracy: 0.0900
-Epoch 5/10
-10/10 - 8s - loss: 2.3060 - accuracy: 0.0938 - val_loss: 2.3023 - val_accuracy: 0.1070
-Epoch 5/10
-10/10 - 8s - loss: 2.3013 - accuracy: 0.0891 - val_loss: 2.3044 - val_accuracy: 0.1010
-Epoch 5/10
-10/10 - 7s - loss: 2.3061 - accuracy: 0.1016 - val_loss: 2.3056 - val_accuracy: 0.0890
-Epoch 5/10
-10/10 - 8s - loss: 2.3069 - accuracy: 0.1094 - val_loss: 2.3035 - val_accuracy: 0.0980
-Epoch 5/10
-10/10 - 8s - loss: 2.3026 - accuracy: 0.1187 - val_loss: 2.3012 - val_accuracy: 0.1110
-Epoch 5/10
-10/10 - 7s - loss: 2.3062 - accuracy: 0.0844 - val_loss: 2.3055 - val_accuracy: 0.1180
-Epoch 5/10
-10/10 - 8s - loss: 2.3062 - accuracy: 0.1141 - val_loss: 2.3063 - val_accuracy: 0.0830
-Epoch 5/10
-10/10 - 8s - loss: 2.3120 - accuracy: 0.1047 - val_loss: 2.3052 - val_accuracy: 0.0990
-Epoch 6/10
-10/10 - 7s - loss: 2.3064 - accuracy: 0.0922 - val_loss: 2.3046 - val_accuracy: 0.0990
-Epoch 6/10
-10/10 - 8s - loss: 2.3132 - accuracy: 0.1125 - val_loss: 2.3023 - val_accuracy: 0.1070
-Epoch 6/10
-10/10 - 8s - loss: 2.3035 - accuracy: 0.1187 - val_loss: 2.3044 - val_accuracy: 0.1010
-Epoch 6/10
-10/10 - 8s - loss: 2.3057 - accuracy: 0.0891 - val_loss: 2.3035 - val_accuracy: 0.0980
-Epoch 6/10
-10/10 - 8s - loss: 2.3041 - accuracy: 0.1156 - val_loss: 2.3061 - val_accuracy: 0.0900
-Epoch 6/10
-10/10 - 8s - loss: 2.3046 - accuracy: 0.0938 - val_loss: 2.3012 - val_accuracy: 0.1110
-Epoch 6/10
-10/10 - 8s - loss: 2.3019 - accuracy: 0.0812 - val_loss: 2.3056 - val_accuracy: 0.0890
-Epoch 6/10
-10/10 - 8s - loss: 2.3051 - accuracy: 0.0906 - val_loss: 2.3055 - val_accuracy: 0.1180
-Epoch 6/10
-10/10 - 8s - loss: 2.3045 - accuracy: 0.1203 - val_loss: 2.3051 - val_accuracy: 0.0990
-Epoch 6/10
-10/10 - 8s - loss: 2.3107 - accuracy: 0.0844 - val_loss: 2.3063 - val_accuracy: 0.0830
-Epoch 7/10
-10/10 - 7s - loss: 2.3018 - accuracy: 0.0872 - val_loss: 2.3046 - val_accuracy: 0.0990
-Epoch 7/10
-10/10 - 7s - loss: 2.3070 - accuracy: 0.0970 - val_loss: 2.3055 - val_accuracy: 0.1180
-Epoch 7/10
-10/10 - 7s - loss: 2.3032 - accuracy: 0.0987 - val_loss: 2.3044 - val_accuracy: 0.1010
-Epoch 7/10
-10/10 - 8s - loss: 2.2985 - accuracy: 0.1003 - val_loss: 2.3035 - val_accuracy: 0.0980
-Epoch 7/10
-10/10 - 8s - loss: 2.3031 - accuracy: 0.0921 - val_loss: 2.3022 - val_accuracy: 0.1070
-Epoch 7/10
-10/10 - 7s - loss: 2.3069 - accuracy: 0.0938 - val_loss: 2.3056 - val_accuracy: 0.0890
-Epoch 7/10
-10/10 - 8s - loss: 2.3032 - accuracy: 0.0970 - val_loss: 2.3060 - val_accuracy: 0.0910
-Epoch 7/10
-10/10 - 8s - loss: 2.3075 - accuracy: 0.1003 - val_loss: 2.3012 - val_accuracy: 0.1110
-Epoch 7/10
-10/10 - 7s - loss: 2.3046 - accuracy: 0.0839 - val_loss: 2.3051 - val_accuracy: 0.0970
-Epoch 7/10
-10/10 - 7s - loss: 2.3062 - accuracy: 0.0789 - val_loss: 2.3063 - val_accuracy: 0.0830
-Epoch 8/10
-10/10 - 7s - loss: 2.3067 - accuracy: 0.0844 - val_loss: 2.3046 - val_accuracy: 0.0990
-Epoch 8/10
-10/10 - 7s - loss: 2.3070 - accuracy: 0.0969 - val_loss: 2.3044 - val_accuracy: 0.1010
-Epoch 8/10
-10/10 - 7s - loss: 2.3092 - accuracy: 0.0891 - val_loss: 2.3055 - val_accuracy: 0.1180
-Epoch 8/10
-10/10 - 8s - loss: 2.3088 - accuracy: 0.1047 - val_loss: 2.3034 - val_accuracy: 0.0980
-Epoch 8/10
-10/10 - 7s - loss: 2.3057 - accuracy: 0.0922 - val_loss: 2.3012 - val_accuracy: 0.1110
-Epoch 8/10
-10/10 - 8s - loss: 2.3057 - accuracy: 0.1141 - val_loss: 2.3022 - val_accuracy: 0.1070
-Epoch 8/10
-10/10 - 8s - loss: 2.3011 - accuracy: 0.1000 - val_loss: 2.3056 - val_accuracy: 0.0890
-Epoch 8/10
-10/10 - 8s - loss: 2.3104 - accuracy: 0.1078 - val_loss: 2.3060 - val_accuracy: 0.0910
-Epoch 8/10
-10/10 - 8s - loss: 2.3031 - accuracy: 0.1078 - val_loss: 2.3051 - val_accuracy: 0.0970
-Epoch 8/10
-10/10 - 8s - loss: 2.3035 - accuracy: 0.1047 - val_loss: 2.3063 - val_accuracy: 0.0840
-Epoch 9/10
-10/10 - 8s - loss: 2.3068 - accuracy: 0.1156 - val_loss: 2.3046 - val_accuracy: 0.1010
-Epoch 9/10
-10/10 - 8s - loss: 2.3052 - accuracy: 0.0844 - val_loss: 2.3054 - val_accuracy: 0.1170
-Epoch 9/10
-10/10 - 8s - loss: 2.3048 - accuracy: 0.0875 - val_loss: 2.3034 - val_accuracy: 0.0990
-Epoch 9/10
-10/10 - 8s - loss: 2.2998 - accuracy: 0.1109 - val_loss: 2.3044 - val_accuracy: 0.1010
-Epoch 9/10
-10/10 - 8s - loss: 2.3098 - accuracy: 0.0906 - val_loss: 2.3022 - val_accuracy: 0.1070
-Epoch 9/10
-10/10 - 8s - loss: 2.3062 - accuracy: 0.1125 - val_loss: 2.3012 - val_accuracy: 0.1110
-Epoch 9/10
-10/10 - 8s - loss: 2.3036 - accuracy: 0.1000 - val_loss: 2.3063 - val_accuracy: 0.0850
-Epoch 9/10
-10/10 - 8s - loss: 2.3081 - accuracy: 0.0922 - val_loss: 2.3051 - val_accuracy: 0.0970
-Epoch 9/10
-10/10 - 9s - loss: 2.3067 - accuracy: 0.1016 - val_loss: 2.3056 - val_accuracy: 0.0890
-Epoch 9/10
-10/10 - 8s - loss: 2.3039 - accuracy: 0.1094 - val_loss: 2.3059 - val_accuracy: 0.0910
-Epoch 10/10
-10/10 - 8s - loss: 2.3056 - accuracy: 0.1063 - val_loss: 2.3045 - val_accuracy: 0.1010
-Epoch 10/10
-10/10 - 8s - loss: 2.3056 - accuracy: 0.0984 - val_loss: 2.3054 - val_accuracy: 0.1170
-Epoch 10/10
-10/10 - 8s - loss: 2.3035 - accuracy: 0.0875 - val_loss: 2.3034 - val_accuracy: 0.0990
-Epoch 10/10
-10/10 - 7s - loss: 2.3085 - accuracy: 0.1047 - val_loss: 2.3012 - val_accuracy: 0.1110
-Epoch 10/10
-10/10 - 7s - loss: 2.3025 - accuracy: 0.1063 - val_loss: 2.3063 - val_accuracy: 0.0860
-Epoch 10/10
-10/10 - 8s - loss: 2.3032 - accuracy: 0.1000 - val_loss: 2.3044 - val_accuracy: 0.1010
-Epoch 10/10
-10/10 - 8s - loss: 2.3041 - accuracy: 0.0844 - val_loss: 2.3022 - val_accuracy: 0.1070
-Epoch 10/10
-10/10 - 7s - loss: 2.3042 - accuracy: 0.1016 - val_loss: 2.3055 - val_accuracy: 0.0890
-Epoch 10/10
-10/10 - 7s - loss: 2.3065 - accuracy: 0.1078 - val_loss: 2.3050 - val_accuracy: 0.0970
-Epoch 10/10
-10/10 - 7s - loss: 2.3066 - accuracy: 0.0922 - val_loss: 2.3059 - val_accuracy: 0.0910
-DEBUG flower 2021-04-15 18:47:34,609 | server.py:174 | fit_round received 10 results and 0 failures
-DEBUG flower 2021-04-15 18:47:34,644 | server.py:137 | evaluate: strategy sampled 2 clients
- 1/32 [..............................] - ETA: 0s - loss: 2.3032 - accuracy: 0.0312 7/32 [=====>........................] - ETA: 0s - loss: 2.3029 - accuracy: 0.0759 1/32 [..............................] - ETA: 0s - loss: 2.3051 - accuracy: 0.031212/32 [==========>...................] - ETA: 0s - loss: 2.3026 - accuracy: 0.0885 5/32 [===>..........................] - ETA: 0s - loss: 2.3050 - accuracy: 0.075016/32 [==============>...............] - ETA: 0s - loss: 2.3039 - accuracy: 0.0820 9/32 [=======>......................] - ETA: 0s - loss: 2.3029 - accuracy: 0.069420/32 [=================>............] - ETA: 0s - loss: 2.3033 - accuracy: 0.085913/32 [===========>..................] - ETA: 0s - loss: 2.3045 - accuracy: 0.084124/32 [=====================>........] - ETA: 0s - loss: 2.3032 - accuracy: 0.101617/32 [==============>...............] - ETA: 0s - loss: 2.3062 - accuracy: 0.084628/32 [=========================>....] - ETA: 0s - loss: 2.3031 - accuracy: 0.099321/32 [==================>...........] - ETA: 0s - loss: 2.3059 - accuracy: 0.090832/32 [==============================] - 0s 12ms/step - loss: 2.3036 - accuracy: 0.1020
-27/32 [========================>.....] - ETA: 0s - loss: 2.3070 - accuracy: 0.086832/32 [==============================] - 0s 12ms/step - loss: 2.3077 - accuracy: 0.0870
-DEBUG flower 2021-04-15 18:47:35,138 | server.py:146 | evaluate received 2 results and 0 failures
-INFO flower 2021-04-15 18:47:35,138 | server.py:123 | [TIME] FL finished in 743.7297313510026
-INFO flower 2021-04-15 18:47:35,138 | app.py:109 | app_fit: losses_distributed [(1, 2.3109800815582275), (2, 2.307960033416748), (3, 2.309048891067505), (4, 2.3060014247894287), (5, 2.304808020591736), (6, 2.305361032485962), (7, 2.3065019845962524), (8, 2.303742289543152), (9, 2.3044135570526123), (10, 2.3056397438049316)]
-INFO flower 2021-04-15 18:47:35,138 | app.py:110 | app_fit: accuracies_distributed []
-INFO flower 2021-04-15 18:47:35,138 | app.py:111 | app_fit: losses_centralized []
-INFO flower 2021-04-15 18:47:35,138 | app.py:112 | app_fit: accuracies_centralized []
-DEBUG flower 2021-04-15 18:47:35,140 | server.py:137 | evaluate: strategy sampled 10 clients
- 1/32 [..............................] - ETA: 1s - loss: 2.3078 - accuracy: 0.0000e+00 1/32 [..............................] - ETA: 1s - loss: 2.3195 - accuracy: 0.0625 1/32 [..............................] - ETA: 1s - loss: 2.3168 - accuracy: 0.0625 1/32 [..............................] - ETA: 1s - loss: 2.3020 - accuracy: 0.0938-----------ID: 140206932383872
------------Loss: 2.303598642349243 . Accuracy: 0.10199999809265137 .
- 1/32 [..............................] - ETA: 1s - loss: 2.3032 - accuracy: 0.0312 1/32 [..............................] - ETA: 2s - loss: 2.3024 - accuracy: 0.1562 1/32 [..............................] - ETA: 2s - loss: 2.3027 - accuracy: 0.1250 3/32 [=>............................] - ETA: 1s - loss: 2.3023 - accuracy: 0.0521     3/32 [=>............................] - ETA: 0s - loss: 2.3039 - accuracy: 0.0938 1/32 [..............................] - ETA: 3s - loss: 2.3014 - accuracy: 0.1875 2/32 [>.............................] - ETA: 2s - loss: 2.3127 - accuracy: 0.0312 3/32 [=>............................] - ETA: 1s - loss: 2.3087 - accuracy: 0.0729 2/32 [>.............................] - ETA: 2s - loss: 2.3044 - accuracy: 0.0625 2/32 [>.............................] - ETA: 1s - loss: 2.3014 - accuracy: 0.0781-----------ID: 140206932383584
------------Loss: 2.30768084526062 . Accuracy: 0.08699999749660492 .
- 1/32 [..............................] - ETA: 5s - loss: 2.3051 - accuracy: 0.0312 4/32 [==>...........................] - ETA: 1s - loss: 2.3061 - accuracy: 0.0625 4/32 [==>...........................] - ETA: 1s - loss: 2.3054 - accuracy: 0.0938 3/32 [=>............................] - ETA: 1s - loss: 2.3049 - accuracy: 0.0729 1/32 [..............................] - ETA: 6s - loss: 2.3009 - accuracy: 0.0938 5/32 [===>..........................] - ETA: 1s - loss: 2.3086 - accuracy: 0.0875 3/32 [=>............................] - ETA: 1s - loss: 2.3019 - accuracy: 0.1042 5/32 [===>..........................] - ETA: 1s - loss: 2.3054 - accuracy: 0.0688 3/32 [=>............................] - ETA: 1s - loss: 2.2961 - accuracy: 0.1562 4/32 [==>...........................] - ETA: 2s - loss: 2.3071 - accuracy: 0.0781 3/32 [=>............................] - ETA: 2s - loss: 2.3038 - accuracy: 0.0833 3/32 [=>............................] - ETA: 1s - loss: 2.3066 - accuracy: 0.0833 2/32 [>.............................] - ETA: 1s - loss: 2.3057 - accuracy: 0.0938 4/32 [==>...........................] - ETA: 1s - loss: 2.3044 - accuracy: 0.0781 6/32 [====>.........................] - ETA: 1s - loss: 2.3053 - accuracy: 0.1094 6/32 [====>.........................] - ETA: 1s - loss: 2.3066 - accuracy: 0.0885 6/32 [====>.........................] - ETA: 1s - loss: 2.3057 - accuracy: 0.0781 4/32 [==>...........................] - ETA: 2s - loss: 2.3038 - accuracy: 0.0938 4/32 [==>...........................] - ETA: 1s - loss: 2.3055 - accuracy: 0.0859 4/32 [==>...........................] - ETA: 1s - loss: 2.2982 - accuracy: 0.1484 4/32 [==>...........................] - ETA: 2s - loss: 2.3009 - accuracy: 0.1250 3/32 [=>............................] - ETA: 1s - loss: 2.3046 - accuracy: 0.1042 7/32 [=====>........................] - ETA: 1s - loss: 2.3063 - accuracy: 0.0848 7/32 [=====>........................] - ETA: 1s - loss: 2.3048 - accuracy: 0.0938 6/32 [====>.........................] - ETA: 1s - loss: 2.3072 - accuracy: 0.0677 6/32 [====>.........................] - ETA: 1s - loss: 2.3045 - accuracy: 0.0677 5/32 [===>..........................] - ETA: 2s - loss: 2.3030 - accuracy: 0.0875 5/32 [===>..........................] - ETA: 2s - loss: 2.3015 - accuracy: 0.1312 4/32 [==>...........................] - ETA: 1s - loss: 2.3123 - accuracy: 0.0938 6/32 [====>.........................] - ETA: 1s - loss: 2.2984 - accuracy: 0.1406 5/32 [===>..........................] - ETA: 1s - loss: 2.3050 - accuracy: 0.0750 7/32 [=====>........................] - ETA: 1s - loss: 2.3045 - accuracy: 0.0938 7/32 [=====>........................] - ETA: 1s - loss: 2.3052 - accuracy: 0.0625 9/32 [=======>......................] - ETA: 1s - loss: 2.3059 - accuracy: 0.0799 9/32 [=======>......................] - ETA: 1s - loss: 2.3053 - accuracy: 0.1007 7/32 [=====>........................] - ETA: 1s - loss: 2.3002 - accuracy: 0.1250 5/32 [===>..........................] - ETA: 1s - loss: 2.3097 - accuracy: 0.0938 7/32 [=====>........................] - ETA: 1s - loss: 2.3047 - accuracy: 0.0714 6/32 [====>.........................] - ETA: 2s - loss: 2.3013 - accuracy: 0.1198 6/32 [====>.........................] - ETA: 1s - loss: 2.3046 - accuracy: 0.0677 8/32 [======>.......................] - ETA: 1s - loss: 2.3049 - accuracy: 0.0625 8/32 [======>.......................] - ETA: 1s - loss: 2.3039 - accuracy: 0.097710/32 [========>.....................] - ETA: 1s - loss: 2.3060 - accuracy: 0.0844 7/32 [=====>........................] - ETA: 1s - loss: 2.3029 - accuracy: 0.0759 6/32 [====>.........................] - ETA: 1s - loss: 2.3090 - accuracy: 0.099011/32 [=========>....................] - ETA: 1s - loss: 2.3048 - accuracy: 0.0938 7/32 [=====>........................] - ETA: 1s - loss: 2.3031 - accuracy: 0.0714 8/32 [======>.......................] - ETA: 1s - loss: 2.3019 - accuracy: 0.1172 9/32 [=======>......................] - ETA: 1s - loss: 2.3047 - accuracy: 0.0694 7/32 [=====>........................] - ETA: 1s - loss: 2.3018 - accuracy: 0.120511/32 [=========>....................] - ETA: 1s - loss: 2.3039 - accuracy: 0.1193 8/32 [======>.......................] - ETA: 1s - loss: 2.3018 - accuracy: 0.0703 7/32 [=====>........................] - ETA: 1s - loss: 2.3088 - accuracy: 0.1071 8/32 [======>.......................] - ETA: 1s - loss: 2.3029 - accuracy: 0.070310/32 [========>.....................] - ETA: 1s - loss: 2.3038 - accuracy: 0.087511/32 [=========>....................] - ETA: 1s - loss: 2.3043 - accuracy: 0.073913/32 [===========>..................] - ETA: 0s - loss: 2.3044 - accuracy: 0.0913 9/32 [=======>......................] - ETA: 1s - loss: 2.3018 - accuracy: 0.1146 9/32 [=======>......................] - ETA: 1s - loss: 2.3018 - accuracy: 0.118112/32 [==========>...................] - ETA: 1s - loss: 2.3038 - accuracy: 0.1198 9/32 [=======>......................] - ETA: 1s - loss: 2.3050 - accuracy: 0.0729 8/32 [======>.......................] - ETA: 1s - loss: 2.3094 - accuracy: 0.0977 9/32 [=======>......................] - ETA: 1s - loss: 2.3029 - accuracy: 0.0694 9/32 [=======>......................] - ETA: 1s - loss: 2.3019 - accuracy: 0.072910/32 [========>.....................] - ETA: 1s - loss: 2.3017 - accuracy: 0.109410/32 [========>.....................] - ETA: 1s - loss: 2.3015 - accuracy: 0.118712/32 [==========>...................] - ETA: 1s - loss: 2.3040 - accuracy: 0.067710/32 [========>.....................] - ETA: 1s - loss: 2.3050 - accuracy: 0.065612/32 [==========>...................] - ETA: 1s - loss: 2.3044 - accuracy: 0.088513/32 [===========>..................] - ETA: 1s - loss: 2.3037 - accuracy: 0.1154 9/32 [=======>......................] - ETA: 1s - loss: 2.3087 - accuracy: 0.093811/32 [=========>....................] - ETA: 1s - loss: 2.3026 - accuracy: 0.085211/32 [=========>....................] - ETA: 1s - loss: 2.3018 - accuracy: 0.105111/32 [=========>....................] - ETA: 1s - loss: 2.3031 - accuracy: 0.082413/32 [===========>..................] - ETA: 1s - loss: 2.3039 - accuracy: 0.072115/32 [=============>................] - ETA: 0s - loss: 2.3040 - accuracy: 0.087512/32 [==========>...................] - ETA: 1s - loss: 2.3005 - accuracy: 0.112013/32 [===========>..................] - ETA: 1s - loss: 2.3039 - accuracy: 0.088912/32 [==========>...................] - ETA: 1s - loss: 2.3052 - accuracy: 0.099011/32 [=========>....................] - ETA: 1s - loss: 2.3048 - accuracy: 0.068212/32 [==========>...................] - ETA: 1s - loss: 2.3026 - accuracy: 0.088512/32 [==========>...................] - ETA: 1s - loss: 2.3032 - accuracy: 0.080711/32 [=========>....................] - ETA: 1s - loss: 2.3075 - accuracy: 0.090914/32 [============>.................] - ETA: 1s - loss: 2.3038 - accuracy: 0.071415/32 [=============>................] - ETA: 0s - loss: 2.3035 - accuracy: 0.110414/32 [============>.................] - ETA: 1s - loss: 2.3049 - accuracy: 0.089313/32 [===========>..................] - ETA: 1s - loss: 2.3026 - accuracy: 0.115413/32 [===========>..................] - ETA: 1s - loss: 2.3069 - accuracy: 0.096212/32 [==========>...................] - ETA: 1s - loss: 2.3044 - accuracy: 0.083317/32 [==============>...............] - ETA: 0s - loss: 2.3038 - accuracy: 0.086414/32 [============>.................] - ETA: 1s - loss: 2.3027 - accuracy: 0.084813/32 [===========>..................] - ETA: 1s - loss: 2.3032 - accuracy: 0.086512/32 [==========>...................] - ETA: 1s - loss: 2.3071 - accuracy: 0.093815/32 [=============>................] - ETA: 1s - loss: 2.3053 - accuracy: 0.091714/32 [============>.................] - ETA: 1s - loss: 2.3070 - accuracy: 0.098213/32 [===========>..................] - ETA: 1s - loss: 2.3045 - accuracy: 0.084116/32 [==============>...............] - ETA: 0s - loss: 2.3043 - accuracy: 0.076217/32 [==============>...............] - ETA: 0s - loss: 2.3027 - accuracy: 0.106618/32 [===============>..............] - ETA: 0s - loss: 2.3037 - accuracy: 0.086814/32 [============>.................] - ETA: 1s - loss: 2.3024 - accuracy: 0.109414/32 [============>.................] - ETA: 1s - loss: 2.3031 - accuracy: 0.084815/32 [=============>................] - ETA: 1s - loss: 2.3036 - accuracy: 0.083313/32 [===========>..................] - ETA: 1s - loss: 2.3068 - accuracy: 0.093816/32 [==============>...............] - ETA: 1s - loss: 2.3051 - accuracy: 0.089815/32 [=============>................] - ETA: 1s - loss: 2.3059 - accuracy: 0.095818/32 [===============>..............] - ETA: 0s - loss: 2.3027 - accuracy: 0.104214/32 [============>.................] - ETA: 1s - loss: 2.3044 - accuracy: 0.082615/32 [=============>................] - ETA: 1s - loss: 2.3025 - accuracy: 0.102118/32 [===============>..............] - ETA: 0s - loss: 2.3038 - accuracy: 0.078114/32 [============>.................] - ETA: 1s - loss: 2.3065 - accuracy: 0.098217/32 [==============>...............] - ETA: 0s - loss: 2.3048 - accuracy: 0.091919/32 [================>.............] - ETA: 0s - loss: 2.3036 - accuracy: 0.090516/32 [==============>...............] - ETA: 1s - loss: 2.3039 - accuracy: 0.087915/32 [=============>................] - ETA: 1s - loss: 2.3043 - accuracy: 0.085417/32 [==============>...............] - ETA: 0s - loss: 2.3036 - accuracy: 0.082720/32 [=================>............] - ETA: 0s - loss: 2.3027 - accuracy: 0.103117/32 [==============>...............] - ETA: 0s - loss: 2.3049 - accuracy: 0.099317/32 [==============>...............] - ETA: 0s - loss: 2.3038 - accuracy: 0.086418/32 [===============>..............] - ETA: 0s - loss: 2.3048 - accuracy: 0.088517/32 [==============>...............] - ETA: 0s - loss: 2.3021 - accuracy: 0.104821/32 [==================>...........] - ETA: 0s - loss: 2.3022 - accuracy: 0.099721/32 [==================>...........] - ETA: 0s - loss: 2.3039 - accuracy: 0.086319/32 [================>.............] - ETA: 0s - loss: 2.3029 - accuracy: 0.085519/32 [================>.............] - ETA: 0s - loss: 2.3047 - accuracy: 0.085519/32 [================>.............] - ETA: 0s - loss: 2.3030 - accuracy: 0.078917/32 [==============>...............] - ETA: 0s - loss: 2.3062 - accuracy: 0.084615/32 [=============>................] - ETA: 1s - loss: 2.3063 - accuracy: 0.097919/32 [================>.............] - ETA: 0s - loss: 2.3037 - accuracy: 0.085520/32 [=================>............] - ETA: 0s - loss: 2.3033 - accuracy: 0.085919/32 [================>.............] - ETA: 0s - loss: 2.3053 - accuracy: 0.105320/32 [=================>............] - ETA: 0s - loss: 2.3044 - accuracy: 0.079722/32 [===================>..........] - ETA: 0s - loss: 2.3022 - accuracy: 0.098018/32 [===============>..............] - ETA: 0s - loss: 2.3022 - accuracy: 0.102423/32 [====================>.........] - ETA: 0s - loss: 2.3038 - accuracy: 0.087020/32 [=================>............] - ETA: 0s - loss: 2.3035 - accuracy: 0.085919/32 [================>.............] - ETA: 0s - loss: 2.3062 - accuracy: 0.087221/32 [==================>...........] - ETA: 0s - loss: 2.3033 - accuracy: 0.087819/32 [================>.............] - ETA: 0s - loss: 2.3015 - accuracy: 0.100321/32 [==================>...........] - ETA: 0s - loss: 2.3042 - accuracy: 0.078923/32 [====================>.........] - ETA: 0s - loss: 2.3019 - accuracy: 0.103321/32 [==================>...........] - ETA: 0s - loss: 2.3045 - accuracy: 0.087824/32 [=====================>........] - ETA: 0s - loss: 2.3037 - accuracy: 0.088521/32 [==================>...........] - ETA: 0s - loss: 2.3035 - accuracy: 0.087817/32 [==============>...............] - ETA: 1s - loss: 2.3061 - accuracy: 0.102921/32 [==================>...........] - ETA: 0s - loss: 2.3050 - accuracy: 0.104222/32 [===================>..........] - ETA: 0s - loss: 2.3042 - accuracy: 0.079520/32 [=================>............] - ETA: 0s - loss: 2.3060 - accuracy: 0.090620/32 [=================>............] - ETA: 0s - loss: 2.3015 - accuracy: 0.100025/32 [======================>.......] - ETA: 0s - loss: 2.3026 - accuracy: 0.103723/32 [====================>.........] - ETA: 0s - loss: 2.3033 - accuracy: 0.097823/32 [====================>.........] - ETA: 0s - loss: 2.3034 - accuracy: 0.082922/32 [===================>..........] - ETA: 0s - loss: 2.3053 - accuracy: 0.103726/32 [=======================>......] - ETA: 0s - loss: 2.3037 - accuracy: 0.090123/32 [====================>.........] - ETA: 0s - loss: 2.3041 - accuracy: 0.081522/32 [===================>..........] - ETA: 0s - loss: 2.3051 - accuracy: 0.085219/32 [================>.............] - ETA: 0s - loss: 2.3074 - accuracy: 0.108622/32 [===================>..........] - ETA: 0s - loss: 2.3065 - accuracy: 0.088121/32 [==================>...........] - ETA: 0s - loss: 2.3015 - accuracy: 0.107127/32 [========================>.....] - ETA: 0s - loss: 2.3037 - accuracy: 0.089124/32 [=====================>........] - ETA: 0s - loss: 2.3032 - accuracy: 0.101626/32 [=======================>......] - ETA: 0s - loss: 2.3028 - accuracy: 0.105823/32 [====================>.........] - ETA: 0s - loss: 2.3052 - accuracy: 0.104624/32 [=====================>........] - ETA: 0s - loss: 2.3040 - accuracy: 0.082023/32 [====================>.........] - ETA: 0s - loss: 2.3050 - accuracy: 0.085625/32 [======================>.......] - ETA: 0s - loss: 2.3028 - accuracy: 0.081220/32 [=================>............] - ETA: 0s - loss: 2.3072 - accuracy: 0.106323/32 [====================>.........] - ETA: 0s - loss: 2.3064 - accuracy: 0.087022/32 [===================>..........] - ETA: 0s - loss: 2.3020 - accuracy: 0.105128/32 [=========================>....] - ETA: 0s - loss: 2.3030 - accuracy: 0.087124/32 [=====================>........] - ETA: 0s - loss: 2.3054 - accuracy: 0.102924/32 [=====================>........] - ETA: 0s - loss: 2.3049 - accuracy: 0.087226/32 [=======================>......] - ETA: 0s - loss: 2.3028 - accuracy: 0.081725/32 [======================>.......] - ETA: 0s - loss: 2.3040 - accuracy: 0.083822/32 [===================>..........] - ETA: 0s - loss: 2.3067 - accuracy: 0.103726/32 [=======================>......] - ETA: 0s - loss: 2.3031 - accuracy: 0.098628/32 [=========================>....] - ETA: 0s - loss: 2.3029 - accuracy: 0.106023/32 [====================>.........] - ETA: 0s - loss: 2.3020 - accuracy: 0.101924/32 [=====================>........] - ETA: 0s - loss: 2.3062 - accuracy: 0.085925/32 [======================>.......] - ETA: 0s - loss: 2.3053 - accuracy: 0.101330/32 [===========================>..] - ETA: 0s - loss: 2.3042 - accuracy: 0.086527/32 [========================>.....] - ETA: 0s - loss: 2.3028 - accuracy: 0.081025/32 [======================>.......] - ETA: 0s - loss: 2.3046 - accuracy: 0.088723/32 [====================>.........] - ETA: 0s - loss: 2.3057 - accuracy: 0.104626/32 [=======================>......] - ETA: 0s - loss: 2.3040 - accuracy: 0.082925/32 [======================>.......] - ETA: 0s - loss: 2.3062 - accuracy: 0.083828/32 [=========================>....] - ETA: 0s - loss: 2.3031 - accuracy: 0.099331/32 [============================>.] - ETA: 0s - loss: 2.3040 - accuracy: 0.087725/32 [======================>.......] - ETA: 0s - loss: 2.3026 - accuracy: 0.105032/32 [==============================] - 2s 54ms/step - loss: 2.3040 - accuracy: 0.0880
-26/32 [=======================>......] - ETA: 0s - loss: 2.3051 - accuracy: 0.098628/32 [=========================>....] - ETA: 0s - loss: 2.3028 - accuracy: 0.084826/32 [=======================>......] - ETA: 0s - loss: 2.3044 - accuracy: 0.086530/32 [===========================>..] - ETA: 0s - loss: 2.3028 - accuracy: 0.104227/32 [========================>.....] - ETA: 0s - loss: 2.3040 - accuracy: 0.081024/32 [=====================>........] - ETA: 0s - loss: 2.3056 - accuracy: 0.102926/32 [=======================>......] - ETA: 0s - loss: 2.3069 - accuracy: 0.087729/32 [==========================>...] - ETA: 0s - loss: 2.3029 - accuracy: 0.085126/32 [=======================>......] - ETA: 0s - loss: 2.3027 - accuracy: 0.107027/32 [========================>.....] - ETA: 0s - loss: 2.3045 - accuracy: 0.101927/32 [========================>.....] - ETA: 0s - loss: 2.3044 - accuracy: 0.085631/32 [============================>.] - ETA: 0s - loss: 2.3033 - accuracy: 0.105830/32 [===========================>..] - ETA: 0s - loss: 2.3031 - accuracy: 0.100032/32 [==============================] - 2s 57ms/step - loss: 2.3033 - accuracy: 0.1060
-29/32 [==========================>...] - ETA: 0s - loss: 2.3035 - accuracy: 0.085126/32 [=======================>......] - ETA: 0s - loss: 2.3061 - accuracy: 0.103430/32 [===========================>..] - ETA: 0s - loss: 2.3033 - accuracy: 0.084428/32 [=========================>....] - ETA: 0s - loss: 2.3044 - accuracy: 0.102728/32 [=========================>....] - ETA: 0s - loss: 2.3058 - accuracy: 0.084828/32 [=========================>....] - ETA: 0s - loss: 2.3025 - accuracy: 0.103828/32 [=========================>....] - ETA: 0s - loss: 2.3069 - accuracy: 0.085931/32 [============================>.] - ETA: 0s - loss: 2.3038 - accuracy: 0.100832/32 [==============================] - 2s 58ms/step - loss: 2.3036 - accuracy: 0.1020
-31/32 [============================>.] - ETA: 0s - loss: 2.3040 - accuracy: 0.082729/32 [==========================>...] - ETA: 0s - loss: 2.3044 - accuracy: 0.102431/32 [============================>.] - ETA: 0s - loss: 2.3033 - accuracy: 0.083732/32 [==============================] - 2s 59ms/step - loss: 2.3033 - accuracy: 0.0830
-28/32 [=========================>....] - ETA: 0s - loss: 2.3058 - accuracy: 0.102730/32 [===========================>..] - ETA: 0s - loss: 2.3055 - accuracy: 0.088529/32 [==========================>...] - ETA: 0s - loss: 2.3027 - accuracy: 0.107832/32 [==============================] - 2s 61ms/step - loss: 2.3040 - accuracy: 0.0820
-30/32 [===========================>..] - ETA: 0s - loss: 2.3068 - accuracy: 0.083332/32 [==============================] - 2s 61ms/step - loss: 2.3054 - accuracy: 0.0880
-30/32 [===========================>..] - ETA: 0s - loss: 2.3056 - accuracy: 0.099031/32 [============================>.] - ETA: 0s - loss: 2.3031 - accuracy: 0.106932/32 [==============================] - 2s 58ms/step - loss: 2.3077 - accuracy: 0.0870
-31/32 [============================>.] - ETA: 0s - loss: 2.3058 - accuracy: 0.100832/32 [==============================] - 2s 60ms/step - loss: 2.3031 - accuracy: 0.1060
-32/32 [==============================] - 2s 61ms/step - loss: 2.3058 - accuracy: 0.1000
-32/32 [==============================] - 2s 57ms/step - loss: 2.3055 - accuracy: 0.0980
-DEBUG flower 2021-04-15 18:47:37,173 | server.py:146 | evaluate received 10 results and 0 failures
-INFO flower 2021-04-15 18:47:37,173 | app.py:121 | app_evaluate: federated loss: 2.3045645236968992
-INFO flower 2021-04-15 18:47:37,173 | app.py:122 | app_evaluate: results [('ipv4:127.0.0.1:41552', EvaluateRes(loss=2.3032543659210205, num_examples=1000, accuracy=0.0, metrics={'accuracy': 0.10599999874830246})), ('ipv4:127.0.0.1:41556', EvaluateRes(loss=2.3040146827697754, num_examples=1000, accuracy=0.0, metrics={'accuracy': 0.08799999952316284})), ('ipv4:127.0.0.1:41554', EvaluateRes(loss=2.3039865493774414, num_examples=1000, accuracy=0.0, metrics={'accuracy': 0.0820000022649765})), ('ipv4:127.0.0.1:41558', EvaluateRes(loss=2.30768084526062, num_examples=1000, accuracy=0.0, metrics={'accuracy': 0.08699999749660492})), ('ipv4:127.0.0.1:41560', EvaluateRes(loss=2.3055195808410645, num_examples=1000, accuracy=0.0, metrics={'accuracy': 0.09799999743700027})), ('ipv4:127.0.0.1:41562', EvaluateRes(loss=2.3032777309417725, num_examples=1000, accuracy=0.0, metrics={'accuracy': 0.08299999684095383})), ('ipv4:127.0.0.1:41564', EvaluateRes(loss=2.303598642349243, num_examples=1000, accuracy=0.0, metrics={'accuracy': 0.10199999809265137})), ('ipv4:127.0.0.1:41566', EvaluateRes(loss=2.3031458854675293, num_examples=1000, accuracy=0.0, metrics={'accuracy': 0.10599999874830246})), ('ipv4:127.0.0.1:41568', EvaluateRes(loss=2.305802822113037, num_examples=1000, accuracy=0.0, metrics={'accuracy': 0.10000000149011612})), ('ipv4:127.0.0.1:41570', EvaluateRes(loss=2.3053641319274902, num_examples=1000, accuracy=0.0, metrics={'accuracy': 0.08799999952316284}))]
-INFO flower 2021-04-15 18:47:37,174 | app.py:127 | app_evaluate: failures []
-DEBUG flower 2021-04-15 18:47:37,177 | connection.py:68 | Insecure gRPC channel closed
-DEBUG flower 2021-04-15 18:47:37,177 | connection.py:68 | Insecure gRPC channel closed
-DEBUG flower 2021-04-15 18:47:37,177 | connection.py:68 | Insecure gRPC channel closed
-INFO flower 2021-04-15 18:47:37,177 | app.py:72 | Disconnect and shut down
-INFO flower 2021-04-15 18:47:37,177 | app.py:72 | Disconnect and shut down
-INFO flower 2021-04-15 18:47:37,177 | app.py:72 | Disconnect and shut down
------------ID: 140206932387152
------------Loss: 2.3053641319274902 . Accuracy: 0.08799999952316284 .
------------ID: 140206932463184
------------Loss: 2.3031458854675293 . Accuracy: 0.10599999874830246 .
------------ID: 140206932455280
------------Loss: 2.305802822113037 . Accuracy: 0.10000000149011612 .
-DEBUG flower 2021-04-15 18:47:37,178 | connection.py:68 | Insecure gRPC channel closed
-INFO flower 2021-04-15 18:47:37,178 | app.py:72 | Disconnect and shut down
------------ID: 140206932383872
------------Loss: 2.303598642349243 . Accuracy: 0.10199999809265137 .
-DEBUG flower 2021-04-15 18:47:37,178 | connection.py:68 | Insecure gRPC channel closed
-INFO flower 2021-04-15 18:47:37,178 | app.py:72 | Disconnect and shut down
------------ID: 140206932379440
------------Loss: 2.3032777309417725 . Accuracy: 0.08299999684095383 .
-DEBUG flower 2021-04-15 18:47:37,178 | connection.py:68 | Insecure gRPC channel closed
-DEBUG flower 2021-04-15 18:47:37,178 | connection.py:68 | Insecure gRPC channel closed
-DEBUG flower 2021-04-15 18:47:37,178 | connection.py:68 | Insecure gRPC channel closed
-INFO flower 2021-04-15 18:47:37,178 | app.py:72 | Disconnect and shut down
-INFO flower 2021-04-15 18:47:37,178 | app.py:72 | Disconnect and shut down
------------ID: 140206932426032
------------Loss: 2.3055195808410645 . Accuracy: 0.09799999743700027 .
-INFO flower 2021-04-15 18:47:37,178 | app.py:72 | Disconnect and shut down
------------ID: 140206932430032
------------Loss: 2.3040146827697754 . Accuracy: 0.08799999952316284 .
------------ID: 140206932422368
------------Loss: 2.3032543659210205 . Accuracy: 0.10599999874830246 .
-DEBUG flower 2021-04-15 18:47:37,179 | connection.py:68 | Insecure gRPC channel closed
-DEBUG flower 2021-04-15 18:47:37,179 | connection.py:68 | Insecure gRPC channel closed
-INFO flower 2021-04-15 18:47:37,179 | app.py:72 | Disconnect and shut down
------------ID: 140206932426272
------------Loss: 2.3039865493774414 . Accuracy: 0.0820000022649765 .
-INFO flower 2021-04-15 18:47:37,179 | app.py:72 | Disconnect and shut down
------------ID: 140206932383584
------------Loss: 2.30768084526062 . Accuracy: 0.08699999749660492 .
-748.6307096481323 seconds to run 10 rounds with 10 clients, fractioned: 1 .

@@ -175,11 +175,11 @@ if __name__ == "__main__":
     except:
         num_rounds = 250
 
-    num_clients = 5
+    num_clients = 10
     fraction_fit = 1
     epochs = 20
-    batch_size = 64
-    STEPS_PER_EPOCH = 20
+    batch_size = 256
+    STEPS_PER_EPOCH = 10
 
     start_time = time.time ()
     print ('Number of clients:', num_clients)
