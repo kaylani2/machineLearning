@@ -113,7 +113,9 @@ def start_client(dataset: DATASET) -> None:
             #print ("Slept for", nap_time,  "seconds.")
             ## randomly return the same weights
             skip_fit = randint (1, 10)
-            if not (skip_fit <= disconnection_chance/10):
+            if (skip_fit <= disconnection_chance/10):
+              print ('The skip, dude!')
+            else:
               model.fit(x_train, y_train, epochs=epochs, batch_size=batch_size,
                         steps_per_epoch=STEPS_PER_EPOCH,
                         verbose=2,
@@ -179,7 +181,7 @@ if __name__ == "__main__":
     epochs = 20
     batch_size = 256
     STEPS_PER_EPOCH = 10
-    disconnection_chance = 0
+    disconnection_chance = float (75)
 
     start_time = time.time ()
     print ('Number of clients:', num_clients)
@@ -188,6 +190,7 @@ if __name__ == "__main__":
     print ('Epochs:', epochs)
     print ('Batch size:', batch_size)
     print ('Steps per epoch:', STEPS_PER_EPOCH)
+    print ('Disconnection chance:', disconnection_chance)
     run_simulation(num_rounds=num_rounds, num_clients=num_clients,
                    fraction_fit=fraction_fit)
     print (str (time.time () - start_time), 'seconds to run', num_rounds,
