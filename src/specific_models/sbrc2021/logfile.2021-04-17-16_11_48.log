@@ -1,0 +1,87 @@
+2021-04-17 16:11:49.156033: W tensorflow/stream_executor/platform/default/dso_loader.cc:60] Could not load dynamic library 'libcudart.so.11.0'; dlerror: libcudart.so.11.0: cannot open shared object file: No such file or directory
+2021-04-17 16:11:49.156049: I tensorflow/stream_executor/cuda/cudart_stub.cc:29] Ignore above cudart dlerror if you do not have a GPU set up on your machine.
+Number of clients: 5
+Fraction of clients: 1
+Number of rounds: 5
+Epochs: 2
+Batch size: 64
+Steps per epoch: 10
+INFO flower 2021-04-17 16:11:50,227 | app.py:73 | Flower server running (insecure, 5 rounds)
+INFO flower 2021-04-17 16:11:50,228 | server.py:73 | Getting initial parameters
+2021-04-17 16:11:52.778856: I tensorflow/compiler/jit/xla_cpu_device.cc:41] Not creating XLA devices, tf_xla_enable_xla_devices not set
+2021-04-17 16:11:52.779234: W tensorflow/stream_executor/platform/default/dso_loader.cc:60] Could not load dynamic library 'libcuda.so.1'; dlerror: libcuda.so.1: cannot open shared object file: No such file or directory
+2021-04-17 16:11:52.779281: W tensorflow/stream_executor/cuda/cuda_driver.cc:326] failed call to cuInit: UNKNOWN ERROR (303)
+2021-04-17 16:11:52.779302: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:156] kernel driver does not appear to be running on this host (maracana): /proc/driver/nvidia/version does not exist
+2021-04-17 16:11:52.779611: I tensorflow/core/platform/cpu_feature_guard.cc:142] This TensorFlow binary is optimized with oneAPI Deep Neural Network Library (oneDNN) to use the following CPU instructions in performance-critical operations:  AVX2 FMA
+To enable them in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2021-04-17 16:11:52.779802: I tensorflow/compiler/jit/xla_gpu_device.cc:99] Not creating XLA devices, tf_xla_enable_xla_devices not set
+2021-04-17 16:11:52.781852: I tensorflow/compiler/jit/xla_cpu_device.cc:41] Not creating XLA devices, tf_xla_enable_xla_devices not set
+2021-04-17 16:11:52.782228: W tensorflow/stream_executor/platform/default/dso_loader.cc:60] Could not load dynamic library 'libcuda.so.1'; dlerror: libcuda.so.1: cannot open shared object file: No such file or directory
+2021-04-17 16:11:52.782245: W tensorflow/stream_executor/cuda/cuda_driver.cc:326] failed call to cuInit: UNKNOWN ERROR (303)
+2021-04-17 16:11:52.782266: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:156] kernel driver does not appear to be running on this host (maracana): /proc/driver/nvidia/version does not exist
+2021-04-17 16:11:52.782584: I tensorflow/core/platform/cpu_feature_guard.cc:142] This TensorFlow binary is optimized with oneAPI Deep Neural Network Library (oneDNN) to use the following CPU instructions in performance-critical operations:  AVX2 FMA
+To enable them in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2021-04-17 16:11:52.782776: I tensorflow/compiler/jit/xla_gpu_device.cc:99] Not creating XLA devices, tf_xla_enable_xla_devices not set
+2021-04-17 16:11:52.785281: I tensorflow/compiler/jit/xla_cpu_device.cc:41] Not creating XLA devices, tf_xla_enable_xla_devices not set
+2021-04-17 16:11:52.785651: W tensorflow/stream_executor/platform/default/dso_loader.cc:60] Could not load dynamic library 'libcuda.so.1'; dlerror: libcuda.so.1: cannot open shared object file: No such file or directory
+2021-04-17 16:11:52.785668: W tensorflow/stream_executor/cuda/cuda_driver.cc:326] failed call to cuInit: UNKNOWN ERROR (303)
+2021-04-17 16:11:52.785689: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:156] kernel driver does not appear to be running on this host (maracana): /proc/driver/nvidia/version does not exist
+2021-04-17 16:11:52.786017: I tensorflow/core/platform/cpu_feature_guard.cc:142] This TensorFlow binary is optimized with oneAPI Deep Neural Network Library (oneDNN) to use the following CPU instructions in performance-critical operations:  AVX2 FMA
+To enable them in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2021-04-17 16:11:52.786214: I tensorflow/compiler/jit/xla_gpu_device.cc:99] Not creating XLA devices, tf_xla_enable_xla_devices not set
+2021-04-17 16:11:52.788182: I tensorflow/compiler/jit/xla_cpu_device.cc:41] Not creating XLA devices, tf_xla_enable_xla_devices not set
+2021-04-17 16:11:52.788544: W tensorflow/stream_executor/platform/default/dso_loader.cc:60] Could not load dynamic library 'libcuda.so.1'; dlerror: libcuda.so.1: cannot open shared object file: No such file or directory
+2021-04-17 16:11:52.788562: W tensorflow/stream_executor/cuda/cuda_driver.cc:326] failed call to cuInit: UNKNOWN ERROR (303)
+2021-04-17 16:11:52.788583: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:156] kernel driver does not appear to be running on this host (maracana): /proc/driver/nvidia/version does not exist
+2021-04-17 16:11:52.788915: I tensorflow/core/platform/cpu_feature_guard.cc:142] This TensorFlow binary is optimized with oneAPI Deep Neural Network Library (oneDNN) to use the following CPU instructions in performance-critical operations:  AVX2 FMA
+To enable them in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2021-04-17 16:11:52.789085: I tensorflow/compiler/jit/xla_gpu_device.cc:99] Not creating XLA devices, tf_xla_enable_xla_devices not set
+2021-04-17 16:11:52.791643: I tensorflow/compiler/jit/xla_cpu_device.cc:41] Not creating XLA devices, tf_xla_enable_xla_devices not set
+2021-04-17 16:11:52.792016: W tensorflow/stream_executor/platform/default/dso_loader.cc:60] Could not load dynamic library 'libcuda.so.1'; dlerror: libcuda.so.1: cannot open shared object file: No such file or directory
+2021-04-17 16:11:52.792034: W tensorflow/stream_executor/cuda/cuda_driver.cc:326] failed call to cuInit: UNKNOWN ERROR (303)
+2021-04-17 16:11:52.792055: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:156] kernel driver does not appear to be running on this host (maracana): /proc/driver/nvidia/version does not exist
+2021-04-17 16:11:52.792391: I tensorflow/core/platform/cpu_feature_guard.cc:142] This TensorFlow binary is optimized with oneAPI Deep Neural Network Library (oneDNN) to use the following CPU instructions in performance-critical operations:  AVX2 FMA
+To enable them in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2021-04-17 16:11:52.792582: I tensorflow/compiler/jit/xla_gpu_device.cc:99] Not creating XLA devices, tf_xla_enable_xla_devices not set
+DEBUG flower 2021-04-17 16:11:52,866 | connection.py:36 | ChannelConnectivity.IDLE
+DEBUG flower 2021-04-17 16:11:52,867 | connection.py:36 | ChannelConnectivity.CONNECTING
+DEBUG flower 2021-04-17 16:11:52,868 | connection.py:36 | ChannelConnectivity.READY
+INFO flower 2021-04-17 16:11:52,868 | app.py:61 | Opened (insecure) gRPC connection
+INFO flower 2021-04-17 16:11:52,874 | app.py:61 | Opened (insecure) gRPC connection
+DEBUG flower 2021-04-17 16:11:52,874 | connection.py:36 | ChannelConnectivity.IDLE
+DEBUG flower 2021-04-17 16:11:52,874 | connection.py:36 | ChannelConnectivity.READY
+INFO flower 2021-04-17 16:11:52,874 | app.py:61 | Opened (insecure) gRPC connection
+DEBUG flower 2021-04-17 16:11:52,875 | connection.py:36 | ChannelConnectivity.IDLE
+DEBUG flower 2021-04-17 16:11:52,875 | connection.py:36 | ChannelConnectivity.IDLE
+DEBUG flower 2021-04-17 16:11:52,875 | connection.py:36 | ChannelConnectivity.READY
+INFO flower 2021-04-17 16:11:52,875 | app.py:61 | Opened (insecure) gRPC connection
+DEBUG flower 2021-04-17 16:11:52,875 | connection.py:36 | ChannelConnectivity.CONNECTING
+DEBUG flower 2021-04-17 16:11:52,876 | connection.py:36 | ChannelConnectivity.READY
+DEBUG flower 2021-04-17 16:11:52,879 | connection.py:36 | ChannelConnectivity.IDLE
+DEBUG flower 2021-04-17 16:11:52,879 | connection.py:36 | ChannelConnectivity.CONNECTING
+INFO flower 2021-04-17 16:11:52,879 | app.py:61 | Opened (insecure) gRPC connection
+DEBUG flower 2021-04-17 16:11:52,881 | connection.py:36 | ChannelConnectivity.READY
+INFO flower 2021-04-17 16:11:52,888 | server.py:204 | Received initial parameters from one random client
+INFO flower 2021-04-17 16:11:52,888 | server.py:75 | Evaluating initial parameters
+INFO flower 2021-04-17 16:11:52,888 | server.py:88 | [TIME] FL starting
+DEBUG flower 2021-04-17 16:11:52,891 | server.py:162 | fit_round: strategy sampled 5 clients (out of 5)
+2021-04-17 16:11:52.998457: I tensorflow/compiler/mlir/mlir_graph_optimization_pass.cc:116] None of the MLIR optimization passes are enabled (registered 2)
+2021-04-17 16:11:53.016620: I tensorflow/core/platform/profile_utils/cpu_utils.cc:112] CPU Frequency: 3699850000 Hz
+Epoch 1/2
+10/10 - 2s - loss: 181.0967 - accuracy: 0.0922 - val_loss: 3.2866 - val_accuracy: 0.1055
+Epoch 2/2
+10/10 - 1s - loss: 2.8540 - accuracy: 0.0922 - val_loss: 2.3983 - val_accuracy: 0.1155
+DEBUG flower 2021-04-17 16:11:55,837 | server.py:174 | fit_round received 5 results and 0 failures
+DEBUG flower 2021-04-17 16:11:55,862 | server.py:137 | evaluate: strategy sampled 2 clients
+2021-04-17 16:11:55.913452: I tensorflow/compiler/mlir/mlir_graph_optimization_pass.cc:116] None of the MLIR optimization passes are enabled (registered 2)
+2021-04-17 16:11:55.913452: I tensorflow/compiler/mlir/mlir_graph_optimization_pass.cc:116] None of the MLIR optimization passes are enabled (registered 2)
+2021-04-17 16:11:55.932635: I tensorflow/core/platform/profile_utils/cpu_utils.cc:112] CPU Frequency: 3699850000 Hz
+2021-04-17 16:11:55.932635: I tensorflow/core/platform/profile_utils/cpu_utils.cc:112] CPU Frequency: 3699850000 Hz
+skipped
+ 1/63 [..............................] - ETA: 13s - loss: 11.3022 - accuracy: 0.0625skipped
+ 1/63 [..............................] - ETA: 13s - loss: 13.3632 - accuracy: 0.1250 5/63 [=>............................] - ETA: 0s - loss: 11.8201 - accuracy: 0.0900  5/63 [=>............................] - ETA: 0s - loss: 12.9579 - accuracy: 0.1040  9/63 [===>..........................] - ETA: 0s - loss: 12.7000 - accuracy: 0.097010/63 [===>..........................] - ETA: 0s - loss: 12.8081 - accuracy: 0.092713/63 [=====>........................] - ETA: 0s - loss: 13.1203 - accuracy: 0.095114/63 [=====>........................] - ETA: 0s - loss: 12.8175 - accuracy: 0.091117/63 [=======>......................] - ETA: 0s - loss: 13.2148 - accuracy: 0.095218/63 [=======>......................] - ETA: 0s - loss: 12.8976 - accuracy: 0.091922/63 [=========>....................] - ETA: 0s - loss: 13.2555 - accuracy: 0.094822/63 [=========>....................] - ETA: 0s - loss: 13.0981 - accuracy: 0.091626/63 [===========>..................] - ETA: 0s - loss: 13.2739 - accuracy: 0.094527/63 [===========>..................] - ETA: 0s - loss: 13.2307 - accuracy: 0.091130/63 [=============>................] - ETA: 0s - loss: 13.2686 - accuracy: 0.094732/63 [==============>...............] - ETA: 0s - loss: 13.3387 - accuracy: 0.090135/63 [===============>..............] - ETA: 0s - loss: 13.2875 - accuracy: 0.094436/63 [================>.............] - ETA: 0s - loss: 13.4138 - accuracy: 0.089440/63 [==================>...........] - ETA: 0s - loss: 13.3215 - accuracy: 0.094240/63 [==================>...........] - ETA: 0s - loss: 13.4699 - accuracy: 0.088845/63 [====================>.........] - ETA: 0s - loss: 13.3526 - accuracy: 0.094044/63 [===================>..........] - ETA: 0s - loss: 13.5318 - accuracy: 0.088448/63 [=====================>........] - ETA: 0s - loss: 13.5742 - accuracy: 0.088050/63 [======================>.......] - ETA: 0s - loss: 13.3778 - accuracy: 0.094252/63 [=======================>......] - ETA: 0s - loss: 13.6046 - accuracy: 0.087655/63 [=========================>....] - ETA: 0s - loss: 13.3932 - accuracy: 0.094456/63 [=========================>....] - ETA: 0s - loss: 13.6272 - accuracy: 0.087260/63 [===========================>..] - ETA: 0s - loss: 13.4006 - accuracy: 0.094563/63 [==============================] - 1s 12ms/step - loss: 13.4000 - accuracy: 0.0946
+60/63 [===========================>..] - ETA: 0s - loss: 13.6414 - accuracy: 0.086763/63 [==============================] - 1s 13ms/step - loss: 13.6474 - accuracy: 0.0865
+DEBUG flower 2021-04-17 16:11:56,923 | server.py:146 | evaluate received 2 results and 0 failures
+DEBUG flower 2021-04-17 16:11:56,925 | server.py:162 | fit_round: strategy sampled 5 clients (out of 5)
+2021-04-17 16:11:57.027300: I tensorflow/compiler/mlir/mlir_graph_optimization_pass.cc:116] None of the MLIR optimization passes are enabled (registered 2)
+2021-04-17 16:11:57.044605: I tensorflow/core/platform/profile_utils/cpu_utils.cc:112] CPU Frequency: 3699850000 Hz
