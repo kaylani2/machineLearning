@@ -173,9 +173,9 @@ if __name__ == "__main__":
         #batch_size = int (sys.argv [5])
         #STEPS_PER_EPOCH = int (sys.argv [6])
     except:
-        num_rounds = 10
+        num_rounds = 250
 
-    num_clients = 10
+    num_clients = 20
     fraction_fit = 1
     epochs = 10
     batch_size = 64
