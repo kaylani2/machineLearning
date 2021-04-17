@@ -3,6 +3,9 @@ import re
 import statistics
 import numpy as np
 from matplotlib import pyplot as plt
+plt.rcParams.update({'font.size': 14})
+plt.rc('xtick', labelsize=14)
+plt.rc('ytick', labelsize=14)
 
 #def found_fit (x):
 #  return x**3
@@ -17,8 +20,8 @@ from matplotlib import pyplot as plt
 
 filename = '10e_64b.log'
 my_files = [
-  {'filename': '10e_64b_10c.log', 'label': 'E=10, B=64', 'line_style': 'r-'},
-  {'filename': '20e_64b_10c.log', 'label': 'E=20, B=64', 'line_style': 'b-'},
+  {'filename': '10e_64b_10c.log', 'label': '$E_t=10, B_c=64$', 'line_style': 'r-'},
+  {'filename': '20e_64b_10c.log', 'label': '$E_t=20, B_c=64$', 'line_style': 'b-'},
 ]
 for my_file in my_files:
   print (my_file ['filename'])
@@ -52,7 +55,7 @@ for my_file in my_files:
 
   plt.plot (current_plot [0], current_plot [1], my_file ['line_style'], label=my_file ['label'])
 
-plt.axhline (y=67.82, color='r', linestyle='-', label='$67,82\%$')
+plt.axhline (y=67.82, color='k', linestyle='-', label='Centralizado: $67,82\%$')
 plt.legend ()
 plt.xlabel ('Número de rodadas')
 plt.ylabel ('Acurácia')
