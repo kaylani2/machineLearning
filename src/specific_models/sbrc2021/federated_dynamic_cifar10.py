@@ -181,7 +181,7 @@ if __name__ == "__main__":
     epochs = 20
     batch_size = 64
     STEPS_PER_EPOCH = 10
-    disconnection_chance = float (75)
+    disconnection_chance = float (50)
 
     start_time = time.time ()
     print ('Number of clients:', num_clients)
