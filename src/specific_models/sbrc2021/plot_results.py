@@ -8,8 +8,8 @@ plt.rc('xtick', labelsize=14)
 plt.rc('ytick', labelsize=14)
 
 dez_clientes = [
-  {'filename': '10e_64b_10c.log', 'label': '$E_t=10, B_c=64, N_c=10$', 'line_style': 'r-', 'regex': '32/32', 'output': '10_20_clientes.pdf'},
   {'filename': '10e_64b_20c.log', 'label': '$E_t=10, B_c=64, N_c=20$', 'line_style': 'g-', 'regex': '16/16', 'output': '10_20_clientes.pdf'},
+  {'filename': '10e_64b_10c.log', 'label': '$E_t=10, B_c=64, N_c=10$', 'line_style': 'r-', 'regex': '32/32', 'output': '10_20_clientes.pdf'},
   {'filename': '20e_64b_10c.log', 'label': '$E_t=20, B_c=64, N_c=10$', 'line_style': 'c-', 'regex': '32/32', 'output': '10_20_clientes.pdf'},
   {'filename': '20e_256b_10c.log', 'label': '$E_t=20, B_c=256, N_c=10$', 'line_style': 'b-', 'regex': '32/32', 'output': '10_20_clientes.pdf'},
 ]
@@ -21,15 +21,21 @@ cinco_clientes = [
 ]
 
 disconnection_files = [
-  {'filename': '20e_64b_10c.log', 'label': '$P_f=0\%, E_t=20, B_c=64, N_c=10$', 'line_style': 'c-', 'regex': '32/32', 'output': 'desconexoes.pdf'},
-  {'filename': '25f_20e_64b_10c.log', 'label': '$P_f=25\%, E_t=20, B_c=64, N_c=10$', 'line_style': 'r-', 'regex': '32/32', 'output': 'desconexoes.pdf'},
-  {'filename': '50f_20e_64b_10c.log', 'label': '$P_f=50\%, E_t=20, B_c=64, N_c=10$', 'line_style': 'g-', 'regex': '32/32', 'output': 'desconexoes.pdf'},
-  {'filename': '75f_20e_64b_10c.log', 'label': '$P_f=75\%, E_t=20, B_c=64, N_c=10$', 'line_style': 'b-', 'regex': '32/32', 'output': 'desconexoes.pdf'},
+  {'filename': '20e_64b_10c.log', 'label': '$E_t=20, B_c=64, N_c=10, P_f=0\%$', 'line_style': 'c-', 'regex': '32/32', 'output': 'desconexoes.pdf'},
+  {'filename': '25f_20e_64b_10c.log', 'label': '$E_t=20, B_c=64, N_c=10, P_f=25\%$', 'line_style': 'r-', 'regex': '32/32', 'output': 'desconexoes.pdf'},
+  {'filename': '50f_20e_64b_10c.log', 'label': '$E_t=20, B_c=64, N_c=10, P_f=50\%$', 'line_style': 'g-', 'regex': '32/32', 'output': 'desconexoes.pdf'},
+  {'filename': '75f_20e_64b_10c.log', 'label': '$E_t=20, B_c=64, N_c=10, P_f=75\%$', 'line_style': 'b-', 'regex': '32/32', 'output': 'desconexoes.pdf'},
+]
+
+fractioned_files = [
+  {'filename': '025fraction_20e_64b_10c.log', 'label': '$E_t=20, B_c=64, N_c=10, Fração=25\%$', 'line_style': 'r-', 'regex': '32/32', 'output': 'clientes_fracionados.pdf'},
+  {'filename': '050fraction_20e_64b_10c.log', 'label': '$E_t=20, B_c=64, N_c=10, Fração=50\%$', 'line_style': 'g-', 'regex': '32/32', 'output': 'clientes_fracionados.pdf'},
+  {'filename': '075fraction_20e_64b_10c.log', 'label': '$E_t=20, B_c=64, N_c=10, Fração=75\%$', 'line_style': 'b-', 'regex': '32/32', 'output': 'clientes_fracionados.pdf'},
 ]
 
 
 
-for my_file in cinco_clientes:
+for my_file in fractioned_files:
   print (my_file ['filename'])
   results = []
   accuracies = []
@@ -70,6 +76,5 @@ plt.xlabel ('Número de rodadas')
 plt.ylabel ('Acurácia')
 plt.xlim (0, len (accuracies) + 1)
 plt.ylim (0, 100)
-#plt.show ()
 plt.savefig (my_file ['output'])
 print ('saved')
