@@ -20,10 +20,10 @@ cinco_clientes = [
 ]
 
 disconnection_files = [
-  {'filename': '20e_64b_10c.log', 'label': '$P_f=0, E_t=20, B_c=64, N_c=10$', 'line_style': 'c-', 'regex': '32/32', 'output': 'desconexoes.pdf'},
-  {'filename': '25f_20e_64b_10c.log', 'label': 'P_f=25%, $E_t=20, B_c=64, N_c=10$', 'line_style': 'r-', 'regex': '32/32', 'output': 'desconexoes.pdf'},
-  {'filename': '50f_20e_64b_10c.log', 'label': 'P_f=50%, $E_t=20, B_c=64, N_c=10$', 'line_style': 'g-', 'regex': '32/32', 'output': 'desconexoes.pdf'},
-  {'filename': '75f_20e_64b_10c.log', 'label': 'P_f=75%, $E_t=20, B_c=64, N_c=10$', 'line_style': 'b-', 'regex': '32/32', 'output': 'desconexoes.pdf'},
+  {'filename': '20e_64b_10c.log', 'label': '$P_f=0\%, E_t=20, B_c=64, N_c=10$', 'line_style': 'c-', 'regex': '32/32', 'output': 'desconexoes.pdf'},
+  {'filename': '25f_20e_64b_10c.log', 'label': '$P_f=25\%, E_t=20, B_c=64, N_c=10$', 'line_style': 'r-', 'regex': '32/32', 'output': 'desconexoes.pdf'},
+  {'filename': '50f_20e_64b_10c.log', 'label': '$P_f=50\%, E_t=20, B_c=64, N_c=10$', 'line_style': 'g-', 'regex': '32/32', 'output': 'desconexoes.pdf'},
+  {'filename': '75f_20e_64b_10c.log', 'label': '$P_f=75\%, E_t=20, B_c=64, N_c=10$', 'line_style': 'b-', 'regex': '32/32', 'output': 'desconexoes.pdf'},
 ]
 
 

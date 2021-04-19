@@ -176,9 +176,9 @@ if __name__ == "__main__":
         num_rounds = 250
 
     num_clients = 10
-    fraction_fit = 1
+    fraction_fit = 0.5
     epochs = 20
-    batch_size = 256
+    batch_size = 64
     STEPS_PER_EPOCH = 10
 
     start_time = time.time ()
