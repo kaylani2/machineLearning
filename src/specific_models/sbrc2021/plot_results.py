@@ -16,6 +16,7 @@ dez_clientes = [
 
 cinco_clientes = [
   {'filename': '10e_64b_5c.log', 'label': '$E_t=10, B_c=64, N_c=5$', 'line_style': 'r-', 'regex': '63/63', 'output': '5_clientes.pdf'},
+  {'filename': '10e_256b_5c.log', 'label': '$E_t=10, B_c=256, N_c=5$', 'line_style': 'g-', 'regex': '63/63', 'output': '5_clientes.pdf'},
   {'filename': '20e_64b_5c.log', 'label': '$E_t=20, B_c=64, N_c=5$', 'line_style': 'b-', 'regex': '63/63', 'output': '5_clientes.pdf'},
 ]
 
@@ -28,7 +29,7 @@ disconnection_files = [
 
 
 
-for my_file in disconnection_files:
+for my_file in cinco_clientes:
   print (my_file ['filename'])
   results = []
   accuracies = []
