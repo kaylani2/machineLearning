@@ -175,10 +175,10 @@ if __name__ == "__main__":
     except:
         num_rounds = 250
 
-    num_clients = 5
-    fraction_fit = 1
-    epochs = 10
-    batch_size = 256
+    num_clients = 10
+    fraction_fit = 0.75
+    epochs = 20
+    batch_size = 64
     STEPS_PER_EPOCH = 10
 
     start_time = time.time ()
