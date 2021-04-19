@@ -175,9 +175,9 @@ if __name__ == "__main__":
     except:
         num_rounds = 250
 
-    num_clients = 10
+    num_clients = 5
     fraction_fit = 1
-    epochs = 20
+    epochs = 10
     batch_size = 256
     STEPS_PER_EPOCH = 10
 
