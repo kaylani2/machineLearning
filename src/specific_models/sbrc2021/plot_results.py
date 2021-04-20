@@ -28,9 +28,10 @@ disconnection_files = [
 ]
 
 fractioned_files = [
-  {'filename': '025fraction_20e_64b_10c.log', 'label': '$E_t=20, B_c=64, N_c=10, Fração=25\%$', 'line_style': 'r-', 'regex': '32/32', 'output': 'clientes_fracionados.pdf'},
-  {'filename': '050fraction_20e_64b_10c.log', 'label': '$E_t=20, B_c=64, N_c=10, Fração=50\%$', 'line_style': 'g-', 'regex': '32/32', 'output': 'clientes_fracionados.pdf'},
-  {'filename': '075fraction_20e_64b_10c.log', 'label': '$E_t=20, B_c=64, N_c=10, Fração=75\%$', 'line_style': 'b-', 'regex': '32/32', 'output': 'clientes_fracionados.pdf'},
+  {'filename': '20e_64b_10c.log', 'label': '$E_t=20, B_c=64, N_c=10, P_f=0\%$', 'line_style': 'c-', 'regex': '32/32', 'output': 'clientes_fracionados.pdf'},
+  {'filename': '025fraction_20e_64b_10c.log', 'label': '$E_t=20, B_c=64, N_c=10, P_f=25\%$', 'line_style': 'r-', 'regex': '32/32', 'output': 'clientes_fracionados.pdf'},
+  {'filename': '050fraction_20e_64b_10c.log', 'label': '$E_t=20, B_c=64, N_c=10, P_f=50\%$', 'line_style': 'g-', 'regex': '32/32', 'output': 'clientes_fracionados.pdf'},
+  {'filename': '075fraction_20e_64b_10c.log', 'label': '$E_t=20, B_c=64, N_c=10, P_f=75\%$', 'line_style': 'b-', 'regex': '32/32', 'output': 'clientes_fracionados.pdf'},
 ]
 
 
@@ -66,6 +67,7 @@ for my_file in fractioned_files:
 
 
   current_plot = [range (1, len (accuracies) + 1), accuracies, standard_deviations]
+  #current_plot = [range (1, len (accuracies) + 1), accuracies, standard_deviations]
 
   plt.plot (current_plot [0], current_plot [1], my_file ['line_style'], label=my_file ['label'])
 
@@ -74,7 +76,7 @@ plt.axhline (y=67.82, color='k', linestyle='-', label='Centralizado: $67,82\%$')
 plt.legend ()
 plt.xlabel ('Número de rodadas')
 plt.ylabel ('Acurácia')
-plt.xlim (0, len (accuracies) + 1)
+plt.xlim (0, 250)#len (accuracies) + 1)
 plt.ylim (0, 100)
 plt.savefig (my_file ['output'])
 print ('saved')
