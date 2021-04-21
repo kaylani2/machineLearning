@@ -10,25 +10,26 @@ plt.rc('ytick', labelsize=14)
 dez_clientes = [
   {'filename': '10e_64b_20c.log', 'label': '$E_t=10, B_c=64, N_c=20$', 'line_style': 'g-', 'regex': '16/16', 'output': '10_20_clientes.pdf'},
   {'filename': '10e_64b_10c.log', 'label': '$E_t=10, B_c=64, N_c=10$', 'line_style': 'r-', 'regex': '32/32', 'output': '10_20_clientes.pdf'},
-  {'filename': '20e_64b_10c.log', 'label': '$E_t=20, B_c=64, N_c=10$', 'line_style': 'c-', 'regex': '32/32', 'output': '10_20_clientes.pdf'},
+  {'filename': '20e_64b_10c.log', 'label': '$E_t=20, B_c=64, N_c=10$', 'line_style': 'm-', 'regex': '32/32', 'output': '10_20_clientes.pdf'},
   {'filename': '20e_256b_10c.log', 'label': '$E_t=20, B_c=256, N_c=10$', 'line_style': 'b-', 'regex': '32/32', 'output': '10_20_clientes.pdf'},
 ]
 
 cinco_clientes = [
   {'filename': '10e_64b_5c.log', 'label': '$E_t=10, B_c=64, N_c=5$', 'line_style': 'r-', 'regex': '63/63', 'output': '5_clientes.pdf'},
   {'filename': '10e_256b_5c.log', 'label': '$E_t=10, B_c=256, N_c=5$', 'line_style': 'g-', 'regex': '63/63', 'output': '5_clientes.pdf'},
-  {'filename': '20e_64b_5c.log', 'label': '$E_t=20, B_c=64, N_c=5$', 'line_style': 'b-', 'regex': '63/63', 'output': '5_clientes.pdf'},
+  {'filename': '20e_64b_5c.log', 'label': '$E_t=20, B_c=64, N_c=5$', 'line_style': 'm-', 'regex': '63/63', 'output': '5_clientes.pdf'},
+  {'filename': '20e_256b_5c.log', 'label': '$E_t=20, B_c=256, N_c=5$', 'line_style': 'b-', 'regex': '63/63', 'output': '5_clientes.pdf'},
 ]
 
 disconnection_files = [
-  {'filename': '20e_64b_10c.log', 'label': '$E_t=20, B_c=64, N_c=10, P_f=0\%$', 'line_style': 'c-', 'regex': '32/32', 'output': 'desconexoes.pdf'},
+  {'filename': '20e_64b_10c.log', 'label': '$E_t=20, B_c=64, N_c=10, P_f=0\%$', 'line_style': 'm-', 'regex': '32/32', 'output': 'desconexoes.pdf'},
   {'filename': '25f_20e_64b_10c.log', 'label': '$E_t=20, B_c=64, N_c=10, P_f=25\%$', 'line_style': 'r-', 'regex': '32/32', 'output': 'desconexoes.pdf'},
   {'filename': '50f_20e_64b_10c.log', 'label': '$E_t=20, B_c=64, N_c=10, P_f=50\%$', 'line_style': 'g-', 'regex': '32/32', 'output': 'desconexoes.pdf'},
   {'filename': '75f_20e_64b_10c.log', 'label': '$E_t=20, B_c=64, N_c=10, P_f=75\%$', 'line_style': 'b-', 'regex': '32/32', 'output': 'desconexoes.pdf'},
 ]
 
 fractioned_files = [
-  {'filename': '20e_64b_10c.log', 'label': '$E_t=20, B_c=64, N_c=10, P_f=0\%$', 'line_style': 'c-', 'regex': '32/32', 'output': 'clientes_fracionados.pdf'},
+  {'filename': '20e_64b_10c.log', 'label': '$E_t=20, B_c=64, N_c=10, P_f=0\%$', 'line_style': 'm-', 'regex': '32/32', 'output': 'clientes_fracionados.pdf'},
   {'filename': '025fraction_20e_64b_10c.log', 'label': '$E_t=20, B_c=64, N_c=10, P_f=25\%$', 'line_style': 'r-', 'regex': '32/32', 'output': 'clientes_fracionados.pdf'},
   {'filename': '050fraction_20e_64b_10c.log', 'label': '$E_t=20, B_c=64, N_c=10, P_f=50\%$', 'line_style': 'g-', 'regex': '32/32', 'output': 'clientes_fracionados.pdf'},
   {'filename': '075fraction_20e_64b_10c.log', 'label': '$E_t=20, B_c=64, N_c=10, P_f=75\%$', 'line_style': 'b-', 'regex': '32/32', 'output': 'clientes_fracionados.pdf'},
